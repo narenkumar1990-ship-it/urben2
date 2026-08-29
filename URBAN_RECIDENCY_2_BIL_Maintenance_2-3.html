@@ -31,6 +31,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- Firebase (Realtime Database) -->
 <!-- These use public CDNs so this single HTML file can be shared by itself. -->
@@ -532,6 +533,14 @@ z-index:20;
 box-shadow:0 1px 3px rgba(16,24,40,.05);
 }
 
+.hp-admin-logout{
+margin-top:8px;align-self:flex-end;
+background:#FCF3F2;color:#B3261E;border:1.5px solid #E7B8B4;
+font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:8px;
+cursor:pointer;font-family:'Inter',sans-serif;
+}
+.hp-admin-logout:active{opacity:.85;}
+
 /* ---- Left: identity + status badges (stacked, fills the column height) ---- */
 .hp-left{
 flex:1 1 340px;min-width:260px;
@@ -722,6 +731,14 @@ body.resident-active > *:not(#residentView){display:none !important;}
 <div class="rv-sum-card"><div class="rv-num" id="rvCollected">-</div><div class="rv-lbl">Collected</div></div>
 <div class="rv-sum-card"><div class="rv-num" id="rvPending">-</div><div class="rv-lbl">Pending Dues</div></div>
 </div>
+<div class="rv-section" id="rvUpiSection" style="display:none;">
+<h3>💳 Pay via UPI</h3>
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+<div id="rvQrCode"></div>
+<div style="font-size:12.5px;color:var(--muted);">Scan karo — koi pan UPI app thi (GPay, PhonePe, Paytm) direct pay thai jashe</div>
+<button type="button" class="btn" style="background:var(--navy);color:#fff;max-width:220px;" onclick="openUpiPaymentApp()">📲 UPI App ma Kholo</button>
+</div>
+</div>
 <div class="rv-section">
 <h3>📅 Month-wise Status</h3>
 <div class="rv-month-grid" id="rvMonthGrid"></div>
@@ -729,6 +746,14 @@ body.resident-active > *:not(#residentView){display:none !important;}
 <div class="rv-section">
 <h3>📜 Payment History</h3>
 <div id="rvHistoryList" style="font-size:12px;color:var(--muted);">-</div>
+</div>
+<div class="rv-section">
+<h3>📱 Registered Mobile Number</h3>
+<div style="display:flex;gap:8px;align-items:center;">
+<input type="tel" id="rvMobileEditInput" placeholder="Mobile number" style="flex:1;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;">
+<button type="button" class="btn" style="background:var(--navy);color:#fff;flex:none;padding:10px 16px;" onclick="residentUpdateMobile()">Update</button>
+</div>
+<div style="font-size:11px;color:var(--muted);margin-top:6px;">Navu mobile number save karva mate — receipt ane reminder aa number par j jashe</div>
 </div>
 </div>
 <script>
@@ -739,7 +764,7 @@ body.resident-active > *:not(#residentView){display:none !important;}
 // Realtime Database Rules are also locked down in the Firebase console.
 // See the note next to firebaseConfig below for the rules to paste there.
 const APP_ACCESS_PASSWORD = "urban2bil"; // change this anytime, then re-share the file
-const MASTER_PASSWORD = "8735050770"; // always works, even if the password above is forgotten
+const MASTER_PASSWORD = ""; // Intentionally disabled: do not keep a permanent master password in a shared HTML file.
 (function(){
   if(!sessionStorage.getItem('ur2_unlocked')){
     document.body.classList.add('locked');
@@ -749,7 +774,8 @@ const MASTER_PASSWORD = "8735050770"; // always works, even if the password abov
 })();
 function tryUnlockApp(){
   const val = document.getElementById('lockPassInput').value;
-  if(val === APP_ACCESS_PASSWORD || val === MASTER_PASSWORD){
+  const activeAdminPassword = settings && settings.adminPassword ? settings.adminPassword : APP_ACCESS_PASSWORD;
+  if(val === activeAdminPassword){
     sessionStorage.setItem('ur2_unlocked','1');
     document.body.classList.remove('locked');
     document.getElementById('lockScreen').classList.add('hidden');
@@ -767,6 +793,18 @@ function showResidentLoginBox(){
 function showAdminLoginBox(){
   document.getElementById('residentLoginBox').style.display = "none";
   document.getElementById('adminLoginBox').style.display = "block";
+}
+function adminLogout(){
+  if(!confirm("Admin panel thi logout thavu che?")) return;
+  sessionStorage.removeItem('ur2_unlocked');
+  document.body.classList.add('locked');
+  document.getElementById('lockScreen').classList.remove('hidden');
+  const passInput = document.getElementById('lockPassInput');
+  if(passInput) passInput.value = "";
+  const errMsg = document.getElementById('lockErrMsg');
+  if(errMsg) errMsg.textContent = "";
+  showAdminLoginBox();
+  if(passInput) passInput.focus();
 }
 document.addEventListener('DOMContentLoaded', function(){
   const inp = document.getElementById('lockPassInput');
@@ -812,6 +850,9 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="hp-badge hp-badge-click hp-president-badge" id="headerPresidentBox" onclick="editPresidentName()" title="Tap to edit pramukh nu naam">
 <span class="hp-icon">👤</span><span id="headerPresidentName">Pramukh: KAMLESHBHAI SOLANKI</span>
 </div>
+<div class="hp-badge hp-badge-click" id="headerUpiBox" onclick="editUpiId()" title="Tap to set/change UPI ID">
+<span class="hp-icon">💳</span><span id="headerUpiId">UPI ID Umerva Tap Karo</span>
+</div>
 <span id="headerDay" class="hp-sr-only">Saturday</span>
 <span id="headerHeroSub" class="hp-sr-only">56 flat(s) with dues · FY 2026-27</span>
 </div>
@@ -823,9 +864,13 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="hp-kpi-ring" id="headerRingEl" style="--pct: 1;"><div class="hp-kpi-ring-inner"><b id="headerRingPct">1%</b></div></div>
 <div class="hp-kpi-label">Collected</div>
 </div>
-<div class="hp-kpi hp-kpi-primary">
-<div class="h-value positive" id="headerDashBalance">₹4,000</div>
-<div class="hp-kpi-label">Balance</div>
+<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
+<div class="h-value positive" id="headerDashBankBalance">₹0</div>
+<div class="hp-kpi-label">🏦 Bank</div>
+</div>
+<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
+<div class="h-value positive" id="headerDashCashBalance">₹0</div>
+<div class="hp-kpi-label">💵 Cash</div>
 </div>
 <div class="hp-kpi">
 <div id="headerStatTotal">56</div>
@@ -838,6 +883,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 <span id="headerStatPending" class="hp-sr-only">56</span>
 </div>
+<button type="button" class="hp-admin-logout" onclick="adminLogout()">🔒 Admin Logout</button>
 </div>
 
 </div>
@@ -872,10 +918,16 @@ FY:
 <div class="dashboard">
 <div class="hero">
 <div class="ring" id="ringEl" style="--pct: 1;"><div class="ring-inner"><b id="ringPct">1%</b><span>Collected</span></div></div>
-<div class="hero-text">
-<div class="h-label">Balance</div>
-<div class="h-value positive" id="dashBalance">₹4,000</div>
-<div class="h-sub" id="heroSub">56 flat(s) with dues · FY 2026-27</div>
+<div class="hero-text" style="display:flex;gap:18px;flex-wrap:wrap;">
+<div>
+<div class="h-label">🏦 Bank</div>
+<div class="h-value positive" id="dashBankBalance">₹0</div>
+</div>
+<div>
+<div class="h-label">💵 Cash</div>
+<div class="h-value positive" id="dashCashBalance">₹0</div>
+</div>
+<div class="h-sub" id="heroSub" style="width:100%;">56 flat(s) with dues · FY 2026-27</div>
 </div>
 </div>
 </div>
@@ -2229,6 +2281,7 @@ FY:
 <div class="field"><label>Description</label><input type="text" id="creditDesc" placeholder="e.g. Interest, Hall booking"></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="creditAmount" placeholder="e.g. 1000"></div>
 <div class="field"><label>Date</label><input type="date" id="creditDate"></div>
+<div class="field"><label>Received In</label><select id="creditMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <button class="btn-add" onclick="addCredit()">Add Credit</button>
 </div>
 
@@ -2253,6 +2306,7 @@ FY:
 </datalist>
 <div class="field"><label>Amount (₹)</label><input type="number" id="expenseAmount" placeholder="e.g. 1000"></div>
 <div class="field"><label>Date</label><input type="date" id="expenseDate"></div>
+<div class="field"><label>Paid From</label><select id="expenseMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
 </div>
 
@@ -2292,9 +2346,9 @@ FY:
 </div>
 
 <div class="report-card">
-<h3>Maintenance Nathi Barnara — Defaulters List</h3>
+<h3 style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">Maintenance Nathi Barnara — Defaulters List<button type="button" class="btn" style="flex:none;background:#25D366;color:#fff;padding:7px 12px;font-size:12px;" onclick="sendAllDueReminders()">📲 Badhane Reminder</button></h3>
 <table class="month-table">
-<thead><tr><th>Flat</th><th>Owner</th><th style="text-align:right">Amount</th></tr></thead>
+<thead><tr><th>Flat</th><th>Owner</th><th style="text-align:right">Amount</th><th></th></tr></thead>
 <tbody id="defaulterTableBody"><tr><td>101<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Dec, Jan, Feb, Mar</div></td><td>Parmar Amitkumar Shanabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,000</td></tr><tr><td>102<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Dilipbhai Babubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>103<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bhagyashri Prakashbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>104<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Mayursinh Bharatsinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>105<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narmadaben Natvarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>106<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shegar Rajkapoor Dharmnath</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>107<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Pandya Tusharkumar Bharatbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>108<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Jadav Mehul Navinbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>201<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nileshkumar Chimanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>202<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Niruben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>203<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bharatbhai Hasmukhbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>204<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gandhi Archana Tusharkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>205<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Balwantsinh Chandrasinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>206<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Dhanlaxmiben Ishwarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>207<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Meena Rameshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>208<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narenbhai Ratilal</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>301<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Ravi Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>302<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shelar Rakesh Satyavijay</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>303<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Chetan Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>304<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nareshbhai Dahyabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>305<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Meenaben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>306<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Rushikumar Narayanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>307<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Hetalben Kanubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>308<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gujjar Bhavinkumar Sureshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>401<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mahant Saraswati Rahulbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>402<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Bharatbhai Pujabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>403<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Padhiyar Vilasben Kishanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>404<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pushpaben Jigneshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>405<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darji Ritaben Jayeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>406<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parekh Daxaben Rameshchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>407<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Saroj Dayasankar Bhairam</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>408<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bhaliya Soniben Ashokbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>501<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Rekhaben Udesingbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>502<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mistri Truptiben Navinchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>503<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Pratikkumar Gopalbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>504<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Vasava Sanjaybhai Kantibhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>505<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Vinodbhai Naginbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>506<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Ranjitsinh Ramanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>507<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mali Maheshbhai Chandubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>508<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darbar Alpa Mahendrabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>601<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Surbhiben Deepakbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>602<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Kanneganti Dhiren Jagrit</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>603<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Ghanchi Ikbalbhai Ibrahimbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>604<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Rakhiben Maheshkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>605<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bariya Narpatbhai Govindbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>606<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rohit Tejalben Satishkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>607<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shinde Hanshabai Bhagvanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>608<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pramodbhai Somabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>701<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Jashodaben Kamleshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>702<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Jinalben Maulikkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>703<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Mayaben Vasantbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>704<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Urmilaben Rupeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>705<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Jayendrasinh Parsottambhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>706<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Khan Sabnam Mohmmad Jilani</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>707<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Kalpana Surendra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>708<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Makwana Hemant Keshavbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr></tbody>
 </table>
 </div>
@@ -2446,6 +2500,14 @@ Mar
 <div class="history-box" id="historyBox" style="display: block;"><strong>History</strong><div><span>2026-27</span><span>4/12 months paid</span></div></div>
 <div class="history-box" id="receiptHistoryBox" style="display: none; margin-top: 8px;"></div>
 
+<div class="field" style="background:#FFF7E6;border:1.5px solid var(--saffron);border-radius:10px;padding:10px 12px;margin-top:10px;">
+<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;">
+<input type="checkbox" id="inputNoBalance" style="width:16px;height:16px;flex:none;">
+🕰️ Juna/Backdated Entry (App shuru thavani PEHLA nu payment)
+</label>
+<div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;">Aa check karo to j entry Paid/Receipt/History ma save thashe, PAN Total Collection ane Cash Balance ma UMERAI NAHI — kem ke e paisa Opening Balance ma pehla thi j gantroi lidhela hoy. Naavu chalu mahina thi (regular) entry mate aa UNCHECK j rakho.</div>
+</div>
+
 <div class="modal-actions">
 <button class="btn btn-close" onclick="closeModal()">Close</button>
 <button class="btn btn-save" id="btnConfirmEntry" onclick="confirmEntry()" style="opacity: 1;">🔐 Confirm</button>
@@ -2571,10 +2633,13 @@ function renderResidentView(flatNum){
   const rec = getRecord(flatNum);
   document.getElementById('rvFlatTitle').textContent = "Flat " + flatNum;
   document.getElementById('rvOwnerSub').textContent = (flat ? flat.name : "") + (rec.mobile ? " · 📱 " + rec.mobile : "");
+  document.getElementById('rvMobileEditInput').value = rec.mobile || "";
   const summary = computeFlatsSummary(fy).find(f=>f.n===flatNum);
+  const pendingDue = computeResidentPendingDue(flatNum);
   document.getElementById('rvPaidCount').textContent = (summary ? summary.paidCnt : 0) + "/12";
   document.getElementById('rvCollected').textContent = fmt(summary ? summary.maintenanceCollected : 0);
-  document.getElementById('rvPending').textContent = fmt(summary ? summary.pendingDue : 0);
+  document.getElementById('rvPending').textContent = fmt(pendingDue);
+  renderResidentUpiSection(flatNum, flat, pendingDue);
   const yd = getYearData(flatNum, fy);
   document.getElementById('rvMonthGrid').innerHTML = MONTHS.map(m=>{
     const md = yd.months[m];
@@ -2595,6 +2660,44 @@ function renderResidentView(flatNum){
 </div>`;
     }).join("");
   }
+}
+// ---- UPI QR section (only shown when admin has set a UPI ID AND this flat has pending dues) ----
+let rvQrObj = null;
+function buildUpiUri(flatNum, amount){
+const note = "Flat " + flatNum + " Maintenance";
+return "upi://pay?pa=" + encodeURIComponent(settings.upiId) + "&pn=" + encodeURIComponent("Urban Recidency 2 BIL") + "&am=" + Math.round(amount) + "&cu=INR&tn=" + encodeURIComponent(note);
+}
+function renderResidentUpiSection(flatNum, flat, pendingDue){
+const box = document.getElementById('rvUpiSection');
+const qrDiv = document.getElementById('rvQrCode');
+if(!settings.upiId || pendingDue <= 0){ box.style.display = "none"; return; }
+box.style.display = "block";
+qrDiv.innerHTML = "";
+const uri = buildUpiUri(flatNum, pendingDue);
+if(window.QRCode){
+rvQrObj = new QRCode(qrDiv, {text: uri, width: 170, height: 170});
+} else {
+qrDiv.innerHTML = "<div style='font-size:11.5px;color:var(--muted);'>QR load nathi thayo — neeche button use karo</div>";
+}
+}
+function openUpiPaymentApp(){
+if(!residentFlat || !settings.upiId) return;
+const pendingDue = computeResidentPendingDue(residentFlat);
+if(pendingDue <= 0){ alert("Koi pending dues nathi 🎉"); return; }
+window.location.href = buildUpiUri(residentFlat, pendingDue);
+}
+// ---- Resident self-service: update own mobile number ----
+function residentUpdateMobile(){
+if(!residentFlat) return;
+const val = document.getElementById('rvMobileEditInput').value.trim();
+const digits = val.replace(/\D/g,"");
+if(digits.length < 10){ alert("Sacho 10-digit mobile number nakho"); return; }
+if(!confirm("Mobile number '" + val + "' save karvu che?")) return;
+const rec = getRecord(residentFlat);
+rec.mobile = val;
+saveStore(store);
+alert("✅ Mobile number update thai gayo");
+renderResidentView(residentFlat);
 }
 
 // =====================================================================
@@ -2722,6 +2825,7 @@ function initFirebaseSync(){
     ledger = data.ledger || {};
     settings = data.settings || {defaultAmount:0, locked:false, presidentName:""};
     renderPresidentName();
+    renderUpiId();
     openingBalanceOverrides = data.openingBalanceOverrides || {};
     receiptHistory = data.receiptHistory || {};
     // Self-heal: if a previous session got locked with no real default amount
@@ -2749,6 +2853,9 @@ function initFirebaseSync(){
 // status/amount/date/mode) and the credits/expenses ledger, so the app can be
 // tested from a clean slate.
 function resetAllPaidAndExpenses(){
+if(!settings || !settings.masterAdminPassword){ alert("Pehla Community & Control ma Master Admin password setup karo."); return; }
+const masterPass = prompt("MASTER ADMIN password nakho. Aa action thi badha paid entries, expenses ane receipts delete thashe:");
+if(masterPass !== settings.masterAdminPassword){ alert("❌ Master Admin password khoto chhe. Reset nathi thayu."); return; }
 if(!confirm("Sachu ma badhu Paid data ane Ledger (credit/expense) reset karvu che? Aa pacha nahi thai sake!")) return;
 if(!confirm("Fari confirm karo: BADHA flats na months Pending thai jashe ane badhi ledger entries delete thai jashe. Aagad vadhvu che?")) return;
 Object.keys(store).forEach(flatNum=>{
@@ -2817,6 +2924,44 @@ const inFY = (now.getMonth()>=3 && y===fyStart) || (now.getMonth()<3 && y===fySt
 return inFY ? MONTHS[(now.getMonth()+9)%12] : "Apr";
 }
 
+// Returns the ACTUAL current financial year (based on today's real date),
+// regardless of which FY the user has selected in any dropdown.
+function getRealCurrentFY(){
+const now = new Date();
+const startYear = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear()-1;
+return startYear + "-" + String(startYear+1).slice(-2);
+}
+// Owner-facing "Pending Dues" total: adds up everything actually due as of
+// TODAY — every unpaid month from every past (fully elapsed) FY, plus only
+// the unpaid months up to (and including) the current month in the current
+// FY. Future months that haven't arrived yet are NOT counted as due.
+// This is intentionally separate from computeFlatsSummary()'s pendingDue
+// (used on the admin side), which sums all 12 months of whichever FY is
+// selected, including months still in the future.
+function computeResidentPendingDue(flatNum){
+const rec = getRecord(flatNum);
+const realFY = getRealCurrentFY();
+const curMonthIdx = MONTHS.indexOf(currentMonthKey(realFY));
+let total = toNum(rec.priorDue);
+Object.keys(rec.years || {}).forEach(fy=>{
+const yd = rec.years[fy];
+if(!yd || !yd.months) return;
+if(fy < realFY){
+MONTHS.forEach(m=>{
+const md = yd.months[m];
+if(md && md.status !== "Paid") total += toNum(md.amount);
+});
+} else if(fy === realFY){
+MONTHS.forEach((m, idx)=>{
+if(idx > curMonthIdx) return;
+const md = yd.months[m];
+if(md && md.status !== "Paid") total += toNum(md.amount);
+});
+}
+});
+return total;
+}
+
 // ---- Financial year dropdown ----
 function buildFYOptions(){
 const sel = document.getElementById('fySelect');
@@ -2862,6 +3007,27 @@ return computeMaintenanceTotal(fy) + computeCreditsTotal(fy);
 }
 function computeBalance(fy){
 return computeCollectionTotal(fy) - computeExpenseTotal(fy);
+}
+// ---- Cash vs Bank split ----
+// Every maintenance payment mode of "Cash" is treated as physical cash;
+// UPI / Bank Transfer / Cheque (or anything else) is treated as bank.
+// Credit/Expense ledger entries carry their own explicit mode (defaults to
+// "Bank" for older entries added before this feature existed).
+function modeGroupOf(mode){ return (mode === "Cash") ? "Cash" : "Bank"; }
+function computeMaintenanceTotalByMode(fy, group){
+return maintenancePaymentsForFY(fy).filter(p=> modeGroupOf(p.mode)===group).reduce((s,p)=> s + toNum(p.amount), 0);
+}
+function computeCreditsTotalByMode(fy, group){
+return getLedgerFY(fy).credits.filter(c=> modeGroupOf(c.mode)===group).reduce((s,c)=> s + toNum(c.amount), 0);
+}
+function computeExpenseTotalByMode(fy, group){
+return getLedgerFY(fy).expenses.filter(e=> modeGroupOf(e.mode)===group).reduce((s,e)=> s + toNum(e.amount), 0);
+}
+function computeCollectionTotalByMode(fy, group){
+return computeMaintenanceTotalByMode(fy, group) + computeCreditsTotalByMode(fy, group);
+}
+function computeBalanceByMode(fy, group){
+return computeCollectionTotalByMode(fy, group) - computeExpenseTotalByMode(fy, group);
 }
 function fyStartYear(fy){ return parseInt(fy.split("-")[0], 10); }
 function prevFY(fy){ const y = fyStartYear(fy) - 1; return y + "-" + String(y+1).slice(-2); }
@@ -2923,6 +3089,32 @@ reader.readAsText(file);
 document.getElementById('importDataFile').value = "";
 }
 
+// Reads the Opening Balance for a FY as {cash, bank}. Backward compatible
+// with the OLD format where openingBalanceOverrides[fy] was a plain number
+// (that older number is treated as the Bank portion, Cash = 0, since almost
+// all older single-number entries were really the bank/total balance). If
+// no override is set for this FY, it carries forward the previous FY's
+// closing Cash/Bank split (same fallback logic as the old single-balance
+// version, just split-aware).
+function getOpeningBalanceSplit(fy){
+const v = openingBalanceOverrides ? openingBalanceOverrides[fy] : undefined;
+if(v !== undefined){
+if(typeof v === "object" && v !== null) return {cash: toNum(v.cash), bank: toNum(v.bank)};
+return {cash:0, bank: toNum(v)};
+}
+if(fyStartYear(fy) <= 2024) return {cash:0, bank:0};
+return computeClosingBalanceSplit(prevFY(fy));
+}
+function computeClosingBalanceSplit(fy){
+const opening = getOpeningBalanceSplit(fy);
+return {
+cash: opening.cash + computeBalanceByMode(fy, "Cash"),
+bank: opening.bank + computeBalanceByMode(fy, "Bank")
+};
+}
+function computeClosingBalanceByMode(fy, group){
+return computeClosingBalanceSplit(fy)[group.toLowerCase()];
+}
 function saveOpeningBalanceOverride(){
 const fy = getFY();
 const input = document.getElementById('openingBalanceInput');
@@ -2933,17 +3125,33 @@ saveOpeningBalanceOverrides(openingBalanceOverrides);
 alert("FY " + fy + " nu Opening Balance ₹" + toNum(val).toLocaleString('en-IN') + " save thai gayu.");
 render();
 }
+// Tap-to-edit header entry point for setting Bank + Cash opening balance
+// separately, for the currently selected FY. Same simple prompt() pattern
+// as editUpiId()/editPresidentName() above.
+function editOpeningBalanceSplit(){
+const fy = getFY();
+const current = getOpeningBalanceSplit(fy);
+const bankVal = prompt("FY " + fy + " — Bank Opening Balance (₹) lakho:", current.bank || "");
+if(bankVal === null) return;
+const cashVal = prompt("FY " + fy + " — Cash Opening Balance (₹) lakho:", current.cash || "");
+if(cashVal === null) return;
+if(isNaN(toNum(bankVal)) || isNaN(toNum(cashVal))){ alert("Sacha number lakho."); return; }
+openingBalanceOverrides[fy] = { bank: toNum(bankVal), cash: toNum(cashVal) };
+saveOpeningBalanceOverrides(openingBalanceOverrides);
+alert("FY " + fy + " nu Opening Balance save thai gayu.\nBank: ₹" + toNum(bankVal).toLocaleString('en-IN') + "\nCash: ₹" + toNum(cashVal).toLocaleString('en-IN'));
+render();
+}
 function renderOpeningBalanceUI(){
 const fy = getFY();
 const label = document.getElementById('obFYLabel');
 if(label) label.textContent = fy;
 const input = document.getElementById('openingBalanceInput');
-if(input) input.value = (openingBalanceOverrides[fy] !== undefined) ? openingBalanceOverrides[fy] : "";
+const split = getOpeningBalanceSplit(fy);
+if(input) input.value = (split.cash + split.bank) || "";
 }
 function computeOpeningBalance(fy){
-if(openingBalanceOverrides && openingBalanceOverrides[fy] !== undefined) return toNum(openingBalanceOverrides[fy]);
-if(fyStartYear(fy) <= 2024) return 0;
-return computeClosingBalance(prevFY(fy));
+const split = getOpeningBalanceSplit(fy);
+return split.cash + split.bank;
 }
 function computeClosingBalance(fy){
 return computeOpeningBalance(fy) + computeBalance(fy);
@@ -2973,6 +3181,18 @@ if(val === null) return;
 settings.presidentName = val.trim();
 saveSettings(settings);
 renderPresidentName();
+}
+function renderUpiId(){
+const el = document.getElementById('headerUpiId');
+if(!el) return;
+el.textContent = settings.upiId ? ("UPI: " + settings.upiId) : "UPI ID Umerva Tap Karo";
+}
+function editUpiId(){
+const val = prompt("Society nu UPI ID lakho (e.g. urbanresidency2@okhdfcbank):", settings.upiId || "");
+if(val === null) return;
+settings.upiId = val.trim();
+saveSettings(settings);
+renderUpiId();
 }
 // Live clock (day + date + time) shown in the header. Updates every second.
 function updateHeaderClock(){
@@ -3044,9 +3264,12 @@ const paidMonthsAll = list.reduce((s,f)=> s + f.paidCnt, 0);
 const pct = totalMonths ? Math.round((paidMonthsAll/totalMonths)*100) : 0;
 document.getElementById('headerRingEl').style.setProperty('--pct', pct);
 document.getElementById('headerRingPct').textContent = pct + "%";
-const hBalEl = document.getElementById('headerDashBalance');
-hBalEl.textContent = fmt(balance);
-hBalEl.className = "h-value " + (balance>=0 ? "positive":"negative");
+const bankBalance = computeClosingBalanceByMode(fy, "Bank");
+const cashBalance = computeClosingBalanceByMode(fy, "Cash");
+const bankEl = document.getElementById('headerDashBankBalance');
+if(bankEl){ bankEl.textContent = fmt(bankBalance); bankEl.className = "h-value " + (bankBalance>=0 ? "positive":"negative"); }
+const cashEl = document.getElementById('headerDashCashBalance');
+if(cashEl){ cashEl.textContent = fmt(cashBalance); cashEl.className = "h-value " + (cashBalance>=0 ? "positive":"negative"); }
 document.getElementById('headerHeroSub').textContent = pendingFlats + " flat(s) with dues · FY " + fy;
 }
 
@@ -3065,9 +3288,12 @@ document.getElementById('statPendingFlats').textContent = pendingFlats;
 
 renderRecentActivity(fy);
 
-const balEl = document.getElementById('dashBalance');
-balEl.textContent = fmt(balance);
-balEl.className = "h-value " + (balance>=0 ? "positive":"negative");
+const bankBal = computeClosingBalanceByMode(fy, "Bank");
+const cashBal = computeClosingBalanceByMode(fy, "Cash");
+const dashBankEl = document.getElementById('dashBankBalance');
+if(dashBankEl){ dashBankEl.textContent = fmt(bankBal); dashBankEl.className = "h-value " + (bankBal>=0 ? "positive":"negative"); }
+const dashCashEl = document.getElementById('dashCashBalance');
+if(dashCashEl){ dashCashEl.textContent = fmt(cashBal); dashCashEl.className = "h-value " + (cashBal>=0 ? "positive":"negative"); }
 
 const totalMonths = list.length * 12;
 const paidMonthsAll = list.reduce((s,f)=> s + f.paidCnt, 0);
@@ -3271,6 +3497,12 @@ const months = (years[dueFY] && years[dueFY].months) || {};
 MONTHS.forEach(dueMonth=>{
 const payment = months[dueMonth];
 if(!payment || payment.status!=="Paid") return;
+// Backdated/historical entries (marked via the "Juna/Backdated Entry"
+// checkbox) are payments that happened BEFORE this app went live and are
+// already baked into the Opening Balance. They still count as Paid for
+// the flat's own record/receipts, but must NOT be added again into
+// Total Collection / Cash Balance — that would double-count them.
+if(payment.noBalance) return;
 const paidFY = dateToFY(payment.date);
 if((paidFY || dueFY) !== fy) return;
 payments.push({flat:f.n, name:f.name, dueFY, dueMonth, amount:toNum(payment.amount), date:payment.date||"", mode:payment.mode||""});
@@ -3602,6 +3834,44 @@ const labelMonths = pendingMonths.length ? pendingMonths : [];
 return {flat:f.n, name:f.name, paidCnt:f.paidCnt, pendingMonths:labelMonths, priorDue:f.priorDue, dueAmount};
 });
 }
+// ---- WhatsApp payment reminder (opens a pre-filled wa.me chat; admin taps Send in WhatsApp) ----
+function sendDueReminderWhatsApp(flatNum, fy){
+const rec = getRecord(flatNum);
+let mobile = String(rec.mobile || "").replace(/\D/g,"");
+if(mobile.length === 10) mobile = "91" + mobile;
+if(mobile.length < 11){ alert("Aa flat mate mobile number save nathi. Pehla flat kholi ne mobile number save karo."); return; }
+const flat = flats.find(f=>f.n===flatNum);
+const d = computeDefaultersList(fy).find(x=>x.flat===flatNum);
+if(!d){ alert("Aa flat na koi dues baki nathi."); return; }
+const monthsStr = d.pendingMonths.length ? d.pendingMonths.join(", ") : "-";
+const upiLine = (settings.upiId ? ("\n\nUPI ID: " + settings.upiId) : "");
+const message = "🏠 URBAN RECIDENCY 2 BIL Maintenance Reminder\n\nFlat: " + flatNum + " (" + (flat ? flat.name : "-") + ")\nPending Months: " + monthsStr + (d.priorDue>0 ? ("\nPichhla Baki: ₹"+Math.round(d.priorDue).toLocaleString('en-IN')) : "") + "\nTotal Due: ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + upiLine + "\n\nKrupa karine vahelo tako maintenance bhari devo. Dhanyavad.";
+window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
+}
+// Bulk version: opens one WhatsApp tab per defaulter that has a mobile number
+// saved, staggered slightly so the browser doesn't block them as spam popups.
+// Flats with no mobile saved are skipped and reported back to the admin.
+function sendAllDueReminders(){
+const fy = getFY();
+const defaulters = computeDefaultersList(fy);
+if(!defaulters.length){ alert("Badha flats fully paid che — koi reminder moklvani jarur nathi 🎉"); return; }
+const withMobile = defaulters.filter(d=>{
+const m = String(getRecord(d.flat).mobile || "").replace(/\D/g,"");
+return m.length >= 10;
+});
+const withoutMobile = defaulters.filter(d=>{
+const m = String(getRecord(d.flat).mobile || "").replace(/\D/g,"");
+return m.length < 10;
+});
+if(!withMobile.length){ alert("Koi pan defaulter flat mate mobile number save nathi."); return; }
+if(!confirm(withMobile.length + " flats ne WhatsApp reminder mokalvo che? (Har ek mate WhatsApp tab khulshe, tamare Send tap karvanu rahese)")) return;
+withMobile.forEach((d, i)=>{
+setTimeout(()=> sendDueReminderWhatsApp(d.flat, fy), i * 600);
+});
+if(withoutMobile.length){
+setTimeout(()=> alert("⚠️ Aa flats mate mobile number nathi, reminder nathi mokli sakay: " + withoutMobile.map(d=>d.flat).join(", ")), withMobile.length * 600 + 300);
+}
+}
 function renderReports(fy){
 const list = computeFlatsSummary(fy);
 const pendingFlats = list.filter(f=>!f.fullyPaid).length;
@@ -3621,8 +3891,8 @@ document.getElementById('monthTableBody').innerHTML = rows;
 const defaulters = computeDefaultersList(fy);
 const defBody = document.getElementById('defaulterTableBody');
 defBody.innerHTML = defaulters.length ? defaulters.map(d=>
-`<tr><td>${d.flat}<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">${d.pendingMonths.length ? d.pendingMonths.join(", ") : ''}${d.pendingMonths.length && d.priorDue>0 ? ' + ' : ''}${d.priorDue>0 ? 'Pichhla Baki ₹'+Math.round(d.priorDue).toLocaleString('en-IN') : ''}</div></td><td>${d.name}</td><td class="num" style="color:var(--coral);font-weight:700;">${fmt(d.dueAmount)}</td></tr>`
-).join("") : `<tr><td colspan="3" style="text-align:center;color:var(--muted);">🎉 Badha flats fully paid che!</td></tr>`;
+`<tr><td>${d.flat}<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">${d.pendingMonths.length ? d.pendingMonths.join(", ") : ''}${d.pendingMonths.length && d.priorDue>0 ? ' + ' : ''}${d.priorDue>0 ? 'Pichhla Baki ₹'+Math.round(d.priorDue).toLocaleString('en-IN') : ''}</div></td><td>${d.name}</td><td class="num" style="color:var(--coral);font-weight:700;">${fmt(d.dueAmount)}</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick='sendDueReminderWhatsApp(${JSON.stringify(d.flat)}, ${JSON.stringify(fy)})'>📲</button></td></tr>`
+).join("") : `<tr><td colspan="4" style="text-align:center;color:var(--muted);">🎉 Badha flats fully paid che!</td></tr>`;
 }
 
 function downloadFYReportPDF(){
@@ -3828,9 +4098,11 @@ function addCredit(){
 const desc = document.getElementById('creditDesc').value.trim();
 const amount = document.getElementById('creditAmount').value;
 const date = document.getElementById('creditDate').value;
+const modeEl = document.getElementById('creditMode');
+const mode = modeEl ? modeEl.value : "Bank";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
 const fy = getFY();
-getLedgerFY(fy).credits.push({id: Date.now().toString(), desc, amount, date});
+getLedgerFY(fy).credits.push({id: Date.now().toString(), desc, amount, date, mode});
 saveLedger(ledger);
 document.getElementById('creditDesc').value = "";
 document.getElementById('creditAmount').value = "";
@@ -3848,9 +4120,11 @@ function addExpense(){
 const desc = document.getElementById('expenseDesc').value.trim();
 const amount = document.getElementById('expenseAmount').value;
 const date = document.getElementById('expenseDate').value;
+const modeEl = document.getElementById('expenseMode');
+const mode = modeEl ? modeEl.value : "Bank";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
 const fy = getFY();
-getLedgerFY(fy).expenses.push({id: Date.now().toString(), desc, amount, date, locked:true});
+getLedgerFY(fy).expenses.push({id: Date.now().toString(), desc, amount, date, mode, locked:true});
 saveLedger(ledger);
 document.getElementById('expenseDesc').value = "";
 document.getElementById('expenseAmount').value = "";
@@ -4070,7 +4344,7 @@ checkboxHTML = `<span class="m-check" onclick="event.stopPropagation(); unlockPa
 unlockHTML = "";
 pillAction = `unlockPaidMonth('${m}')`;
 }
-paidLabelHTML = `<span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>`;
+paidLabelHTML = `<span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>` + (md.noBalance ? `<span title="Backdated entry — Balance ma add nathi" style="font-size:9px;margin-left:2px;">🕰️</span>` : "");
 } else {
 cls = "m-pending";
 checkboxHTML = `<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('${m}', this.checked)">`;
@@ -4285,6 +4559,8 @@ applyFormLockUI();
 function commitStagedMonths(){
 if(!currentFlat) return;
 const fy = getFY();
+const noBalanceEl = document.getElementById('inputNoBalance');
+const noBalance = !!(noBalanceEl && noBalanceEl.checked);
 Object.keys(stagedMonths).forEach(m=>{
 const md = getMonthData(currentFlat, fy, m);
 const s = stagedMonths[m];
@@ -4292,8 +4568,15 @@ md.status = "Paid";
 md.amount = s.amount;
 md.date = s.date;
 md.mode = s.mode;
+// noBalance = true means this is a backdated/historical entry (paid
+// before the app went live). It still shows as Paid everywhere (grid,
+// receipts, history, owner ledger), but its amount is excluded from
+// Total Collection / Cash Balance, since the Opening Balance already
+// accounts for it.
+md.noBalance = noBalance;
 });
 stagedMonths = {};
+if(noBalanceEl) noBalanceEl.checked = false;
 }
 // One receipt represents one payment transaction. Therefore every month on
 // that receipt must carry the same Paid On date, so all maintenance income is
@@ -4328,7 +4611,12 @@ if(!paidDate){ alert("Paid On date select karo. Avak aa date na month ma jashe."
 if(!mode){ alert("Payment Mode select karo (Cash, UPI, Bank Transfer, etc.)."); document.getElementById('inputMode').focus(); return; }
 const paidFY = dateToFY(paidDate) || fy;
 const paidMonth = dateToFYMonth(paidDate) || "-";
-const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + "\n\nLedger Avak: " + paidMonth + " " + paidFY + "\n\nSachu hoy to OK dabavo.";
+const noBalanceEl = document.getElementById('inputNoBalance');
+const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
+const balanceNote = isNoBalance
+? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
+: "\n\nLedger Avak: " + paidMonth + " " + paidFY;
+const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
@@ -4545,6 +4833,8 @@ document.getElementById('modalFY').value = fy;
 document.getElementById('fyLabel').textContent = fy;
 document.getElementById('inputMobile').value = rec.mobile || "";
 document.getElementById('inputPriorDue').value = toNum(rec.priorDue) || "";
+const noBalanceEl = document.getElementById('inputNoBalance');
+if(noBalanceEl) noBalanceEl.checked = false;
 
 buildMonthOptions();
 currentMonth = target.month;
@@ -5143,6 +5433,103 @@ doc.save("Flat-" + flatNum + "-Full-Ledger.pdf");
 }
 
 // ---- Global listeners ----
+// =====================================================================
+// COMMUNITY, AUDIT & CONTROL EXTENSION
+// Extra data is isolated under Firebase /enhancements so existing accounts
+// data and receipts continue to work exactly as before.
+// =====================================================================
+let enhancedData = {notices:[], complaints:[], audit:[], expenseProofs:{}, reconciliations:{}, reminderSettings:{day:5, enabled:false}, reminderLog:[], backupLog:[]};
+function enhancementId(prefix){ return prefix + "_" + Date.now() + "_" + Math.random().toString(36).slice(2,7); }
+function esc(v){ const d=document.createElement('div'); d.textContent=String(v||''); return d.innerHTML; }
+function saveEnhancedData(){ fbDb.ref(FB_ROOT + '/enhancements').set(enhancedData).catch(e=>console.error('Enhancement save failed',e)); }
+function audit(action, detail){
+  enhancedData.audit.unshift({id:enhancementId('audit'), at:new Date().toISOString(), action, detail:detail||'', actor:'Admin'});
+  enhancedData.audit=enhancedData.audit.slice(0,500);
+  saveEnhancedData();
+}
+fbDb.ref(FB_ROOT + '/enhancements').on('value', snap=>{
+  enhancedData=Object.assign({notices:[],complaints:[],audit:[],expenseProofs:{},reconciliations:{},reminderSettings:{day:5,enabled:false},reminderLog:[],backupLog:[]},snap.val()||{});
+  if(document.getElementById('screen-community') && document.getElementById('screen-community').style.display!=='none') renderCommunity();
+});
+function addExtensionStyles(){
+ const s=document.createElement('style'); s.textContent=`
+ .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
+ `; document.head.appendChild(s);
+}
+function addCommunityTab(){
+ addExtensionStyles();
+ const menu=document.querySelector('.menu');
+ if(menu && !document.getElementById('communityTab')){ const b=document.createElement('button'); b.id='communityTab'; b.innerHTML='🏘️ Community & Control'; menu.appendChild(b); b.addEventListener('click',showCommunity); }
+ const wrap=document.querySelector('.page-wrap');
+ if(wrap && !document.getElementById('screen-community')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-community'; d.style.display='none'; wrap.appendChild(d); }
+ const reset=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Reset All Paid'));
+ if(reset){ reset.style.display='none'; }
+}
+function showCommunity(){
+ document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+ document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+ document.getElementById('communityTab').classList.add('active'); document.getElementById('screen-community').style.display='block'; renderCommunity();
+}
+function renderCommunity(){
+ const el=document.getElementById('screen-community'); if(!el) return;
+ const open=enhancedData.complaints.filter(x=>x.status!=='Closed').length;
+ const unreconciled=Object.values(enhancedData.reconciliations).filter(x=>x.status!=='Matched').length;
+ const noticeHtml=enhancedData.notices.slice(0,6).map(n=>`<div class="c-item"><b>${esc(n.title)}</b><br>${esc(n.body)}<br><span class="mini">${esc(n.date)} · ${esc(n.author||'Admin')}</span></div>`).join('')||'<div class="mini">હજુ કોઈ notice નથી.</div>';
+ const complaintHtml=enhancedData.complaints.slice(0,8).map(c=>`<div class="c-item"><b>Flat ${esc(c.flat)} — ${esc(c.subject)}</b> <span class="tag ${c.status==='Closed'?'closed':'open'}">${esc(c.status)}</span><br>${esc(c.body)}<br><span class="mini">${esc(c.createdAt.slice(0,10))}</span> ${c.status!=='Closed'?`<button class="c-btn green" onclick="closeComplaint('${c.id}')">Close</button>`:''}</div>`).join('')||'<div class="mini">કોઈ open ફરિયાદ નથી.</div>';
+ const auditHtml=enhancedData.audit.slice(0,8).map(a=>`<div class="c-item"><b>${esc(a.action)}</b> — ${esc(a.detail)}<br><span class="mini">${new Date(a.at).toLocaleString('en-IN')}</span></div>`).join('')||'<div class="mini">હજુ activity નથી.</div>';
+ const reconHtml=Object.entries(enhancedData.reconciliations).slice(-8).reverse().map(([k,r])=>`<div class="c-item"><b>${esc(r.reference||'No reference')}</b> · Flat ${esc(r.flat||'-')} · ₹${esc(r.amount||0)} <span class="tag ${r.status==='Matched'?'closed':'open'}">${esc(r.status||'Pending')}</span><br><span class="mini">${esc(r.note||'')}</span></div>`).join('')||'<div class="mini">કોઈ transaction reference નથી.</div>';
+ el.innerHTML=`<div class="community"><h2>🏘️ Community & Control Centre</h2><div class="community-grid">
+ <section class="c-card"><h3>Dashboard alerts</h3><div class="metric">${open}</div><div class="mini">Open complaints</div><div class="metric" style="margin-top:8px">${unreconciled}</div><div class="mini">Pending payment reconciliation</div><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><div class="security-note"><b>Security:</b> સામાન્ય Admin password અને અલગ Master Admin password ઉપલબ્ધ છે. સાચી cloud સુરક્ષા માટે Firebase Authentication enable કરી database rules માં write access માત્ર signed-in adminને આપવો જરૂરી છે.</div></section>
+ <section class="c-card"><h3>📢 Notice board</h3><input id="noticeTitle" placeholder="Notice title"><textarea id="noticeBody" placeholder="સભ્યો માટે સંદેશ"></textarea><button class="c-btn" onclick="postNotice()">Publish notice</button>${noticeHtml}</section>
+ <section class="c-card"><h3>🛠️ Complaint register</h3><input id="complaintFlat" placeholder="Flat no."><input id="complaintSubject" placeholder="ફરિયાદ વિષય"><textarea id="complaintBody" placeholder="વિગત લખો"></textarea><button class="c-btn" onclick="addComplaint()">Register complaint</button>${complaintHtml}</section>
+ <section class="c-card"><h3>🏦 Payment reconciliation</h3><input id="reconReference" placeholder="UPI / Bank transaction ID"><input id="reconFlat" placeholder="Flat no."><input id="reconAmount" type="number" placeholder="Amount"><textarea id="reconNote" placeholder="Bank statement / note"></textarea><button class="c-btn green" onclick="saveReconciliation()">Mark matched</button>${reconHtml}</section>
+ <section class="c-card"><h3>📎 Expense bill proof</h3><p class="mini">Expense ઉમેરતી વખતે Ledgerમાં દેખાતા “Bill ref.” fieldમાં invoice નંબર, Drive/WhatsApp link અથવા file name લખો. તે expense સાથે audit recordમાં સચવાય છે.</p><button class="c-btn gold" onclick="focusExpenseProof()">Go to expense entry</button><div class="mini">ફોટા Firebase Storageમાં upload કરવા માટે Storage rules/plan setup જોઈએ; link/reference option હાલ કામ કરે છે.</div></section>
+ <section class="c-card"><h3>🔔 Reminder schedule</h3><label class="mini">દર મહિને કઈ તારીખે reminder list તૈયાર કરવી</label><input id="reminderDay" type="number" min="1" max="28" value="${esc(enhancedData.reminderSettings.day||5)}"><label class="mini"><input id="reminderEnabled" type="checkbox" ${enhancedData.reminderSettings.enabled?'checked':''}> Schedule enabled (app ખુલ્લી હોય ત્યારે alert)</label><br><button class="c-btn" onclick="saveReminderSettings()">Save schedule</button><button class="c-btn green" onclick="runReminderNow()">Prepare reminders now</button><div class="mini">WhatsApp મોકલતા પહેલાં દરેક chatમાં Send adminએ જ કરવું પડે છે.</div></section>
+ <section class="c-card"><h3>💾 Backup & restore safety</h3><button class="c-btn green" onclick="createVerifiedBackup()">Create verified backup</button><button class="c-btn" onclick="downloadAuditLog()">Download audit log</button><div class="mini">Backup JSON export થાય છે; import પહેલાં preview/validation કરવાની સલાહ છે. છેલ્લું backup: ${enhancedData.backupLog[0]?esc(new Date(enhancedData.backupLog[0]).toLocaleString('en-IN')):'હજુ નહીં'}</div></section>
+ <section class="c-card"><h3>🔐 Admin password controls</h3><p class="mini">Admin password app ખોલવા માટે છે. Master Admin password માત્ર સંપૂર્ણ Reset માટે છે.</p><button class="c-btn" onclick="changeAdminPassword()">Change Admin password</button><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
+ <section class="c-card"><h3>🧾 Audit trail</h3>${auditHtml}</section>
+ </div></div>`;
+}
+function postNotice(){ const title=document.getElementById('noticeTitle').value.trim(),body=document.getElementById('noticeBody').value.trim(); if(!title||!body){alert('Title ane message bharo');return;} enhancedData.notices.unshift({id:enhancementId('notice'),title,body,date:new Date().toLocaleDateString('en-IN'),author:'Admin'}); audit('Notice published',title); renderCommunity(); }
+function addComplaint(){ const flat=document.getElementById('complaintFlat').value.trim(),subject=document.getElementById('complaintSubject').value.trim(),body=document.getElementById('complaintBody').value.trim(); if(!flat||!subject||!body){alert('Flat, subject ane detail bharo');return;} enhancedData.complaints.unshift({id:enhancementId('complaint'),flat,subject,body,status:'Open',createdAt:new Date().toISOString()}); audit('Complaint registered','Flat '+flat+': '+subject); renderCommunity(); }
+function closeComplaint(id){ const c=enhancedData.complaints.find(x=>x.id===id); if(c){c.status='Closed';c.closedAt=new Date().toISOString();audit('Complaint closed','Flat '+c.flat+': '+c.subject);renderCommunity();} }
+function changeAdminPassword(){
+ const current=prompt('Current Admin password nakho:'); if(current===null)return;
+ const active=settings.adminPassword||APP_ACCESS_PASSWORD; if(current!==active){alert('❌ Current Admin password khoto chhe.');return;}
+ const next=prompt('New Admin password nakho (minimum 6 characters):'); if(next===null)return;
+ if(next.trim().length<6){alert('Password ochama ochha 6 characters no hovo joie.');return;}
+ const confirmNext=prompt('New Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
+ settings.adminPassword=next; saveSettings(settings); audit('Admin password changed',''); alert('✅ Admin password change thai gayo. Aagal thi aa navo password use karjo.'); renderCommunity();
+}
+function setMasterAdminPassword(){
+ const verifier=settings.masterAdminPassword||settings.adminPassword||APP_ACCESS_PASSWORD;
+ const label=settings.masterAdminPassword?'Current Master Admin password':'Current Admin password';
+ const current=prompt(label+' nakho:'); if(current===null)return;
+ if(current!==verifier){alert('❌ Password khoto chhe.');return;}
+ const next=prompt('New Master Admin password nakho (minimum 8 characters):'); if(next===null)return;
+ if(next.trim().length<8){alert('Master password ochama ochha 8 characters no hovo joie.');return;}
+ const confirmNext=prompt('Master Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
+ settings.masterAdminPassword=next; saveSettings(settings); audit('Master Admin password '+(settings.masterAdminPassword?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
+}
+function saveReconciliation(){ const reference=document.getElementById('reconReference').value.trim(),flat=document.getElementById('reconFlat').value.trim(),amount=document.getElementById('reconAmount').value,note=document.getElementById('reconNote').value.trim(); if(!reference||!flat||!amount){alert('Transaction ID, flat ane amount bharo');return;} enhancedData.reconciliations[reference]={reference,flat,amount,note,status:'Matched',at:new Date().toISOString()};audit('Payment reconciled','Flat '+flat+' · '+reference);renderCommunity(); }
+function focusExpenseProof(){ document.querySelector('[data-tab="ledger"]')?.click(); setTimeout(()=>document.getElementById('expenseBillRef')?.focus(),100); }
+function saveReminderSettings(){ enhancedData.reminderSettings={day:Math.max(1,Math.min(28,Number(document.getElementById('reminderDay').value)||5)),enabled:document.getElementById('reminderEnabled').checked};audit('Reminder schedule updated','Day '+enhancedData.reminderSettings.day);renderCommunity(); }
+function runReminderNow(){ enhancedData.reminderLog.unshift(new Date().toISOString()); audit('Reminder list prepared','Manual run'); saveEnhancedData(); sendAllDueReminders(); }
+function createVerifiedBackup(){ exportAllData(); enhancedData.backupLog.unshift(new Date().toISOString()); enhancedData.backupLog=enhancedData.backupLog.slice(0,20); audit('Verified backup created','JSON exported'); renderCommunity(); }
+function downloadAuditLog(){ const b=new Blob([JSON.stringify(enhancedData.audit,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='Urban-Residency-Audit-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(u); }
+function installPaymentAndExpenseFields(){
+ const modal=document.querySelector('.modal'); if(modal && !document.getElementById('inputTransactionRef')){ const f=document.createElement('div');f.className='field';f.id='transactionRefField';f.innerHTML='<label>UPI / Bank Transaction ID <span style="font-weight:400">(reconciliation માટે)</span></label><input id="inputTransactionRef" placeholder="e.g. UPI reference / cheque no."><div style="font-size:11px;color:var(--muted);margin-top:4px">Receipt confirm થયા પછી આ reference Community & Controlમાં reconcile કરી શકો.</div>'; const date=document.getElementById('inputDate');date?.parentNode.insertBefore(f,date.nextSibling); }
+ const expense=document.getElementById('expenseDate'); if(expense && !document.getElementById('expenseBillRef')){ const f=document.createElement('div');f.className='field';f.innerHTML='<label>📎 Bill ref. / file name / secure link</label><input id="expenseBillRef" placeholder="Invoice no. or Drive/WhatsApp link">';expense.parentNode.insertBefore(f,expense.nextSibling); }
+}
+const originalOpenModal=openModal; openModal=function(flat){ originalOpenModal(flat); installPaymentAndExpenseFields(); const ref=document.getElementById('inputTransactionRef');if(ref)ref.value=''; };
+const originalConfirmEntry=confirmEntry; confirmEntry=function(){ const ref=(document.getElementById('inputTransactionRef')||{}).value||''; const flat=currentFlat; const out=originalConfirmEntry(); if(ref.trim()){ enhancedData.reconciliations['pending_'+enhancementId('pay')]={reference:ref.trim(),flat,amount:(document.getElementById('inputAmount')||{}).value||0,status:'Pending',note:'Entered with payment',at:new Date().toISOString()};audit('Payment reference added','Flat '+flat+' · '+ref.trim()); } else audit('Payment confirmed','Flat '+flat); return out; };
+const originalAddExpense=addExpense; addExpense=function(){ const proof=(document.getElementById('expenseBillRef')||{}).value||''; const fy=getFY(); const before=(getLedgerFY(fy).expenses||[]).length; const out=originalAddExpense(); const list=getLedgerFY(fy).expenses||[]; if(list.length>before){ const e=list[list.length-1]; enhancedData.expenseProofs[e.id]={reference:proof.trim(),savedAt:new Date().toISOString()};audit('Expense added',e.desc+(proof?' · bill: '+proof:'')); saveEnhancedData(); } return out; };
+const originalDeleteEntry=deleteEntry; deleteEntry=function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
+const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
+const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
+setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
+setTimeout(()=>{addCommunityTab();installPaymentAndExpenseFields();},300);
+
 document.getElementById('searchBoxHome').addEventListener('input', render);
 document.getElementById('searchBoxFlats').addEventListener('input', render);
 document.getElementById('fySelect').addEventListener('change', render);
