@@ -37,6 +37,7 @@
 <!-- These use public CDNs so this single HTML file can be shared by itself. -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 
 <style>
 :root{
@@ -144,10 +145,12 @@ flex-shrink:0;
 .chip.expense{background:linear-gradient(160deg,#FDF0F1 0%,var(--card) 65%);border-color:#F3CDD1;}
 .chip.total{background:linear-gradient(160deg,#EEF3FC 0%,var(--card) 65%);border-color:#CBDCF5;}
 .chip.pending{background:linear-gradient(160deg,#FCF4E6 0%,var(--card) 65%);border-color:#F0DDB0;}
+.chip.outstanding{background:linear-gradient(160deg,#FDECEC 0%,var(--card) 65%);border-color:#F2C2C2;}
 .chip.collection .c-num{color:var(--green);}
 .chip.expense .c-num{color:var(--coral);}
 .chip.total .c-num{color:var(--navy2);}
 .chip.pending .c-num{color:#B3791C;}
+.chip.outstanding .c-num{color:var(--coral);}
 .chip .c-label{font-family:'Poppins',sans-serif;font-size:10.5px;color:var(--muted);font-weight:700;margin-top:3px;text-transform:uppercase;letter-spacing:.4px;}
 
 .quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 15px 0 15px;}
@@ -599,6 +602,11 @@ font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:#152A4E;wh
 }
 #headerStatCollection{color:#2E8B57;}
 #headerStatExpense{color:#D1495B;}
+.hp-kpi-danger{background:linear-gradient(160deg,#FFF7F6 0%,#FDECEC 100%);border-color:#D1495B;}
+.hp-kpi-danger .hp-kpi-label{color:#B3261E;}
+#headerStatOutstanding{
+font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:800;color:#D1495B;white-space:nowrap;
+}
 .hp-kpi #headerDashBalance{
 font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:800;white-space:nowrap;
 }
@@ -765,6 +773,29 @@ body.resident-active > *:not(#residentView){display:none !important;}
 // See the note next to firebaseConfig below for the rules to paste there.
 const APP_ACCESS_PASSWORD = "urban2bil"; // change this anytime, then re-share the file
 const MASTER_PASSWORD = ""; // Intentionally disabled: do not keep a permanent master password in a shared HTML file.
+
+// ---- Password hashing helpers ----
+// Admin/Master passwords set via the app are now stored as a SHA-256 hash
+// (not plain text) in the Firebase "settings" node, so anyone reading the
+// database directly (e.g. if Read rules are left open) cannot see the
+// actual password. Old passwords saved before this change (plain text) are
+// still accepted so nobody gets locked out — the very next time a password
+// is changed it is saved as a hash automatically.
+async function sha256Hex(str){
+  const buf = new TextEncoder().encode(String(str));
+  const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function looksLikeHash(v){ return typeof v === 'string' && /^[0-9a-f]{64}$/i.test(v); }
+async function passwordMatches(inputPlain, storedValue){
+  if(!storedValue) return false;
+  if(looksLikeHash(storedValue)){
+    const inputHash = await sha256Hex(inputPlain);
+    return inputHash === storedValue;
+  }
+  return inputPlain === storedValue; // legacy plain-text value, compared as-is
+}
+
 (function(){
   if(!sessionStorage.getItem('ur2_unlocked')){
     document.body.classList.add('locked');
@@ -772,10 +803,11 @@ const MASTER_PASSWORD = ""; // Intentionally disabled: do not keep a permanent m
     document.getElementById('lockScreen').classList.add('hidden');
   }
 })();
-function tryUnlockApp(){
+async function tryUnlockApp(){
   const val = document.getElementById('lockPassInput').value;
   const activeAdminPassword = settings && settings.adminPassword ? settings.adminPassword : APP_ACCESS_PASSWORD;
-  if(val === activeAdminPassword){
+  const ok = await passwordMatches(val, activeAdminPassword);
+  if(ok){
     sessionStorage.setItem('ur2_unlocked','1');
     document.body.classList.remove('locked');
     document.getElementById('lockScreen').classList.add('hidden');
@@ -864,23 +896,21 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="hp-kpi-ring" id="headerRingEl" style="--pct: 1;"><div class="hp-kpi-ring-inner"><b id="headerRingPct">1%</b></div></div>
 <div class="hp-kpi-label">Collected</div>
 </div>
-<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
+<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="🔒 Master Admin password thi j sudharay che — Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
 <div class="h-value positive" id="headerDashBankBalance">₹0</div>
 <div class="hp-kpi-label">🏦 Bank</div>
 </div>
-<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
+<div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="🔒 Master Admin password thi j sudharay che — Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
 <div class="h-value positive" id="headerDashCashBalance">₹0</div>
 <div class="hp-kpi-label">💵 Cash</div>
 </div>
-<div class="hp-kpi">
-<div id="headerStatTotal">56</div>
-<div class="hp-kpi-label">Total Flats</div>
+<div class="hp-kpi hp-kpi-danger" title="Cumulative baki, badha years (all flats)">
+<div id="headerStatOutstanding">₹0</div>
+<div class="hp-kpi-label">📊 Total Outstanding</div>
 </div>
-<div class="hp-kpi hp-kpi-overview">
-<div class="hp-kpi-overview-row"><span class="hp-kpi-overview-dot dot-green"></span><span id="headerStatCollection">₹4,000</span></div>
-<div class="hp-kpi-overview-row"><span class="hp-kpi-overview-dot dot-red"></span><span id="headerStatExpense">₹0</span></div>
-<div class="hp-kpi-label">Overview</div>
-</div>
+<span id="headerStatTotal" class="hp-sr-only">56</span>
+<span id="headerStatCollection" class="hp-sr-only">₹4,000</span>
+<span id="headerStatExpense" class="hp-sr-only">₹0</span>
 <span id="headerStatPending" class="hp-sr-only">56</span>
 </div>
 <button type="button" class="hp-admin-logout" onclick="adminLogout()">🔒 Admin Logout</button>
@@ -937,6 +967,7 @@ FY:
 <div class="chip collection"><div class="c-num" id="statCollection">₹4,000</div><div class="c-label">Total Collection</div></div>
 <div class="chip expense"><div class="c-num" id="statExpense">₹0</div><div class="c-label">Total Expense</div></div>
 <div class="chip pending"><div class="c-num" id="statPendingFlats">56</div><div class="c-label">Flats Pending</div></div>
+<div class="chip outstanding"><div class="c-num" id="statTotalOutstanding">₹0</div><div class="c-label">Total Outstanding</div></div>
 </div>
 
 <div class="section-title">🏢 Flats</div>
@@ -2743,25 +2774,45 @@ firebase.initializeApp(firebaseConfig);
 const fbDb = firebase.database();
 const FB_ROOT = "pmawas_d"; // root node under which all app data lives
 
+// ---- Anonymous Firebase Auth (silent, no login screen shown to user) ----
+// This signs the browser in to Firebase invisibly in the background so that
+// once you lock down the Database Rules below to require "auth != null",
+// the app keeps working exactly as before with zero visible change, while
+// someone who does NOT open this app (e.g. hitting the REST API directly
+// with just the apiKey/URL) is blocked. This alone does nothing until you
+// also (a) enable "Anonymous" sign-in in Firebase Console -> Authentication
+// -> Sign-in method, and (b) update the Rules as shown below. Until you do
+// both, this call simply fails quietly and the app behaves as it did before
+// — so it is safe to leave in even if you haven't set those up yet.
+firebase.auth().signInAnonymously().catch(function(err){
+  console.warn("Anonymous Firebase Auth not enabled yet (safe to ignore until Database Rules are locked down):", err && err.message);
+});
+
 // ⚠️ IMPORTANT — Firebase Realtime Database Rules:
 // The APP_ACCESS_PASSWORD lock screen above only hides the UI in the browser.
 // It does NOT stop someone who has this apiKey/databaseURL (visible right
 // above, to anyone who opens this file) from reading/writing the data
 // directly via the Firebase REST API. If your Database Rules are still the
-// default "read/write: true for everyone", the actual data is unprotected
-// regardless of the lock screen.
-// Go to Firebase Console -> Realtime Database -> Rules, and paste something
-// like this (then restrict further with real Firebase Auth if possible):
+// default "read/write: true for everyone", the actual data (owner names,
+// mobile numbers, dues, ledger) is unprotected regardless of the lock screen.
+//
+// To actually lock this down (recommended, since this app now signs in
+// anonymously on load):
+//   1) Firebase Console -> Authentication -> Sign-in method -> enable "Anonymous".
+//   2) Firebase Console -> Realtime Database -> Rules, paste:
 //   {
 //     "rules": {
 //       "pmawas_d": {
-//         ".read": true,
-//         ".write": "auth != null"   // requires signed-in Firebase Auth user
+//         ".read": "auth != null",
+//         ".write": "auth != null"
 //       }
 //     }
 //   }
-// A ".write": "auth != null" rule needs Firebase Authentication to be wired
-// up (sign-in) for saves to work — ask if you want that added.
+//   3) Publish the rules.
+// After both steps, only browsers that have loaded this app (and so signed
+// in anonymously) can read/write the data — direct REST/curl access with
+// just the apiKey no longer works. No further change is needed in this file.
+
 
 // One shared JSON object lives at FB_ROOT. Local vars below are just an
 // in-memory mirror of that node — every save writes to Firebase, and a
@@ -2874,8 +2925,13 @@ function initFirebaseSync(){
 // tested from a clean slate.
 function resetAllPaidAndExpenses(){
 if(!settings || !settings.masterAdminPassword){ alert("Pehla Community & Control ma Master Admin password setup karo."); return; }
+resetAllPaidAndExpensesAsync();
+}
+async function resetAllPaidAndExpensesAsync(){
 const masterPass = prompt("MASTER ADMIN password nakho. Aa action thi badha paid entries, expenses ane receipts delete thashe:");
-if(masterPass !== settings.masterAdminPassword){ alert("❌ Master Admin password khoto chhe. Reset nathi thayu."); return; }
+if(masterPass === null) return;
+const ok = await passwordMatches(masterPass, settings.masterAdminPassword);
+if(!ok){ alert("❌ Master Admin password khoto chhe. Reset nathi thayu."); return; }
 if(!confirm("Sachu ma badhu Paid data ane Ledger (credit/expense) reset karvu che? Aa pacha nahi thai sake!")) return;
 if(!confirm("Fari confirm karo: BADHA flats na months Pending thai jashe ane badhi ledger entries delete thai jashe. Aagad vadhvu che?")) return;
 Object.keys(store).forEach(flatNum=>{
@@ -3157,9 +3213,18 @@ alert("FY " + fy + " nu Opening Balance ₹" + toNum(val).toLocaleString('en-IN'
 render();
 }
 // Tap-to-edit header entry point for setting Bank + Cash opening balance
-// separately, for the currently selected FY. Same simple prompt() pattern
-// as editUpiId()/editPresidentName() above.
+// separately, for the currently selected FY. Locked behind Master Admin
+// password — Opening Balance is a sensitive one-time-setup figure and
+// should not be editable with just the regular Admin password.
 function editOpeningBalanceSplit(){
+if(!settings || !settings.masterAdminPassword){ alert("Opening Balance sudharva mate pehla Community & Control ma Master Admin password setup karo."); return; }
+editOpeningBalanceSplitAsync();
+}
+async function editOpeningBalanceSplitAsync(){
+const masterPass = prompt("🔐 Opening Balance sudharva mate MASTER ADMIN password nakho:");
+if(masterPass === null) return;
+const ok = await passwordMatches(masterPass, settings.masterAdminPassword);
+if(!ok){ alert("❌ Master Admin password khoto chhe. Opening Balance sudharyu nathi."); return; }
 const fy = getFY();
 const current = getOpeningBalanceSplit(fy);
 const bankVal = prompt("FY " + fy + " — Bank Opening Balance (₹) lakho:", current.bank || "");
@@ -3169,6 +3234,7 @@ if(cashVal === null) return;
 if(isNaN(toNum(bankVal)) || isNaN(toNum(cashVal))){ alert("Sacha number lakho."); return; }
 openingBalanceOverrides[fy] = { bank: toNum(bankVal), cash: toNum(cashVal) };
 saveOpeningBalanceOverrides(openingBalanceOverrides);
+audit('Opening Balance changed (Master Admin) FY '+fy, 'Bank ₹'+toNum(bankVal).toLocaleString('en-IN')+' / Cash ₹'+toNum(cashVal).toLocaleString('en-IN'));
 alert("FY " + fy + " nu Opening Balance save thai gayu.\nBank: ₹" + toNum(bankVal).toLocaleString('en-IN') + "\nCash: ₹" + toNum(cashVal).toLocaleString('en-IN'));
 render();
 }
@@ -3280,7 +3346,9 @@ else if(currentTab === "reports") renderReports(fy);
 // sync with the current FY — updates on every render, not just Dashboard.
 function updateHeaderStats(fy){
 const list = computeFlatsSummary(fy);
-const pendingFlats = computeDefaultersList().length;
+const defaulters = computeDefaultersList();
+const pendingFlats = defaulters.length;
+const totalOutstandingAll = defaulters.reduce((s,d)=> s + d.dueAmount, 0);
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 const balance = computeClosingBalance(fy);
@@ -3288,6 +3356,8 @@ document.getElementById('headerStatTotal').textContent = list.length;
 document.getElementById('headerStatCollection').textContent = fmt(collection);
 document.getElementById('headerStatExpense').textContent = fmt(expense);
 document.getElementById('headerStatPending').textContent = pendingFlats;
+const outstandingEl = document.getElementById('headerStatOutstanding');
+if(outstandingEl) outstandingEl.textContent = fmt(totalOutstandingAll);
 
 const totalMonths = list.length * 12;
 const paidMonthsAll = list.reduce((s,f)=> s + f.paidCnt, 0);
@@ -3305,7 +3375,9 @@ document.getElementById('headerHeroSub').textContent = pendingFlats + " flat(s) 
 
 function renderHome(fy){
 const list = computeFlatsSummary(fy);
-const pendingFlats = computeDefaultersList().length;
+const defaulters = computeDefaultersList();
+const pendingFlats = defaulters.length;
+const totalOutstandingAll = defaulters.reduce((s,d)=> s + d.dueAmount, 0);
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 const balance = computeClosingBalance(fy);
@@ -3314,6 +3386,7 @@ document.getElementById('statTotal').textContent = list.length;
 document.getElementById('statCollection').textContent = fmt(collection);
 document.getElementById('statExpense').textContent = fmt(expense);
 document.getElementById('statPendingFlats').textContent = pendingFlats;
+document.getElementById('statTotalOutstanding').textContent = fmt(totalOutstandingAll);
 
 renderRecentActivity(fy);
 
@@ -5630,7 +5703,7 @@ function renderCommunity(){
  const auditHtml=enhancedData.audit.slice(0,8).map(a=>`<div class="c-item"><b>${esc(a.action)}</b> — ${esc(a.detail)}<br><span class="mini">${new Date(a.at).toLocaleString('en-IN')}</span></div>`).join('')||'<div class="mini">હજુ activity નથી.</div>';
  const reconHtml=Object.entries(enhancedData.reconciliations).slice(-8).reverse().map(([k,r])=>`<div class="c-item"><b>${esc(r.reference||'No reference')}</b> · Flat ${esc(r.flat||'-')} · ₹${esc(r.amount||0)} <span class="tag ${r.status==='Matched'?'closed':'open'}">${esc(r.status||'Pending')}</span><br><span class="mini">${esc(r.note||'')}</span></div>`).join('')||'<div class="mini">કોઈ transaction reference નથી.</div>';
  el.innerHTML=`<div class="community"><h2>🏘️ Community & Control Centre</h2><div class="community-grid">
- <section class="c-card"><h3>Dashboard alerts</h3><div class="metric">${open}</div><div class="mini">Open complaints</div><div class="metric" style="margin-top:8px">${unreconciled}</div><div class="mini">Pending payment reconciliation</div><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><div class="security-note"><b>Security:</b> સામાન્ય Admin password અને અલગ Master Admin password ઉપલબ્ધ છે. સાચી cloud સુરક્ષા માટે Firebase Authentication enable કરી database rules માં write access માત્ર signed-in adminને આપવો જરૂરી છે.</div></section>
+ <section class="c-card"><h3>Dashboard alerts</h3><div class="metric">${open}</div><div class="mini">Open complaints</div><div class="metric" style="margin-top:8px">${unreconciled}</div><div class="mini">Pending payment reconciliation</div><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><div class="security-note"><b>Security:</b> Admin passwords are now saved as an encrypted hash (not plain text), and Opening Balance is locked behind the Master Admin password. Anonymous Firebase sign-in is already wired up in this app — ask Claude/your developer to also enable "Anonymous" auth + tighten Database Rules in the Firebase Console (steps are commented in the file) so the cloud data itself is fully locked to this app.</div></section>
  <section class="c-card"><h3>📢 Notice board</h3><input id="noticeTitle" placeholder="Notice title"><textarea id="noticeBody" placeholder="સભ્યો માટે સંદેશ"></textarea><button class="c-btn" onclick="postNotice()">Publish notice</button>${noticeHtml}</section>
  <section class="c-card"><h3>🛠️ Complaint register</h3><input id="complaintFlat" placeholder="Flat no."><input id="complaintSubject" placeholder="ફરિયાદ વિષય"><textarea id="complaintBody" placeholder="વિગત લખો"></textarea><button class="c-btn" onclick="addComplaint()">Register complaint</button>${complaintHtml}</section>
  <section class="c-card"><h3>🏦 Payment reconciliation</h3><input id="reconReference" placeholder="UPI / Bank transaction ID"><input id="reconFlat" placeholder="Flat no."><input id="reconAmount" type="number" placeholder="Amount"><textarea id="reconNote" placeholder="Bank statement / note"></textarea><button class="c-btn green" onclick="saveReconciliation()">Mark matched</button>${reconHtml}</section>
@@ -5644,23 +5717,25 @@ function renderCommunity(){
 function postNotice(){ const title=document.getElementById('noticeTitle').value.trim(),body=document.getElementById('noticeBody').value.trim(); if(!title||!body){alert('Title ane message bharo');return;} enhancedData.notices.unshift({id:enhancementId('notice'),title,body,date:new Date().toLocaleDateString('en-IN'),author:'Admin'}); audit('Notice published',title); renderCommunity(); }
 function addComplaint(){ const flat=document.getElementById('complaintFlat').value.trim(),subject=document.getElementById('complaintSubject').value.trim(),body=document.getElementById('complaintBody').value.trim(); if(!flat||!subject||!body){alert('Flat, subject ane detail bharo');return;} enhancedData.complaints.unshift({id:enhancementId('complaint'),flat,subject,body,status:'Open',createdAt:new Date().toISOString()}); audit('Complaint registered','Flat '+flat+': '+subject); renderCommunity(); }
 function closeComplaint(id){ const c=enhancedData.complaints.find(x=>x.id===id); if(c){c.status='Closed';c.closedAt=new Date().toISOString();audit('Complaint closed','Flat '+c.flat+': '+c.subject);renderCommunity();} }
-function changeAdminPassword(){
+async function changeAdminPassword(){
  const current=prompt('Current Admin password nakho:'); if(current===null)return;
- const active=settings.adminPassword||APP_ACCESS_PASSWORD; if(current!==active){alert('❌ Current Admin password khoto chhe.');return;}
+ const active=settings.adminPassword||APP_ACCESS_PASSWORD;
+ const ok=await passwordMatches(current, active); if(!ok){alert('❌ Current Admin password khoto chhe.');return;}
  const next=prompt('New Admin password nakho (minimum 6 characters):'); if(next===null)return;
  if(next.trim().length<6){alert('Password ochama ochha 6 characters no hovo joie.');return;}
  const confirmNext=prompt('New Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
- settings.adminPassword=next; saveSettings(settings); audit('Admin password changed',''); alert('✅ Admin password change thai gayo. Aagal thi aa navo password use karjo.'); renderCommunity();
+ settings.adminPassword=await sha256Hex(next); saveSettings(settings); audit('Admin password changed',''); alert('✅ Admin password change thai gayo. Aagal thi aa navo password use karjo.'); renderCommunity();
 }
-function setMasterAdminPassword(){
+async function setMasterAdminPassword(){
  const verifier=settings.masterAdminPassword||settings.adminPassword||APP_ACCESS_PASSWORD;
  const label=settings.masterAdminPassword?'Current Master Admin password':'Current Admin password';
  const current=prompt(label+' nakho:'); if(current===null)return;
- if(current!==verifier){alert('❌ Password khoto chhe.');return;}
+ const ok=await passwordMatches(current, verifier); if(!ok){alert('❌ Password khoto chhe.');return;}
  const next=prompt('New Master Admin password nakho (minimum 8 characters):'); if(next===null)return;
  if(next.trim().length<8){alert('Master password ochama ochha 8 characters no hovo joie.');return;}
  const confirmNext=prompt('Master Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
- settings.masterAdminPassword=next; saveSettings(settings); audit('Master Admin password '+(settings.masterAdminPassword?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
+ const wasSet = !!settings.masterAdminPassword;
+ settings.masterAdminPassword=await sha256Hex(next); saveSettings(settings); audit('Master Admin password '+(wasSet?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
 }
 function saveReconciliation(){ const reference=document.getElementById('reconReference').value.trim(),flat=document.getElementById('reconFlat').value.trim(),amount=document.getElementById('reconAmount').value,note=document.getElementById('reconNote').value.trim(); if(!reference||!flat||!amount){alert('Transaction ID, flat ane amount bharo');return;} enhancedData.reconciliations[reference]={reference,flat,amount,note,status:'Matched',at:new Date().toISOString()};audit('Payment reconciled','Flat '+flat+' · '+reference);renderCommunity(); }
 function focusExpenseProof(){ document.querySelector('[data-tab="ledger"]')?.click(); setTimeout(()=>document.getElementById('expenseBillRef')?.focus(),100); }
