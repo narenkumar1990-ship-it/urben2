@@ -5654,4 +5654,53 @@ function changeAdminPassword(){
 }
 function setMasterAdminPassword(){
  const verifier=settings.masterAdminPassword||settings.adminPassword||APP_ACCESS_PASSWORD;
- const label=settings.masterAdminPassword?'Current Master Admin pass
+ const label=settings.masterAdminPassword?'Current Master Admin password':'Current Admin password';
+ const current=prompt(label+' nakho:'); if(current===null)return;
+ if(current!==verifier){alert('❌ Password khoto chhe.');return;}
+ const next=prompt('New Master Admin password nakho (minimum 8 characters):'); if(next===null)return;
+ if(next.trim().length<8){alert('Master password ochama ochha 8 characters no hovo joie.');return;}
+ const confirmNext=prompt('Master Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
+ settings.masterAdminPassword=next; saveSettings(settings); audit('Master Admin password '+(settings.masterAdminPassword?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
+}
+function saveReconciliation(){ const reference=document.getElementById('reconReference').value.trim(),flat=document.getElementById('reconFlat').value.trim(),amount=document.getElementById('reconAmount').value,note=document.getElementById('reconNote').value.trim(); if(!reference||!flat||!amount){alert('Transaction ID, flat ane amount bharo');return;} enhancedData.reconciliations[reference]={reference,flat,amount,note,status:'Matched',at:new Date().toISOString()};audit('Payment reconciled','Flat '+flat+' · '+reference);renderCommunity(); }
+function focusExpenseProof(){ document.querySelector('[data-tab="ledger"]')?.click(); setTimeout(()=>document.getElementById('expenseBillRef')?.focus(),100); }
+function saveReminderSettings(){ enhancedData.reminderSettings={day:Math.max(1,Math.min(28,Number(document.getElementById('reminderDay').value)||5)),enabled:document.getElementById('reminderEnabled').checked};audit('Reminder schedule updated','Day '+enhancedData.reminderSettings.day);renderCommunity(); }
+function runReminderNow(){ enhancedData.reminderLog.unshift(new Date().toISOString()); audit('Reminder list prepared','Manual run'); saveEnhancedData(); sendAllDueReminders(); }
+function createVerifiedBackup(){ exportAllData(); enhancedData.backupLog.unshift(new Date().toISOString()); enhancedData.backupLog=enhancedData.backupLog.slice(0,20); audit('Verified backup created','JSON exported'); renderCommunity(); }
+function downloadAuditLog(){ const b=new Blob([JSON.stringify(enhancedData.audit,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='Urban-Residency-Audit-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(u); }
+function installPaymentAndExpenseFields(){
+ const modal=document.querySelector('.modal'); if(modal && !document.getElementById('inputTransactionRef')){ const f=document.createElement('div');f.className='field';f.id='transactionRefField';f.innerHTML='<label>UPI / Bank Transaction ID <span style="font-weight:400">(reconciliation માટે)</span></label><input id="inputTransactionRef" placeholder="e.g. UPI reference / cheque no."><div style="font-size:11px;color:var(--muted);margin-top:4px">Receipt confirm થયા પછી આ reference Community & Controlમાં reconcile કરી શકો.</div>'; const date=document.getElementById('inputDate');date?.parentNode.insertBefore(f,date.nextSibling); }
+ const expense=document.getElementById('expenseDate'); if(expense && !document.getElementById('expenseBillRef')){ const f=document.createElement('div');f.className='field';f.innerHTML='<label>📎 Bill ref. / file name / secure link</label><input id="expenseBillRef" placeholder="Invoice no. or Drive/WhatsApp link">';expense.parentNode.insertBefore(f,expense.nextSibling); }
+}
+const originalOpenModal=openModal; openModal=function(flat){ originalOpenModal(flat); installPaymentAndExpenseFields(); const ref=document.getElementById('inputTransactionRef');if(ref)ref.value=''; };
+const originalConfirmEntry=confirmEntry; confirmEntry=function(){ const ref=(document.getElementById('inputTransactionRef')||{}).value||''; const flat=currentFlat; const out=originalConfirmEntry(); if(ref.trim()){ enhancedData.reconciliations['pending_'+enhancementId('pay')]={reference:ref.trim(),flat,amount:(document.getElementById('inputAmount')||{}).value||0,status:'Pending',note:'Entered with payment',at:new Date().toISOString()};audit('Payment reference added','Flat '+flat+' · '+ref.trim()); } else audit('Payment confirmed','Flat '+flat); return out; };
+const originalAddExpense=addExpense; addExpense=function(){ const proof=(document.getElementById('expenseBillRef')||{}).value||''; const fy=getFY(); const before=(getLedgerFY(fy).expenses||[]).length; const out=originalAddExpense(); const list=getLedgerFY(fy).expenses||[]; if(list.length>before){ const e=list[list.length-1]; enhancedData.expenseProofs[e.id]={reference:proof.trim(),savedAt:new Date().toISOString()};audit('Expense added',e.desc+(proof?' · bill: '+proof:'')); saveEnhancedData(); } return out; };
+const originalDeleteEntry=deleteEntry; deleteEntry=function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
+const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
+const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
+setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
+setTimeout(()=>{addCommunityTab();installPaymentAndExpenseFields();},300);
+
+document.getElementById('searchBoxHome').addEventListener('input', render);
+document.getElementById('searchBoxFlats').addEventListener('input', render);
+document.getElementById('fySelect').addEventListener('change', render);
+document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
+
+document.querySelectorAll('.menu button').forEach(btn=>{
+btn.addEventListener('click', ()=>{
+document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+currentTab = btn.dataset.tab;
+render();
+});
+});
+
+buildFYOptions();
+buildLedgerMonthOptions();
+initFirebaseSync(); // connects to Firebase, then calls render() once data arrives (and again on every real-time update)
+</script>
+
+
+
+
+</body></html>
