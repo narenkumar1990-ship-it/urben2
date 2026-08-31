@@ -2335,6 +2335,8 @@ FY:
 </div>
 <button style="width:100%;margin-top:14px;padding:12px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadFYReportPDF()">📄 Download Financial Year Report PDF</button>
 <button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOfficialLedgerPDF()">📒 Download Official Ledger (Audit) PDF</button>
+<button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadDefaultersReportPDF()">📋 Download Outstanding (Owner-wise) Report PDF</button>
+<button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOwnerListPDF()">👥 Download Owner List (Flat / Name / Mobile) PDF</button>
 </div>
 
 <div class="report-card">
@@ -2346,7 +2348,7 @@ FY:
 </div>
 
 <div class="report-card">
-<h3 style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">Maintenance Nathi Barnara — Defaulters List<button type="button" class="btn" style="flex:none;background:#25D366;color:#fff;padding:7px 12px;font-size:12px;" onclick="sendAllDueReminders()">📲 Badhane Reminder</button></h3>
+<h3 style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">Total Outstanding — All Years<button type="button" class="btn" style="flex:none;background:#25D366;color:#fff;padding:7px 12px;font-size:12px;" onclick="sendAllDueReminders()">📲 Badhane Reminder</button></h3>
 <table class="month-table">
 <thead><tr><th>Flat</th><th>Owner</th><th style="text-align:right">Amount</th><th></th></tr></thead>
 <tbody id="defaulterTableBody"><tr><td>101<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Dec, Jan, Feb, Mar</div></td><td>Parmar Amitkumar Shanabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,000</td></tr><tr><td>102<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Dilipbhai Babubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>103<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bhagyashri Prakashbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>104<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Mayursinh Bharatsinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>105<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narmadaben Natvarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>106<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shegar Rajkapoor Dharmnath</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>107<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Pandya Tusharkumar Bharatbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>108<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Jadav Mehul Navinbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>201<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nileshkumar Chimanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>202<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Niruben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>203<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bharatbhai Hasmukhbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>204<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gandhi Archana Tusharkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>205<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Balwantsinh Chandrasinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>206<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Dhanlaxmiben Ishwarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>207<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Meena Rameshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>208<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narenbhai Ratilal</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>301<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Ravi Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>302<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shelar Rakesh Satyavijay</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>303<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Chetan Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>304<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nareshbhai Dahyabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>305<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Meenaben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>306<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Rushikumar Narayanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>307<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Hetalben Kanubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>308<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gujjar Bhavinkumar Sureshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>401<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mahant Saraswati Rahulbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>402<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Bharatbhai Pujabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>403<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Padhiyar Vilasben Kishanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>404<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pushpaben Jigneshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>405<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darji Ritaben Jayeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>406<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parekh Daxaben Rameshchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>407<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Saroj Dayasankar Bhairam</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>408<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bhaliya Soniben Ashokbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>501<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Rekhaben Udesingbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>502<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mistri Truptiben Navinchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>503<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Pratikkumar Gopalbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>504<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Vasava Sanjaybhai Kantibhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>505<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Vinodbhai Naginbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>506<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Ranjitsinh Ramanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>507<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mali Maheshbhai Chandubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>508<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darbar Alpa Mahendrabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>601<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Surbhiben Deepakbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>602<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Kanneganti Dhiren Jagrit</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>603<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Ghanchi Ikbalbhai Ibrahimbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>604<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Rakhiben Maheshkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>605<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bariya Narpatbhai Govindbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>606<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rohit Tejalben Satishkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>607<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shinde Hanshabai Bhagvanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>608<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pramodbhai Somabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>701<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Jashodaben Kamleshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>702<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Jinalben Maulikkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>703<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Mayaben Vasantbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>704<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Urmilaben Rupeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>705<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Jayendrasinh Parsottambhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>706<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Khan Sabnam Mohmmad Jilani</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>707<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Kalpana Surendra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>708<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Makwana Hemant Keshavbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr></tbody>
@@ -2584,6 +2586,24 @@ const flats = [
 ];
 
 const MONTHS = ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"];
+
+// Real calendar month index (0=Jan..11=Dec) for each FY month label — used
+// to figure out which months of a given FY have actually "arrived" as of
+// today, so future (not-yet-due) months are never counted in Outstanding.
+const MONTH_REAL_INDEX = {Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11,Jan:0,Feb:1,Mar:2};
+function monthsArrivedForFY(fy){
+const startYear = parseInt(String(fy).split('-')[0], 10);
+const now = new Date();
+const curYear = now.getFullYear();
+const curMonthIdx = now.getMonth(); // 0-11
+return MONTHS.filter(m=>{
+const realIdx = MONTH_REAL_INDEX[m];
+const y = (realIdx >= 3) ? startYear : startYear + 1; // Apr-Dec -> startYear; Jan-Mar -> startYear+1
+if(y < curYear) return true;
+if(y > curYear) return false;
+return realIdx <= curMonthIdx;
+});
+}
 
 // =====================================================================
 // ---- RESIDENT (FLAT OWNER) VIEW ----
@@ -2983,6 +3003,12 @@ modalSel.value = defaultFY;
 
 // ---- Core per-FY calculations ----
 function computeFlatsSummary(fy){
+const arrivedMonths = monthsArrivedForFY(fy);
+// Cumulative total outstanding (all years + Pichhla Baki), keyed by flat —
+// used so flat-card badges match the Total Outstanding report exactly,
+// instead of only reflecting the currently-selected FY.
+const totalOutstandingMap = {};
+computeDefaultersList().forEach(d=>{ totalOutstandingMap[d.flat] = d; });
 return flats.map(f=>{
 const rec = getRecord(f.n);
 const paidCnt = paidMonthCount(f.n, fy);
@@ -2990,7 +3016,12 @@ const yd = getYearData(f.n, fy);
 const maintenanceCollected = MONTHS.reduce((s,m)=> s + ((yd.months[m] && yd.months[m].status==="Paid") ? (toNum(yd.months[m].amount)) : 0), 0);
 const pendingDue = MONTHS.reduce((s,m)=> s + ((yd.months[m] && yd.months[m].status!=="Paid") ? (toNum(yd.months[m].amount)) : 0), 0);
 const priorDue = toNum(rec.priorDue);
-return {...f, mobile:rec.mobile, paidCnt, maintenanceCollected, pendingDue: pendingDue + priorDue, priorDue, fullyPaid: paidCnt===12 && priorDue<=0};
+// "Arrived" = up to the current real-world month only — future FY months
+// that haven't happened yet are never counted as due/pending.
+const arrivedPendingCount = arrivedMonths.filter(m=> !yd.months[m] || yd.months[m].status !== "Paid").length;
+const totalOutstanding = (totalOutstandingMap[f.n] && totalOutstandingMap[f.n].dueAmount) || 0;
+const dueNow = totalOutstanding > 0;
+return {...f, mobile:rec.mobile, paidCnt, maintenanceCollected, pendingDue: pendingDue + priorDue, priorDue, fullyPaid: paidCnt===12 && priorDue<=0, arrivedPendingCount, totalOutstanding, dueNow};
 });
 }
 function computeMaintenanceTotal(fy){
@@ -3249,8 +3280,7 @@ else if(currentTab === "reports") renderReports(fy);
 // sync with the current FY — updates on every render, not just Dashboard.
 function updateHeaderStats(fy){
 const list = computeFlatsSummary(fy);
-const paidFlats = list.filter(f=>f.fullyPaid).length;
-const pendingFlats = list.length - paidFlats;
+const pendingFlats = computeDefaultersList().length;
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 const balance = computeClosingBalance(fy);
@@ -3270,13 +3300,12 @@ const bankEl = document.getElementById('headerDashBankBalance');
 if(bankEl){ bankEl.textContent = fmt(bankBalance); bankEl.className = "h-value " + (bankBalance>=0 ? "positive":"negative"); }
 const cashEl = document.getElementById('headerDashCashBalance');
 if(cashEl){ cashEl.textContent = fmt(cashBalance); cashEl.className = "h-value " + (cashBalance>=0 ? "positive":"negative"); }
-document.getElementById('headerHeroSub').textContent = pendingFlats + " flat(s) with dues · FY " + fy;
+document.getElementById('headerHeroSub').textContent = pendingFlats + " flat(s) with dues (all years)";
 }
 
 function renderHome(fy){
 const list = computeFlatsSummary(fy);
-const paidFlats = list.filter(f=>f.fullyPaid).length;
-const pendingFlats = list.length - paidFlats;
+const pendingFlats = computeDefaultersList().length;
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 const balance = computeClosingBalance(fy);
@@ -3433,17 +3462,16 @@ toggleBulkPrintMode();
 }
 
 function flatItemHTML(f){
-const monthsAllPaid = f.paidCnt === 12;
+// Badge reflects Total Outstanding across all years (f.totalOutstanding) —
+// same figure as the Outstanding report — not just the selected FY.
 let badgeHTML;
-if(monthsAllPaid && f.priorDue<=0){
-badgeHTML = '✅ 12/12 Paid';
-} else if(monthsAllPaid && f.priorDue>0){
-badgeHTML = '⏳ Pichhla Baki ₹' + Math.round(f.priorDue).toLocaleString('en-IN');
+if(!f.dueNow){
+badgeHTML = f.paidCnt===12 ? '✅ 12/12 Paid' : '✅ Up to date';
 } else {
-badgeHTML = '⏳ ' + (12-f.paidCnt) + ' Mahina Baki' + (f.priorDue>0 ? ' + Pichhla ₹'+Math.round(f.priorDue).toLocaleString('en-IN') : '');
+badgeHTML = '⏳ Baki ₹' + Math.round(f.totalOutstanding).toLocaleString('en-IN');
 }
 return `
-<div class="flat-item ${!f.fullyPaid ? 'is-pending':''}" onclick="${bulkPrintMode ? "toggleBulkSelect('"+f.n+"')" : "openModal('"+f.n+"')"}">
+<div class="flat-item ${f.dueNow ? 'is-pending':''}" onclick="${bulkPrintMode ? "toggleBulkSelect('"+f.n+"')" : "openModal('"+f.n+"')"}">
 <div class="flat-left">
 ${bulkPrintMode ? `<input type="checkbox" ${bulkSelectedFlats.has(f.n) ? 'checked' : ''} onclick="event.stopPropagation(); toggleBulkSelect('${f.n}')" style="width:18px;height:18px;flex-shrink:0;">` : ''}
 <div class="flat-num">${f.n}</div>
@@ -3452,7 +3480,7 @@ ${bulkPrintMode ? `<input type="checkbox" ${bulkSelectedFlats.has(f.n) ? 'checke
 <div class="flat-mobile">${f.mobile ? "📱 "+f.mobile : "Mobile not added"}</div>
 </div>
 </div>
-<div class="status-badge ${f.fullyPaid ? 'status-paid':'status-pending'}">${badgeHTML}</div>
+<div class="status-badge ${f.dueNow ? 'status-pending':'status-paid'}">${badgeHTML}</div>
 </div>`;
 }
 
@@ -3771,9 +3799,9 @@ const fy = getFY();
 const monthSelect = document.getElementById('ledgerMonthSelect');
 const month = (monthSelect && monthSelect.value) || currentMonthKey(fy);
 const monthRow = computeMonthlyLedgerRows(fy).find(r=>r.month===month);
-const list = computeFlatsSummary(fy);
-const pendingAmount = list.reduce((sum, flat)=> sum + toNum(flat.pendingDue), 0);
-const pendingFlats = list.filter(flat=>flat.pendingDue > 0).length;
+const defaulters = computeDefaultersList();
+const pendingAmount = defaulters.reduce((sum, d)=> sum + toNum(d.dueAmount), 0);
+const pendingFlats = defaulters.length;
 document.getElementById('ledgerMonthLabel').textContent = month;
 document.getElementById('ledgerMonthIncome').textContent = fmt(monthRow ? monthRow.income : 0);
 document.getElementById('ledgerPending').textContent = fmt(pendingAmount);
@@ -3821,29 +3849,60 @@ const amount = payments.reduce((sum, payment)=>sum + payment.amount, 0);
 return {month:m, paidCount, amount};
 });
 }
-function computeDefaultersList(fy){
+// All FY labels the app tracks (same range as the FY dropdown) — used to
+// scan every year's data for cumulative Total Outstanding.
+function getTrackedFYList(){
+const now = new Date();
+let startYear = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear()-1;
+const minYear = 2025;
+const years = [];
+for(let y=minYear; y<=startYear+1; y++){
+years.push(y + "-" + String((y+1)).slice(-2));
+}
+return years;
+}
+// Total Outstanding = every unpaid month across ALL financial years (up to
+// the current real-world month in each year — future months never count)
+// + Pichhla Baki (pre-app backlog). This is a single cumulative figure per
+// flat, not reset by the FY dropdown — so a flat that's fully paid for the
+// selected FY but still owes an earlier year still shows up as outstanding,
+// and a flat paid up through every year to date is correctly NIL and drops
+// off the list entirely.
+function computeDefaultersList(){
 const rate = toNum(settings.defaultAmount) > 0 ? toNum(settings.defaultAmount) : 0;
-return computeFlatsSummary(fy).filter(f=>!f.fullyPaid).map(f=>{
+const fyList = getTrackedFYList();
+return flats.map(f=>{
+const rec = getRecord(f.n);
+const priorDue = toNum(rec.priorDue);
+let dueAmount = priorDue;
+const pendingMonths = [];
+fyList.forEach(fy=>{
+const arrivedMonths = monthsArrivedForFY(fy);
+if(!arrivedMonths.length) return; // future FY — nothing due yet
 const yd = getYearData(f.n, fy);
-const pendingMonths = MONTHS.filter(m=> !yd.months[m] || yd.months[m].status !== "Paid");
-const dueAmount = pendingMonths.reduce((s,m)=>{
+const yearPending = arrivedMonths.filter(m=> !yd.months[m] || yd.months[m].status !== "Paid");
+if(yearPending.length){
+const amt = yearPending.reduce((s,m)=>{
 const existingAmt = toNum((yd.months[m]||{}).amount);
 return s + (existingAmt > 0 ? existingAmt : rate);
-}, 0) + f.priorDue;
-const labelMonths = pendingMonths.length ? pendingMonths : [];
-return {flat:f.n, name:f.name, paidCnt:f.paidCnt, pendingMonths:labelMonths, priorDue:f.priorDue, dueAmount};
+}, 0);
+dueAmount += amt;
+pendingMonths.push(fy + ": " + yearPending.join(", "));
+}
 });
+return {flat:f.n, name:f.name, pendingMonths, priorDue, dueAmount};
+}).filter(d=> d.dueAmount > 0);
 }
 // ---- WhatsApp payment reminder (opens a pre-filled wa.me chat; admin taps Send in WhatsApp) ----
-function sendDueReminderWhatsApp(flatNum, fy){
+function sendDueReminderWhatsApp(flatNum){
 const rec = getRecord(flatNum);
 let mobile = String(rec.mobile || "").replace(/\D/g,"");
 if(mobile.length === 10) mobile = "91" + mobile;
 if(mobile.length < 11){ alert("Aa flat mate mobile number save nathi. Pehla flat kholi ne mobile number save karo."); return; }
 const flat = flats.find(f=>f.n===flatNum);
-const d = computeDefaultersList(fy).find(x=>x.flat===flatNum);
+const d = computeDefaultersList().find(x=>x.flat===flatNum);
 if(!d){ alert("Aa flat na koi dues baki nathi."); return; }
-const monthsStr = d.pendingMonths.length ? d.pendingMonths.join(", ") : "-";
+const monthsStr = d.pendingMonths.length ? d.pendingMonths.join(" | ") : "-";
 const upiLine = (settings.upiId ? ("\n\nUPI ID: " + settings.upiId) : "");
 const message = "🏠 URBAN RECIDENCY 2 BIL Maintenance Reminder\n\nFlat: " + flatNum + " (" + (flat ? flat.name : "-") + ")\nPending Months: " + monthsStr + (d.priorDue>0 ? ("\nPichhla Baki: ₹"+Math.round(d.priorDue).toLocaleString('en-IN')) : "") + "\nTotal Due: ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + upiLine + "\n\nKrupa karine vahelo tako maintenance bhari devo. Dhanyavad.";
 window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
@@ -3852,8 +3911,7 @@ window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), 
 // saved, staggered slightly so the browser doesn't block them as spam popups.
 // Flats with no mobile saved are skipped and reported back to the admin.
 function sendAllDueReminders(){
-const fy = getFY();
-const defaulters = computeDefaultersList(fy);
+const defaulters = computeDefaultersList();
 if(!defaulters.length){ alert("Badha flats fully paid che — koi reminder moklvani jarur nathi 🎉"); return; }
 const withMobile = defaulters.filter(d=>{
 const m = String(getRecord(d.flat).mobile || "").replace(/\D/g,"");
@@ -3866,7 +3924,7 @@ return m.length < 10;
 if(!withMobile.length){ alert("Koi pan defaulter flat mate mobile number save nathi."); return; }
 if(!confirm(withMobile.length + " flats ne WhatsApp reminder mokalvo che? (Har ek mate WhatsApp tab khulshe, tamare Send tap karvanu rahese)")) return;
 withMobile.forEach((d, i)=>{
-setTimeout(()=> sendDueReminderWhatsApp(d.flat, fy), i * 600);
+setTimeout(()=> sendDueReminderWhatsApp(d.flat), i * 600);
 });
 if(withoutMobile.length){
 setTimeout(()=> alert("⚠️ Aa flats mate mobile number nathi, reminder nathi mokli sakay: " + withoutMobile.map(d=>d.flat).join(", ")), withMobile.length * 600 + 300);
@@ -3874,7 +3932,7 @@ setTimeout(()=> alert("⚠️ Aa flats mate mobile number nathi, reminder nathi 
 }
 function renderReports(fy){
 const list = computeFlatsSummary(fy);
-const pendingFlats = list.filter(f=>!f.fullyPaid).length;
+const pendingFlats = computeDefaultersList().length;
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 document.getElementById('reportFYTitle').textContent = "Report — FY " + fy;
@@ -3888,17 +3946,17 @@ const rows = computeMonthWiseCollectionRows(fy).map(r=>
 ).join("");
 document.getElementById('monthTableBody').innerHTML = rows;
 
-const defaulters = computeDefaultersList(fy);
+const defaulters = computeDefaultersList();
 const defBody = document.getElementById('defaulterTableBody');
 defBody.innerHTML = defaulters.length ? defaulters.map(d=>
-`<tr><td>${d.flat}<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">${d.pendingMonths.length ? d.pendingMonths.join(", ") : ''}${d.pendingMonths.length && d.priorDue>0 ? ' + ' : ''}${d.priorDue>0 ? 'Pichhla Baki ₹'+Math.round(d.priorDue).toLocaleString('en-IN') : ''}</div></td><td>${d.name}</td><td class="num" style="color:var(--coral);font-weight:700;">${fmt(d.dueAmount)}</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick='sendDueReminderWhatsApp(${JSON.stringify(d.flat)}, ${JSON.stringify(fy)})'>📲</button></td></tr>`
+`<tr><td>${d.flat}<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">${d.pendingMonths.length ? d.pendingMonths.join(" | ") : ''}${d.pendingMonths.length && d.priorDue>0 ? ' + ' : ''}${d.priorDue>0 ? 'Pichhla Baki ₹'+Math.round(d.priorDue).toLocaleString('en-IN') : ''}</div></td><td>${d.name}</td><td class="num" style="color:var(--coral);font-weight:700;">${fmt(d.dueAmount)}</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick='sendDueReminderWhatsApp(${JSON.stringify(d.flat)})'>📲</button></td></tr>`
 ).join("") : `<tr><td colspan="4" style="text-align:center;color:var(--muted);">🎉 Badha flats fully paid che!</td></tr>`;
 }
 
 function downloadFYReportPDF(){
 const fy = getFY();
 const list = computeFlatsSummary(fy);
-const pendingFlats = list.filter(f=>!f.fullyPaid).length;
+const pendingFlats = computeDefaultersList().length;
 const collection = computeCollectionTotal(fy);
 const expense = computeExpenseTotal(fy);
 const opening = computeOpeningBalance(fy);
@@ -3957,12 +4015,12 @@ y = doc.lastAutoTable.finalY + 10;
 
 if(y > 250){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Maintenance Nathi Barnara — Defaulters List", 14, y);
-const defaulters = computeDefaultersList(fy);
+doc.text("Maintenance Nathi Barnara — Total Outstanding (All Years)", 14, y);
+const defaulters = computeDefaultersList();
 doc.autoTable({
 startY: y+3,
-head: [["Flat","Owner","Pending Months","Amount Due"]],
-body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, (d.pendingMonths.length ? d.pendingMonths.join(", ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-"]],
+head: [["Flat","Owner","Pending (Year: Months)","Amount Due"]],
+body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
@@ -3973,6 +4031,91 @@ doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y);
 
 stampGeneratedOnAllPages(doc);
 doc.save("FY-Report-" + fy + ".pdf");
+}
+
+// ---- Standalone Owner-wise Outstanding / Defaulters Report — a lighter,
+// share-friendly PDF with just the dues list (no full financials), so it
+// can be handed to the committee or shared on WhatsApp without exposing
+// collection/expense figures. ----
+function downloadDefaultersReportPDF(){
+const defaulters = computeDefaultersList();
+const totalDue = defaulters.reduce((s,d)=> s + d.dueAmount, 0);
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(16);
+doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
+doc.setFontSize(10);
+doc.setFont('helvetica','normal');
+doc.text("Tower D - Society Ledger", 14, 22);
+doc.setDrawColor(209,73,91);
+doc.line(14,26,196,26);
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(13);
+doc.text("Total Outstanding Report (Owner-wise, All Years)", 14, 34);
+
+doc.setFont('helvetica','normal'); doc.setFontSize(10);
+doc.text("Total Flats Pending: " + defaulters.length + "   |   Total Outstanding: Rs. " + Math.round(totalDue).toLocaleString('en-IN'), 14, 42);
+
+doc.autoTable({
+startY: 48,
+head: [["Flat","Owner","Pending (Year: Months) / Pichhla Baki","Amount Due"]],
+body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-"]],
+theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5},
+foot: defaulters.length ? [["","","Total", "Rs. "+Math.round(totalDue).toLocaleString('en-IN')]] : [],
+footStyles:{fillColor:[246,241,228], textColor:[21,42,78], fontStyle:'bold'}
+});
+
+let y = doc.lastAutoTable.finalY + 10;
+if(y > 270){ doc.addPage(); y = 20; }
+doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
+doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y);
+
+stampGeneratedOnAllPages(doc);
+doc.save("Total-Outstanding-Report-" + new Date().toISOString().slice(0,10) + ".pdf");
+}
+
+// ---- Simple Owner List — Flat No. / Owner Name / Mobile only, no financial
+// data, for sharing a plain contact/directory list. ----
+function downloadOwnerListPDF(){
+const rows = flats.map(f=>{
+const rec = getRecord(f.n);
+return [f.n, f.name, rec.mobile ? rec.mobile : "-"];
+});
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(16);
+doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
+doc.setFontSize(10);
+doc.setFont('helvetica','normal');
+doc.text("Tower D - Owner List", 14, 22);
+doc.setDrawColor(46,139,87);
+doc.line(14,26,196,26);
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(13);
+doc.text("Owner List — Flat / Name / Mobile", 14, 34);
+
+doc.autoTable({
+startY: 40,
+head: [["Flat","Owner Name","Mobile"]],
+body: rows,
+theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:9, cellPadding:3}
+});
+
+let y = doc.lastAutoTable.finalY + 10;
+if(y > 270){ doc.addPage(); y = 20; }
+doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
+doc.text("Generated on " + new Date().toLocaleDateString('en-IN') + "   |   Total Flats: " + rows.length, 14, y);
+
+stampGeneratedOnAllPages(doc);
+doc.save("Owner-List.pdf");
 }
 
 // ---- Official Audit Ledger (Cash Book) — every single transaction, in date
@@ -4862,7 +5005,10 @@ const priorDue = toNum(rec.priorDue);
 const rate = toNum(settings.defaultAmount) > 0 ? toNum(settings.defaultAmount) : 0;
 const curMonth = currentMonthKey(fy);
 
-const pendingMonths = MONTHS.filter(m=> !yd.months[m] || yd.months[m].status !== "Paid");
+// Only months up to the current real-world month count as "Baki" — a
+// future FY month that hasn't arrived yet is not outstanding.
+const arrivedMonths = monthsArrivedForFY(fy);
+const pendingMonths = arrivedMonths.filter(m=> !yd.months[m] || yd.months[m].status !== "Paid");
 const pendingTotal = pendingMonths.reduce((s,m)=>{
 const existingAmt = toNum((yd.months[m]||{}).amount);
 return s + (existingAmt > 0 ? existingAmt : rate);
@@ -4875,21 +5021,26 @@ const curAmount = curStatus === "Paid"
 
 const priorDueLine = priorDue>0 ? `<br><span style="display:inline-block;margin-top:4px;color:#B3261E;font-weight:700;">⚠️ Pichhla Baki (aa app pehla nu): ₹${priorDue.toLocaleString('en-IN')}</span>` : "";
 
-if(!pendingMonths.length && priorDue<=0){
+const totalOutstandingD = computeDefaultersList().find(x=>x.flat===flatNum);
+const totalOutstandingAmt = totalOutstandingD ? totalOutstandingD.dueAmount : 0;
+const totalOutstandingLine = `<br><strong style="display:inline-block;margin-top:6px;color:var(--navy);">📊 Total Outstanding (Badha Years + Pichhla Baki): ₹${Math.round(totalOutstandingAmt).toLocaleString('en-IN')}</strong>`;
+
+if(!pendingMonths.length && priorDue<=0 && totalOutstandingAmt<=0){
 box.style.background = "#EAF6EE";
 box.style.borderColor = "#B7DFC4";
-box.innerHTML = `<strong>✅ Badha 12 mahina Paid che (FY ${fy})</strong><br>Current month (${curMonth}): Paid`;
+box.innerHTML = `<strong>✅ Aa Mahina Sudhi Na Badha ${arrivedMonths.length} Mahina Paid che (FY ${fy})</strong><br>Current month (${curMonth}): Paid`;
 return;
 }
 
 box.style.background = "#FBEAEA";
 box.style.borderColor = "#E7B8B4";
 box.innerHTML = `
-<strong>⏳ Baki Months (${pendingMonths.length}/12) — FY ${fy}</strong><br>
+<strong>⏳ Baki Months (${pendingMonths.length}/${arrivedMonths.length}) — FY ${fy}</strong><br>
 ${pendingMonths.length ? pendingMonths.join(", ") : '(Aa FY na badha mahina Paid che)'}<br>
 <strong style="display:inline-block;margin-top:6px;">Kul Baki Amount (aa FY + Pichhla Baki): ₹${pendingTotal.toLocaleString('en-IN')}</strong>
 ${priorDueLine}<br>
 <span style="display:inline-block;margin-top:4px;">Current Month (${curMonth}): ${curStatus === "Paid" ? "✅ Paid" : "❌ Baki — ₹" + curAmount.toLocaleString('en-IN')}</span>
+${totalOutstandingLine}
 `;
 }
 function refreshHistoryBox(flatNum){
@@ -5503,53 +5654,4 @@ function changeAdminPassword(){
 }
 function setMasterAdminPassword(){
  const verifier=settings.masterAdminPassword||settings.adminPassword||APP_ACCESS_PASSWORD;
- const label=settings.masterAdminPassword?'Current Master Admin password':'Current Admin password';
- const current=prompt(label+' nakho:'); if(current===null)return;
- if(current!==verifier){alert('❌ Password khoto chhe.');return;}
- const next=prompt('New Master Admin password nakho (minimum 8 characters):'); if(next===null)return;
- if(next.trim().length<8){alert('Master password ochama ochha 8 characters no hovo joie.');return;}
- const confirmNext=prompt('Master Admin password fari nakho:'); if(confirmNext!==next){alert('Password match nathi thato.');return;}
- settings.masterAdminPassword=next; saveSettings(settings); audit('Master Admin password '+(settings.masterAdminPassword?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
-}
-function saveReconciliation(){ const reference=document.getElementById('reconReference').value.trim(),flat=document.getElementById('reconFlat').value.trim(),amount=document.getElementById('reconAmount').value,note=document.getElementById('reconNote').value.trim(); if(!reference||!flat||!amount){alert('Transaction ID, flat ane amount bharo');return;} enhancedData.reconciliations[reference]={reference,flat,amount,note,status:'Matched',at:new Date().toISOString()};audit('Payment reconciled','Flat '+flat+' · '+reference);renderCommunity(); }
-function focusExpenseProof(){ document.querySelector('[data-tab="ledger"]')?.click(); setTimeout(()=>document.getElementById('expenseBillRef')?.focus(),100); }
-function saveReminderSettings(){ enhancedData.reminderSettings={day:Math.max(1,Math.min(28,Number(document.getElementById('reminderDay').value)||5)),enabled:document.getElementById('reminderEnabled').checked};audit('Reminder schedule updated','Day '+enhancedData.reminderSettings.day);renderCommunity(); }
-function runReminderNow(){ enhancedData.reminderLog.unshift(new Date().toISOString()); audit('Reminder list prepared','Manual run'); saveEnhancedData(); sendAllDueReminders(); }
-function createVerifiedBackup(){ exportAllData(); enhancedData.backupLog.unshift(new Date().toISOString()); enhancedData.backupLog=enhancedData.backupLog.slice(0,20); audit('Verified backup created','JSON exported'); renderCommunity(); }
-function downloadAuditLog(){ const b=new Blob([JSON.stringify(enhancedData.audit,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='Urban-Residency-Audit-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(u); }
-function installPaymentAndExpenseFields(){
- const modal=document.querySelector('.modal'); if(modal && !document.getElementById('inputTransactionRef')){ const f=document.createElement('div');f.className='field';f.id='transactionRefField';f.innerHTML='<label>UPI / Bank Transaction ID <span style="font-weight:400">(reconciliation માટે)</span></label><input id="inputTransactionRef" placeholder="e.g. UPI reference / cheque no."><div style="font-size:11px;color:var(--muted);margin-top:4px">Receipt confirm થયા પછી આ reference Community & Controlમાં reconcile કરી શકો.</div>'; const date=document.getElementById('inputDate');date?.parentNode.insertBefore(f,date.nextSibling); }
- const expense=document.getElementById('expenseDate'); if(expense && !document.getElementById('expenseBillRef')){ const f=document.createElement('div');f.className='field';f.innerHTML='<label>📎 Bill ref. / file name / secure link</label><input id="expenseBillRef" placeholder="Invoice no. or Drive/WhatsApp link">';expense.parentNode.insertBefore(f,expense.nextSibling); }
-}
-const originalOpenModal=openModal; openModal=function(flat){ originalOpenModal(flat); installPaymentAndExpenseFields(); const ref=document.getElementById('inputTransactionRef');if(ref)ref.value=''; };
-const originalConfirmEntry=confirmEntry; confirmEntry=function(){ const ref=(document.getElementById('inputTransactionRef')||{}).value||''; const flat=currentFlat; const out=originalConfirmEntry(); if(ref.trim()){ enhancedData.reconciliations['pending_'+enhancementId('pay')]={reference:ref.trim(),flat,amount:(document.getElementById('inputAmount')||{}).value||0,status:'Pending',note:'Entered with payment',at:new Date().toISOString()};audit('Payment reference added','Flat '+flat+' · '+ref.trim()); } else audit('Payment confirmed','Flat '+flat); return out; };
-const originalAddExpense=addExpense; addExpense=function(){ const proof=(document.getElementById('expenseBillRef')||{}).value||''; const fy=getFY(); const before=(getLedgerFY(fy).expenses||[]).length; const out=originalAddExpense(); const list=getLedgerFY(fy).expenses||[]; if(list.length>before){ const e=list[list.length-1]; enhancedData.expenseProofs[e.id]={reference:proof.trim(),savedAt:new Date().toISOString()};audit('Expense added',e.desc+(proof?' · bill: '+proof:'')); saveEnhancedData(); } return out; };
-const originalDeleteEntry=deleteEntry; deleteEntry=function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
-const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
-const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
-setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
-setTimeout(()=>{addCommunityTab();installPaymentAndExpenseFields();},300);
-
-document.getElementById('searchBoxHome').addEventListener('input', render);
-document.getElementById('searchBoxFlats').addEventListener('input', render);
-document.getElementById('fySelect').addEventListener('change', render);
-document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
-
-document.querySelectorAll('.menu button').forEach(btn=>{
-btn.addEventListener('click', ()=>{
-document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-currentTab = btn.dataset.tab;
-render();
-});
-});
-
-buildFYOptions();
-buildLedgerMonthOptions();
-initFirebaseSync(); // connects to Firebase, then calls render() once data arrives (and again on every real-time update)
-</script>
-
-
-
-
-</body></html>
+ const label=settings.masterAdminPassword?'Current Master Admin pass
