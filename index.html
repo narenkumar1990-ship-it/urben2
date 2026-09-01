@@ -605,10 +605,10 @@ font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:#152A4E;wh
 .hp-kpi-danger{background:linear-gradient(160deg,#FFF7F6 0%,#FDECEC 100%);border-color:#D1495B;}
 .hp-kpi-danger .hp-kpi-label{color:#B3261E;}
 #headerStatOutstanding{
-font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:800;color:#D1495B;white-space:nowrap;
+font-family:'Poppins',sans-serif;font-size:clamp(10.5px,3.4vw,12.5px);font-weight:800;color:#D1495B;white-space:nowrap;
 }
-.hp-kpi #headerDashBalance{
-font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:800;white-space:nowrap;
+.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{
+font-family:'Poppins',sans-serif;font-size:clamp(10.5px,3.4vw,13.5px);font-weight:800;white-space:nowrap;
 }
 .hp-kpi-ring{
 width:26px;height:26px;border-radius:50%;
@@ -661,20 +661,39 @@ img,svg{max-width:100%;height:auto;}
 }
 
 /* ---- Access lock screen ---- */
-#lockScreen{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);display:flex;align-items:center;justify-content:center;padding:24px;}
+#lockScreen{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse 120% 90% at 50% -10%, #2A4A82 0%, var(--navy2) 45%, #0B1730 100%);display:flex;align-items:center;justify-content:center;padding:24px;overflow:hidden;}
 #lockScreen.hidden{display:none;}
-.lock-card{background:var(--card);border-radius:18px;padding:32px 26px;max-width:340px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:center;}
-.lock-card .lock-icon{font-size:34px;margin-bottom:10px;}
-.lock-card h2{font-family:'Poppins',sans-serif;font-size:18px;color:var(--navy);margin-bottom:4px;}
-.lock-card p{font-size:12.5px;color:var(--muted);margin-bottom:18px;}
-.lock-card input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;text-align:center;letter-spacing:2px;margin-bottom:12px;}
-.lock-card input:focus{outline:none;border-color:var(--saffron);}
-.lock-card button{width:100%;padding:12px;border:none;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;cursor:pointer;}
-.lock-card button:active{opacity:.85;}
-.lock-card .lock-err{color:var(--coral);font-size:12.5px;margin-top:10px;min-height:16px;}
-.lock-owner-link{margin-top:16px;font-size:12.5px;color:var(--navy2);font-weight:700;cursor:pointer;text-decoration:underline;}
-.lock-back-link{margin-top:14px;font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;}
+#lockScreen::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 15% 20%, rgba(226,160,60,.16) 0%, transparent 40%),radial-gradient(circle at 88% 78%, rgba(226,160,60,.12) 0%, transparent 42%),radial-gradient(circle at 50% 50%, rgba(255,255,255,.03) 0%, transparent 60%);pointer-events:none;}
+#lockScreen::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);background-size:26px 26px;}
+.lock-orb{position:absolute;border-radius:50%;filter:blur(50px);pointer-events:none;opacity:.55;}
+.lock-orb-1{width:260px;height:260px;background:radial-gradient(circle, rgba(226,160,60,.55) 0%, transparent 70%);top:-60px;left:-60px;animation:lockFloat1 14s ease-in-out infinite;}
+.lock-orb-2{width:320px;height:320px;background:radial-gradient(circle, rgba(46,139,87,.35) 0%, transparent 70%);bottom:-100px;right:-80px;animation:lockFloat2 17s ease-in-out infinite;}
+.lock-orb-3{width:200px;height:200px;background:radial-gradient(circle, rgba(255,255,255,.18) 0%, transparent 70%);top:40%;right:8%;animation:lockFloat1 20s ease-in-out infinite reverse;}
+@keyframes lockFloat1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,25px) scale(1.08);}}
+@keyframes lockFloat2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-25px,-20px) scale(1.1);}}
+.lock-skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;opacity:.28;pointer-events:none;}
+.lock-wrap{position:relative;max-width:360px;width:100%;z-index:1;}
+.lock-brand{text-align:center;margin-bottom:20px;}
+.lock-brand-badge{width:56px;height:56px;border-radius:16px;background:linear-gradient(160deg,var(--saffron) 0%,#C97F1F 100%);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px auto;box-shadow:0 8px 24px rgba(226,160,60,.45),0 0 0 6px rgba(226,160,60,.12);}
+.lock-brand-name{font-family:'Poppins',sans-serif;font-size:19px;font-weight:700;color:#fff;letter-spacing:.3px;text-shadow:0 2px 12px rgba(0,0,0,.25);}
+.lock-brand-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;}
+.lock-card{background:var(--card);border-radius:20px;padding:22px 22px 26px 22px;width:100%;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);text-align:center;}
+.lock-tabs{display:flex;background:var(--sand);border-radius:12px;padding:4px;margin-bottom:20px;gap:4px;}
+.lock-tab{flex:1;border:none;background:transparent;padding:10px 8px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s ease;}
+.lock-tab.active{background:var(--navy);color:#fff;box-shadow:0 3px 10px rgba(21,42,78,.3);}
+.lock-desc{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.4;}
+.lock-field{position:relative;margin-bottom:12px;display:flex;align-items:center;}
+.lock-field-icon{position:absolute;left:13px;font-size:15px;pointer-events:none;z-index:1;}
+.lock-field input{width:100%;padding:12px 14px 12px 38px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;text-align:left;letter-spacing:1.5px;background:#fff;}
+.lock-field input:focus{outline:none;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(226,160,60,.15);}
+.lock-eye{position:absolute;right:6px;border:none;background:transparent;font-size:16px;cursor:pointer;padding:6px 8px;opacity:.7;}
+.lock-eye:active{opacity:1;}
+.lock-submit{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;font-weight:700;font-size:14.5px;cursor:pointer;margin-top:6px;letter-spacing:.2px;box-shadow:0 6px 16px rgba(21,42,78,.3);}
+.lock-submit:active{opacity:.88;transform:translateY(1px);}
+.lock-err{color:var(--coral);font-size:12.5px;margin-top:12px;min-height:16px;font-weight:600;}
+.lock-footer{text-align:center;font-size:11px;color:rgba(255,255,255,.6);margin-top:18px;font-weight:600;position:relative;z-index:1;}
 body.locked > *:not(#lockScreen){display:none !important;}
+@media (prefers-reduced-motion: reduce){.lock-orb{animation:none !important;}}
 
 /* ---- Resident (flat owner) view ---- */
 #residentView{position:fixed;inset:0;z-index:9998;background:var(--sand);overflow-y:auto;display:none;}
@@ -702,26 +721,73 @@ body.resident-active > *:not(#residentView){display:none !important;}
 <body>
 
 <div id="lockScreen">
-<div class="lock-card" id="adminLoginBox">
-<div class="lock-icon">🔒</div>
-<h2>URBAN RESIDENCY 2 BIL</h2>
-<p>Society data joi ne edit karva mate password nakho</p>
+<div class="lock-orb lock-orb-1"></div>
+<div class="lock-orb lock-orb-2"></div>
+<div class="lock-orb lock-orb-3"></div>
+<svg class="lock-skyline" viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="40" width="26" height="50" fill="#fff"/>
+<rect x="30" y="55" width="20" height="35" fill="#fff"/>
+<rect x="54" y="30" width="24" height="60" fill="#fff"/>
+<rect x="82" y="48" width="18" height="42" fill="#fff"/>
+<rect x="104" y="20" width="28" height="70" fill="#fff"/>
+<rect x="136" y="42" width="20" height="48" fill="#fff"/>
+<rect x="160" y="58" width="22" height="32" fill="#fff"/>
+<rect x="186" y="15" width="26" height="75" fill="#fff"/>
+<rect x="216" y="45" width="18" height="45" fill="#fff"/>
+<rect x="238" y="28" width="24" height="62" fill="#fff"/>
+<rect x="266" y="50" width="20" height="40" fill="#fff"/>
+<rect x="290" y="35" width="26" height="55" fill="#fff"/>
+<rect x="320" y="55" width="18" height="35" fill="#fff"/>
+<rect x="342" y="22" width="24" height="68" fill="#fff"/>
+<rect x="370" y="46" width="20" height="44" fill="#fff"/>
+<rect x="62" y="38" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="112" y="28" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="194" y="24" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="246" y="36" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"/>
+</svg>
+<div class="lock-wrap">
+<div class="lock-brand">
+<div class="lock-brand-badge">🏢</div>
+<div class="lock-brand-name">URBAN RESIDENCY 2 BIL</div>
+<div class="lock-brand-sub">Tower D · Society Maintenance Ledger</div>
+</div>
+<div class="lock-card">
+<div class="lock-tabs">
+<button type="button" id="tabAdmin" class="lock-tab active" onclick="showAdminLoginBox()">🔒 Admin</button>
+<button type="button" id="tabOwner" class="lock-tab" onclick="showResidentLoginBox()">🏠 Flat Owner</button>
+</div>
+
+<div id="adminLoginBox">
+<p class="lock-desc">Society data joi ne edit karva mate password nakho</p>
+<div class="lock-field">
+<span class="lock-field-icon">🔑</span>
 <input type="password" id="lockPassInput" inputmode="numeric" placeholder="Password" autocomplete="off">
-<button onclick="tryUnlockApp()">Enter</button>
+<button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">👁️</button>
+</div>
+<button type="button" class="lock-submit" onclick="tryUnlockApp()">Enter →</button>
 <div class="lock-err" id="lockErrMsg"></div>
-<div class="lock-owner-link" onclick="showResidentLoginBox()">🏠 Flat Owner? Apna data joyo →</div>
 </div>
-<div class="lock-card" id="residentLoginBox" style="display:none;">
-<div class="lock-icon">🏠</div>
-<h2>Flat Owner Login</h2>
-<p>Potana flat na maintenance details joi shako chho</p>
+
+<div id="residentLoginBox" style="display:none;">
+<p class="lock-desc">Potana flat na maintenance details joi shako chho</p>
+<div class="lock-field">
+<span class="lock-field-icon">🏠</span>
 <input type="text" id="residentFlatInput" inputmode="numeric" placeholder="Flat No. (e.g. 402)" autocomplete="off" style="letter-spacing:normal;">
+</div>
+<div class="lock-field">
+<span class="lock-field-icon">📱</span>
 <input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="Registered Mobile No." autocomplete="off" style="letter-spacing:normal;">
-<button onclick="tryResidentLogin()">View My Details</button>
+</div>
+<button type="button" class="lock-submit" onclick="tryResidentLogin()">View My Details →</button>
 <div class="lock-err" id="residentErrMsg"></div>
-<div class="lock-back-link" onclick="showAdminLoginBox()">← Admin login</div>
 </div>
 </div>
+<div class="lock-footer">🔐 Aapnu data securely Firebase cloud ma save thay che</div>
+</div>
+</div>
+
 
 <div id="residentView">
 <div class="rv-header">
@@ -737,7 +803,7 @@ body.resident-active > *:not(#residentView){display:none !important;}
 <div class="rv-summary">
 <div class="rv-sum-card"><div class="rv-num" id="rvPaidCount">-</div><div class="rv-lbl">Months Paid</div></div>
 <div class="rv-sum-card"><div class="rv-num" id="rvCollected">-</div><div class="rv-lbl">Collected</div></div>
-<div class="rv-sum-card"><div class="rv-num" id="rvPending">-</div><div class="rv-lbl">Pending Dues</div></div>
+<div class="rv-sum-card"><div class="rv-num" id="rvPending">-</div><div class="rv-lbl">Outstanding (Curr. Month)</div></div>
 </div>
 <div class="rv-section" id="rvUpiSection" style="display:none;">
 <h3>💳 Pay via UPI</h3>
@@ -818,6 +884,8 @@ async function tryUnlockApp(){
 function showResidentLoginBox(){
   document.getElementById('adminLoginBox').style.display = "none";
   document.getElementById('residentLoginBox').style.display = "block";
+  document.getElementById('tabAdmin').classList.remove('active');
+  document.getElementById('tabOwner').classList.add('active');
   document.getElementById('residentErrMsg').textContent = "";
   const inp = document.getElementById('residentFlatInput');
   if(inp) inp.focus();
@@ -825,6 +893,16 @@ function showResidentLoginBox(){
 function showAdminLoginBox(){
   document.getElementById('residentLoginBox').style.display = "none";
   document.getElementById('adminLoginBox').style.display = "block";
+  document.getElementById('tabOwner').classList.remove('active');
+  document.getElementById('tabAdmin').classList.add('active');
+  const passInput = document.getElementById('lockPassInput');
+  if(passInput) passInput.focus();
+}
+function togglePassVisibility(){
+  const inp = document.getElementById('lockPassInput');
+  const btn = document.getElementById('lockPassToggle');
+  if(inp.type === "password"){ inp.type = "text"; btn.textContent = "🙈"; }
+  else { inp.type = "password"; btn.textContent = "👁️"; }
 }
 function adminLogout(){
   if(!confirm("Admin panel thi logout thavu che?")) return;
@@ -971,8 +1049,19 @@ FY:
 </div>
 
 <div class="section-title">🏢 Flats</div>
-<div class="section-sub">Flat number · Owner name · Payment status</div>
-<div class="results" id="homeResults">
+<div class="section-sub" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+<span>Flat number · Owner name · Payment status</span>
+<select id="homeSortSelect" onchange="render()" style="padding:5px 8px;border-radius:8px;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--navy);background:#fff;">
+<option value="flatno">Sort: Flat No.</option>
+<option value="name">Sort: Name (A-Z)</option>
+<option value="due_desc">Sort: Due Amount (High-Low)</option>
+<option value="due_asc">Sort: Due Amount (Low-High)</option>
+</select>
+</div>
+<div class="results" id="homeResults"></div>
+
+<script>/* legacy static flat cards below removed — see homeResults render() output */</script>
+<div style="display:none">
 <div class="flat-item is-pending" onclick="openModal(&#39;101&#39;)">
 <div class="flat-left">
 
@@ -1612,6 +1701,16 @@ FY:
 <span>🔍</span>
 <input type="text" id="searchBoxFlats" placeholder="Search flat number or name...">
 </div>
+</div>
+
+<div style="padding:0 15px 4px 15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+<label style="font-size:12px;font-weight:700;color:var(--muted);">Sort:</label>
+<select id="flatsSortSelect" onchange="render()" style="padding:6px 8px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--navy);background:#fff;">
+<option value="flatno">Flat Number</option>
+<option value="name">Owner Name (A-Z)</option>
+<option value="baki_desc">Baki Amount (High → Low)</option>
+<option value="baki_asc">Baki Amount (Low → High)</option>
+</select>
 </div>
 
 <div class="section-title" id="listTitle">All 56 Flats (2026-27)</div>
@@ -2372,6 +2471,7 @@ FY:
 
 <div class="report-card">
 <h3>Month-wise Collection</h3>
+<div id="collectionChartBox" style="margin-bottom:14px;"></div>
 <table class="month-table">
 <thead><tr><th>Month</th><th style="text-align:right">Flats Paid</th><th style="text-align:right">Amount</th></tr></thead>
 <tbody id="monthTableBody"><tr><td>Apr</td><td class="num">1/56</td><td class="num">₹4,000</td></tr><tr><td>May</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jun</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jul</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Aug</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Sep</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Oct</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Nov</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Dec</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jan</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Feb</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Mar</td><td class="num">0/56</td><td class="num">₹0</td></tr></tbody>
@@ -2394,7 +2494,11 @@ FY:
 <div class="overlay" id="overlay">
 <div class="modal">
 <h2 id="modalFlatNum">Flat 207</h2>
-<div class="sub" id="modalOwner">Patel Meena Rameshbhai</div>
+<div class="sub" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+<span id="modalOwner">Patel Meena Rameshbhai</span>
+<button type="button" onclick="editOwnerName(currentFlat)" title="Owner naam sudharo (history save thashe)" style="border:none;background:#EEF3FC;color:#1565C0;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer;">✏️ Edit</button>
+</div>
+<div id="ownerHistoryBox" style="display:none;font-size:11px;color:var(--muted);margin-top:2px;"></div>
 
 <div id="duesSummaryBox" style="margin: 10px 0px 14px; padding: 12px 14px; background: rgb(251, 234, 234); border: 1.5px solid rgb(231, 184, 180); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.7;">
 <strong>⏳ Baki Months (8/12) — FY 2026-27</strong><br>
@@ -2692,11 +2796,28 @@ function renderResidentView(flatNum){
   document.getElementById('rvPending').textContent = fmt(pendingDue);
   renderResidentUpiSection(flatNum, flat, pendingDue);
   const yd = getYearData(flatNum, fy);
+  const arrivedMonths = monthsArrivedForFY(fy);
+  const rate = toNum(settings.defaultAmount) > 0 ? toNum(settings.defaultAmount) : 0;
+  const curMonth = currentMonthKey(getRealCurrentFY());
   document.getElementById('rvMonthGrid').innerHTML = MONTHS.map(m=>{
     const md = yd.months[m];
     const isPaid = md && md.status === "Paid";
+    const hasArrived = arrivedMonths.includes(m);
+    const isCurrent = (fy === getRealCurrentFY() && m === curMonth);
     const cls = isPaid ? "m-paid" : "m-pending";
-    return `<div class="month-pill ${cls}">${m}${isPaid ? "<br><span style='font-size:9.5px'>₹"+toNum(md.amount).toLocaleString('en-IN')+"</span>" : ""}</div>`;
+    let amtLine = "";
+    if(isPaid){
+      amtLine = "<br><span style='font-size:9.5px'>₹"+toNum(md.amount).toLocaleString('en-IN')+"</span>";
+    } else if(hasArrived){
+      // Unpaid AND already due (includes the current month, from day 1 of
+      // that month) — show what's owed, same rate the admin/report side
+      // uses, so the owner isn't left guessing why "Pending Dues" is what
+      // it is.
+      const owed = toNum(md && md.amount) > 0 ? toNum(md.amount) : rate;
+      amtLine = owed > 0 ? "<br><span style='font-size:9.5px;color:#B3261E;font-weight:700;'>₹"+owed.toLocaleString('en-IN')+" Baki</span>" : "";
+    }
+    const currentTag = isCurrent && !isPaid ? "<span style='font-size:8px;display:block;color:#B3791C;font-weight:800;'>● Chalu Mahino</span>" : "";
+    return `<div class="month-pill ${cls}">${currentTag}${m}${amtLine}</div>`;
   }).join("");
   const list = (receiptHistory[flatNum] || []).slice().sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
   const histBox = document.getElementById('rvHistoryList');
@@ -2825,6 +2946,7 @@ let bulkPrintMode = false;
 let bulkSelectedFlats = new Set();
 let openingBalanceOverrides = {};
 let receiptHistory = {};
+let ownerOverrides = {}; // { flatNum: { name, history:[{oldName,newName,changedAt}] } }
 let fbFirstSyncDone = false;
 
 // ---- Visible sync status badge (header) ----
@@ -2858,6 +2980,50 @@ function saveLedger(data){ ledger = data; setSyncStatus('saving'); fbDb.ref(FB_R
 function saveSettings(data){ settings = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/settings").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (settings) failed:", e); setSyncStatus('error'); }); }
 function saveOpeningBalanceOverrides(data){ openingBalanceOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/openingBalanceOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (openingBalanceOverrides) failed:", e); setSyncStatus('error'); }); }
 function saveReceiptHistory(data){ receiptHistory = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/receiptHistory").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (receiptHistory) failed:", e); setSyncStatus('error'); }); }
+function saveOwnerOverrides(data){ ownerOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/ownerOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (ownerOverrides) failed:", e); setSyncStatus('error'); }); }
+// Applies any saved owner-name renames onto the hardcoded `flats` array in
+// memory, so every existing feature (lists, PDFs, receipts, WhatsApp, search)
+// automatically shows the current name with zero other code changes needed.
+function applyOwnerOverrides(){
+Object.keys(ownerOverrides).forEach(flatNum=>{
+const ov = ownerOverrides[flatNum];
+const f = flats.find(x=>x.n===flatNum);
+if(f && ov && ov.name) f.name = ov.name;
+});
+}
+// ---- Owner name edit + change history (flat sale/transfer tracking) ----
+// Keeps a small log of every previous owner name for a flat, so selling or
+// transferring a unit doesn't silently erase who lived there before.
+function editOwnerName(flatNum){
+const flat = flats.find(f=>f.n===flatNum);
+if(!flat) return;
+const newName = prompt("Flat " + flatNum + " — Navu Owner naam lakho:", flat.name);
+if(newName === null) return;
+const trimmed = newName.trim();
+if(!trimmed){ alert("Naam khali na hoi sake."); return; }
+if(trimmed === flat.name){ return; }
+const ov = ownerOverrides[flatNum] || { name: flat.name, history: [] };
+ov.history = ov.history || [];
+ov.history.unshift({ oldName: flat.name, newName: trimmed, changedAt: new Date().toISOString() });
+ov.name = trimmed;
+ownerOverrides[flatNum] = ov;
+saveOwnerOverrides(ownerOverrides);
+applyOwnerOverrides();
+audit('Owner naam badlyu — Flat ' + flatNum, flat.name + ' → ' + trimmed);
+document.getElementById('modalOwner').textContent = trimmed;
+renderOwnerHistoryBox(flatNum);
+render();
+}
+function renderOwnerHistoryBox(flatNum){
+const box = document.getElementById('ownerHistoryBox');
+if(!box) return;
+const ov = ownerOverrides[flatNum];
+if(!ov || !ov.history || !ov.history.length){ box.style.display = "none"; box.innerHTML = ""; return; }
+box.style.display = "block";
+box.innerHTML = "📜 Aa flat na juna owners: " + ov.history.map(h=>
+  esc(h.oldName) + " (" + new Date(h.changedAt).toLocaleDateString('en-IN') + " sudhi)"
+).join(" · ");
+}
 
 // One-time migration: if this browser has old localStorage data AND
 // Firebase is still empty, push the local data up to Firebase once so
@@ -2899,6 +3065,8 @@ function initFirebaseSync(){
     renderUpiId();
     openingBalanceOverrides = data.openingBalanceOverrides || {};
     receiptHistory = data.receiptHistory || {};
+    ownerOverrides = data.ownerOverrides || {};
+    applyOwnerOverrides();
     // Self-heal: if a previous session got locked with no real default amount
     // (the bug that caused Paid entries to silently save at ₹0), unlock it now.
     if(settings.locked && toNum(settings.defaultAmount) <= 0){
@@ -3017,23 +3185,27 @@ return startYear + "-" + String(startYear+1).slice(-2);
 function computeResidentPendingDue(flatNum){
 const rec = getRecord(flatNum);
 const realFY = getRealCurrentFY();
+const rate = toNum(settings.defaultAmount) > 0 ? toNum(settings.defaultAmount) : 0;
 const curMonthIdx = MONTHS.indexOf(currentMonthKey(realFY));
 let total = toNum(rec.priorDue);
-Object.keys(rec.years || {}).forEach(fy=>{
-const yd = rec.years[fy];
-if(!yd || !yd.months) return;
-if(fy < realFY){
-MONTHS.forEach(m=>{
+// Scan every FY the flat has ever had (not just realFY) up through the
+// current FY, since older years can carry forward unpaid months too.
+const fyList = getTrackedFYList().filter(fy=> fy <= realFY);
+fyList.forEach(fy=>{
+const yd = getYearData(flatNum, fy);
+const arrivedMonths = fy < realFY ? MONTHS.slice() : MONTHS.slice(0, curMonthIdx + 1);
+arrivedMonths.forEach(m=>{
 const md = yd.months[m];
-if(md && md.status !== "Paid") total += toNum(md.amount);
-});
-} else if(fy === realFY){
-MONTHS.forEach((m, idx)=>{
-if(idx > curMonthIdx) return;
-const md = yd.months[m];
-if(md && md.status !== "Paid") total += toNum(md.amount);
-});
+// A month with NO record at all (never opened/touched) still counts as
+// pending at the default rate — same rule used everywhere else in the
+// app (Total Outstanding report, defaulters list). Previously a missing
+// month was skipped entirely here, which under-counted what a resident
+// saw as due, especially for the current month before it was ever opened.
+if(!md || md.status !== "Paid"){
+const existingAmt = toNum((md||{}).amount);
+total += existingAmt > 0 ? existingAmt : rate;
 }
+});
 });
 return total;
 }
@@ -3406,7 +3578,18 @@ document.getElementById('heroSub').textContent = pendingFlats + " flat(s) with d
 
 const q = document.getElementById('searchBoxHome').value.trim().toLowerCase();
 const homeResults = document.getElementById('homeResults');
-const filtered = q ? list.filter(f => f.n.includes(q) || f.name.toLowerCase().includes(q)) : list;
+let filtered = q ? list.filter(f => f.n.includes(q) || f.name.toLowerCase().includes(q)) : list.slice();
+const sortSel = document.getElementById('homeSortSelect');
+const sortBy = sortSel ? sortSel.value : 'flatno';
+if(sortBy === 'name'){
+filtered.sort((a,b)=> a.name.localeCompare(b.name));
+} else if(sortBy === 'due_desc'){
+filtered.sort((a,b)=> b.totalOutstanding - a.totalOutstanding);
+} else if(sortBy === 'due_asc'){
+filtered.sort((a,b)=> a.totalOutstanding - b.totalOutstanding);
+} else {
+filtered.sort((a,b)=> a.n.localeCompare(b.n, undefined, {numeric:true}));
+}
 homeResults.innerHTML = filtered.length ? filtered.map(flatItemHTML).join("") : `<div class="no-results">No flat found for "${q}"</div>`;
 }
 
@@ -3460,8 +3643,16 @@ const list = computeFlatsSummary(fy);
 const q = document.getElementById('searchBoxFlats').value.trim().toLowerCase();
 document.getElementById('listTitle').textContent = "All " + list.length + " Flats (" + fy + ")";
 const filtered = q ? list.filter(f => f.n.includes(q) || f.name.toLowerCase().includes(q)) : list;
+const sortSel = document.getElementById('flatsSortSelect');
+const sortBy = sortSel ? sortSel.value : "flatno";
+const sorted = filtered.slice().sort((a,b)=>{
+if(sortBy === "name") return a.name.localeCompare(b.name);
+if(sortBy === "baki_desc") return b.totalOutstanding - a.totalOutstanding;
+if(sortBy === "baki_asc") return a.totalOutstanding - b.totalOutstanding;
+return a.n.localeCompare(b.n, undefined, {numeric:true}); // flatno (default)
+});
 const results = document.getElementById('results');
-results.innerHTML = filtered.length ? filtered.map(flatItemHTML).join("") : `<div class="no-results">No flat found for "${q}"</div>`;
+results.innerHTML = sorted.length ? sorted.map(flatItemHTML).join("") : `<div class="no-results">No flat found for "${q}"</div>`;
 
 const bar = document.getElementById('bulkPrintBar');
 const toggleBtn = document.getElementById('bulkPrintToggleBtn');
@@ -3922,6 +4113,32 @@ const amount = payments.reduce((sum, payment)=>sum + payment.amount, 0);
 return {month:m, paidCount, amount};
 });
 }
+// ---- Simple dependency-free SVG bar chart: month-wise collection trend ----
+// Renders straight into #collectionChartBox on the Reports screen. Uses
+// plain SVG (no chart library) so it stays lightweight and works offline.
+function renderCollectionChart(fy){
+const box = document.getElementById('collectionChartBox');
+if(!box) return;
+const rows = computeMonthWiseCollectionRows(fy);
+const maxAmt = Math.max(1, ...rows.map(r=>r.amount));
+const W = 700, H = 170, padL = 4, padR = 4, padTop = 10, padBottom = 24;
+const chartW = W - padL - padR;
+const chartH = H - padTop - padBottom;
+const barGap = 6;
+const barW = (chartW / rows.length) - barGap;
+const bars = rows.map((r,i)=>{
+const barH = maxAmt > 0 ? (r.amount / maxAmt) * chartH : 0;
+const x = padL + i * (barW + barGap);
+const y = padTop + (chartH - barH);
+const isMax = r.amount === maxAmt && r.amount > 0;
+return `<g>
+<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" rx="3" fill="${isMax ? '#2E8B57' : '#E2A03C'}" opacity="${r.amount>0?1:0.25}"></rect>
+<text x="${(x+barW/2).toFixed(1)}" y="${H - 8}" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">${r.month}</text>
+${r.amount>0 ? `<text x="${(x+barW/2).toFixed(1)}" y="${(y-3).toFixed(1)}" font-size="8" text-anchor="middle" fill="#152A4E" font-family="Inter,sans-serif" font-weight="700">${r.amount>=1000 ? Math.round(r.amount/1000)+'k' : r.amount}</text>` : ''}
+</g>`;
+}).join("");
+box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
+}
 // All FY labels the app tracks (same range as the FY dropdown) — used to
 // scan every year's data for cumulative Total Outstanding.
 function getTrackedFYList(){
@@ -3995,7 +4212,18 @@ const m = String(getRecord(d.flat).mobile || "").replace(/\D/g,"");
 return m.length < 10;
 });
 if(!withMobile.length){ alert("Koi pan defaulter flat mate mobile number save nathi."); return; }
-if(!confirm(withMobile.length + " flats ne WhatsApp reminder mokalvo che? (Har ek mate WhatsApp tab khulshe, tamare Send tap karvanu rahese)")) return;
+// ---- Preview before sending: shows exactly who WILL and who will NOT get a
+// reminder (and why), so the admin isn't surprised after tabs start opening.
+const totalDue = withMobile.reduce((s,d)=> s + d.dueAmount, 0);
+let preview = "📋 REMINDER PREVIEW\n\n";
+preview += "✅ WhatsApp reminder MOKLAASHE (" + withMobile.length + " flats, kul ₹" + Math.round(totalDue).toLocaleString('en-IN') + "):\n";
+preview += withMobile.map(d=> "  • " + d.flat + " — " + d.name + " — ₹" + Math.round(d.dueAmount).toLocaleString('en-IN')).join("\n");
+if(withoutMobile.length){
+preview += "\n\n❌ MOBILE NUMBER NATHI, reminder NAI JAY (" + withoutMobile.length + " flats):\n";
+preview += withoutMobile.map(d=> "  • " + d.flat + " — " + d.name).join("\n");
+}
+preview += "\n\nAagad vadhi ne badha " + withMobile.length + " WhatsApp tab kholvi che? (Har ek mate tamare Send tap karvanu rahese)";
+if(!confirm(preview)) return;
 withMobile.forEach((d, i)=>{
 setTimeout(()=> sendDueReminderWhatsApp(d.flat), i * 600);
 });
@@ -4018,6 +4246,7 @@ const rows = computeMonthWiseCollectionRows(fy).map(r=>
 `<tr><td>${r.month}</td><td class="num">${r.paidCount}/${flats.length}</td><td class="num">${fmt(r.amount)}</td></tr>`
 ).join("");
 document.getElementById('monthTableBody').innerHTML = rows;
+renderCollectionChart(fy);
 
 const defaulters = computeDefaultersList();
 const defBody = document.getElementById('defaulterTableBody');
@@ -4135,10 +4364,10 @@ doc.text("Total Flats Pending: " + defaulters.length + "   |   Total Outstanding
 
 doc.autoTable({
 startY: 48,
-head: [["Flat","Owner","Pending (Year: Months) / Pichhla Baki","Amount Due"]],
-body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-"]],
+head: [["Flat","Owner","Mobile","Pending (Year: Months) / Pichhla Baki","Amount Due"]],
+body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, getRecord(d.flat).mobile || "-", (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5},
-foot: defaulters.length ? [["","","Total", "Rs. "+Math.round(totalDue).toLocaleString('en-IN')]] : [],
+foot: defaulters.length ? [["","","","Total", "Rs. "+Math.round(totalDue).toLocaleString('en-IN')]] : [],
 footStyles:{fillColor:[246,241,228], textColor:[21,42,78], fontStyle:'bold'}
 });
 
@@ -5064,6 +5293,7 @@ document.getElementById('inputMonth').value = currentMonth;
 refreshHistoryBox(flatNum);
 renderReceiptHistoryBox(flatNum);
 renderDuesSummary(flatNum);
+renderOwnerHistoryBox(flatNum);
 
 document.getElementById('overlay').classList.add('active');
 }
@@ -5671,9 +5901,11 @@ function audit(action, detail){
   enhancedData.audit=enhancedData.audit.slice(0,500);
   saveEnhancedData();
 }
+let enhancementsFirstLoad = true;
 fbDb.ref(FB_ROOT + '/enhancements').on('value', snap=>{
   enhancedData=Object.assign({notices:[],complaints:[],audit:[],expenseProofs:{},reconciliations:{},reminderSettings:{day:5,enabled:false},reminderLog:[],backupLog:[]},snap.val()||{});
   if(document.getElementById('screen-community') && document.getElementById('screen-community').style.display!=='none') renderCommunity();
+  if(enhancementsFirstLoad){ enhancementsFirstLoad = false; checkBackupReminder(); }
 });
 function addExtensionStyles(){
  const s=document.createElement('style'); s.textContent=`
@@ -5754,6 +5986,24 @@ const originalDeleteEntry=deleteEntry; deleteEntry=function(type,id){ const fy=g
 const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
 const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
 setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
+// ---- Auto-backup reminder: nudges the admin once per day if the last
+// verified backup (Export Data / Community & Control backup button) is
+// more than 30 days old, or if no backup has ever been taken. Uses
+// sessionStorage so it only pops up once per browser session, not on
+// every single render.
+function checkBackupReminder(){
+const lastBackup = (enhancedData.backupLog && enhancedData.backupLog[0]) ? new Date(enhancedData.backupLog[0]) : null;
+const daysSince = lastBackup ? Math.floor((Date.now() - lastBackup.getTime()) / 86400000) : Infinity;
+if(daysSince < 30) return;
+const todayKey = 'urbanBackupReminder_' + new Date().toISOString().slice(0,10);
+if(sessionStorage.getItem(todayKey)) return;
+sessionStorage.setItem(todayKey, '1');
+const msg = lastBackup
+  ? ("💾 Chhelli backup " + daysSince + " divas pehla lidhi hati. Community & Control ma jaine navi backup (Export Data) lai lo.")
+  : "💾 Hajj sudhi ek pan backup lidhi nathi. Community & Control ma jaine navi backup (Export Data) lai lo.";
+setTimeout(()=> alert(msg), 1200);
+}
+setTimeout(checkBackupReminder, 2500); // fallback in case the listener above already fired before this ran
 setTimeout(()=>{addCommunityTab();installPaymentAndExpenseFields();},300);
 
 document.getElementById('searchBoxHome').addEventListener('input', render);
