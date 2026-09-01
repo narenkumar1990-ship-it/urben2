@@ -842,6 +842,23 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 .report-actions button{width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;line-height:1.25;}
 @media (max-width:900px){.report-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}.report-actions button{min-height:52px;font-size:12px!important;}}
 @media (max-width:430px){.report-actions{grid-template-columns:1fr;}}
+
+/* ---- Fix: header's 4 KPI boxes (Collected/Bank/Cash/Outstanding) were
+   getting silently clipped/invisible on some screen widths (roughly
+   700-900px, e.g. tablets or a resized browser window). Cause: the header
+   was a CSS grid with a FIXED minimum column width (315px), while the 4
+   KPI boxes inside that column needed a fixed minimum of 96px each (420px+
+   total) — more than the column had. Since the header also has
+   overflow:hidden (to clip its decorative background circle), whatever
+   didn't fit was cut off and made invisible instead of wrapping. Making
+   every track/box minimum "shrinkable" (minmax(0,...) instead of a fixed
+   px) means nothing is ever forced wider than its real space, so this can
+   no longer happen at any screen width. */
+.header-pro{grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr)!important;}
+.hp-left{min-width:0!important;}
+.hp-right{min-width:0!important;}
+.hp-kpi-row{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+.hp-kpi{min-width:0!important;}
 </style>
 </head>
 
@@ -946,6 +963,9 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </div>
 <div class="rv-section">
 <h3>📜 Payment History</h3>
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px;" id="rvDownloadAllWrap">
+<button type="button" class="btn" style="background:var(--saffron);color:#fff;padding:7px 12px;font-size:11.5px;flex:none;" onclick="downloadAllReceiptsPDF(residentFlat)">📦 Badhi Receipts Download (PDF)</button>
+</div>
 <div id="rvHistoryList" style="font-size:12px;color:var(--muted);">-</div>
 </div>
 <div class="rv-section">
@@ -2950,6 +2970,8 @@ function renderResidentView(flatNum){
   }).join("");
   const list = (receiptHistory[flatNum] || []).slice().sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
   const histBox = document.getElementById('rvHistoryList');
+  const downloadAllWrap = document.getElementById('rvDownloadAllWrap');
+  if(downloadAllWrap) downloadAllWrap.style.display = list.length ? "flex" : "none";
   if(!list.length){
     histBox.innerHTML = "Haju koi confirmed payment history nathi.";
   } else {
@@ -2999,6 +3021,28 @@ rec.mobile = val;
 saveStore(store);
 alert("✅ Mobile number update thai gayo");
 renderResidentView(residentFlat);
+}
+
+// ---- Download ALL of a flat's confirmed receipts as one combined PDF ----
+// Reuses the exact same drawFullReceipt() layout as a single receipt
+// download, one receipt per page, so every page still looks/prints
+// identically to an individually-downloaded receipt.
+function downloadAllReceiptsPDF(flatNum){
+  const list = (receiptHistory[flatNum] || []).slice().sort((a,b)=> a.createdAt.localeCompare(b.createdAt));
+  if(!list.length){ alert("Aa flat mate haju koi confirmed payment history nathi."); return; }
+  const flat = flats.find(f=>f.n===flatNum);
+  const rec = getRecord(flatNum);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  list.forEach((entry, idx)=>{
+    if(idx > 0) doc.addPage();
+    const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
+    const isMulti = entry.months.length > 1;
+    const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + entry.fy.replace("-","") + "-" + (entry.paidDate || "-");
+    drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti);
+  });
+  stampGeneratedOnAllPages(doc);
+  doc.save("Flat-" + flatNum + "-All-Receipts.pdf");
 }
 
 // =====================================================================
@@ -3303,7 +3347,7 @@ function initFirebaseSync(){
 // status/amount/date/mode) and the credits/expenses ledger, so the app can be
 // tested from a clean slate.
 function resetAllPaidAndExpenses(){
-if(!settings || !settings.masterAdminPassword){ alert("Pehla Community & Control ma Master Admin password setup karo."); return; }
+if(!settings || !settings.masterAdminPassword){ alert("Pehla Settings ma Master Admin password setup karo."); return; }
 resetAllPaidAndExpensesAsync();
 }
 async function resetAllPaidAndExpensesAsync(){
@@ -3600,7 +3644,7 @@ render();
 // password — Opening Balance is a sensitive one-time-setup figure and
 // should not be editable with just the regular Admin password.
 function editOpeningBalanceSplit(){
-if(!settings || !settings.masterAdminPassword){ alert("Opening Balance sudharva mate pehla Community & Control ma Master Admin password setup karo."); return; }
+if(!settings || !settings.masterAdminPassword){ alert("Opening Balance sudharva mate pehla Settings ma Master Admin password setup karo."); return; }
 editOpeningBalanceSplitAsync();
 }
 async function editOpeningBalanceSplitAsync(){
@@ -4051,6 +4095,35 @@ rows.push({month:"Other (no date)", income:creditNoDate, expense:expenseNoDate, 
 }
 return rows;
 }
+// Same month-wise running balance as computeMonthlyLedgerRows, but split
+// into Bank vs Cash (using each entry's payment mode), so PDFs/screens can
+// show "Bank Balance" and "Cash Balance" as of the end of any given month —
+// not just the overall combined balance.
+function computeMonthlyLedgerRowsByMode(fy){
+const l = getLedgerFY(fy);
+const maintByMonth = {}, creditByMonth = {}, expenseByMonth = {};
+MONTHS.forEach(m=>{ maintByMonth[m]={Bank:0,Cash:0}; creditByMonth[m]={Bank:0,Cash:0}; expenseByMonth[m]={Bank:0,Cash:0}; });
+maintenancePaymentsForFY(fy).forEach(p=>{
+const m = dateToFYMonth(p.date) || p.dueMonth;
+if(!maintByMonth[m]) return;
+maintByMonth[m][modeGroupOf(p.mode)] += toNum(p.amount);
+});
+l.credits.forEach(c=>{
+const m = dateToFYMonth(c.date);
+if(m && creditByMonth[m]) creditByMonth[m][modeGroupOf(c.mode)] += toNum(c.amount);
+});
+l.expenses.forEach(e=>{
+const m = dateToFYMonth(e.date);
+if(m && expenseByMonth[m]) expenseByMonth[m][modeGroupOf(e.mode)] += toNum(e.amount);
+});
+const opening = getOpeningBalanceSplit(fy);
+let runningBank = opening.bank, runningCash = opening.cash;
+return MONTHS.map(m=>{
+runningBank += (maintByMonth[m].Bank + creditByMonth[m].Bank) - expenseByMonth[m].Bank;
+runningCash += (maintByMonth[m].Cash + creditByMonth[m].Cash) - expenseByMonth[m].Cash;
+return {month:m, bankBalance:runningBank, cashBalance:runningCash};
+});
+}
 function renderMonthlyLedger(fy){
 const rows = computeMonthlyLedgerRows(fy);
 const l = getLedgerFY(fy);
@@ -4102,6 +4175,15 @@ const rows = computeMonthlyLedgerRows(fy);
 const idx = MONTHS.indexOf(month);
 const row = rows[idx];
 const openingForMonth = idx===0 ? computeOpeningBalance(fy) : rows[idx-1].balance;
+
+// Bank / Cash split (opening = before this month, closing = after this month)
+const modeRows = computeMonthlyLedgerRowsByMode(fy);
+const modeRow = modeRows[idx];
+const openingSplitFY = getOpeningBalanceSplit(fy);
+const openingBankForMonth = idx===0 ? openingSplitFY.bank : modeRows[idx-1].bankBalance;
+const openingCashForMonth = idx===0 ? openingSplitFY.cash : modeRows[idx-1].cashBalance;
+const closingBankForMonth = modeRow.bankBalance;
+const closingCashForMonth = modeRow.cashBalance;
 
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
@@ -4215,15 +4297,28 @@ theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:
 });
 y = doc.lastAutoTable.finalY + 10;
 
-ensureLedgerSpace(42);
+ensureLedgerSpace(64);
 doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Opening Balance (before this month): " + fmt(openingForMonth).replace('₹','Rs. '), 14, y);
 doc.text("Total Avak (this month): " + fmt(row.income).replace('₹','Rs. '), 14, y+7);
 doc.text("Total Javak (this month): " + fmt(row.expense).replace('₹','Rs. '), 14, y+14);
 doc.text("Closing Balance (after this month): " + fmt(row.balance).replace('₹','Rs. '), 14, y+21);
 
+doc.setDrawColor(231,223,204);
+doc.line(14, y+27, 196, y+27);
+
+doc.setFontSize(10.5);
+doc.setTextColor(31,62,112);
+doc.text("Bank Balance (closing): " + fmt(closingBankForMonth).replace('₹','Rs. '), 14, y+35);
+doc.setTextColor(46,139,87);
+doc.text("Cash Balance (closing): " + fmt(closingCashForMonth).replace('₹','Rs. '), 14, y+43);
+doc.setTextColor(0,0,0);
+doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(120,116,102);
+doc.text("Opening this month - Bank: Rs. " + openingBankForMonth.toLocaleString('en-IN') + "   |   Cash: Rs. " + openingCashForMonth.toLocaleString('en-IN'), 14, y+50);
+doc.setTextColor(0,0,0);
+
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y+31);
+doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y+60);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Ledger-" + month + "-" + fy + ".pdf");
@@ -4793,7 +4888,7 @@ const entry = l[type].find(e=>e.id===id);
 // Existing entries added before this feature are locked too.
 if(entry){
 if(!settings.masterAdminPassword){
-alert("🔐 Expense delete karva pehla Community & Control ma Master Admin password set karo.");
+alert("🔐 Expense delete karva pehla Settings ma Master Admin password set karo.");
 return;
 }
 const pass = prompt("🔐 Aa expense locked che. Delete/sudharva mate MASTER ADMIN password nakho:");
@@ -6128,7 +6223,7 @@ function addExtensionStyles(){
 function addCommunityTab(){
  addExtensionStyles();
  const menu=document.querySelector('.menu');
- if(menu && !document.getElementById('communityTab')){ const b=document.createElement('button'); b.id='communityTab'; b.innerHTML='🏘️ Community & Control'; menu.appendChild(b); b.addEventListener('click',showCommunity); }
+ if(menu && !document.getElementById('communityTab')){ const b=document.createElement('button'); b.id='communityTab'; b.innerHTML='⚙️ Settings'; menu.appendChild(b); b.addEventListener('click',showCommunity); }
  const wrap=document.querySelector('.page-wrap');
  if(wrap && !document.getElementById('screen-community')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-community'; d.style.display='none'; wrap.appendChild(d); }
  const reset=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Reset All Paid'));
@@ -6141,27 +6236,10 @@ function showCommunity(){
 }
 function renderCommunity(){
  const el=document.getElementById('screen-community'); if(!el) return;
- const open=enhancedData.complaints.filter(x=>x.status!=='Closed').length;
- const unreconciled=Object.values(enhancedData.reconciliations).filter(x=>x.status!=='Matched').length;
- const noticeHtml=enhancedData.notices.slice(0,6).map(n=>`<div class="c-item"><b>${esc(n.title)}</b><br>${esc(n.body)}<br><span class="mini">${esc(n.date)} · ${esc(n.author||'Admin')}</span></div>`).join('')||'<div class="mini">હજુ કોઈ notice નથી.</div>';
- const complaintHtml=enhancedData.complaints.slice(0,8).map(c=>`<div class="c-item"><b>Flat ${esc(c.flat)} — ${esc(c.subject)}</b> <span class="tag ${c.status==='Closed'?'closed':'open'}">${esc(c.status)}</span><br>${esc(c.body)}<br><span class="mini">${esc(c.createdAt.slice(0,10))}</span> ${c.status!=='Closed'?`<button class="c-btn green" onclick="closeComplaint('${c.id}')">Close</button>`:''}</div>`).join('')||'<div class="mini">કોઈ open ફરિયાદ નથી.</div>';
- const auditHtml=enhancedData.audit.slice(0,8).map(a=>`<div class="c-item"><b>${esc(a.action)}</b> — ${esc(a.detail)}<br><span class="mini">${new Date(a.at).toLocaleString('en-IN')}</span></div>`).join('')||'<div class="mini">હજુ activity નથી.</div>';
- const reconHtml=Object.entries(enhancedData.reconciliations).slice(-8).reverse().map(([k,r])=>`<div class="c-item"><b>${esc(r.reference||'No reference')}</b> · Flat ${esc(r.flat||'-')} · ₹${esc(r.amount||0)} <span class="tag ${r.status==='Matched'?'closed':'open'}">${esc(r.status||'Pending')}</span><br><span class="mini">${esc(r.note||'')}</span></div>`).join('')||'<div class="mini">કોઈ transaction reference નથી.</div>';
- el.innerHTML=`<div class="community"><h2>🏘️ Community & Control Centre</h2><div class="community-grid">
- <section class="c-card"><h3>Dashboard alerts</h3><div class="metric">${open}</div><div class="mini">Open complaints</div><div class="metric" style="margin-top:8px">${unreconciled}</div><div class="mini">Pending payment reconciliation</div><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><div class="security-note"><b>Security:</b> Admin passwords are now saved as an encrypted hash (not plain text), and Opening Balance is locked behind the Master Admin password. Anonymous Firebase sign-in is already wired up in this app — ask Claude/your developer to also enable "Anonymous" auth + tighten Database Rules in the Firebase Console (steps are commented in the file) so the cloud data itself is fully locked to this app.</div></section>
- <section class="c-card"><h3>📢 Notice board</h3><input id="noticeTitle" placeholder="Notice title"><textarea id="noticeBody" placeholder="સભ્યો માટે સંદેશ"></textarea><button class="c-btn" onclick="postNotice()">Publish notice</button>${noticeHtml}</section>
- <section class="c-card"><h3>🛠️ Complaint register</h3><input id="complaintFlat" placeholder="Flat no."><input id="complaintSubject" placeholder="ફરિયાદ વિષય"><textarea id="complaintBody" placeholder="વિગત લખો"></textarea><button class="c-btn" onclick="addComplaint()">Register complaint</button>${complaintHtml}</section>
- <section class="c-card"><h3>🏦 Payment reconciliation</h3><input id="reconReference" placeholder="UPI / Bank transaction ID"><input id="reconFlat" placeholder="Flat no."><input id="reconAmount" type="number" placeholder="Amount"><textarea id="reconNote" placeholder="Bank statement / note"></textarea><button class="c-btn green" onclick="saveReconciliation()">Mark matched</button>${reconHtml}</section>
- <section class="c-card"><h3>📎 Expense bill proof</h3><p class="mini">Expense ઉમેરતી વખતે Ledgerમાં દેખાતા “Bill ref.” fieldમાં invoice નંબર, Drive/WhatsApp link અથવા file name લખો. તે expense સાથે audit recordમાં સચવાય છે.</p><button class="c-btn gold" onclick="focusExpenseProof()">Go to expense entry</button><div class="mini">ફોટા Firebase Storageમાં upload કરવા માટે Storage rules/plan setup જોઈએ; link/reference option હાલ કામ કરે છે.</div></section>
- <section class="c-card"><h3>🔔 Reminder schedule</h3><label class="mini">દર મહિને કઈ તારીખે reminder list તૈયાર કરવી</label><input id="reminderDay" type="number" min="1" max="28" value="${esc(enhancedData.reminderSettings.day||5)}"><label class="mini"><input id="reminderEnabled" type="checkbox" ${enhancedData.reminderSettings.enabled?'checked':''}> Schedule enabled (app ખુલ્લી હોય ત્યારે alert)</label><br><button class="c-btn" onclick="saveReminderSettings()">Save schedule</button><button class="c-btn green" onclick="runReminderNow()">Prepare reminders now</button><div class="mini">WhatsApp મોકલતા પહેલાં દરેક chatમાં Send adminએ જ કરવું પડે છે.</div></section>
- <section class="c-card"><h3>💾 Backup & restore safety</h3><button class="c-btn green" onclick="createVerifiedBackup()">Create verified backup</button><button class="c-btn" onclick="downloadAuditLog()">Download audit log</button><div class="mini">Backup JSON export થાય છે; import પહેલાં preview/validation કરવાની સલાહ છે. છેલ્લું backup: ${enhancedData.backupLog[0]?esc(new Date(enhancedData.backupLog[0]).toLocaleString('en-IN')):'હજુ નહીં'}</div></section>
+ el.innerHTML=`<div class="community"><h2>⚙️ Settings</h2><div class="community-grid">
  <section class="c-card"><h3>🔐 Admin password controls</h3><p class="mini">Admin password app ખોલવા માટે છે. Master Admin password માત્ર સંપૂર્ણ Reset માટે છે.</p><button class="c-btn" onclick="changeAdminPassword()">Change Admin password</button><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
- <section class="c-card"><h3>🧾 Audit trail</h3>${auditHtml}</section>
  </div></div>`;
 }
-function postNotice(){ const title=document.getElementById('noticeTitle').value.trim(),body=document.getElementById('noticeBody').value.trim(); if(!title||!body){alert('Title ane message bharo');return;} enhancedData.notices.unshift({id:enhancementId('notice'),title,body,date:new Date().toLocaleDateString('en-IN'),author:'Admin'}); audit('Notice published',title); renderCommunity(); }
-function addComplaint(){ const flat=document.getElementById('complaintFlat').value.trim(),subject=document.getElementById('complaintSubject').value.trim(),body=document.getElementById('complaintBody').value.trim(); if(!flat||!subject||!body){alert('Flat, subject ane detail bharo');return;} enhancedData.complaints.unshift({id:enhancementId('complaint'),flat,subject,body,status:'Open',createdAt:new Date().toISOString()}); audit('Complaint registered','Flat '+flat+': '+subject); renderCommunity(); }
-function closeComplaint(id){ const c=enhancedData.complaints.find(x=>x.id===id); if(c){c.status='Closed';c.closedAt=new Date().toISOString();audit('Complaint closed','Flat '+c.flat+': '+c.subject);renderCommunity();} }
 async function changeAdminPassword(){
  const current=prompt('Current Admin password nakho:'); if(current===null)return;
  const active=settings.adminPassword||APP_ACCESS_PASSWORD;
@@ -6182,42 +6260,10 @@ async function setMasterAdminPassword(){
  const wasSet = !!settings.masterAdminPassword;
  settings.masterAdminPassword=await sha256Hex(next); saveSettings(settings); audit('Master Admin password '+(wasSet?'changed':'set'),''); alert('✅ Master Admin password save thai gayo. Aa password fakta reset mate rakho.'); renderCommunity();
 }
-function saveReconciliation(){ const reference=document.getElementById('reconReference').value.trim(),flat=document.getElementById('reconFlat').value.trim(),amount=document.getElementById('reconAmount').value,note=document.getElementById('reconNote').value.trim(); if(!reference||!flat||!amount){alert('Transaction ID, flat ane amount bharo');return;} enhancedData.reconciliations[reference]={reference,flat,amount,note,status:'Matched',at:new Date().toISOString()};audit('Payment reconciled','Flat '+flat+' · '+reference);renderCommunity(); }
-function focusExpenseProof(){ document.querySelector('[data-tab="ledger"]')?.click(); setTimeout(()=>document.getElementById('expenseBillRef')?.focus(),100); }
-function saveReminderSettings(){ enhancedData.reminderSettings={day:Math.max(1,Math.min(28,Number(document.getElementById('reminderDay').value)||5)),enabled:document.getElementById('reminderEnabled').checked};audit('Reminder schedule updated','Day '+enhancedData.reminderSettings.day);renderCommunity(); }
-function runReminderNow(){ enhancedData.reminderLog.unshift(new Date().toISOString()); audit('Reminder list prepared','Manual run'); saveEnhancedData(); sendAllDueReminders(); }
-function createVerifiedBackup(){ exportAllData(); enhancedData.backupLog.unshift(new Date().toISOString()); enhancedData.backupLog=enhancedData.backupLog.slice(0,20); audit('Verified backup created','JSON exported'); renderCommunity(); }
-function downloadAuditLog(){ const b=new Blob([JSON.stringify(enhancedData.audit,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='Urban-Residency-Audit-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(u); }
-function installPaymentAndExpenseFields(){
- const modal=document.querySelector('.modal'); if(modal && !document.getElementById('inputTransactionRef')){ const f=document.createElement('div');f.className='field';f.id='transactionRefField';f.innerHTML='<label>UPI / Bank Transaction ID <span style="font-weight:400">(reconciliation માટે)</span></label><input id="inputTransactionRef" placeholder="e.g. UPI reference / cheque no."><div style="font-size:11px;color:var(--muted);margin-top:4px">Receipt confirm થયા પછી આ reference Community & Controlમાં reconcile કરી શકો.</div>'; const date=document.getElementById('inputDate');date?.parentNode.insertBefore(f,date.nextSibling); }
- const expense=document.getElementById('expenseDate'); if(expense && !document.getElementById('expenseBillRef')){ const f=document.createElement('div');f.className='field';f.innerHTML='<label>📎 Bill ref. / file name / secure link</label><input id="expenseBillRef" placeholder="Invoice no. or Drive/WhatsApp link">';expense.parentNode.insertBefore(f,expense.nextSibling); }
-}
-const originalOpenModal=openModal; openModal=function(flat){ originalOpenModal(flat); installPaymentAndExpenseFields(); const ref=document.getElementById('inputTransactionRef');if(ref)ref.value=''; };
-const originalConfirmEntry=confirmEntry; confirmEntry=function(){ const ref=(document.getElementById('inputTransactionRef')||{}).value||''; const flat=currentFlat; const out=originalConfirmEntry(); if(ref.trim()){ enhancedData.reconciliations['pending_'+enhancementId('pay')]={reference:ref.trim(),flat,amount:(document.getElementById('inputAmount')||{}).value||0,status:'Pending',note:'Entered with payment',at:new Date().toISOString()};audit('Payment reference added','Flat '+flat+' · '+ref.trim()); } else audit('Payment confirmed','Flat '+flat); return out; };
-const originalAddExpense=addExpense; addExpense=function(){ const proof=(document.getElementById('expenseBillRef')||{}).value||''; const fy=getFY(); const before=(getLedgerFY(fy).expenses||[]).length; const out=originalAddExpense(); const list=getLedgerFY(fy).expenses||[]; if(list.length>before){ const e=list[list.length-1]; enhancedData.expenseProofs[e.id]={reference:proof.trim(),savedAt:new Date().toISOString()};audit('Expense added',e.desc+(proof?' · bill: '+proof:'')); saveEnhancedData(); } return out; };
 const originalDeleteEntry=deleteEntry; deleteEntry=async function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=await originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
 const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
 const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
-setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
-// ---- Auto-backup reminder: nudges the admin once per day if the last
-// verified backup (Export Data / Community & Control backup button) is
-// more than 30 days old, or if no backup has ever been taken. Uses
-// sessionStorage so it only pops up once per browser session, not on
-// every single render.
-function checkBackupReminder(){
-const lastBackup = (enhancedData.backupLog && enhancedData.backupLog[0]) ? new Date(enhancedData.backupLog[0]) : null;
-const daysSince = lastBackup ? Math.floor((Date.now() - lastBackup.getTime()) / 86400000) : Infinity;
-if(daysSince < 30) return;
-const todayKey = 'urbanBackupReminder_' + new Date().toISOString().slice(0,10);
-if(sessionStorage.getItem(todayKey)) return;
-sessionStorage.setItem(todayKey, '1');
-const msg = lastBackup
-  ? ("💾 Chhelli backup " + daysSince + " divas pehla lidhi hati. Community & Control ma jaine navi backup (Export Data) lai lo.")
-  : "💾 Hajj sudhi ek pan backup lidhi nathi. Community & Control ma jaine navi backup (Export Data) lai lo.";
-setTimeout(()=> alert(msg), 1200);
-}
-setTimeout(checkBackupReminder, 2500); // fallback in case the listener above already fired before this ran
-setTimeout(()=>{addCommunityTab();installPaymentAndExpenseFields();},300);
+setTimeout(()=>{addCommunityTab();},300);
 
 document.getElementById('searchBoxHome').addEventListener('input', render);
 document.getElementById('searchBoxFlats').addEventListener('input', render);
