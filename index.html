@@ -716,9 +716,136 @@ body.resident-active > *:not(#residentView){display:none !important;}
 .rv-history-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line);}
 .rv-history-item:first-child{border-top:none;}
 </style>
+<style>
+/* Premium finish: sharper hierarchy, elevated cards, and clearer input focus. */
+/* Do not show the old sample figures embedded in the HTML while Firebase is
+   loading the real figures. */
+body.firebase-loading > *{visibility:hidden!important;}
+body.firebase-loading::before{content:'Loading society data…';visibility:visible;position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#f8f3e7,#edf3f9);color:var(--navy);font-family:Poppins,sans-serif;font-weight:700;font-size:16px;letter-spacing:.2px;}
+body{background:radial-gradient(circle at 12% -8%,#fff 0,transparent 29%),linear-gradient(150deg,#f8f3e7 0%,#eef3f7 100%);}
+.header{background:linear-gradient(120deg,#102448 0%,#1d4476 58%,#17335d 100%);border-bottom:1px solid rgba(255,255,255,.12);}
+.header h1{letter-spacing:.35px;text-shadow:0 1px 12px rgba(0,0,0,.16);}
+.fy-bar{backdrop-filter:blur(14px);background:rgba(255,253,248,.92);}
+.hero,.chip,.mini-chart,.recent-activity,.entry-item,.community .c-card{box-shadow:0 10px 28px rgba(21,42,78,.075);border-color:rgba(216,204,177,.82);}
+.hero,.mini-chart,.recent-activity{background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(255,252,244,.91));}
+.entry-item{transition:transform .16s ease,box-shadow .16s ease;border-left:3px solid transparent;}
+.entry-item:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(21,42,78,.11);border-left-color:var(--saffron);}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(226,160,60,.18)!important;border-color:var(--saffron)!important;box-shadow:0 0 0 1px var(--saffron);}
+.btn-add,.btn-save,.c-btn{box-shadow:0 6px 14px rgba(21,42,78,.18);transition:transform .15s ease,filter .15s ease;}
+.btn-add:hover,.btn-save:hover,.c-btn:hover{transform:translateY(-1px);filter:brightness(1.04);}
+#syncText{font-weight:700;}
+@media (prefers-reduced-motion:reduce){.entry-item,.btn-add,.btn-save,.c-btn{transition:none;}}
+
+/* Clean premium header: deliberately restrained so the key figures remain
+   readable instead of looking crowded on a phone. */
+.header-pro{position:relative;display:grid;grid-template-columns:minmax(250px,1.25fr) minmax(315px,.9fr);gap:22px;align-items:center;padding:20px 24px 18px;background:linear-gradient(120deg,#10284d 0%,#173d70 60%,#102b50 100%);border:0;box-shadow:0 10px 24px rgba(15,38,74,.22);overflow:hidden;}
+.header-pro::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-150px;background:rgba(226,160,60,.16);pointer-events:none;}
+.hp-left{position:relative;z-index:1;gap:3px;padding-left:52px;}
+.hp-left::before{content:'UR2';position:absolute;left:0;top:6px;width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#f2bd58,#c98118);color:#10284d;font:800 11px Poppins,sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.22);}
+.hp-eyebrow{color:#f3c866;font-size:9px;letter-spacing:1.5px;}
+.hp-title{color:#fff;font-size:21px;letter-spacing:.15px;}
+.hp-subtitle{color:rgba(255,255,255,.70);font-size:11px;}
+.hp-badges-row{margin-top:7px;gap:6px;}
+.hp-badge{padding:5px 9px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.17);color:#fff;font-size:10.5px;backdrop-filter:blur(5px);}
+.hp-badge-click:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);}
+.hp-president-badge{background:rgba(242,189,88,.16);border-color:rgba(242,189,88,.34);}
+.hp-president-badge #headerPresidentName{font-size:10.5px;color:#fff;}
+.hp-right{position:relative;z-index:1;min-width:0;gap:0;}
+.hp-info-row{display:none;}
+.hp-kpi-row{display:grid;grid-template-columns:repeat(4,minmax(68px,1fr));gap:8px;}
+.hp-kpi{min-width:0;min-height:62px;padding:7px 5px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);box-shadow:none;}
+.hp-kpi:hover{transform:translateY(-1px);box-shadow:none;background:rgba(255,255,255,.16);}
+.hp-kpi-primary,.hp-kpi-danger{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);}
+.hp-kpi-label,.hp-kpi-danger .hp-kpi-label{color:rgba(255,255,255,.68);font-size:7px;}
+#headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{color:#fff;font-size:12px;}
+.hp-kpi-ring{width:29px;height:29px;background:conic-gradient(#f2bd58 calc(var(--pct,0)*1%),rgba(255,255,255,.24) 0);}
+.hp-kpi-ring-inner{width:21px;height:21px;background:#173d70;}.hp-kpi-ring-inner b{color:#fff;}
+.hp-admin-logout{position:absolute;right:24px;bottom:-2px;z-index:2;margin:0;padding:4px 8px;background:transparent;color:rgba(255,255,255,.62);border:0;font-size:9px;}
+@media (max-width:700px){.header-pro{display:block;padding:17px 16px 14px;}.hp-left{padding-left:47px;}.hp-left::before{width:35px;height:35px;top:5px;font-size:10px;}.hp-title{font-size:18px;}.hp-badges-row{padding-right:8px;}.hp-badges-row .hp-badge:nth-child(2){display:none;}.hp-right{margin-top:12px;}.hp-kpi-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;}.hp-kpi{min-height:56px;padding:5px 2px;border-radius:9px;}.hp-kpi-label{font-size:6.5px;letter-spacing:.1px;}#headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:10px;}.hp-admin-logout{right:10px;bottom:1px;}}
+@media (max-width:390px){.hp-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr));}.hp-kpi{min-height:50px;}.hp-badges-row .hp-badge:nth-child(4){display:none;}}
+
+/* Light header option: airy ivory surface with the same premium hierarchy. */
+.header-pro{background:linear-gradient(120deg,#fffdf8 0%,#f7f0df 56%,#f1e4c9 100%);border-bottom:1px solid #dfcfac;box-shadow:0 8px 22px rgba(74,57,26,.12);padding:23px 28px 21px;}
+.header-pro::after{background:rgba(201,137,24,.11);}
+.hp-left::before{width:44px;height:44px;top:5px;background:linear-gradient(145deg,#e9b64e,#b97816);color:#fff;font-size:12px;}
+.hp-left{padding-left:59px;gap:4px;}.hp-eyebrow{color:#9a6512;font-size:10px;}.hp-title{color:#152a4e;font-size:24px;}.hp-subtitle{color:#675e50;font-size:12px;}
+.hp-badges-row{margin-top:8px;}.hp-badge{padding:6px 10px;background:rgba(255,255,255,.72);border-color:#e3d4b5;color:#2d405d;font-size:11px;backdrop-filter:blur(6px);}.hp-badge-click:hover{background:#fff;border-color:#cba55d;}.hp-president-badge{background:#fff6df;border-color:#e8c77f;}.hp-president-badge #headerPresidentName{color:#152a4e;font-size:11px;}
+.hp-kpi-row{gap:10px;}.hp-kpi{min-height:72px;padding:9px 6px;background:rgba(255,255,255,.78);border-color:#dfcfad;box-shadow:0 4px 12px rgba(74,57,26,.07);}.hp-kpi:hover{background:#fff;box-shadow:0 7px 16px rgba(74,57,26,.12);}.hp-kpi-primary{background:linear-gradient(150deg,#fffdf6,#f9edcf);border-color:#e0bc6c;}.hp-kpi-danger{background:linear-gradient(150deg,#fffafa,#f9e7e5);border-color:#e2b6b2;}.hp-kpi-label,.hp-kpi-danger .hp-kpi-label{color:#756b5b;font-size:7.5px;}#headerStatOutstanding{color:#bf4d58;font-size:13px;}.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{color:#152a4e;font-size:13px;}.hp-kpi-ring{width:33px;height:33px;background:conic-gradient(#c98918 calc(var(--pct,0)*1%),#ece1c8 0);}.hp-kpi-ring-inner{width:23px;height:23px;background:#fffdf8;}.hp-kpi-ring-inner b{color:#152a4e;}.hp-admin-logout{color:#756b5b;right:28px;bottom:0;}
+@media (max-width:700px){.header-pro{padding:19px 16px 16px;}.hp-left{padding-left:50px;}.hp-left::before{width:38px;height:38px;font-size:10px;}.hp-title{font-size:20px;}.hp-kpi-row{gap:7px;}.hp-kpi{min-height:62px;padding:6px 3px;}.hp-kpi-label{font-size:6.5px;}#headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:11px;}.hp-admin-logout{right:10px;}}
+
+/* Larger summary cards and a normal-flow logout button: prevents overlap. */
+.hp-kpi-row{grid-template-columns:repeat(4,minmax(96px,1fr));gap:12px;}
+.hp-kpi{min-height:92px;padding:12px 8px;border-radius:12px;}
+.hp-kpi-label{font-size:8px;letter-spacing:.25px;}
+#headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:14px;}
+.hp-kpi-ring{width:38px;height:38px;}.hp-kpi-ring-inner{width:27px;height:27px;}.hp-kpi-ring-inner b{font-size:7px;}
+.hp-admin-logout{position:static;align-self:flex-end;margin:10px 3px 0 0;padding:7px 10px;background:rgba(255,255,255,.68);border:1px solid #ddcda8;border-radius:8px;color:#685d4b;font-size:10px;}
+@media (max-width:700px){.hp-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}.hp-kpi{min-height:78px;padding:9px 6px;}.hp-kpi-label{font-size:8px;}#headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:13px;}.hp-admin-logout{margin-top:9px;}}
+
+/* Reports redesign: use the full desktop canvas instead of a narrow column. */
+@media (min-width:900px){
+  #screen-reports{padding:10px 30px 30px;}
+  #screen-reports .report-card{max-width:none!important;margin:14px 0;border-radius:16px;padding:20px 22px;box-shadow:0 8px 22px rgba(39,50,71,.06);}
+  #screen-reports .report-card:first-child{background:linear-gradient(135deg,#fffdf8,#f8efd9);border-color:#e4d3ae;}
+  #screen-reports .report-card:first-child h3{font-size:17px;margin-bottom:15px;}
+  #screen-reports .report-grid{grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+  #screen-reports .report-grid div{padding:16px 10px;background:rgba(255,255,255,.75);border:1px solid #eadfc7;border-radius:12px;}
+  #screen-reports .report-grid .r-num{font-size:21px;}
+  #screen-reports .report-grid .r-lbl{font-size:9px;letter-spacing:.45px;}
+  #screen-reports .report-card:first-child > button{display:inline-flex!important;width:calc(25% - 9px)!important;min-height:52px;margin:0 8px 0 0!important;align-items:center;justify-content:center;font-size:12px!important;vertical-align:top;}
+  #screen-reports .report-card:nth-child(2){display:grid;grid-template-columns:minmax(360px,1.15fr) minmax(320px,.85fr);column-gap:24px;align-items:start;}
+  #screen-reports .report-card:nth-child(2) h3{grid-column:1/-1;font-size:16px;}
+  #screen-reports .report-card:nth-child(2) #collectionChartBox{margin:0!important;padding:12px;background:#fffdf8;border:1px solid #eee3cd;border-radius:12px;min-height:260px;}
+  #screen-reports .report-card:nth-child(2) .month-table{margin-top:0;background:#fff;border:1px solid #eee3cd;border-radius:12px;overflow:hidden;}
+  #screen-reports .report-card:nth-child(3){border-left:4px solid #d45a63;}
+}
+@media (max-width:899px){#screen-reports .report-card{max-width:none!important;}}
+@media (max-width:1150px) and (min-width:900px){#screen-reports .report-card:first-child > button{width:calc(50% - 7px)!important;margin-bottom:8px!important;}#screen-reports .report-card:nth-child(2){grid-template-columns:1fr;row-gap:14px;}}
+
+/* The month table is clearer than an empty chart when there is little or no
+   collection data, so keep the compact table and remove the chart panel. */
+#collectionChartBox{display:none!important;}
+@media (min-width:900px){#screen-reports .report-card:nth-child(2){display:block;}#screen-reports .report-card:nth-child(2) .month-table{width:100%;margin-top:0;}}
+
+/* Final usability polish — visual only; no account or Firebase data is changed. */
+html{scroll-behavior:smooth;}
+button,input,select,textarea{font:inherit;}
+button{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;}
+button:active{transform:scale(.985);}
+.menu button{transition:background .18s ease,color .18s ease,transform .18s ease;}
+@media (min-width:900px){
+  .menu{background:linear-gradient(180deg,#172f58,#102447);}
+  .menu button{border:1px solid transparent;}
+  .menu button.active{background:linear-gradient(90deg,rgba(231,171,52,.25),rgba(231,171,52,.08));border-color:rgba(235,186,82,.18);}
+  .page-wrap{background:rgba(255,253,248,.5);min-height:100vh;}
+  .ledger-summary{box-shadow:0 12px 28px rgba(18,42,78,.15);}
+}
+.report-card,.ledger-summary,.entry-item,.flat-item{box-shadow:0 5px 16px rgba(32,45,67,.06);}
+.month-table tr:not(:first-child):hover td{background:#fff9eb;}
+.month-table th{letter-spacing:.35px;}
+.entry-item,.flat-item{transition:transform .16s ease,box-shadow .16s ease;}
+.flat-item:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(32,45,67,.10);}
+.tabbar button{box-shadow:0 2px 7px rgba(25,44,75,.05);}
+.tabbar button.tab-active{box-shadow:0 5px 14px rgba(21,42,78,.13);}
+.modal{box-shadow:0 20px 55px rgba(6,20,43,.27);}
+.modal-actions .btn-save,.btn-add{background:linear-gradient(135deg,#173d70,#10284d);}
+/* Reset stays unavailable from the UI to protect the existing society data. */
+button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
+@media (max-width:700px){
+  .menu{background:linear-gradient(90deg,#102447,#193a69);}
+  .menu button.active{color:#f4bf55;}
+  .report-card,.ledger-summary{box-shadow:0 4px 12px rgba(32,45,67,.06);}
+  .month-table td{padding-top:8px;padding-bottom:8px;}
+}
+/* Keep all four report downloads aligned in one intentional action row. */
+.report-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:15px;}
+.report-actions button{width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;line-height:1.25;}
+@media (max-width:900px){.report-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}.report-actions button{min-height:52px;font-size:12px!important;}}
+@media (max-width:430px){.report-actions{grid-template-columns:1fr;}}
+</style>
 </head>
 
-<body>
+<body class="firebase-loading">
 
 <div id="lockScreen">
 <div class="lock-orb lock-orb-1"></div>
@@ -2463,10 +2590,12 @@ FY:
 <div><div class="r-num" id="repBalance">₹4,000</div><div class="r-lbl">Balance</div></div>
 <div><div class="r-num" id="repPending">56</div><div class="r-lbl">Flats Pending</div></div>
 </div>
-<button style="width:100%;margin-top:14px;padding:12px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadFYReportPDF()">📄 Download Financial Year Report PDF</button>
-<button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOfficialLedgerPDF()">📒 Download Official Ledger (Audit) PDF</button>
-<button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadDefaultersReportPDF()">📋 Download Outstanding (Owner-wise) Report PDF</button>
-<button style="width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOwnerListPDF()">👥 Download Owner List (Flat / Name / Mobile) PDF</button>
+<div class="report-actions">
+<button style="padding:12px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadFYReportPDF()">📄 Download Financial Year Report PDF</button>
+<button style="padding:12px;border:none;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOfficialLedgerPDF()">📒 Download Official Ledger (Audit) PDF</button>
+<button style="padding:12px;border:none;border-radius:10px;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadDefaultersReportPDF()">📋 Download Outstanding (Owner-wise) Report PDF</button>
+<button style="padding:12px;border:none;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadOwnerListPDF()">👥 Download Owner List (Flat / Name / Mobile) PDF</button>
+</div>
 </div>
 
 <div class="report-card">
@@ -2981,6 +3110,84 @@ function saveSettings(data){ settings = data; setSyncStatus('saving'); fbDb.ref(
 function saveOpeningBalanceOverrides(data){ openingBalanceOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/openingBalanceOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (openingBalanceOverrides) failed:", e); setSyncStatus('error'); }); }
 function saveReceiptHistory(data){ receiptHistory = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/receiptHistory").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (receiptHistory) failed:", e); setSyncStatus('error'); }); }
 function saveOwnerOverrides(data){ ownerOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/ownerOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (ownerOverrides) failed:", e); setSyncStatus('error'); }); }
+
+// Ledger entries are saved individually with Firebase transactions.  The old
+// whole-ledger `.set()` could be overwritten by a delayed real-time snapshot,
+// which made a newly added entry appear briefly and then disappear.
+const pendingLedgerEntries = new Map();
+const pendingLedgerDeletes = new Set();
+const pendingFlatRecords = new Map();
+function ledgerPendingKey(fy, type, id){ return fy + "|" + type + "|" + id; }
+function normaliseLedgerList(value){
+  if(Array.isArray(value)) return value.filter(Boolean);
+  return value && typeof value === "object" ? Object.keys(value).map(k=>value[k]).filter(Boolean) : [];
+}
+function mergePendingLedgerEntries(remoteLedger){
+  const merged = remoteLedger && typeof remoteLedger === "object" ? JSON.parse(JSON.stringify(remoteLedger)) : {};
+  pendingLedgerEntries.forEach(item=>{
+    if(!merged[item.fy]) merged[item.fy] = {credits:[], expenses:[]};
+    const list = normaliseLedgerList(merged[item.fy][item.type]);
+    if(!list.some(x=>x && x.id === item.entry.id)) list.push(item.entry);
+    merged[item.fy][item.type] = list;
+  });
+  pendingLedgerDeletes.forEach(key=>{
+    const [fy, type, id] = key.split("|");
+    if(merged[fy]) merged[fy][type] = normaliseLedgerList(merged[fy][type]).filter(x=>x.id !== id);
+  });
+  return merged;
+}
+function persistLedgerEntry(fy, type, entry){
+  const key = ledgerPendingKey(fy, type, entry.id);
+  pendingLedgerEntries.set(key, {fy, type, entry});
+  setSyncStatus('saving');
+  fbDb.ref(FB_ROOT + "/ledger/" + fy + "/" + type).transaction(current=>{
+    const list = normaliseLedgerList(current);
+    return list.some(x=>x.id === entry.id) ? list : list.concat([entry]);
+  }, (error, committed)=>{
+    pendingLedgerEntries.delete(key);
+    if(error || !committed){
+      console.error("Firebase ledger entry save failed:", error);
+      setSyncStatus('error');
+      alert("❌ Entry Firebase ma save nathi thai. Internet check kari fari thi Add karo.");
+      render();
+      return;
+    }
+    setSyncStatus('saved');
+  });
+}
+function removeLedgerEntry(fy, type, id){
+  const key = ledgerPendingKey(fy, type, id);
+  pendingLedgerDeletes.add(key);
+  setSyncStatus('saving');
+  fbDb.ref(FB_ROOT + "/ledger/" + fy + "/" + type).transaction(current=>
+    normaliseLedgerList(current).filter(x=>x.id !== id),
+  (error, committed)=>{
+    pendingLedgerDeletes.delete(key);
+    if(error || !committed){ console.error("Firebase ledger delete failed:", error); setSyncStatus('error'); alert("❌ Delete Firebase ma save nathi thayu."); render(); return; }
+    setSyncStatus('saved');
+  });
+}
+function mergePendingFlatRecords(remoteStore){
+  const merged = remoteStore && typeof remoteStore === "object" ? JSON.parse(JSON.stringify(remoteStore)) : {};
+  pendingFlatRecords.forEach((record, flatNum)=>{ merged[flatNum] = record; });
+  return merged;
+}
+function persistFlatRecord(flatNum, record){
+  const snapshot = JSON.parse(JSON.stringify(record));
+  pendingFlatRecords.set(flatNum, snapshot);
+  setSyncStatus('saving');
+  fbDb.ref(FB_ROOT + "/records/" + flatNum).transaction(()=>snapshot, (error, committed)=>{
+    pendingFlatRecords.delete(flatNum);
+    if(error || !committed){
+      console.error("Firebase flat payment save failed:", error);
+      setSyncStatus('error');
+      alert("❌ Payment Firebase ma save nathi thai. Internet check kari fari thi Confirm karo.");
+      render();
+      return;
+    }
+    setSyncStatus('saved');
+  });
+}
 // Applies any saved owner-name renames onto the hardcoded `flats` array in
 // memory, so every existing feature (lists, PDFs, receipts, WhatsApp, search)
 // automatically shows the current name with zero other code changes needed.
@@ -3058,8 +3265,10 @@ function initFirebaseSync(){
     if(!fbFirstSyncDone){
       migrateLocalStorageToFirebaseIfEmpty(data);
     }
-    store = data.records || {};
-    ledger = data.ledger || {};
+    store = mergePendingFlatRecords(data.records || {});
+    // Keep a just-added entry visible until its atomic Firebase write has
+    // been acknowledged; a delayed snapshot must never erase it from the UI.
+    ledger = mergePendingLedgerEntries(data.ledger || {});
     settings = data.settings || {defaultAmount:0, locked:false, presidentName:""};
     renderPresidentName();
     renderUpiId();
@@ -3078,11 +3287,13 @@ function initFirebaseSync(){
       buildFYOptions();
       buildLedgerMonthOptions();
       render();
+      document.body.classList.remove('firebase-loading');
     } else {
       render();
     }
   }, (err)=>{
     console.error("Firebase sync error:", err);
+    document.body.classList.remove('firebase-loading');
     alert("Firebase thi connect nathi thai raryu. Internet check karo athva firebaseConfig barabar chhe ke nahi e check karo.");
   });
 }
@@ -4547,20 +4758,17 @@ const modeEl = document.getElementById('creditMode');
 const mode = modeEl ? modeEl.value : "Bank";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
 const fy = getFY();
-getLedgerFY(fy).credits.push({id: Date.now().toString(), desc, amount, date, mode});
-saveLedger(ledger);
+const entry = {id: Date.now().toString(), desc, amount, date, mode};
+getLedgerFY(fy).credits.push(entry);
+persistLedgerEntry(fy, 'credits', entry);
 document.getElementById('creditDesc').value = "";
 document.getElementById('creditAmount').value = "";
 document.getElementById('creditDate').value = "";
 renderLedger(fy);
 }
-// ---- Expense Lock (password protection) ----
-// Every expense entry gets locked as soon as it is added. To delete a
-// locked expense, the correct password must be entered.
-// NOTE: this is a soft "are you sure + know the password" guard against
-// accidental/casual deletes, not real security — the password is visible in
-// this file's source to anyone who opens it in a text editor.
-const EXPENSE_LOCK_PASSWORD = "1234";
+// ---- Expense Lock (Master Admin protection) ----
+// Every expense is locked as soon as it is added.  Only the Master Admin
+// password can authorise deletion, so routine users cannot alter expenses.
 function addExpense(){
 const desc = document.getElementById('expenseDesc').value.trim();
 const amount = document.getElementById('expenseAmount').value;
@@ -4569,28 +4777,33 @@ const modeEl = document.getElementById('expenseMode');
 const mode = modeEl ? modeEl.value : "Bank";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
 const fy = getFY();
-getLedgerFY(fy).expenses.push({id: Date.now().toString(), desc, amount, date, mode, locked:true});
-saveLedger(ledger);
+const entry = {id: Date.now().toString(), desc, amount, date, mode, locked:true};
+getLedgerFY(fy).expenses.push(entry);
+persistLedgerEntry(fy, 'expenses', entry);
 document.getElementById('expenseDesc').value = "";
 document.getElementById('expenseAmount').value = "";
 document.getElementById('expenseDate').value = "";
 renderLedger(fy);
 }
-function deleteEntry(type, id){
+async function deleteEntry(type, id){
 const fy = getFY();
 const l = getLedgerFY(fy);
 if(type === 'expenses'){
 const entry = l[type].find(e=>e.id===id);
-// Existing entries added before this feature won't have `locked` set —
-// treat every expense as locked so the password rule always applies.
-if(entry && entry.locked !== false){
-const pass = prompt("Aa expense locked che. Delete karva mate password nakho:");
+// Existing entries added before this feature are locked too.
+if(entry){
+if(!settings.masterAdminPassword){
+alert("🔐 Expense delete karva pehla Community & Control ma Master Admin password set karo.");
+return;
+}
+const pass = prompt("🔐 Aa expense locked che. Delete/sudharva mate MASTER ADMIN password nakho:");
 if(pass === null) return; // cancelled
-if(pass !== EXPENSE_LOCK_PASSWORD){ alert("❌ Khoto password! Expense delete nathi thayo."); return; }
+const allowed = await passwordMatches(pass, settings.masterAdminPassword);
+if(!allowed){ alert("❌ Master Admin password khoto chhe. Expense delete nathi thayo."); return; }
 }
 }
 l[type] = l[type].filter(e=>e.id!==id);
-saveLedger(ledger);
+removeLedgerEntry(fy, type, id);
 renderLedger(fy);
 }
 
@@ -5450,7 +5663,7 @@ if(entered !== null && toNum(entered) > 0){ md.amount = entered; }
 }
 md.date = document.getElementById('inputDate').value || "";
 md.mode = document.getElementById('inputMode').value || "";
-saveStore(store);
+persistFlatRecord(currentFlat, rec);
 renderMonthGrid(currentFlat, fy);
 renderDuesSummary(currentFlat);
 render();
@@ -5982,7 +6195,7 @@ function installPaymentAndExpenseFields(){
 const originalOpenModal=openModal; openModal=function(flat){ originalOpenModal(flat); installPaymentAndExpenseFields(); const ref=document.getElementById('inputTransactionRef');if(ref)ref.value=''; };
 const originalConfirmEntry=confirmEntry; confirmEntry=function(){ const ref=(document.getElementById('inputTransactionRef')||{}).value||''; const flat=currentFlat; const out=originalConfirmEntry(); if(ref.trim()){ enhancedData.reconciliations['pending_'+enhancementId('pay')]={reference:ref.trim(),flat,amount:(document.getElementById('inputAmount')||{}).value||0,status:'Pending',note:'Entered with payment',at:new Date().toISOString()};audit('Payment reference added','Flat '+flat+' · '+ref.trim()); } else audit('Payment confirmed','Flat '+flat); return out; };
 const originalAddExpense=addExpense; addExpense=function(){ const proof=(document.getElementById('expenseBillRef')||{}).value||''; const fy=getFY(); const before=(getLedgerFY(fy).expenses||[]).length; const out=originalAddExpense(); const list=getLedgerFY(fy).expenses||[]; if(list.length>before){ const e=list[list.length-1]; enhancedData.expenseProofs[e.id]={reference:proof.trim(),savedAt:new Date().toISOString()};audit('Expense added',e.desc+(proof?' · bill: '+proof:'')); saveEnhancedData(); } return out; };
-const originalDeleteEntry=deleteEntry; deleteEntry=function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
+const originalDeleteEntry=deleteEntry; deleteEntry=async function(type,id){ const fy=getFY(),entry=(getLedgerFY(fy)[type]||[]).find(x=>x.id===id); const out=await originalDeleteEntry(type,id); if(entry && !(getLedgerFY(fy)[type]||[]).some(x=>x.id===id)){ audit('Ledger entry deleted',(entry.desc||id)+' (kept in audit)'); } return out; };
 const originalDeleteReceipt=deleteReceiptHistoryEntry; deleteReceiptHistoryEntry=function(flat,id){ const old=(receiptHistory[flat]||[]).find(x=>x.id===id); const out=originalDeleteReceipt(flat,id); if(old) audit('Receipt cancelled','Flat '+flat+' · receipt '+id); return out; };
 const originalImport=importAllData; importAllData=function(file){ if(!file)return; const r=new FileReader();r.onload=e=>{try{const x=JSON.parse(e.target.result);if(!x.records||!x.ledger)throw new Error(); if(confirm('Backup valid chhe. Current data overwrite karva mate final OK karo.')) originalImport(file);}catch(_){alert('Backup validation fail: records ane ledger sathe valid JSON select karo.');}};r.readAsText(file); };
 setInterval(()=>{const r=enhancedData.reminderSettings;if(r.enabled&&new Date().getDate()===Number(r.day)&&!sessionStorage.getItem('urbanReminder_'+new Date().toISOString().slice(0,10))){sessionStorage.setItem('urbanReminder_'+new Date().toISOString().slice(0,10),'1');alert('Aaje monthly reminder day chhe. Community & Control ma thi reminders prepare karo.');}},3600000);
