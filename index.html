@@ -2742,6 +2742,8 @@ Mar
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick="downloadMaintenanceReceiptPDF(&quot;207&quot;)">🧾 Maintenance Receipt (₹2,000)</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button></div>
 
+<div id="crossFYInfo" style="display:none;margin:10px 0 14px;padding:10px 12px;background:#E3EEFC;border:1.5px solid #A9C9F0;border-radius:10px;font-size:12.5px;color:#1c1c1c;line-height:1.6;"></div>
+
 <div class="field">
 <label>Payment Status (for selected month)</label>
 <div class="toggle-row">
@@ -2774,6 +2776,11 @@ Mar
 <option value="Cheque">🧾 Cheque</option>
 <option value="Online">💳 Online</option>
 </select>
+</div>
+
+<div class="field">
+<label>Remark <span style="font-weight:400;text-transform:none;letter-spacing:0;">(UPI number / note — receipt ma dekhashe)</span></label>
+<input type="text" id="inputRemark" placeholder="e.g. UPI Ref No. / Transaction ID / note">
 </div>
 
 <div class="field">
@@ -3039,7 +3046,7 @@ function downloadAllReceiptsPDF(flatNum){
     const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
     const isMulti = entry.months.length > 1;
     const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + entry.fy.replace("-","") + "-" + (entry.paidDate || "-");
-    drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti);
+    drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti, entry.remark || (entry.months[0] && entry.months[0].remark) || "");
   });
   stampGeneratedOnAllPages(doc);
   doc.save("Flat-" + flatNum + "-All-Receipts.pdf");
@@ -3395,8 +3402,9 @@ return rec.years[fy];
 }
 function getMonthData(flatNum, fy, month){
 const yd = getYearData(flatNum, fy);
-if(!yd.months[month]) yd.months[month] = {status:"Pending", amount:0, date:"", mode:""};
+if(!yd.months[month]) yd.months[month] = {status:"Pending", amount:0, date:"", mode:"", remark:""};
 if(yd.months[month].mode === undefined) yd.months[month].mode = "";
+if(yd.months[month].remark === undefined) yd.months[month].remark = "";
 return yd.months[month];
 }
 // Returns what a month SHOULD display as right now, merging in any staged
@@ -3406,10 +3414,10 @@ return yd.months[month];
 // list, dashboard, receipts) before that.
 function getEffectiveMonth(flatNum, fy, month){
 const yd = getYearData(flatNum, fy);
-const md = yd.months[month] || {status:"Pending", amount:0, date:"", mode:""};
+const md = yd.months[month] || {status:"Pending", amount:0, date:"", mode:"", remark:""};
 const staged = (flatNum===currentFlat) ? stagedMonths[month] : null;
-if(staged) return { status:"Paid", amount: toNum(staged.amount), date: staged.date || "", mode: staged.mode || "" };
-return { status: md.status, amount: toNum(md.amount), date: md.date || "", mode: md.mode || "" };
+if(staged) return { status:"Paid", amount: toNum(staged.amount), date: staged.date || "", mode: staged.mode || "", remark: staged.remark || "" };
+return { status: md.status, amount: toNum(md.amount), date: md.date || "", mode: md.mode || "", remark: md.remark || "" };
 }
 function paidMonthCount(flatNum, fy){
 const yd = getYearData(flatNum, fy);
@@ -4236,8 +4244,8 @@ group.date,
 group.modes.size ? Array.from(group.modes).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
-const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), c.date||"-"]);
-const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-"]);
+const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), c.mode || "-", c.date||"-"]);
+const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.mode || "-", e.date||"-"]);
 
 let y = 40;
 // Keep each section together. autoTable can add pages for long lists, but
@@ -4280,8 +4288,8 @@ doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Other Credit Entries (Avak)", 14, y);
 doc.autoTable({
 startY: y+3,
-head: [["Description","Amount","Date"]],
-body: creditRows.length ? creditRows : [["No credit entries this month","-","-"]],
+head: [["Description","Amount","Mode","Date"]],
+body: creditRows.length ? creditRows : [["No credit entries this month","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 8;
@@ -4291,8 +4299,8 @@ doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Expense Entries (Javak)", 14, y);
 doc.autoTable({
 startY: y+3,
-head: [["Description","Amount","Date"]],
-body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-"]],
+head: [["Description","Amount","Mode","Date"]],
+body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
@@ -4348,8 +4356,8 @@ doc.text("Javak (Expense) List — FY " + fy, 14, 34);
 
 doc.autoTable({
 startY: 40,
-head: [["#","Description","Amount","Date"]],
-body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-"]) : [["-","No expense entries yet","-","-"]],
+head: [["#","Description","Amount","Mode","Date"]],
+body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.mode || "-", e.date||"-"]) : [["-","No expense entries yet","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:9, cellPadding:3}
 });
 
@@ -4391,24 +4399,32 @@ renderMonthlyLedger(fy);
 
 const l = getLedgerFY(fy);
 const creditList = document.getElementById('creditList');
-creditList.innerHTML = l.credits.length ? l.credits.map(c=>`
+creditList.innerHTML = l.credits.length ? l.credits.map(c=>{
+const modeIsCash = (c.mode||"Bank") === "Cash";
+const modeBadge = `<span style="display:inline-block;margin-left:6px;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700;${modeIsCash ? 'background:#FFF3E0;color:#B9770E;' : 'background:#E3EEFC;color:#1565C0;'}">${modeIsCash ? '💵 Cash' : '🏦 Bank'}</span>`;
+return `
 <div class="entry-item">
-<div><div class="e-desc">${c.desc}</div><div class="e-date">${c.date||''}</div></div>
+<div><div class="e-desc">${c.desc}${modeBadge}</div><div class="e-date">${c.date||''}</div></div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt credit">+${fmt(c.amount)}</div>
 <button class="e-del" onclick="deleteEntry('credits','${c.id}')">✕</button>
 </div>
-</div>`).join("") : `<div class="no-results">No credit entries yet</div>`;
+</div>`;
+}).join("") : `<div class="no-results">No credit entries yet</div>`;
 
 const expenseList = document.getElementById('expenseList');
-expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>`
+expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>{
+const modeIsCash = (e.mode||"Bank") === "Cash";
+const modeBadge = `<span style="display:inline-block;margin-left:6px;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700;${modeIsCash ? 'background:#FFF3E0;color:#B9770E;' : 'background:#E3EEFC;color:#1565C0;'}">${modeIsCash ? '💵 Cash' : '🏦 Bank'}</span>`;
+return `
 <div class="entry-item">
-<div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date||''}</div></div>
+<div><div class="e-desc">🔒 ${e.desc}${modeBadge}</div><div class="e-date">${e.date||''}</div></div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt expense">-${fmt(e.amount)}</div>
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
 </div>
-</div>`).join("") : `<div class="no-results">No expense entries yet</div>`;
+</div>`;
+}).join("") : `<div class="no-results">No expense entries yet</div>`;
 }
 
 function computeMonthWiseCollectionRows(fy){
@@ -4907,6 +4923,19 @@ let currentMonth = "Apr";
 // Months the user has actually ticked (checked) in the current modal sitting —
 // this is what the multi-month receipt uses, not just "same date" months.
 let receiptSelection = [];
+// Holds staged (checked-but-not-Confirmed) selections for OTHER financial
+// years, keyed by FY — e.g. { "2025-26": { stagedMonths:{Jan:{...},...},
+// receiptSelection:["Jan","Feb","Mar"] } }. Without this, switching the FY
+// dropdown mid-payment (e.g. to reach April in the NEXT FY after already
+// ticking Jan/Feb/Mar in the current one) would silently wipe out the
+// earlier ticks. Now that selection is parked here and restored if the user
+// switches back, and Confirm can save ALL financial years together as one
+// combined payment/receipt.
+let fyStaging = {};
+// Set right after a multi-FY Confirm, so the "🧾 Maintenance Receipt" button
+// downloads the correct combined (all-FY) receipt instead of just the
+// current FY's months. Cleared whenever the modal is (re)opened.
+let lastCombinedReceipt = null;
 // Once true, checkboxes in the month grid are disabled so an accidental tap
 // can't change or add to the confirmed selection.
 let selectionLocked = false;
@@ -5143,9 +5172,34 @@ function removeMonthFromSelection(month){
 if(selectionLocked || formConfirmed) return;
 toggleMonthPaid(month, false);
 }
+// Shows a small note when months are ticked-but-not-Confirmed in ANOTHER
+// financial year too (parked in fyStaging by the modalFY change handler) —
+// so it's clear that selection is safely kept, not lost, and will be
+// included automatically in the SAME payment when Confirm is pressed.
+function renderCrossFYInfo(){
+const box = document.getElementById('crossFYInfo');
+if(!box) return;
+const curFY = getFY();
+const otherFYs = Object.keys(fyStaging).filter(fy=>fy!==curFY && Object.keys(fyStaging[fy].stagedMonths||{}).length);
+if(!currentFlat || !otherFYs.length){ box.style.display = "none"; box.innerHTML = ""; return; }
+let grandTotal = 0;
+const lines = otherFYs.map(fy=>{
+const g = fyStaging[fy];
+const ms = MONTHS.filter(m=>g.receiptSelection.includes(m));
+const t = ms.reduce((s,m)=> s + toNum((g.stagedMonths[m]||{}).amount), 0);
+grandTotal += t;
+return `FY ${fy}: <b>${ms.join(", ")}</b> — ₹${t.toLocaleString('en-IN')}`;
+}).join("<br>");
+const curMonths = getOrderedSelection();
+const curTotal = curMonths.reduce((s,m)=> s + toNum((stagedMonths[m]||{}).amount), 0);
+grandTotal += curTotal;
+box.style.display = "block";
+box.innerHTML = `🔗 <b>Multi-FY Payment chalu chhe:</b><br>${lines}${curMonths.length ? `<br>FY ${curFY}: <b>${curMonths.join(", ")}</b> — ₹${curTotal.toLocaleString('en-IN')}` : ""}<br><b>Grand Total (badhi FY bhegi): ₹${grandTotal.toLocaleString('en-IN')}</b><br><span style="font-size:11px;color:#444;">Confirm dabavshો to badhi FY nu payment EK sathe save thashe ane EK j combined receipt banshe.</span>`;
+}
 function updateBatchTotalInfo(){
 const box = document.getElementById('batchTotalInfo');
 if(!box) return;
+renderCrossFYInfo();
 if(!currentFlat){ box.style.display = "none"; updateMaintenanceAmountTotalLabel(); applyMaintenanceAmountDisplay(); return; }
 const fy = getFY();
 const explicit = getOrderedSelection();
@@ -5288,6 +5342,7 @@ if(staged){
 document.getElementById('inputAmount').value = staged.amount || "";
 document.getElementById('inputDate').value = staged.date || "";
 document.getElementById('inputMode').value = staged.mode || "";
+document.getElementById('inputRemark').value = staged.remark || "";
 // Not actually Paid yet (Confirm not pressed) — but reflect it in the
 // toggle button so it doesn't look like it reverted to Unpaid.
 setStatus("Paid");
@@ -5295,6 +5350,7 @@ setStatus("Paid");
 document.getElementById('inputAmount').value = md.amount || "";
 document.getElementById('inputDate').value = md.date || "";
 document.getElementById('inputMode').value = md.mode || "";
+document.getElementById('inputRemark').value = md.remark || "";
 setStatus(md.status);
 }
 renderMonthGrid(currentFlat, fy);
@@ -5309,18 +5365,18 @@ applyFormLockUI();
 // sitting) month into a real, saved Paid record. Before this runs, nothing
 // staged has touched the store — so closing the modal without Confirming
 // simply discards the staged ticks and the months stay Baki.
-function commitStagedMonths(){
+// FY-parameterized version so a multi-FY (cross financial-year) Confirm can
+// commit each financial year's staged months into ITS OWN ledger correctly.
+function commitStagedMonthsFor(fy, stagedObj, noBalance){
 if(!currentFlat) return;
-const fy = getFY();
-const noBalanceEl = document.getElementById('inputNoBalance');
-const noBalance = !!(noBalanceEl && noBalanceEl.checked);
-Object.keys(stagedMonths).forEach(m=>{
+Object.keys(stagedObj).forEach(m=>{
 const md = getMonthData(currentFlat, fy, m);
-const s = stagedMonths[m];
+const s = stagedObj[m];
 md.status = "Paid";
 md.amount = s.amount;
 md.date = s.date;
 md.mode = s.mode;
+md.remark = s.remark || "";
 // noBalance = true means this is a backdated/historical entry (paid
 // before the app went live). It still shows as Paid everywhere (grid,
 // receipts, history, owner ledger), but its amount is excluded from
@@ -5328,75 +5384,138 @@ md.mode = s.mode;
 // accounts for it.
 md.noBalance = noBalance;
 });
+}
+// Kept for any other caller — commits the CURRENT fy's staged months.
+function commitStagedMonths(){
+if(!currentFlat) return;
+const fy = getFY();
+const noBalanceEl = document.getElementById('inputNoBalance');
+const noBalance = !!(noBalanceEl && noBalanceEl.checked);
+commitStagedMonthsFor(fy, stagedMonths, noBalance);
 stagedMonths = {};
 if(noBalanceEl) noBalanceEl.checked = false;
 }
 // One receipt represents one payment transaction. Therefore every month on
 // that receipt must carry the same Paid On date, so all maintenance income is
 // shown under the month in which the owner actually paid.
-function applyPaymentDateToReceiptMonths(months, paidDate){
+function applyPaymentDateToReceiptMonths(months, paidDate, fy, stagedObj){
 if(!currentFlat || !paidDate) return;
-const fy = getFY();
+fy = fy || getFY(); stagedObj = stagedObj || stagedMonths;
 months.forEach(m=>{
 const md = getMonthData(currentFlat, fy, m);
 if(md && md.status === "Paid") md.date = paidDate;
-if(stagedMonths[m]) stagedMonths[m].date = paidDate;
+if(stagedObj[m]) stagedObj[m].date = paidDate;
 });
 }
-function applyPaymentModeToReceiptMonths(months, paymentMode){
+function applyPaymentModeToReceiptMonths(months, paymentMode, fy, stagedObj){
 if(!currentFlat || !paymentMode) return;
-const fy = getFY();
+fy = fy || getFY(); stagedObj = stagedObj || stagedMonths;
 months.forEach(m=>{
 const md = getMonthData(currentFlat, fy, m);
 if(md && md.status === "Paid") md.mode = paymentMode;
-if(stagedMonths[m]) stagedMonths[m].mode = paymentMode;
+if(stagedObj[m]) stagedObj[m].mode = paymentMode;
 });
 }
+function applyRemarkToReceiptMonths(months, remark, fy, stagedObj){
+if(!currentFlat) return;
+fy = fy || getFY(); stagedObj = stagedObj || stagedMonths;
+months.forEach(m=>{
+const md = getMonthData(currentFlat, fy, m);
+if(md && md.status === "Paid") md.remark = remark || "";
+if(stagedObj[m]) stagedObj[m].remark = remark || "";
+});
+}
+// Every financial year that currently has ticked-but-not-Confirmed months —
+// the CURRENT fy (live stagedMonths/receiptSelection) plus any OTHER fy's
+// selection parked in fyStaging when the user switched the FY dropdown
+// mid-payment. Confirm saves every group here together as ONE payment.
+function getPendingFYGroups(){
+const curFY = getFY();
+const groups = [];
+if(Object.keys(stagedMonths).length){
+groups.push({ fy: curFY, stagedMonths: stagedMonths, receiptSelection: [...receiptSelection] });
+}
+Object.keys(fyStaging).forEach(fy=>{
+if(fy===curFY) return;
+if(Object.keys(fyStaging[fy].stagedMonths||{}).length){
+groups.push({ fy: fy, stagedMonths: fyStaging[fy].stagedMonths, receiptSelection: [...fyStaging[fy].receiptSelection] });
+}
+});
+return groups;
+}
 function confirmEntry(){
-const fy = getFY();
 const owner = flats.find(f=>f.n===currentFlat) || {name:"-"};
-const months = getReceiptMonths();
+const groups = getPendingFYGroups();
 const paidDate = document.getElementById('inputDate').value;
 const mode = document.getElementById('inputMode').value;
-const total = months.reduce((sum, month)=> sum + toNum((stagedMonths[month] || getEffectiveMonth(currentFlat, fy, month)).amount), 0);
-if(!months.length || !total){ alert("Confirm karta pehla paid month ane amount check karo."); return; }
+const remark = document.getElementById('inputRemark').value || "";
+const totalAll = groups.reduce((sum,g)=> sum + Object.keys(g.stagedMonths).reduce((s,m)=> s + toNum(g.stagedMonths[m].amount), 0), 0);
+if(!groups.length || !totalAll){ alert("Confirm karta pehla paid month ane amount check karo."); return; }
 if(!paidDate){ alert("Paid On date select karo. Avak aa date na month ma jashe."); document.getElementById('inputDate').focus(); return; }
 if(!mode){ alert("Payment Mode select karo (Cash, UPI, Bank Transfer, etc.)."); document.getElementById('inputMode').focus(); return; }
-const paidFY = dateToFY(paidDate) || fy;
+const isMultiFY = groups.length > 1;
+const paidFY = dateToFY(paidDate) || getFY();
 const paidMonth = dateToFYMonth(paidDate) || "-";
 const noBalanceEl = document.getElementById('inputNoBalance');
 const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
 const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
-const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + balanceNote + "\n\nSachu hoy to OK dabavo.";
+const groupLines = groups.map(g=>{
+const ms = MONTHS.filter(m=>g.receiptSelection.includes(m));
+return "FY " + g.fy + ": " + (ms.length ? ms.join(", ") : Object.keys(g.stagedMonths).join(", "));
+}).join("\n");
+const remarkLine = remark ? "\nRemark: " + remark : "";
+const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s):\n" + groupLines + "\nTotal Amount: ₹" + totalAll.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + remarkLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
-const committedThisSitting = Object.keys(stagedMonths);
-commitStagedMonths();
-applyPaymentDateToReceiptMonths(months, paidDate);
-applyPaymentModeToReceiptMonths(months, mode);
-saveFlat();
-const receipt = recordReceiptHistory();
-formConfirmed = true;
-// Lock the just-confirmed months right away (show 🔒, no more direct
-// checkbox) instead of waiting for the modal to be reopened — this makes
-// the tile visually match the fact that editing is already blocked
-// (formConfirmed disables the whole form).
-committedThisSitting.forEach(m=>{
+
+const combinedRows = []; // [month, "Rs. x", date, mode, fy] — used for the combined receipt PDF
+const receipts = [];
+groups.forEach(g=>{
+const orderedMonths = MONTHS.filter(m=>g.receiptSelection.includes(m));
+const committedThisSitting = Object.keys(g.stagedMonths);
+applyPaymentDateToReceiptMonths(orderedMonths.length ? orderedMonths : committedThisSitting, paidDate, g.fy, g.stagedMonths);
+applyPaymentModeToReceiptMonths(orderedMonths.length ? orderedMonths : committedThisSitting, mode, g.fy, g.stagedMonths);
+applyRemarkToReceiptMonths(orderedMonths.length ? orderedMonths : committedThisSitting, remark, g.fy, g.stagedMonths);
+commitStagedMonthsFor(g.fy, g.stagedMonths, isNoBalance);
+const monthsForReceipt = orderedMonths.length ? orderedMonths : committedThisSitting;
+const rec = recordReceiptHistoryFor(g.fy, monthsForReceipt, remark);
+if(rec) receipts.push(rec);
+monthsForReceipt.forEach(m=>{
+const md = getMonthData(currentFlat, g.fy, m);
+combinedRows.push([m, "Rs. " + toNum(md.amount).toLocaleString('en-IN'), md.date || "-", md.mode || "-", g.fy]);
+if(g.fy === getFY() && committedThisSitting.includes(m)){
 initiallyPaidMonths.add(m);
 manuallyUnlockedMonths = manuallyUnlockedMonths.filter(x=>x!==m);
+}
 });
+});
+saveFlat();
+renderReceiptHistoryBox(currentFlat);
+
+// Clear every parked FY's staging now that it's been saved.
+groups.forEach(g=>{ delete fyStaging[g.fy]; });
+stagedMonths = {};
+receiptSelection = [];
+
+lastCombinedReceipt = isMultiFY ? {
+flatNum: currentFlat, rows: combinedRows, total: totalAll, date: paidDate,
+remark: remark, monthCount: combinedRows.length, isMultiFY: true
+} : null;
+
+formConfirmed = true;
 renderMonthGrid(currentFlat, getFY());
 refreshHistoryBox(currentFlat);
 renderDuesSummary(currentFlat);
 render();
 applyFormLockUI();
-const flatSummary = computeFlatsSummary(fy).find(f=>f.n===currentFlat);
+const flatSummary = computeFlatsSummary(getFY()).find(f=>f.n===currentFlat);
 const remainingDue = flatSummary ? flatSummary.pendingDue : 0;
-alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
+const receiptIds = receipts.map(r=>r.id).join(", ") || "Saved";
+alert("✅ Payment Saved\n\nReceipt No: " + receiptIds + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + totalAll.toLocaleString('en-IN') + (isMultiFY ? "\n(Multiple Financial Years — ek j combined receipt banshe)" : "") + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due (" + getFY() + "): ₹" + toNum(remainingDue).toLocaleString('en-IN'));
 }
 function applyFormLockUI(){
-const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputDate","btnPaid","btnPending","btnUnselectMonth"];
+const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputRemark","inputDate","btnPaid","btnPending","btnUnselectMonth"];
 lockIds.forEach(id=>{
 const el = document.getElementById(id);
 if(el) el.disabled = formConfirmed;
@@ -5493,7 +5612,8 @@ if(!date){
 document.getElementById('inputDate').value = date;
 }
 const mode = document.getElementById('inputMode').value || "";
-stagedMonths[month] = { amount, date, mode };
+const remark = document.getElementById('inputRemark').value || "";
+stagedMonths[month] = { amount, date, mode, remark };
 if(!receiptSelection.includes(month)) receiptSelection.push(month);
 } else if(stagedMonths[month]){
 // Un-ticking a month that was only staged (not yet confirmed) — just
@@ -5572,6 +5692,8 @@ manuallyUnlockedMonths = [];
 unlockSelectMode = false;
 unlockSelection = [];
 historyPanelOpen = false;
+fyStaging = {};
+lastCombinedReceipt = null;
 const flat = flats.find(f=>f.n===flatNum);
 const defaultFY = getFY();
 const rec = getRecord(flatNum);
@@ -5669,9 +5791,19 @@ historyBox.style.display = "none";
 }
 }
 document.getElementById('modalFY').addEventListener('change', (e)=>{
+const oldFY = getFY(); // fySelect still holds the PREVIOUS fy at this point
 const newFY = e.target.value;
-receiptSelection = [];
-stagedMonths = {};
+// Park whatever was ticked-but-not-Confirmed in the OLD FY instead of
+// discarding it, so the owner can switch FY to reach a month in another
+// year (e.g. April, right after the FY rolls over) without losing Jan/Feb/
+// Mar that were already ticked in the previous FY. It's restored below if
+// they switch back, and Confirm can save every parked FY together as one
+// combined payment/receipt.
+if(Object.keys(stagedMonths).length){
+fyStaging[oldFY] = { stagedMonths: {...stagedMonths}, receiptSelection: [...receiptSelection] };
+} else {
+delete fyStaging[oldFY];
+}
 selectionLocked = false;
 formConfirmed = false;
 manuallyUnlockedMonths = [];
@@ -5680,6 +5812,15 @@ unlockSelection = [];
 snapshotInitiallyPaidMonths(currentFlat, newFY);
 document.getElementById('fySelect').value = newFY;
 document.getElementById('fyLabel').textContent = newFY;
+// Restore whatever was previously parked for the FY we're switching TO (if
+// any), otherwise start this FY empty.
+if(fyStaging[newFY]){
+stagedMonths = {...fyStaging[newFY].stagedMonths};
+receiptSelection = [...fyStaging[newFY].receiptSelection];
+} else {
+stagedMonths = {};
+receiptSelection = [];
+}
 currentMonth = currentMonthKey(newFY);
 document.getElementById('inputMonth').value = currentMonth;
 loadMonthIntoForm();
@@ -5690,12 +5831,15 @@ if(mub){ mub.textContent = "🔓 Multiple Unlock (Ek Sathe Ketla Paid Month Edit
 renderUnlockSelectBar();
 });
 function closeModal(){
-if(!formConfirmed && Object.keys(stagedMonths).length){
+const otherFYPending = Object.keys(fyStaging).some(fy=>Object.keys(fyStaging[fy].stagedMonths||{}).length);
+if(!formConfirmed && (Object.keys(stagedMonths).length || otherFYPending)){
 if(!confirm("Tame Confirm dabavya vagar band karo cho — tick karel mahina save nahi thay ane pacha Baki dekhashe. Aagad vadhvu che?")) return;
 }
 document.getElementById('overlay').classList.remove('active');
 currentFlat = null;
 stagedMonths = {};
+fyStaging = {};
+lastCombinedReceipt = null;
 manuallyUnlockedMonths = [];
 unlockSelectMode = false;
 unlockSelection = [];
@@ -5846,36 +5990,46 @@ document.getElementById('inputDate').addEventListener('input', updateBatchTotalI
 // no matter how many months were paid together.
 function downloadMaintenanceReceiptPDF(flatNum){
 if(!flatNum) return;
+// A multi-FY payment was just Confirmed for this flat — use the stashed
+// combined (all financial years) rows so the receipt shows every month from
+// every FY on ONE receipt with one total, instead of just the current FY.
+if(lastCombinedReceipt && lastCombinedReceipt.flatNum === flatNum && lastCombinedReceipt.isMultiFY){
+buildAndSaveReceiptPDF(flatNum, "Multi-FY", lastCombinedReceipt.rows, lastCombinedReceipt.total, lastCombinedReceipt.date, lastCombinedReceipt.monthCount, lastCombinedReceipt.remark, true);
+return;
+}
 const fy = document.getElementById('modalFY').value;
 const months = getReceiptMonths();
+const remark = (document.getElementById('inputRemark') ? document.getElementById('inputRemark').value : "") || (months[0] ? getEffectiveMonth(flatNum, fy, months[0]).remark : "");
 const rows = months.map(m=>{
 const em = getEffectiveMonth(flatNum, fy, m);
 return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode || "-"];
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length);
+buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, remark);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
 // an old receipt from history (which uses a saved snapshot instead of live data).
-function buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, monthCount){
+// isMultiFY=true means `rows` carry a 5th element (that row's own FY) and the
+// receipt should show a per-row FY column + "Multiple" as the FY field.
+function buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, monthCount, remark, isMultiFY){
 const flat = flats.find(f=>f.n===flatNum);
 const rec = getRecord(flatNum);
 const isMulti = monthCount > 1;
-const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + fy.replace("-","") + "-" + date;
+const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + (isMultiFY ? "MULTIFY" : fy.replace("-","")) + "-" + date;
 
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti);
+drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, remark, isMultiFY);
 
 stampGeneratedOnAllPages(doc);
-doc.save("Receipt-Flat" + flatNum + (isMulti ? "-Multi-" : "-") + date + "-" + fy + ".pdf");
+doc.save("Receipt-Flat" + flatNum + (isMulti ? "-Multi-" : "-") + date + "-" + (isMultiFY ? "MultiFY" : fy) + ".pdf");
 }
 
 // Full, spacious single-receipt layout (one per page) — used for longer
 // (7-12 month) receipts that need more room for the month table.
-function drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti){
+function drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, remark, isMultiFY){
 doc.setFont('helvetica','bold');
 doc.setFontSize(16);
 doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 18);
@@ -5910,7 +6064,7 @@ field("Flat Number", flatNum, 14);
 field("Owner Name", flat.name, 105);
 y += rowGap + 6;
 field("Mobile", rec.mobile || "-", 14);
-field("Financial Year", fy, 105);
+field("Financial Year", isMultiFY ? "Multiple (see table)" : fy, 105);
 y += rowGap + 6;
  field("Payment Date", displayDate(date), 14);
 field("Months Paid", monthCount, 105);
@@ -5918,8 +6072,8 @@ y += rowGap + 10;
 
 doc.autoTable({
 startY: y,
-head: [["Month", "Amount", "Date", "Mode"]],
- body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3]]),
+head: isMultiFY ? [["Month", "FY", "Amount", "Date", "Mode"]] : [["Month", "Amount", "Date", "Mode"]],
+ body: rows.map(row=> isMultiFY ? [row[0], row[4], row[1], displayDate(row[2]), row[3]] : [row[0], row[1], displayDate(row[2]), row[3]]),
 theme: "grid",
 headStyles: { fillColor: [46,139,87] },
 styles: { fontSize: 10 },
@@ -5931,6 +6085,12 @@ doc.setFont('helvetica','bold'); doc.setFontSize(13);
 doc.setTextColor(46,139,87);
 doc.text("Total Amount Received: Rs. " + total.toLocaleString('en-IN'), 14, y2);
 doc.setTextColor(0,0,0);
+
+if(remark){
+y2 += 8;
+doc.setFont('helvetica','bold'); doc.setFontSize(10);
+doc.text("Remark: " + remark, 14, y2);
+}
 
 y2 += 16;
 
@@ -6014,19 +6174,22 @@ doc.setTextColor(0,0,0);
 // mode at that moment) is saved here — independent of the live month data —
 // so an old receipt can always be re-downloaded exactly as it was, even if
 // amounts/settings change later.
-function recordReceiptHistory(){
+// FY-parameterized so a multi-FY Confirm can save one receipt-history entry
+// PER financial year (each FY's income has to sit in its own ledger/books),
+// even though the owner sees it all as one combined receipt PDF.
+function recordReceiptHistoryFor(fy, monthsList, remark){
 if(!currentFlat) return null;
-const fy = getFY();
 const yd = getYearData(currentFlat, fy);
 // Only the months that actually ended up Paid belong in a payment receipt —
 // if Confirm was pressed after marking Unpaid, there's nothing to record.
-const months = getReceiptMonths().filter(m => yd.months[m] && yd.months[m].status==="Paid");
+const months = (monthsList || []).filter(m => yd.months[m] && yd.months[m].status==="Paid");
 if(!months.length) return null;
 const snapshot = months.map(m=>({
 month: m,
 amount: toNum((yd.months[m]||{}).amount),
 date: (yd.months[m]||{}).date || "",
-mode: (yd.months[m]||{}).mode || ""
+mode: (yd.months[m]||{}).mode || "",
+remark: (yd.months[m]||{}).remark || ""
 }));
 const total = snapshot.reduce((s,x)=> s + x.amount, 0);
 // Never create a second receipt record for exactly the same transaction.
@@ -6039,17 +6202,24 @@ toNum(entry.total) === total &&
 );
 if(existing) return existing;
 const entry = {
-id: "R" + Date.now(),
+id: "R" + Date.now() + "-" + fy,
 fy: fy,
 months: snapshot,
 total: total,
 paidDate: snapshot[0].date || "",
+remark: remark || "",
 createdAt: new Date().toISOString()
 };
 if(!receiptHistory[currentFlat]) receiptHistory[currentFlat] = [];
 receiptHistory[currentFlat].push(entry);
 saveReceiptHistory(receiptHistory);
-renderReceiptHistoryBox(currentFlat);
+return entry;
+}
+// Backwards-compatible wrapper for the current FY (kept in case anything
+// else calls the old no-arg name).
+function recordReceiptHistory(){
+const entry = recordReceiptHistoryFor(getFY(), getReceiptMonths(), document.getElementById('inputRemark') ? document.getElementById('inputRemark').value : "");
+if(entry) renderReceiptHistoryBox(currentFlat);
 return entry;
 }
 function sharePaymentOnWhatsApp(){
@@ -6064,7 +6234,9 @@ const months = getReceiptMonths();
 const total = months.reduce((s,m)=>s + toNum(getEffectiveMonth(currentFlat, fy, m).amount), 0);
 const date = document.getElementById('inputDate').value || (months[0] ? getEffectiveMonth(currentFlat, fy, months[0]).date : "");
 const mode = document.getElementById('inputMode').value || (months[0] ? getEffectiveMonth(currentFlat, fy, months[0]).mode : "");
-const message = "Urban Recidency 2 BIL Maintenance Payment\n\nFlat: " + currentFlat + "\nOwner: " + (flat ? flat.name : "-") + "\nMonth(s): " + (months.join(", ") || "-") + "\nAmount: Rs. " + total.toLocaleString('en-IN') + "\nPaid On: " + (displayDate(date) || "-") + "\nPayment Mode: " + (mode || "-") + "\n\nThank you.";
+const remark = document.getElementById('inputRemark') ? document.getElementById('inputRemark').value : (months[0] ? getEffectiveMonth(currentFlat, fy, months[0]).remark : "");
+const remarkLine = remark ? "\nRemark: " + remark : "";
+const message = "Urban Recidency 2 BIL Maintenance Payment\n\nFlat: " + currentFlat + "\nOwner: " + (flat ? flat.name : "-") + "\nMonth(s): " + (months.join(", ") || "-") + "\nAmount: Rs. " + total.toLocaleString('en-IN') + "\nPaid On: " + (displayDate(date) || "-") + "\nPayment Mode: " + (mode || "-") + remarkLine + "\n\nThank you.";
 window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
 }
 function renderReceiptHistoryBox(flatNum){
@@ -6114,7 +6286,8 @@ const list = receiptHistory[flatNum] || [];
 const entry = list.find(e=>e.id===entryId);
 if(!entry){ alert("Aa receipt history ma nathi malto."); return; }
 const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
-buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length);
+const remark = entry.remark || (entry.months[0] && entry.months[0].remark) || "";
+buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, remark);
 }
 function downloadOwnerLedgerPDF(flatNum){
 if(!flatNum) return;
