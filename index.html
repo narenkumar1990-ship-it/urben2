@@ -4419,7 +4419,8 @@ const modeBadge = `<span style="display:inline-block;margin-left:6px;padding:1px
 return `
 <div class="entry-item">
 <div><div class="e-desc">🔒 ${e.desc}${modeBadge}</div><div class="e-date">${e.date||''}</div></div>
-<div style="display:flex;align-items:center;">
+<div style="display:flex;align-items:center;gap:6px;">
+<button type="button" class="btn" style="flex:none;background:var(--coral);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadExpenseReceiptPDF(${JSON.stringify(fy)}, ${JSON.stringify(e.id)})'>🧾 Receipt</button>
 <div class="e-amt expense">-${fmt(e.amount)}</div>
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
 </div>
@@ -4896,6 +4897,84 @@ document.getElementById('expenseAmount').value = "";
 document.getElementById('expenseDate').value = "";
 renderLedger(fy);
 }
+
+// ---- Expense Payment Voucher / Receipt (PDF) ----
+// Generates a signed, printable voucher for a single expense entry — mirrors
+// the styling of the maintenance receipt (drawFullReceipt) but in the coral
+// "expense" colour, with a Description/Paid-To field instead of a month table.
+function downloadExpenseReceiptPDF(fy, expenseId){
+const l = getLedgerFY(fy);
+const entry = (l.expenses || []).find(e=>e.id===expenseId);
+if(!entry){ alert("Aa expense entry hamana malti nathi."); return; }
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const voucherNo = "EXP-" + fy.replace("-","") + "-" + entry.id;
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(16);
+doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 18);
+doc.setFontSize(10);
+doc.setFont('helvetica','normal');
+doc.text("Tower D - Society Ledger", 14, 25);
+doc.setDrawColor(209,73,91);
+doc.line(14,29,196,29);
+
+doc.setFont('helvetica','bold');
+doc.setFontSize(14);
+doc.text("Expense Payment Voucher", 14, 39);
+
+doc.setFont('helvetica','normal');
+doc.setFontSize(10);
+doc.text("Voucher No: " + voucherNo, 14, 47);
+doc.text("Date Generated: " + displayDate(localDateISO()), 130, 47);
+
+doc.setDrawColor(231,223,204);
+doc.line(14,52,196,52);
+
+let y = 64;
+const rowGap = 15;
+doc.setFontSize(11);
+function field(label, value, x){ doc.setFont('helvetica','bold'); doc.text(label, x, y); doc.setFont('helvetica','normal'); doc.text(String(value), x, y+6); }
+
+field("Financial Year", fy, 14);
+field("Payment Mode", entry.mode || "Bank", 105);
+y += rowGap;
+field("Expense Date", entry.date ? displayDate(entry.date) : "-", 14);
+field("Amount", fmt(entry.amount), 105);
+y += rowGap;
+
+doc.setFont('helvetica','bold'); doc.text("Description / Paid To", 14, y);
+doc.setFont('helvetica','normal');
+const descLines = doc.splitTextToSize(entry.desc || "-", 182);
+doc.text(descLines, 14, y+6);
+y += 6 + (descLines.length * 6) + 10;
+
+doc.setFont('helvetica','bold'); doc.setFontSize(13);
+doc.setTextColor(209,73,91);
+doc.text("Total Amount Paid: " + fmt(entry.amount), 14, y);
+doc.setTextColor(0,0,0);
+
+y += 16;
+
+const pageHeight = doc.internal.pageSize.getHeight();
+if(y + 40 > pageHeight - 10){ doc.addPage(); y = 20; }
+
+doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
+doc.text("This is a system-generated expense voucher.", 14, y);
+
+const sigY = y + 22;
+doc.setDrawColor(150,144,130);
+doc.line(140, sigY, 196, sigY);
+doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(21,42,78);
+doc.text(settings.presidentName || "Pramukh", 168, sigY + 6, { align: 'center' });
+doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(120,116,102);
+doc.text("Pramukh / Authorized Signatory", 168, sigY + 11, { align: 'center' });
+
+stampGeneratedOnAllPages(doc);
+doc.save("Expense-Voucher-" + fy + "-" + entry.id + ".pdf");
+}
+
 async function deleteEntry(type, id){
 const fy = getFY();
 const l = getLedgerFY(fy);
