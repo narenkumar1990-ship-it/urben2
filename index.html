@@ -4941,7 +4941,7 @@ field("Financial Year", fy, 14);
 field("Payment Mode", entry.mode || "Bank", 105);
 y += rowGap;
 field("Expense Date", entry.date ? displayDate(entry.date) : "-", 14);
-field("Amount", fmt(entry.amount), 105);
+field("Amount", "Rs. " + Math.round(toNum(entry.amount)).toLocaleString('en-IN'), 105);
 y += rowGap;
 
 doc.setFont('helvetica','bold'); doc.text("Description / Paid To", 14, y);
@@ -4952,7 +4952,7 @@ y += 6 + (descLines.length * 6) + 10;
 
 doc.setFont('helvetica','bold'); doc.setFontSize(13);
 doc.setTextColor(209,73,91);
-doc.text("Total Amount Paid: " + fmt(entry.amount), 14, y);
+doc.text("Total Amount Paid: Rs. " + Math.round(toNum(entry.amount)).toLocaleString('en-IN'), 14, y);
 doc.setTextColor(0,0,0);
 
 y += 16;
