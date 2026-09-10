@@ -2662,6 +2662,15 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <input type="tel" id="inputMobile" placeholder="Enter 10-digit mobile number" maxlength="10">
 </div>
 
+<div class="field">
+<label>Payment Remark</label>
+<div style="display:flex;gap:8px;">
+<input type="text" id="inputRemark" placeholder="e.g. Cheque no., partial payment, koi note...">
+<button type="button" onclick="saveOwnerRemark()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;white-space:nowrap;">Save</button>
+</div>
+<div style="font-size:11px;color:var(--muted);margin-top:5px;">Aa remark aa flat mate general note tarike save thashe (dat: kai reason, kai special baat, etc.) — Payment History ma nathi jodaatu.</div>
+</div>
+
 <div class="field" style="background:#FFF7E6;border:1.5px solid #F0D89B;border-radius:10px;padding:10px 12px;display:none;">
 <label style="color:#9C6B14;">⚠️ Pichhla Baki (Aa app pehla nu Baki, ₹)</label>
 <div style="display:flex;gap:8px;">
@@ -2774,6 +2783,13 @@ Mar
 <option value="Cheque">🧾 Cheque</option>
 <option value="Online">💳 Online</option>
 </select>
+</div>
+
+<div class="field">
+<label>Chalan No. <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
+<input type="text" id="inputChalanNo" placeholder="e.g. 1024">
+<button type="button" class="btn" style="width:100%;margin-top:8px;background:#B3791C;color:#fff;font-size:12px;" onclick="applyChalanToAllPaidMonths()">🧾 Apply this Chalan No. to ALL paid months (this FY)</button>
+<div style="margin-top:5px;font-size:11px;color:var(--muted);line-height:1.4;">Offline chalan book ma je number aapyo hoy e ahi lakho — online data ane offline chalan match karva mate.</div>
 </div>
 
 <div class="field">
@@ -3039,7 +3055,8 @@ function downloadAllReceiptsPDF(flatNum){
     const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
     const isMulti = entry.months.length > 1;
     const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + entry.fy.replace("-","") + "-" + (entry.paidDate || "-");
-    drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti);
+    const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+    drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti, chalanNo);
   });
   stampGeneratedOnAllPages(doc);
   doc.save("Flat-" + flatNum + "-All-Receipts.pdf");
@@ -3398,10 +3415,22 @@ return ledger[fy];
 function getFY(){ return document.getElementById('fySelect').value; }
 
 function getRecord(flatNum){
-if(!store[flatNum]) store[flatNum] = {mobile:"", years:{}, priorDue:0};
+if(!store[flatNum]) store[flatNum] = {mobile:"", years:{}, priorDue:0, remark:""};
 if(store[flatNum].priorDue === undefined) store[flatNum].priorDue = 0;
+if(store[flatNum].remark === undefined) store[flatNum].remark = "";
 if(!store[flatNum].years) store[flatNum].years = {};
 return store[flatNum];
+}
+// ---- Owner Payment Remark: a free-text note per flat (e.g. cheque no.,
+// partial payment reason, special instruction) — independent of the
+// month-wise paid/pending data, saved directly to Firebase. ----
+function saveOwnerRemark(){
+if(!currentFlat) return;
+const val = document.getElementById('inputRemark').value.trim();
+const rec = getRecord(currentFlat);
+rec.remark = val;
+saveStore(store);
+alert("Flat " + currentFlat + " nu Remark save thai gayu.");
 }
 function getYearData(flatNum, fy){
 const rec = getRecord(flatNum);
@@ -3411,8 +3440,9 @@ return rec.years[fy];
 }
 function getMonthData(flatNum, fy, month){
 const yd = getYearData(flatNum, fy);
-if(!yd.months[month]) yd.months[month] = {status:"Pending", amount:0, date:"", mode:""};
+if(!yd.months[month]) yd.months[month] = {status:"Pending", amount:0, date:"", mode:"", chalanNo:""};
 if(yd.months[month].mode === undefined) yd.months[month].mode = "";
+if(yd.months[month].chalanNo === undefined) yd.months[month].chalanNo = "";
 return yd.months[month];
 }
 // Returns what a month SHOULD display as right now, merging in any staged
@@ -3422,10 +3452,10 @@ return yd.months[month];
 // list, dashboard, receipts) before that.
 function getEffectiveMonth(flatNum, fy, month){
 const yd = getYearData(flatNum, fy);
-const md = yd.months[month] || {status:"Pending", amount:0, date:"", mode:""};
+const md = yd.months[month] || {status:"Pending", amount:0, date:"", mode:"", chalanNo:""};
 const staged = (flatNum===currentFlat) ? stagedMonths[month] : null;
-if(staged) return { status:"Paid", amount: toNum(staged.amount), date: staged.date || "", mode: staged.mode || "" };
-return { status: md.status, amount: toNum(md.amount), date: md.date || "", mode: md.mode || "" };
+if(staged) return { status:"Paid", amount: toNum(staged.amount), date: staged.date || "", mode: staged.mode || "", chalanNo: staged.chalanNo || "" };
+return { status: md.status, amount: toNum(md.amount), date: md.date || "", mode: md.mode || "", chalanNo: md.chalanNo || "" };
 }
 function paidMonthCount(flatNum, fy){
 const yd = getYearData(flatNum, fy);
@@ -3966,7 +3996,8 @@ const rec = getRecord(flatNum);
 const rows = entry.months.map(x=>[x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
 const isMulti = entry.months.length > 1;
 const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + fy.replace("-","") + "-" + (entry.paidDate || "-");
-items.push({flatNum, rows, total: entry.total, date: entry.paidDate || "-", monthCount: entry.months.length, flat, rec, receiptNo, isMulti});
+const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+items.push({flatNum, rows, total: entry.total, date: entry.paidDate || "-", monthCount: entry.months.length, flat, rec, receiptNo, isMulti, chalanNo});
 });
 
 if(!items.length){ alert("Selected flats mate FY " + fy + " ma koi confirmed receipt malyu nathi."); return; }
@@ -3978,7 +4009,7 @@ const slotHeight = 99; // 297mm A4 height / 3
 items.forEach((it, idx)=>{
 const slot = idx % 3;
 if(idx > 0 && slot === 0) doc.addPage();
-drawCompactReceipt(doc, slot*slotHeight, it.flatNum, fy, it.rows, it.total, it.date, it.monthCount, it.flat, it.rec, it.receiptNo, it.isMulti);
+drawCompactReceipt(doc, slot*slotHeight, it.flatNum, fy, it.rows, it.total, it.date, it.monthCount, it.flat, it.rec, it.receiptNo, it.isMulti, it.chalanNo);
 if(slot < 2){
 const cutY = (slot+1)*slotHeight;
 doc.setDrawColor(170,170,170);
@@ -4068,7 +4099,7 @@ if(!payment || payment.status!=="Paid") return;
 if(payment.noBalance) return;
 const paidFY = dateToFY(payment.date);
 if((paidFY || dueFY) !== fy) return;
-payments.push({flat:f.n, name:f.name, dueFY, dueMonth, amount:toNum(payment.amount), date:payment.date||"", mode:payment.mode||""});
+payments.push({flat:f.n, name:f.name, dueFY, dueMonth, amount:toNum(payment.amount), date:payment.date||"", mode:payment.mode||"", chalanNo:payment.chalanNo||""});
 });
 });
 });
@@ -4151,7 +4182,7 @@ const expenses = l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateTo
 // Per-flat maintenance collected in this payment month, tagged Regular
 // (paid in its due month) or Backlog (an older due paid now).
 const flatMaintDetails = isOther ? [] : maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month).map(payment=>({
-flat:payment.flat, name:payment.name, amount:payment.amount, date:payment.date||"-",
+flat:payment.flat, name:payment.name, amount:payment.amount, date:payment.date||"-", chalanNo:payment.chalanNo||"",
 type:(payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular"
 }));
 const hasDetail = credits.length || expenses.length || flatMaintDetails.length;
@@ -4159,7 +4190,7 @@ const detailId = "mld-" + r.month.replace(/[^A-Za-z]/g,'');
 const detailHTML = hasDetail ? `
 <tr id="${detailId}" style="display:none;">
 <td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
-${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${d.date}) <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
+${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${d.date})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
 ${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+e.date+')':''}</div>`).join('') : ''}
 ${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+c.date+')':''}</div>`).join('') : ''}
 </td>
@@ -4236,11 +4267,12 @@ const amt = payment.amount;
 const type = (payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular";
 if(type === "Backlog") backlogTotal += amt; else regularTotal += amt;
 const key = [payment.flat, payment.date || "no-date"].join("|");
-if(!maintGroups.has(key)) maintGroups.set(key, {flat:payment.flat, name:payment.name, date:payment.date||"-", amount:0, months:[], modes:new Set(), isBacklog:false});
+if(!maintGroups.has(key)) maintGroups.set(key, {flat:payment.flat, name:payment.name, date:payment.date||"-", amount:0, months:[], modes:new Set(), chalanNos:new Set(), isBacklog:false});
 const group = maintGroups.get(key);
 group.amount += amt;
 group.months.push(payment.dueMonth);
 if(payment.mode) group.modes.add(payment.mode);
+if(payment.chalanNo) group.chalanNos.add(payment.chalanNo);
 if(type === "Backlog") group.isBacklog = true;
 });
 const maintRows = Array.from(maintGroups.values()).map(group=>[
@@ -4250,6 +4282,7 @@ group.months.join(", "),
 "Rs. "+group.amount.toLocaleString('en-IN'),
 group.date,
 group.modes.size ? Array.from(group.modes).join(", ") : "-",
+group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
 const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), c.date||"-", c.mode||"-"]);
@@ -4269,12 +4302,12 @@ doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Maintenance Collection (Avak)", 14, y);
 doc.autoTable({
 startY: y+3,
-head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Type"]],
-body: maintRows.length ? maintRows : [["-","No maintenance collected this month","-","-","-","-","-"]],
+head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Chalan No.","Type"]],
+body: maintRows.length ? maintRows : [["-","No maintenance collected this month","-","-","-","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[21,42,78], fontSize:8.5}, styles:{fontSize:8, cellPadding:2.5, overflow:'linebreak'},
-columnStyles:{0:{cellWidth:10},1:{cellWidth:38},2:{cellWidth:43},3:{cellWidth:22},4:{cellWidth:23},5:{cellWidth:18},6:{cellWidth:16}},
+columnStyles:{0:{cellWidth:10},1:{cellWidth:34},2:{cellWidth:36},3:{cellWidth:22},4:{cellWidth:20},5:{cellWidth:16},6:{cellWidth:16},7:{cellWidth:14}},
 didParseCell: function(data){
-if(data.section==='body' && data.column.index===6){
+if(data.section==='body' && data.column.index===7){
 if(data.cell.raw === "Backlog"){ data.cell.styles.textColor = [209,73,91]; data.cell.styles.fontStyle='bold'; }
 else if(data.cell.raw === "Regular"){ data.cell.styles.textColor = [46,139,87]; data.cell.styles.fontStyle='bold'; }
 }
@@ -5305,6 +5338,7 @@ if(staged){
 document.getElementById('inputAmount').value = staged.amount || "";
 document.getElementById('inputDate').value = staged.date || "";
 document.getElementById('inputMode').value = staged.mode || "";
+document.getElementById('inputChalanNo').value = staged.chalanNo || "";
 // Not actually Paid yet (Confirm not pressed) — but reflect it in the
 // toggle button so it doesn't look like it reverted to Unpaid.
 setStatus("Paid");
@@ -5312,6 +5346,7 @@ setStatus("Paid");
 document.getElementById('inputAmount').value = md.amount || "";
 document.getElementById('inputDate').value = md.date || "";
 document.getElementById('inputMode').value = md.mode || "";
+document.getElementById('inputChalanNo').value = md.chalanNo || "";
 setStatus(md.status);
 }
 renderMonthGrid(currentFlat, fy);
@@ -5338,6 +5373,7 @@ md.status = "Paid";
 md.amount = s.amount;
 md.date = s.date;
 md.mode = s.mode;
+md.chalanNo = s.chalanNo || "";
 // noBalance = true means this is a backdated/historical entry (paid
 // before the app went live). It still shows as Paid everywhere (grid,
 // receipts, history, owner ledger), but its amount is excluded from
@@ -5369,12 +5405,26 @@ if(md && md.status === "Paid") md.mode = paymentMode;
 if(stagedMonths[m]) stagedMonths[m].mode = paymentMode;
 });
 }
+// Copies whatever Chalan No. is typed in the form onto every month covered
+// by this receipt (optional field — offline chalan-book number, used only
+// to match this app's online record with the physical/offline chalan book).
+function applyChalanToReceiptMonths(months, chalanNo){
+if(!currentFlat || !chalanNo) return;
+const fy = getFY();
+months.forEach(m=>{
+const md = getMonthData(currentFlat, fy, m);
+if(md && md.status === "Paid") md.chalanNo = chalanNo;
+if(stagedMonths[m]) stagedMonths[m].chalanNo = chalanNo;
+});
+}
 function confirmEntry(){
 const fy = getFY();
 const owner = flats.find(f=>f.n===currentFlat) || {name:"-"};
 const months = getReceiptMonths();
 const paidDate = document.getElementById('inputDate').value;
 const mode = document.getElementById('inputMode').value;
+const chalanNoEl = document.getElementById('inputChalanNo');
+const chalanNo = chalanNoEl ? chalanNoEl.value.trim() : "";
 const total = months.reduce((sum, month)=> sum + toNum((stagedMonths[month] || getEffectiveMonth(currentFlat, fy, month)).amount), 0);
 if(!months.length || !total){ alert("Confirm karta pehla paid month ane amount check karo."); return; }
 if(!paidDate){ alert("Paid On date select karo. Avak aa date na month ma jashe."); document.getElementById('inputDate').focus(); return; }
@@ -5386,12 +5436,14 @@ const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
 const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
-const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + balanceNote + "\n\nSachu hoy to OK dabavo.";
+const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
+const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
 applyPaymentDateToReceiptMonths(months, paidDate);
 applyPaymentModeToReceiptMonths(months, mode);
+applyChalanToReceiptMonths(months, chalanNo);
 saveFlat();
 const receipt = recordReceiptHistory();
 formConfirmed = true;
@@ -5410,10 +5462,10 @@ render();
 applyFormLockUI();
 const flatSummary = computeFlatsSummary(fy).find(f=>f.n===currentFlat);
 const remainingDue = flatSummary ? flatSummary.pendingDue : 0;
-alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
+alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + (chalanNo ? ("\nChalan No.: " + chalanNo) : "") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
 }
 function applyFormLockUI(){
-const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputDate","btnPaid","btnPending","btnUnselectMonth"];
+const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputChalanNo","inputDate","btnPaid","btnPending","btnUnselectMonth"];
 lockIds.forEach(id=>{
 const el = document.getElementById(id);
 if(el) el.disabled = formConfirmed;
@@ -5510,7 +5562,9 @@ if(!date){
 document.getElementById('inputDate').value = date;
 }
 const mode = document.getElementById('inputMode').value || "";
-stagedMonths[month] = { amount, date, mode };
+const chalanNoEl = document.getElementById('inputChalanNo');
+const chalanNo = chalanNoEl ? chalanNoEl.value.trim() : "";
+stagedMonths[month] = { amount, date, mode, chalanNo };
 if(!receiptSelection.includes(month)) receiptSelection.push(month);
 } else if(stagedMonths[month]){
 // Un-ticking a month that was only staged (not yet confirmed) — just
@@ -5602,6 +5656,7 @@ document.getElementById('modalOwner').textContent = flat.name;
 document.getElementById('modalFY').value = fy;
 document.getElementById('fyLabel').textContent = fy;
 document.getElementById('inputMobile').value = rec.mobile || "";
+document.getElementById('inputRemark').value = rec.remark || "";
 document.getElementById('inputPriorDue').value = toNum(rec.priorDue) || "";
 const noBalanceEl = document.getElementById('inputNoBalance');
 if(noBalanceEl) noBalanceEl.checked = false;
@@ -5775,6 +5830,8 @@ if(entered !== null && toNum(entered) > 0){ md.amount = entered; }
 }
 md.date = document.getElementById('inputDate').value || "";
 md.mode = document.getElementById('inputMode').value || "";
+const chalanNoEl0 = document.getElementById('inputChalanNo');
+md.chalanNo = chalanNoEl0 ? chalanNoEl0.value.trim() : "";
 persistFlatRecord(currentFlat, rec);
 renderMonthGrid(currentFlat, fy);
 renderDuesSummary(currentFlat);
@@ -5820,6 +5877,46 @@ renderDuesSummary(currentFlat);
 updateBatchTotalInfo();
 render();
 alert("✅ " + paidMonths.length + " Paid month(s) ni date " + displayDate(date) + " thai gai. Avak have sacha month ma dekhashe.");
+}
+
+// ---- Chalan No. (offline chalan-book number) — lets the admin type in the
+// same number written on the physical/offline chalan given to the owner, so
+// online (app) records and offline (paper chalan) records can be matched
+// and tracked easily. Saved per-month, same as date/mode, and copied into
+// the receipt history so it also shows up on downloaded receipts. ----
+function applyChalanToAllPaidMonths(){
+if(!currentFlat) return;
+const fy = getFY();
+const chalanNo = document.getElementById('inputChalanNo').value.trim();
+if(!chalanNo){ alert("Pehla Chalan No. lakho."); document.getElementById('inputChalanNo').focus(); return; }
+const yd = getYearData(currentFlat, fy);
+const paidMonths = MONTHS.filter(m=>{
+const md = yd.months[m];
+return (md && md.status === "Paid") || !!stagedMonths[m];
+});
+if(!paidMonths.length){ alert("Aa FY ma koi Paid month nathi."); return; }
+if(!confirm("Flat " + currentFlat + " na " + paidMonths.length + " Paid month(s) ne Chalan No. \"" + chalanNo + "\" jodavu che?")) return;
+paidMonths.forEach(m=>{
+if(stagedMonths[m]) stagedMonths[m].chalanNo = chalanNo;
+const md = yd.months[m];
+if(md && md.status === "Paid") md.chalanNo = chalanNo;
+});
+let historyChanged = false;
+(receiptHistory[currentFlat] || []).forEach(entry=>{
+if(entry.fy !== fy) return;
+const overlaps = entry.months && entry.months.some(x=>paidMonths.includes(x.month));
+if(!overlaps) return;
+entry.months.forEach(x=>{ if(paidMonths.includes(x.month)) x.chalanNo = chalanNo; });
+entry.chalanNo = chalanNo;
+historyChanged = true;
+});
+saveStore(store);
+if(historyChanged) saveReceiptHistory(receiptHistory);
+renderMonthGrid(currentFlat, fy);
+refreshHistoryBox(currentFlat);
+renderReceiptHistoryBox(currentFlat);
+render();
+alert("✅ " + paidMonths.length + " Paid month(s) ne Chalan No. \"" + chalanNo + "\" jodai gayu.");
 }
 
 // ---- One-tap repair: find every "Paid" month across all flats (current FY)
@@ -5871,11 +5968,12 @@ return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode |
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length);
+const chalanNo = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo).find(x=>x) || "";
+buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, chalanNo);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
 // an old receipt from history (which uses a saved snapshot instead of live data).
-function buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, monthCount){
+function buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, monthCount, chalanNo){
 const flat = flats.find(f=>f.n===flatNum);
 const rec = getRecord(flatNum);
 const isMulti = monthCount > 1;
@@ -5884,7 +5982,7 @@ const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + fy.replace("-","") + "
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti);
+drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, chalanNo);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Receipt-Flat" + flatNum + (isMulti ? "-Multi-" : "-") + date + "-" + fy + ".pdf");
@@ -5892,7 +5990,7 @@ doc.save("Receipt-Flat" + flatNum + (isMulti ? "-Multi-" : "-") + date + "-" + f
 
 // Full, spacious single-receipt layout (one per page) — used for longer
 // (7-12 month) receipts that need more room for the month table.
-function drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti){
+function drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, chalanNo){
 doc.setFont('helvetica','bold');
 doc.setFontSize(16);
 doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 18);
@@ -5931,7 +6029,9 @@ field("Financial Year", fy, 105);
 y += rowGap + 6;
  field("Payment Date", displayDate(date), 14);
 field("Months Paid", monthCount, 105);
-y += rowGap + 10;
+y += rowGap + 6;
+if(chalanNo){ field("Chalan No.", chalanNo, 14); y += rowGap + 6; }
+y += 4;
 
 doc.autoTable({
 startY: y,
@@ -5977,7 +6077,7 @@ doc.text("Pramukh / Authorized Signatory", 168, sigY + 11, { align: 'center' });
 
 // Compact single-receipt layout drawn inside a ~99mm-tall band starting at
 // yOff — three of these stacked fill one A4 page (paper & ink saver).
-function drawCompactReceipt(doc, yOff, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti){
+function drawCompactReceipt(doc, yOff, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, chalanNo){
 doc.setTextColor(0,0,0);
 doc.setFont('helvetica','bold'); doc.setFontSize(10);
 doc.text("URBAN RECIDENCY 2 BIL Maintenance", 6, yOff + 7);
@@ -5995,7 +6095,7 @@ doc.text("Generated: " + displayDate(localDateISO()), 204, yOff + 20, { align: '
 doc.setTextColor(0,0,0);
 
 doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-doc.text("Flat: " + flatNum + "    Mobile: " + (rec.mobile || "-") + "    FY: " + fy + "    Months Paid: " + monthCount, 6, yOff + 27);
+doc.text("Flat: " + flatNum + "    Mobile: " + (rec.mobile || "-") + "    FY: " + fy + "    Months Paid: " + monthCount + (chalanNo ? "    Chalan No.: " + chalanNo : ""), 6, yOff + 27);
 
 doc.autoTable({
 startY: yOff + 30,
@@ -6043,7 +6143,8 @@ const snapshot = months.map(m=>({
 month: m,
 amount: toNum((yd.months[m]||{}).amount),
 date: (yd.months[m]||{}).date || "",
-mode: (yd.months[m]||{}).mode || ""
+mode: (yd.months[m]||{}).mode || "",
+chalanNo: (yd.months[m]||{}).chalanNo || ""
 }));
 const total = snapshot.reduce((s,x)=> s + x.amount, 0);
 // Never create a second receipt record for exactly the same transaction.
@@ -6061,6 +6162,7 @@ fy: fy,
 months: snapshot,
 total: total,
 paidDate: snapshot[0].date || "",
+chalanNo: snapshot.map(x=>x.chalanNo).find(x=>x) || "",
 createdAt: new Date().toISOString()
 };
 if(!receiptHistory[currentFlat]) receiptHistory[currentFlat] = [];
@@ -6093,7 +6195,7 @@ box.style.display = "block";
 box.innerHTML = "<strong>📜 Payment History</strong>" + list.map(entry=>{
 const monthsStr = entry.months.map(x=>x.month).join(", ");
 return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);">
-<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + entry.paidDate : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + entry.paidDate : ""}${entry.chalanNo ? " · 🧾 Chalan #" + entry.chalanNo : ""}</span>
 <div style="display:flex;gap:6px;flex:none;">
 <button type="button" class="btn" style="background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 <button type="button" class="btn" style="background:var(--coral);color:#fff;padding:6px 10px;font-size:11px;" onclick='deleteReceiptHistoryEntry(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🗑️</button>
@@ -6131,7 +6233,8 @@ const list = receiptHistory[flatNum] || [];
 const entry = list.find(e=>e.id===entryId);
 if(!entry){ alert("Aa receipt history ma nathi malto."); return; }
 const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
-buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length);
+const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, chalanNo);
 }
 function downloadOwnerLedgerPDF(flatNum){
 if(!flatNum) return;
