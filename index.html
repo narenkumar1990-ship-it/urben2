@@ -2579,11 +2579,13 @@ FY:
 <option value="Building Repair / Maintenance"></option>
 <option value="Society Office / Administration"></option>
 <option value="Bank Charges"></option>
+<option value="Dharmada / Festival Fund - Handover to Committee"></option>
 <option value="Extra Expenses"></option>
 </datalist>
 <div class="field"><label>Amount (₹)</label><input type="number" id="expenseAmount" placeholder="e.g. 1000"></div>
 <div class="field"><label>Date</label><input type="date" id="expenseDate"></div>
 <div class="field"><label>Paid From</label><select id="expenseMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
+<div class="field"><label>Remark (optional)</label><input type="text" id="expenseRemark" placeholder="e.g. Extra note about this expense"></div>
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
 </div>
 
@@ -4191,7 +4193,7 @@ const detailHTML = hasDetail ? `
 <tr id="${detailId}" style="display:none;">
 <td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
 ${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${d.date})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
-${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+e.date+')':''}</div>`).join('') : ''}
+${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+e.date+')':''}${e.remark? ' <span style="color:var(--muted);font-style:italic;">— '+e.remark+'</span>':''}</div>`).join('') : ''}
 ${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+c.date+')':''}</div>`).join('') : ''}
 </td>
 </tr>` : '';
@@ -4286,7 +4288,7 @@ group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
 const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), c.date||"-", c.mode||"-"]);
-const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-"]);
+const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-", e.remark||"-"]);
 
 let y = 40;
 // Keep each section together. autoTable can add pages for long lists, but
@@ -4340,8 +4342,8 @@ doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Expense Entries (Javak)", 14, y);
 doc.autoTable({
 startY: y+3,
-head: [["Description","Amount","Date","Mode"]],
-body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-","-"]],
+head: [["Description","Amount","Date","Mode","Remark"]],
+body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
@@ -4397,8 +4399,8 @@ doc.text("Javak (Expense) List — FY " + fy, 14, 34);
 
 doc.autoTable({
 startY: 40,
-head: [["#","Description","Amount","Date","Mode"]],
-body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-"]) : [["-","No expense entries yet","-","-","-"]],
+head: [["#","Description","Amount","Date","Mode","Remark"]],
+body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-", e.remark||"-"]) : [["-","No expense entries yet","-","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:9, cellPadding:3}
 });
 
@@ -4452,7 +4454,7 @@ creditList.innerHTML = l.credits.length ? l.credits.map(c=>`
 const expenseList = document.getElementById('expenseList');
 expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>`
 <div class="entry-item">
-<div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date||''}${e.mode ? ' · '+(e.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div></div>
+<div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date||''}${e.mode ? ' · '+(e.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div>${e.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(e.remark)}</div>` : ''}</div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt expense">-${fmt(e.amount)}</div>
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
@@ -4799,7 +4801,7 @@ l.credits.forEach(c=>{
 txns.push({ date: c.date||"", particulars: c.desc || "Credit Entry", mode: c.mode||"-", credit: toNum(c.amount), debit: 0 });
 });
 l.expenses.forEach(e=>{
-txns.push({ date: e.date||"", particulars: e.desc || "Expense Entry", mode: e.mode||"-", credit: 0, debit: toNum(e.amount) });
+txns.push({ date: e.date||"", particulars: (e.desc || "Expense Entry") + (e.remark ? " ("+e.remark+")" : ""), mode: e.mode||"-", credit: 0, debit: toNum(e.amount) });
 });
 // Sort chronologically; entries with no date are placed at the end so a
 // missing date never silently misorders the audit trail.
@@ -4920,14 +4922,17 @@ const amount = document.getElementById('expenseAmount').value;
 const date = document.getElementById('expenseDate').value;
 const modeEl = document.getElementById('expenseMode');
 const mode = modeEl ? modeEl.value : "Bank";
+const remarkEl = document.getElementById('expenseRemark');
+const remark = remarkEl ? remarkEl.value.trim() : "";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
 const fy = getFY();
-const entry = {id: Date.now().toString(), desc, amount, date, mode, locked:true};
+const entry = {id: Date.now().toString(), desc, amount, date, mode, remark, locked:true};
 getLedgerFY(fy).expenses.push(entry);
 persistLedgerEntry(fy, 'expenses', entry);
 document.getElementById('expenseDesc').value = "";
 document.getElementById('expenseAmount').value = "";
 document.getElementById('expenseDate').value = "";
+if(remarkEl) remarkEl.value = "";
 renderLedger(fy);
 }
 async function deleteEntry(type, id){
