@@ -2552,6 +2552,7 @@ FY:
 <div class="tabbar">
 <button id="tabCredit" class="tab-active" onclick="switchLedgerTab(&#39;credit&#39;)">➕ Credit Entry</button>
 <button id="tabExpense" onclick="switchLedgerTab(&#39;expense&#39;)">➖ Expense Entry</button>
+<button id="tabTransfer" onclick="switchLedgerTab(&#39;transfer&#39;)">🔄 Cash ⇄ Bank</button>
 </div>
 
 <div class="entry-form show" id="formCredit">
@@ -2589,11 +2590,23 @@ FY:
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
 </div>
 
+<div class="entry-form" id="formTransfer">
+<div class="field"><label>Direction</label><select id="transferDirection"><option value="CashToBank">💵 Cash → 🏦 Bank (Cash deposited into bank)</option><option value="BankToCash">🏦 Bank → 💵 Cash (Cash withdrawn from bank)</option></select></div>
+<div class="field"><label>Amount (₹)</label><input type="number" id="transferAmount" placeholder="e.g. 5000"></div>
+<div class="field"><label>Date</label><input type="date" id="transferDate"></div>
+<div class="field"><label>Remark (optional)</label><input type="text" id="transferRemark" placeholder="e.g. Ganpati dharmada cash deposited"></div>
+<button class="btn-add" onclick="addTransfer()">Add Transfer</button>
+<div class="mini" style="padding:6px 2px 0;color:var(--muted);font-size:11.5px;line-height:1.4;">ℹ️ Aa entry Total Collection/Expense ne asar nathi karti — fakt Bank ane Cash balance vachche paisa move thay chhe.</div>
+</div>
+
 <div class="section-title">Credit Entries</div>
 <div class="entry-list" id="creditList"><div class="no-results">No credit entries yet</div></div>
 
 <div class="section-title">Expense Entries</div>
 <div class="entry-list" id="expenseList"><div class="no-results">No expense entries yet</div></div>
+
+<div class="section-title">Cash ⇄ Bank Transfers</div>
+<div class="entry-list" id="transferList"><div class="no-results">No transfer entries yet</div></div>
 
 <div style="padding:6px 15px 4px 15px;">
 <button style="width:100%;padding:12px;border:none;border-radius:10px;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadJavakListPDF()">📄 Download Javak (Expense) List PDF</button>
@@ -3188,7 +3201,7 @@ function normaliseLedgerList(value){
 function mergePendingLedgerEntries(remoteLedger){
   const merged = remoteLedger && typeof remoteLedger === "object" ? JSON.parse(JSON.stringify(remoteLedger)) : {};
   pendingLedgerEntries.forEach(item=>{
-    if(!merged[item.fy]) merged[item.fy] = {credits:[], expenses:[]};
+    if(!merged[item.fy]) merged[item.fy] = {credits:[], expenses:[], transfers:[]};
     const list = normaliseLedgerList(merged[item.fy][item.type]);
     if(!list.some(x=>x && x.id === item.entry.id)) list.push(item.entry);
     merged[item.fy][item.type] = list;
@@ -3339,9 +3352,10 @@ function initFirebaseSync(){
       // real array here so .forEach/.map/.filter never throw later and get
       // this loading screen stuck forever.
       Object.keys(ledger).forEach(fy=>{
-        if(!ledger[fy] || typeof ledger[fy] !== "object") ledger[fy] = {credits:[], expenses:[]};
+        if(!ledger[fy] || typeof ledger[fy] !== "object") ledger[fy] = {credits:[], expenses:[], transfers:[]};
         ledger[fy].credits = normaliseLedgerList(ledger[fy].credits);
         ledger[fy].expenses = normaliseLedgerList(ledger[fy].expenses);
+        ledger[fy].transfers = normaliseLedgerList(ledger[fy].transfers);
       });
       settings = data.settings || {defaultAmount:0, locked:false, presidentName:""};
       renderPresidentName();
@@ -3408,9 +3422,10 @@ render();
 alert("Thai gayu — badhu paid data, ledger ane payment history zero thai gayu.");
 }
 function getLedgerFY(fy){
-if(!ledger[fy]) ledger[fy] = {credits:[], expenses:[]};
+if(!ledger[fy]) ledger[fy] = {credits:[], expenses:[], transfers:[]};
 if(!ledger[fy].credits) ledger[fy].credits = [];
 if(!ledger[fy].expenses) ledger[fy].expenses = [];
+if(!ledger[fy].transfers) ledger[fy].transfers = [];
 return ledger[fy];
 }
 
@@ -3588,8 +3603,21 @@ return getLedgerFY(fy).expenses.filter(e=> modeGroupOf(e.mode)===group).reduce((
 function computeCollectionTotalByMode(fy, group){
 return computeMaintenanceTotalByMode(fy, group) + computeCreditsTotalByMode(fy, group);
 }
+// ---- Cash <-> Bank Transfers ----
+// A transfer (e.g. depositing collected cash into the bank) is NOT income
+// or expense — it must never change Total Collection/Expense/Balance. It
+// only moves money between the Cash bucket and the Bank bucket, so it's
+// tracked in its own "transfers" list and only affects the by-mode split.
+function computeTransferNetByMode(fy, group){
+return getLedgerFY(fy).transfers.reduce((s,t)=>{
+const amt = toNum(t.amount);
+if(t.direction === "CashToBank") return s + (group==="Bank" ? amt : -amt);
+if(t.direction === "BankToCash") return s + (group==="Cash" ? amt : -amt);
+return s;
+}, 0);
+}
 function computeBalanceByMode(fy, group){
-return computeCollectionTotalByMode(fy, group) - computeExpenseTotalByMode(fy, group);
+return computeCollectionTotalByMode(fy, group) - computeExpenseTotalByMode(fy, group) + computeTransferNetByMode(fy, group);
 }
 function fyStartYear(fy){ return parseInt(fy.split("-")[0], 10); }
 function prevFY(fy){ const y = fyStartYear(fy) - 1; return y + "-" + String(y+1).slice(-2); }
@@ -4150,8 +4178,8 @@ return rows;
 // not just the overall combined balance.
 function computeMonthlyLedgerRowsByMode(fy){
 const l = getLedgerFY(fy);
-const maintByMonth = {}, creditByMonth = {}, expenseByMonth = {};
-MONTHS.forEach(m=>{ maintByMonth[m]={Bank:0,Cash:0}; creditByMonth[m]={Bank:0,Cash:0}; expenseByMonth[m]={Bank:0,Cash:0}; });
+const maintByMonth = {}, creditByMonth = {}, expenseByMonth = {}, transferByMonth = {};
+MONTHS.forEach(m=>{ maintByMonth[m]={Bank:0,Cash:0}; creditByMonth[m]={Bank:0,Cash:0}; expenseByMonth[m]={Bank:0,Cash:0}; transferByMonth[m]={Bank:0,Cash:0}; });
 maintenancePaymentsForFY(fy).forEach(p=>{
 const m = dateToFYMonth(p.date) || p.dueMonth;
 if(!maintByMonth[m]) return;
@@ -4165,11 +4193,18 @@ l.expenses.forEach(e=>{
 const m = dateToFYMonth(e.date);
 if(m && expenseByMonth[m]) expenseByMonth[m][modeGroupOf(e.mode)] += toNum(e.amount);
 });
+l.transfers.forEach(t=>{
+const m = dateToFYMonth(t.date);
+if(!m || !transferByMonth[m]) return;
+const amt = toNum(t.amount);
+if(t.direction === "CashToBank"){ transferByMonth[m].Bank += amt; transferByMonth[m].Cash -= amt; }
+else if(t.direction === "BankToCash"){ transferByMonth[m].Cash += amt; transferByMonth[m].Bank -= amt; }
+});
 const opening = getOpeningBalanceSplit(fy);
 let runningBank = opening.bank, runningCash = opening.cash;
 return MONTHS.map(m=>{
-runningBank += (maintByMonth[m].Bank + creditByMonth[m].Bank) - expenseByMonth[m].Bank;
-runningCash += (maintByMonth[m].Cash + creditByMonth[m].Cash) - expenseByMonth[m].Cash;
+runningBank += (maintByMonth[m].Bank + creditByMonth[m].Bank) - expenseByMonth[m].Bank + transferByMonth[m].Bank;
+runningCash += (maintByMonth[m].Cash + creditByMonth[m].Cash) - expenseByMonth[m].Cash + transferByMonth[m].Cash;
 return {month:m, bankBalance:runningBank, cashBalance:runningCash};
 });
 }
@@ -4181,13 +4216,14 @@ body.innerHTML = rows.map(r=>{
 const isOther = r.month === "Other (no date)";
 const credits = l.credits.filter(c=> isOther ? !dateToFYMonth(c.date) : dateToFYMonth(c.date)===r.month);
 const expenses = l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateToFYMonth(e.date)===r.month);
+const transfers = l.transfers.filter(t=> isOther ? !dateToFYMonth(t.date) : dateToFYMonth(t.date)===r.month);
 // Per-flat maintenance collected in this payment month, tagged Regular
 // (paid in its due month) or Backlog (an older due paid now).
 const flatMaintDetails = isOther ? [] : maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month).map(payment=>({
 flat:payment.flat, name:payment.name, amount:payment.amount, date:payment.date||"-", chalanNo:payment.chalanNo||"",
 type:(payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular"
 }));
-const hasDetail = credits.length || expenses.length || flatMaintDetails.length;
+const hasDetail = credits.length || expenses.length || transfers.length || flatMaintDetails.length;
 const detailId = "mld-" + r.month.replace(/[^A-Za-z]/g,'');
 const detailHTML = hasDetail ? `
 <tr id="${detailId}" style="display:none;">
@@ -4195,6 +4231,7 @@ const detailHTML = hasDetail ? `
 ${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${d.date})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
 ${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+e.date+')':''}${e.remark? ' <span style="color:var(--muted);font-style:italic;">— '+e.remark+'</span>':''}</div>`).join('') : ''}
 ${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+c.date+')':''}</div>`).join('') : ''}
+${transfers.length ? '<div style="color:var(--navy);font-weight:700;margin:6px 0 3px;">🔄 Cash ⇄ Bank Transfer:</div>' + transfers.map(t=>`<div style="padding:1px 0;">• ${t.direction==='CashToBank' ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash'} — ₹${toNum(t.amount).toLocaleString('en-IN')}${t.date? ' ('+t.date+')':''}${t.remark? ' <span style="color:var(--muted);font-style:italic;">— '+t.remark+'</span>':''}</div>`).join('') : ''}
 </td>
 </tr>` : '';
 return `
@@ -4460,6 +4497,20 @@ expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>`
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
 </div>
 </div>`).join("") : `<div class="no-results">No expense entries yet</div>`;
+
+const transferList = document.getElementById('transferList');
+transferList.innerHTML = l.transfers.length ? l.transfers.slice().sort((a,b)=>(b.id||"").localeCompare(a.id||"")).map(t=>{
+const isCashToBank = t.direction === "CashToBank";
+const label = isCashToBank ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash';
+return `
+<div class="entry-item">
+<div><div class="e-desc">🔄 ${label}</div><div class="e-date">${t.date||''}</div>${t.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(t.remark)}</div>` : ''}</div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt" style="color:var(--navy);">${fmt(t.amount)}</div>
+<button class="e-del" onclick="deleteEntry('transfers','${t.id}')">✕</button>
+</div>
+</div>`;
+}).join("") : `<div class="no-results">No transfer entries yet</div>`;
 }
 
 function computeMonthWiseCollectionRows(fy){
@@ -4803,6 +4854,21 @@ txns.push({ date: c.date||"", particulars: c.desc || "Credit Entry", mode: c.mod
 l.expenses.forEach(e=>{
 txns.push({ date: e.date||"", particulars: (e.desc || "Expense Entry") + (e.remark ? " ("+e.remark+")" : ""), mode: e.mode||"-", credit: 0, debit: toNum(e.amount) });
 });
+// Cash <-> Bank transfers are recorded as classic "Contra" entries: they
+// appear twice (once on the Cash side, once on the Bank side) so the cash
+// book shows the real movement, but they always net to zero on the
+// closing balance since one line is a credit and the other a debit.
+l.transfers.forEach(t=>{
+const amt = toNum(t.amount);
+const label = "Cash \u2194 Bank Transfer (Contra)" + (t.remark ? " - " + t.remark : "");
+if(t.direction === "CashToBank"){
+txns.push({ date: t.date||"", particulars: label, mode: "Cash", credit: 0, debit: amt });
+txns.push({ date: t.date||"", particulars: label, mode: "Bank", credit: amt, debit: 0 });
+} else if(t.direction === "BankToCash"){
+txns.push({ date: t.date||"", particulars: label, mode: "Bank", credit: 0, debit: amt });
+txns.push({ date: t.date||"", particulars: label, mode: "Cash", credit: amt, debit: 0 });
+}
+});
 // Sort chronologically; entries with no date are placed at the end so a
 // missing date never silently misorders the audit trail.
 txns.sort((a,b)=>{
@@ -4894,8 +4960,10 @@ function switchLedgerTab(tab){
 currentLedgerTab = tab;
 document.getElementById('tabCredit').classList.toggle('tab-active', tab==='credit');
 document.getElementById('tabExpense').classList.toggle('tab-active', tab==='expense');
+document.getElementById('tabTransfer').classList.toggle('tab-active', tab==='transfer');
 document.getElementById('formCredit').classList.toggle('show', tab==='credit');
 document.getElementById('formExpense').classList.toggle('show', tab==='expense');
+document.getElementById('formTransfer').classList.toggle('show', tab==='transfer');
 }
 function addCredit(){
 const desc = document.getElementById('creditDesc').value.trim();
@@ -4932,6 +5000,27 @@ persistLedgerEntry(fy, 'expenses', entry);
 document.getElementById('expenseDesc').value = "";
 document.getElementById('expenseAmount').value = "";
 document.getElementById('expenseDate').value = "";
+if(remarkEl) remarkEl.value = "";
+renderLedger(fy);
+}
+// ---- Cash <-> Bank Transfer ----
+// This does NOT touch Total Collection/Expense — it only moves money
+// between the Bank and Cash buckets (see computeTransferNetByMode).
+function addTransfer(){
+const directionEl = document.getElementById('transferDirection');
+const direction = directionEl ? directionEl.value : "CashToBank";
+const amount = document.getElementById('transferAmount').value;
+const date = document.getElementById('transferDate').value;
+const remarkEl = document.getElementById('transferRemark');
+const remark = remarkEl ? remarkEl.value.trim() : "";
+if(!amount || toNum(amount) <= 0){ alert("Sacho Amount bharo"); return; }
+if(!date){ alert("Date bharo"); return; }
+const fy = getFY();
+const entry = {id: Date.now().toString(), amount, date, direction, remark};
+getLedgerFY(fy).transfers.push(entry);
+persistLedgerEntry(fy, 'transfers', entry);
+document.getElementById('transferAmount').value = "";
+document.getElementById('transferDate').value = "";
 if(remarkEl) remarkEl.value = "";
 renderLedger(fy);
 }
