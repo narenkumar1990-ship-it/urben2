@@ -2678,12 +2678,17 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 </div>
 
 <div class="field">
-<label>Payment Remark</label>
+<label>Remarks</label>
 <div style="display:flex;gap:8px;">
 <input type="text" id="inputRemark" placeholder="e.g. Cheque no., partial payment, koi note...">
-<button type="button" onclick="saveOwnerRemark()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;white-space:nowrap;">Save</button>
+<button type="button" onclick="saveOwnerRemark()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;white-space:nowrap;">➕ Add</button>
 </div>
-<div style="font-size:11px;color:var(--muted);margin-top:5px;">Aa remark aa flat mate general note tarike save thashe (dat: kai reason, kai special baat, etc.) — Payment History ma nathi jodaatu.</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+<span style="font-size:11.5px;font-weight:700;color:var(--navy);white-space:nowrap;">📅 Remark Date</span>
+<input type="date" id="inputRemarkDate" style="flex:1;">
+</div>
+<div id="remarkList" style="margin-top:8px;"></div>
+<div style="font-size:11px;color:var(--muted);margin-top:5px;">Remark save thaya pachi box khali thai jashe (next payment mate navu lakho). Juna remarks "Pichhla Remarks" button ma chhupela rahese, ane Full Ledger PDF ma sauthi neeche "Remarks" table ma dekhashe.</div>
 </div>
 
 <div class="field" style="background:#FFF7E6;border:1.5px solid #F0D89B;border-radius:10px;padding:10px 12px;display:none;">
@@ -2831,7 +2836,10 @@ Mar
 </div>
 <div class="modal-actions" style="margin-top:8px;">
 <button class="btn" style="background:var(--green);color:#fff;" onclick="togglePaymentHistory()">📜 Payment History</button>
-<button class="btn" style="background:var(--saffron);color:#fff;" onclick="downloadOwnerLedgerPDF(currentFlat)">📄 Full Ledger PDF</button>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;align-items:stretch;">
+<select id="ledgerFYSelect" title="Kayu ledger joiye chhe?" style="flex:1;min-width:0;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:13px;font-weight:600;background:#fff;color:var(--navy);"></select>
+<button class="btn" style="background:var(--saffron);color:#fff;flex:none;white-space:nowrap;" onclick="downloadOwnerLedgerPDF(currentFlat)">📄 Ledger PDF</button>
 </div>
 <div class="modal-actions" style="margin-top:8px;">
 <button class="btn" style="background:#25D366;color:#073B1D;" onclick="sharePaymentOnWhatsApp()">💬 WhatsApp Payment Summary</button>
@@ -3009,7 +3017,7 @@ function renderResidentView(flatNum){
     histBox.innerHTML = list.map(entry=>{
       const monthsStr = entry.months.map(x=>x.month).join(", ");
       return `<div class="rv-history-item">
-<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + entry.paidDate : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}</span>
 <button type="button" class="btn" style="flex:none;background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 </div>`;
     }).join("");
@@ -3304,7 +3312,7 @@ const ov = ownerOverrides[flatNum];
 if(!ov || !ov.history || !ov.history.length){ box.style.display = "none"; box.innerHTML = ""; return; }
 box.style.display = "block";
 box.innerHTML = "📜 Aa flat na juna owners: " + ov.history.map(h=>
-  esc(h.oldName) + " (" + new Date(h.changedAt).toLocaleDateString('en-IN') + " sudhi)"
+  esc(h.oldName) + " (" + displayDate(localDateISO(new Date(h.changedAt))) + " sudhi)"
 ).join(" · ");
 }
 
@@ -3435,6 +3443,12 @@ function getRecord(flatNum){
 if(!store[flatNum]) store[flatNum] = {mobile:"", years:{}, priorDue:0, remark:""};
 if(store[flatNum].priorDue === undefined) store[flatNum].priorDue = 0;
 if(store[flatNum].remark === undefined) store[flatNum].remark = "";
+if(!Array.isArray(store[flatNum].remarks)) store[flatNum].remarks = [];
+// Old single-note remark -> becomes the first entry of the remarks list
+if(store[flatNum].remark){
+store[flatNum].remarks.unshift({id:"rm_old_"+flatNum, date:"", text:store[flatNum].remark});
+store[flatNum].remark = "";
+}
 if(!store[flatNum].years) store[flatNum].years = {};
 return store[flatNum];
 }
@@ -3443,11 +3457,71 @@ return store[flatNum];
 // month-wise paid/pending data, saved directly to Firebase. ----
 function saveOwnerRemark(){
 if(!currentFlat) return;
-const val = document.getElementById('inputRemark').value.trim();
+const el = document.getElementById('inputRemark');
+const val = el.value.trim();
+if(!val){ alert("Pehla remark lakho."); el.focus(); return; }
 const rec = getRecord(currentFlat);
-rec.remark = val;
-saveStore(store);
-alert("Flat " + currentFlat + " nu Remark save thai gayu.");
+const dateEl = document.getElementById('inputRemarkDate');
+const remarkDate = (dateEl && dateEl.value) ? dateEl.value : localDateISO();
+rec.remarks.push({ id:"rm_"+Date.now()+"_"+Math.random().toString(36).slice(2,6), date:remarkDate, text:val });
+persistFlatRecord(currentFlat, rec);
+audit('Remark umeryu — Flat ' + currentFlat + ' (' + remarkDate + ')', val);
+el.value = "";
+if(dateEl) dateEl.value = localDateISO();
+renderRemarkList(currentFlat);
+}
+function deleteOwnerRemark(id){
+if(!currentFlat) return;
+const rec = getRecord(currentFlat);
+const item = rec.remarks.find(r=>r.id===id);
+if(!item) return;
+if(!confirm("Aa remark delete karvu che?\n\n" + item.text)) return;
+rec.remarks = rec.remarks.filter(r=>r.id!==id);
+persistFlatRecord(currentFlat, rec);
+audit('Remark delete — Flat ' + currentFlat, item.text);
+renderRemarkList(currentFlat);
+}
+// Oldest date first; remarks with no date stay at the top.
+function sortedRemarks(rec){
+return rec.remarks.map((r,i)=>({r,i})).sort((a,b)=>{
+const da = a.r.date || "", db = b.r.date || "";
+return da < db ? -1 : da > db ? 1 : a.i - b.i;
+}).map(x=>x.r);
+}
+function setRemarkDate(id, val){
+if(!currentFlat || !val) return;
+const rec = getRecord(currentFlat);
+const item = rec.remarks.find(r=>r.id===id);
+if(!item) return;
+item.date = val;
+persistFlatRecord(currentFlat, rec);
+audit('Remark date set — Flat ' + currentFlat, item.text + ' (' + val + ')');
+renderRemarkList(currentFlat);
+}
+function renderRemarkList(flatNum){
+const box = document.getElementById('remarkList');
+if(!box) return;
+const list = sortedRemarks(getRecord(flatNum));
+if(!list.length){ box.innerHTML = ""; return; }
+const rowsHTML = list.map((r,i)=>
+'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:12px;line-height:1.4;">' +
+'<span><b>' + (i+1) + '.</b> ' + esc(r.text) + '<br>' +
+(r.date
+? '<span style="color:var(--muted);">📅 ' + esc(displayDate(r.date)) + '</span>'
+: '<span style="color:var(--coral);">📅 Date nathi — </span><input type="date" onchange="setRemarkDate(\'' + r.id + '\', this.value)" style="font-size:11px;padding:2px 4px;">') +
+'</span>' +
+'<button type="button" onclick="deleteOwnerRemark(\'' + r.id + '\')" title="Delete remark" style="border:none;background:#FBE7EA;color:#D1495B;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;cursor:pointer;flex:none;">✕</button>' +
+'</div>').join('');
+// Past remarks stay collapsed (count only) so the owner card doesn't grow long;
+// when opened, the list scrolls inside a small box.
+box.innerHTML =
+'<button type="button" onclick="toggleRemarkList()" style="border:1.5px solid var(--line);background:#F4F6FA;color:var(--navy);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer;">📝 Pichhla Remarks (' + list.length + ') ' + (remarkListOpen ? '▲' : '▼') + '</button>' +
+(remarkListOpen ? '<div style="max-height:170px;overflow-y:auto;margin-top:6px;border:1px solid var(--line);border-radius:8px;padding:0 8px;">' + rowsHTML + '</div>' : '');
+}
+let remarkListOpen = false;
+function toggleRemarkList(){
+remarkListOpen = !remarkListOpen;
+if(currentFlat) renderRemarkList(currentFlat);
 }
 function getYearData(flatNum, fy){
 const rec = getRecord(flatNum);
@@ -3962,7 +4036,7 @@ return `<div class="ra-item">
 <div class="ra-icon ${it.kind}">${isCredit ? '➕' : '➖'}</div>
 <div class="ra-info">
 <div class="ra-desc">${it.desc}${!isCredit ? ' 🔒' : ''}</div>
-<div class="ra-date">${it.date || 'No date'}</div>
+<div class="ra-date">${it.date ? displayDate(it.date) : 'No date'}</div>
 </div>
 <div class="ra-amt ${it.kind}">${isCredit ? '+' : '-'}${fmt(it.amount)}</div>
 </div>`;
@@ -4228,10 +4302,10 @@ const detailId = "mld-" + r.month.replace(/[^A-Za-z]/g,'');
 const detailHTML = hasDetail ? `
 <tr id="${detailId}" style="display:none;">
 <td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
-${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${d.date})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
-${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+e.date+')':''}${e.remark? ' <span style="color:var(--muted);font-style:italic;">— '+e.remark+'</span>':''}</div>`).join('') : ''}
-${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+c.date+')':''}</div>`).join('') : ''}
-${transfers.length ? '<div style="color:var(--navy);font-weight:700;margin:6px 0 3px;">🔄 Cash ⇄ Bank Transfer:</div>' + transfers.map(t=>`<div style="padding:1px 0;">• ${t.direction==='CashToBank' ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash'} — ₹${toNum(t.amount).toLocaleString('en-IN')}${t.date? ' ('+t.date+')':''}${t.remark? ' <span style="color:var(--muted);font-style:italic;">— '+t.remark+'</span>':''}</div>`).join('') : ''}
+${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${displayDate(d.date)})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
+${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+displayDate(e.date)+')':''}${e.remark? ' <span style="color:var(--muted);font-style:italic;">— '+e.remark+'</span>':''}</div>`).join('') : ''}
+${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+displayDate(c.date)+')':''}</div>`).join('') : ''}
+${transfers.length ? '<div style="color:var(--navy);font-weight:700;margin:6px 0 3px;">🔄 Cash ⇄ Bank Transfer:</div>' + transfers.map(t=>`<div style="padding:1px 0;">• ${t.direction==='CashToBank' ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash'} — ₹${toNum(t.amount).toLocaleString('en-IN')}${t.date? ' ('+displayDate(t.date)+')':''}${t.remark? ' <span style="color:var(--muted);font-style:italic;">— '+t.remark+'</span>':''}</div>`).join('') : ''}
 </td>
 </tr>` : '';
 return `
@@ -4319,13 +4393,13 @@ group.flat,
 group.name,
 group.months.join(", "),
 "Rs. "+group.amount.toLocaleString('en-IN'),
-group.date,
+displayDate(group.date),
 group.modes.size ? Array.from(group.modes).join(", ") : "-",
 group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
-const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), c.date||"-", c.mode||"-"]);
-const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-", e.remark||"-"]);
+const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
+const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]);
 
 let y = 40;
 // Keep each section together. autoTable can add pages for long lists, but
@@ -4406,7 +4480,7 @@ doc.text("Opening this month - Bank: Rs. " + openingBankForMonth.toLocaleString(
 doc.setTextColor(0,0,0);
 
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y+60);
+doc.text("Generated on " + displayDate(localDateISO()), 14, y+60);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Ledger-" + month + "-" + fy + ".pdf");
@@ -4437,7 +4511,7 @@ doc.text("Javak (Expense) List — FY " + fy, 14, 34);
 doc.autoTable({
 startY: 40,
 head: [["#","Description","Amount","Date","Mode","Remark"]],
-body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), e.date||"-", e.mode||"-", e.remark||"-"]) : [["-","No expense entries yet","-","-","-","-"]],
+body: expenses.length ? expenses.map((e,i)=>[i+1, e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]) : [["-","No expense entries yet","-","-","-","-"]],
 theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:9, cellPadding:3}
 });
 
@@ -4446,7 +4520,7 @@ doc.setFont('helvetica','bold'); doc.setFontSize(11);
 doc.text("Total Javak: Rs. " + Math.round(total).toLocaleString('en-IN'), 14, finalY);
 
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, finalY+10);
+doc.text("Generated on " + displayDate(localDateISO()), 14, finalY+10);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Javak-Expense-List-" + fy + ".pdf");
@@ -4481,7 +4555,7 @@ const l = getLedgerFY(fy);
 const creditList = document.getElementById('creditList');
 creditList.innerHTML = l.credits.length ? l.credits.map(c=>`
 <div class="entry-item">
-<div><div class="e-desc">${c.desc}</div><div class="e-date">${c.date||''}${c.mode ? ' · '+(c.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div></div>
+<div><div class="e-desc">${c.desc}</div><div class="e-date">${c.date ? displayDate(c.date) : ''}${c.mode ? ' · '+(c.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div></div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt credit">+${fmt(c.amount)}</div>
 <button class="e-del" onclick="deleteEntry('credits','${c.id}')">✕</button>
@@ -4491,7 +4565,7 @@ creditList.innerHTML = l.credits.length ? l.credits.map(c=>`
 const expenseList = document.getElementById('expenseList');
 expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>`
 <div class="entry-item">
-<div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date||''}${e.mode ? ' · '+(e.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div>${e.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(e.remark)}</div>` : ''}</div>
+<div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date ? displayDate(e.date) : ''}${e.mode ? ' · '+(e.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div>${e.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(e.remark)}</div>` : ''}</div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt expense">-${fmt(e.amount)}</div>
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
@@ -4504,7 +4578,7 @@ const isCashToBank = t.direction === "CashToBank";
 const label = isCashToBank ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash';
 return `
 <div class="entry-item">
-<div><div class="e-desc">🔄 ${label}</div><div class="e-date">${t.date||''}</div>${t.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(t.remark)}</div>` : ''}</div>
+<div><div class="e-desc">🔄 ${label}</div><div class="e-date">${t.date ? displayDate(t.date) : ''}</div>${t.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(t.remark)}</div>` : ''}</div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt" style="color:var(--navy);">${fmt(t.amount)}</div>
 <button class="e-del" onclick="deleteEntry('transfers','${t.id}')">✕</button>
@@ -4737,7 +4811,7 @@ y = doc.lastAutoTable.finalY + 10;
 
 if(y > 270){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y);
+doc.text("Generated on " + displayDate(localDateISO()), 14, y);
 
 stampGeneratedOnAllPages(doc);
 doc.save("FY-Report-" + fy + ".pdf");
@@ -4782,7 +4856,7 @@ footStyles:{fillColor:[246,241,228], textColor:[21,42,78], fontStyle:'bold'}
 let y = doc.lastAutoTable.finalY + 10;
 if(y > 270){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y);
+doc.text("Generated on " + displayDate(localDateISO()), 14, y);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Total-Outstanding-Report-" + new Date().toISOString().slice(0,10) + ".pdf");
@@ -4822,7 +4896,7 @@ theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:
 let y = doc.lastAutoTable.finalY + 10;
 if(y > 270){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN') + "   |   Total Flats: " + rows.length, 14, y);
+doc.text("Generated on " + displayDate(localDateISO()) + "   |   Total Flats: " + rows.length, 14, y);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Owner-List.pdf");
@@ -4885,7 +4959,7 @@ const rows = txns.map((t,i)=>{
 running += t.credit - t.debit;
 return [
 i+1,
-t.date || "-",
+displayDate(t.date || "-"),
 t.particulars,
 t.mode || "-",
 t.credit ? "Rs. "+t.credit.toLocaleString('en-IN') : "-",
@@ -4949,7 +5023,7 @@ doc.text("Chairman Signature: ______________________", 105, y);
 y += 14;
 
 doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(120,116,102);
-doc.text("This is a system-generated ledger statement based on entries recorded in the app as of " + new Date().toLocaleDateString('en-IN') + ".", 14, y);
+doc.text("This is a system-generated ledger statement based on entries recorded in the app as of " + displayDate(localDateISO()) + ".", 14, y);
 
 stampGeneratedOnAllPages(doc);
 doc.save("Official-Ledger-FY-" + fy + ".pdf");
@@ -5531,7 +5605,7 @@ const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
 const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
-const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + paidDate + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
+const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + displayDate(paidDate) + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
@@ -5750,7 +5824,11 @@ document.getElementById('modalOwner').textContent = flat.name;
 document.getElementById('modalFY').value = fy;
 document.getElementById('fyLabel').textContent = fy;
 document.getElementById('inputMobile').value = rec.mobile || "";
-document.getElementById('inputRemark').value = rec.remark || "";
+document.getElementById('inputRemark').value = "";
+document.getElementById('inputRemarkDate').value = localDateISO();
+buildLedgerFYOptions();
+remarkListOpen = false;
+renderRemarkList(flatNum);
 document.getElementById('inputPriorDue').value = toNum(rec.priorDue) || "";
 const noBalanceEl = document.getElementById('inputNoBalance');
 if(noBalanceEl) noBalanceEl.checked = false;
@@ -6289,7 +6367,7 @@ box.style.display = "block";
 box.innerHTML = "<strong>📜 Payment History</strong>" + list.map(entry=>{
 const monthsStr = entry.months.map(x=>x.month).join(", ");
 return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);">
-<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + entry.paidDate : ""}${entry.chalanNo ? " · 🧾 Chalan #" + entry.chalanNo : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${entry.chalanNo ? " · 🧾 Chalan #" + entry.chalanNo : ""}</span>
 <div style="display:flex;gap:6px;flex:none;">
 <button type="button" class="btn" style="background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 <button type="button" class="btn" style="background:var(--coral);color:#fff;padding:6px 10px;font-size:11px;" onclick='deleteReceiptHistoryEntry(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🗑️</button>
@@ -6330,15 +6408,32 @@ const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleStr
 const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
 buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, chalanNo);
 }
-function downloadOwnerLedgerPDF(flatNum){
+// Fills the "which ledger" dropdown in the owner card: Full (all years) or one FY.
+function buildLedgerFYOptions(){
+const sel = document.getElementById('ledgerFYSelect');
+if(!sel) return;
+const fyList = Array.from(document.getElementById('modalFY').options).map(o=>o.value);
+sel.innerHTML = '<option value="ALL">📚 Full Ledger (All Years)</option>' +
+fyList.map(fy=>'<option value="' + fy + '">FY ' + fy + ' Ledger</option>').join('');
+sel.value = "ALL";
+}
+function downloadOwnerLedgerPDF(flatNum, fyChoice){
 if(!flatNum) return;
 const flat = flats.find(f=>f.n===flatNum);
 const rec = getRecord(flatNum);
 const currentFY = document.getElementById('modalFY').value;
+const selEl = document.getElementById('ledgerFYSelect');
+const choice = fyChoice || (selEl && selEl.value) || "ALL";
+const isAll = (choice === "ALL");
 
-let years = Object.keys(rec.years).filter(y=> Object.keys(rec.years[y].months||{}).length);
+let years;
+if(isAll){
+years = Object.keys(rec.years).filter(y=> Object.keys(rec.years[y].months||{}).length);
 if(!years.includes(currentFY)) years.push(currentFY);
 years.sort();
+} else {
+years = [choice];
+}
 
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
@@ -6358,7 +6453,7 @@ doc.text("Flat: " + flatNum, 14, 34);
 doc.text("Owner: " + flat.name, 14, 41);
 doc.setFont('helvetica','normal');
 doc.text("Mobile: " + (rec.mobile || "-"), 14, 48);
-doc.text("Full Payment History (all years)", 140, 34);
+doc.text(isAll ? "Full Payment History (all years)" : "Payment Ledger - FY " + choice, 140, 34);
 
 let y = 55;
 let grandPaid = 0, grandDue = 0, grandMonthsPaid = 0;
@@ -6367,10 +6462,19 @@ years.forEach((fy, idx)=>{
 const yd = getYearData(flatNum, fy);
 let paidCount = 0, totalPaid = 0, totalDue = 0;
 const rows = MONTHS.map(m=>{
-const md = yd.months[m] || {status:"Pending", amount:0, date:"", mode:""};
+const md = yd.months[m] || {status:"Pending", amount:0, date:"", mode:"", chalanNo:""};
 const amt = toNum(md.amount);
 if(md.status==="Paid"){ paidCount++; totalPaid += amt; } else { totalDue += amt; }
-return [m, md.status==="Paid" ? "Paid" : "Pending", amt ? ("Rs. "+amt.toLocaleString('en-IN')) : "-", md.date || "-", md.mode || "-"];
+// Chalan No: month record first, else the same month's snapshot in receipt history
+let chalan = md.status==="Paid" ? (md.chalanNo || "") : "";
+if(md.status==="Paid" && !chalan){
+(receiptHistory[flatNum] || []).forEach(e=>{
+if(chalan || e.fy !== fy) return;
+const hit = (e.months || []).find(x=>x.month === m);
+if(hit && hit.chalanNo) chalan = hit.chalanNo;
+});
+}
+return [m, md.status==="Paid" ? "Paid" : "Pending", amt ? ("Rs. "+amt.toLocaleString('en-IN')) : "-", displayDate(md.date || "-"), md.mode || "-", chalan || "-"];
 });
 grandPaid += totalPaid; grandDue += totalDue; grandMonthsPaid += paidCount;
 
@@ -6380,32 +6484,53 @@ doc.text("Financial Year: " + fy + "  (Months Paid: " + paidCount + "/12)", 14, 
 
 doc.autoTable({
 startY: y+4,
-head: [["Month","Status","Amount","Paid On","Mode"]],
+head: [["Month","Status","Amount","Paid On","Mode","Chalan No."]],
 body: rows,
 theme: 'grid',
 headStyles: { fillColor: [21,42,78], fontSize: 10 },
 styles: { fontSize: 9, cellPadding: 3 },
-columnStyles: { 0:{cellWidth:28}, 1:{cellWidth:26}, 2:{cellWidth:32}, 3:{cellWidth:32}, 4:{cellWidth:36} }
+columnStyles: { 0:{cellWidth:22}, 1:{cellWidth:24}, 2:{cellWidth:30}, 3:{cellWidth:30}, 4:{cellWidth:30}, 5:{cellWidth:40} }
 });
 y = doc.lastAutoTable.finalY + 12;
 });
 
 if(y > 255){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Overall Summary (all years)", 14, y);
+doc.text(isAll ? "Overall Summary (all years)" : "Summary (FY " + choice + ")", 14, y);
 y += 7;
 doc.setFont('helvetica','normal'); doc.setFontSize(10);
 doc.text("Total Months Paid: " + grandMonthsPaid + " / " + (years.length*12), 14, y);
-doc.text("Total Paid (all years): Rs. " + Math.round(grandPaid).toLocaleString('en-IN'), 14, y+7);
-doc.text("Total Due (all years): Rs. " + Math.round(grandDue).toLocaleString('en-IN'), 14, y+14);
+doc.text("Total Paid" + (isAll ? " (all years)" : "") + ": Rs. " + Math.round(grandPaid).toLocaleString('en-IN'), 14, y+7);
+doc.text("Total Due" + (isAll ? " (all years)" : "") + ": Rs. " + Math.round(grandDue).toLocaleString('en-IN'), 14, y+14);
+y += 24;
+
+// Remarks section — every remark saved in the owner card, one row each
+const pdfRemarks = sortedRemarks(rec).filter(r=> isAll || dateToFY(r.date) === choice);
+if(pdfRemarks.length){
+if(y > 240){ doc.addPage(); y = 20; }
+doc.setFont('helvetica','bold'); doc.setFontSize(11);
+doc.setTextColor(0,0,0);
+doc.text("Remarks", 14, y);
+doc.autoTable({
+startY: y+4,
+head: [["#","Date","Remark"]],
+body: pdfRemarks.map((r,i)=>[i+1, r.date ? displayDate(r.date) : "-", r.text]),
+theme: 'grid',
+headStyles: { fillColor: [21,42,78], fontSize: 10 },
+styles: { fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+columnStyles: { 0:{cellWidth:12}, 1:{cellWidth:32}, 2:{cellWidth:130} }
+});
+y = doc.lastAutoTable.finalY + 10;
+}
+if(y > 280){ doc.addPage(); y = 20; }
 
 doc.setFont('helvetica','normal');
 doc.setFontSize(9);
 doc.setTextColor(120,116,102);
-doc.text("Generated on " + new Date().toLocaleDateString('en-IN'), 14, y+24);
+doc.text("Generated on " + displayDate(localDateISO()), 14, y);
 
 stampGeneratedOnAllPages(doc);
-doc.save("Flat-" + flatNum + "-Full-Ledger.pdf");
+doc.save("Flat-" + flatNum + (isAll ? "-Full-Ledger.pdf" : "-Ledger-FY-" + choice + ".pdf"));
 }
 
 // ---- Global listeners ----
