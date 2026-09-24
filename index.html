@@ -919,7 +919,7 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </div>
 
 <div id="residentLoginBox" style="display:none;">
-<p class="lock-desc">Potana flat na maintenance details joi shako chho</p>
+<p class="lock-desc">Tamaro flat number ane admin pase register mobile number nakho</p>
 <div class="lock-field">
 <span class="lock-field-icon">🏠</span>
 <input type="text" id="residentFlatInput" inputmode="numeric" placeholder="Flat No. (e.g. 402)" autocomplete="off" style="letter-spacing:normal;">
@@ -972,7 +972,7 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </div>
 <div id="rvHistoryList" style="font-size:12px;color:var(--muted);">-</div>
 </div>
-<div class="rv-section">
+<div class="rv-section" style="display:none;">
 <h3>📱 Registered Mobile Number</h3>
 <div style="display:flex;gap:8px;align-items:center;">
 <input type="tel" id="rvMobileEditInput" placeholder="Mobile number" style="flex:1;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;">
@@ -2922,38 +2922,70 @@ return realIdx <= curMonthIdx;
 
 // =====================================================================
 // ---- RESIDENT (FLAT OWNER) VIEW ----
-// A read-only view: owner enters their Flat No. + the mobile number saved
-// against that flat (by admin, in the flat's edit screen) to see their own
-// paid/pending months, dues, and past receipts. No admin controls here —
-// this never calls saveStore/saveLedger/etc.
+// A read-only view: owner enters the flat number and saved mobile number.
+// Firebase Rules validate those values and allow reads for only that flat.
 // =====================================================================
 let residentFlat = null;
-function tryResidentLogin(){
+let residentSessionTimer = null;
+let ownerLoginInProgress = false;
+const OWNER_SESSION_TTL_MS = 4 * 60 * 60 * 1000;
+async function tryResidentLogin(){
   const flatNum = document.getElementById('residentFlatInput').value.trim();
-  const mobileEntered = document.getElementById('residentMobileInput').value.replace(/\D/g,"");
+  const mobileDigits = document.getElementById('residentMobileInput').value.replace(/\D/g, "");
+  const mobileEntered = mobileDigits.slice(-10);
   const errBox = document.getElementById('residentErrMsg');
   errBox.textContent = "";
-  if(!isAuthorizedAdminSignedIn()){ errBox.textContent = "Pehla Admin Firebase account thi sign in karo."; showAdminLoginBox(); return; }
-  if(!flatNum || !mobileEntered){ errBox.textContent = "Flat No. ane Mobile No. banne bharo"; return; }
-  if(!fbFirstSyncDone){ errBox.textContent = "Data load thai rahyu chhe... 2-3 second ma fari try karo"; return; }
-  const rec = store[flatNum];
-  if(!rec){ errBox.textContent = "❌ Aa Flat No. malyo nahi"; return; }
-  const savedMobile = String(rec.mobile || "").replace(/\D/g,"");
-  if(!savedMobile){ errBox.textContent = "Aa flat mate mobile number register nathi. Society admin no sampark karo."; return; }
-  // Match on last 10 digits so a saved "+91XXXXXXXXXX" still matches a plain 10-digit entry.
-  if(savedMobile.slice(-10) !== mobileEntered.slice(-10)){ errBox.textContent = "❌ Mobile number match nathi thayu"; return; }
-  residentFlat = flatNum;
-  document.getElementById('lockScreen').classList.add('hidden');
-  document.body.classList.remove('locked');
-  document.body.classList.add('resident-active');
-  document.getElementById('residentView').classList.add('active');
-  const fySel = document.getElementById('rvFYSelect');
-  fySel.innerHTML = document.getElementById('fySelect').innerHTML;
-  fySel.value = document.getElementById('fySelect').value;
-  renderResidentView(flatNum);
+  if(!flatNum || mobileDigits.length < 10){ errBox.textContent = "Sacho Flat No. ane 10-digit mobile number nakho."; return; }
+  if(!/^[0-9]{1,5}$/.test(flatNum) || !flats.some(f=>String(f.n)===flatNum)){
+    errBox.textContent = "❌ Aa Flat No. malyo nahi"; return;
+  }
+  ownerLoginInProgress = true;
+  errBox.textContent = "Flat ane mobile number check thai rahya chhe...";
+  try{
+    const auth = firebase.auth();
+    let user = auth.currentUser;
+    if(user && (!user.isAnonymous || user.uid === AUTHORIZED_ADMIN_UID)){
+      await auth.signOut();
+      user = null;
+    }
+    if(!user){
+      const credential = await auth.signInAnonymously();
+      user = credential.user;
+    }
+    if(!user || !user.isAnonymous) throw new Error("Anonymous sign-in is not available.");
+    const sessionRef = fbDb.ref(FB_ROOT + "/ownerSessions/" + user.uid);
+    // Firebase Rules compare the entered values with the saved flat record.
+    await sessionRef.set({ flat: flatNum, mobile: mobileEntered, createdAt: firebase.database.ServerValue.TIMESTAMP });
+    sessionStorage.setItem('ur2_owner_flat', flatNum);
+    activeFirebaseUid = user.uid;
+    await initResidentFirebaseSync(flatNum);
+  }catch(err){
+    console.error("Owner flat/mobile sign-in failed:", err);
+    sessionStorage.removeItem('ur2_owner_flat');
+    const user = firebase.auth().currentUser;
+    if(user && user.isAnonymous){
+      await fbDb.ref(FB_ROOT + "/ownerSessions/" + user.uid).remove().catch(()=>{});
+      await firebase.auth().signOut().catch(()=>{});
+    }
+    activeFirebaseUid = null;
+    if(err && (err.code === "auth/operation-not-allowed" || err.code === "auth/admin-restricted-operation")){
+      errBox.textContent = "Firebase Authentication ma Anonymous sign-in enable karavo.";
+    }else if(err && err.code === "PERMISSION_DENIED"){
+      errBox.textContent = "Flat/mobile match nathi thayu athva Rules haju publish nathi thaya.";
+    }else{
+      errBox.textContent = "Flat/mobile match nathi thayu. Number check kari fari try karo.";
+    }
+  }finally{
+    ownerLoginInProgress = false;
+  }
 }
-function residentLogout(){
+async function residentLogout(sessionExpired=false){
+  if(!sessionExpired && !confirm("Owner details mathi logout thavu che?")) return;
+  if(residentSessionTimer){ clearTimeout(residentSessionTimer); residentSessionTimer = null; }
+  const user = firebase.auth().currentUser;
+  const uid = user && user.isAnonymous ? user.uid : null;
   residentFlat = null;
+  sessionStorage.removeItem('ur2_owner_flat');
   document.body.classList.remove('resident-active');
   document.getElementById('residentView').classList.remove('active');
   document.body.classList.add('locked');
@@ -2961,6 +2993,9 @@ function residentLogout(){
   document.getElementById('residentFlatInput').value = "";
   document.getElementById('residentMobileInput').value = "";
   showResidentLoginBox();
+  if(uid) await fbDb.ref(FB_ROOT + "/ownerSessions/" + uid).remove().catch(err=>console.warn("Owner session cleanup failed:",err));
+  if(user) await firebase.auth().signOut().catch(err=>console.error("Owner sign-out failed:",err));
+  if(sessionExpired) document.getElementById('residentErrMsg').textContent = "Session puri thai. Fari Flat ane Mobile number nakho.";
 }
 function renderResidentView(flatNum){
   if(!flatNum) return;
@@ -3041,19 +3076,8 @@ const pendingDue = computeResidentPendingDue(residentFlat);
 if(pendingDue <= 0){ alert("Koi pending dues nathi 🎉"); return; }
 window.location.href = buildUpiUri(residentFlat, pendingDue);
 }
-// ---- Resident self-service: update own mobile number ----
-function residentUpdateMobile(){
-if(!residentFlat) return;
-const val = document.getElementById('rvMobileEditInput').value.trim();
-const digits = val.replace(/\D/g,"");
-if(digits.length < 10){ alert("Sacho 10-digit mobile number nakho"); return; }
-if(!confirm("Mobile number '" + val + "' save karvu che?")) return;
-const rec = getRecord(residentFlat);
-rec.mobile = val;
-saveStore(store);
-alert("✅ Mobile number update thai gayo");
-renderResidentView(residentFlat);
-}
+// Owner view is read-only; mobile-number changes are made by the admin.
+function residentUpdateMobile(){ alert("Mobile number badalva society admin no sampark karo."); }
 
 // ---- Download ALL of a flat's confirmed receipts as one combined PDF ----
 // Reuses the exact same drawFullReceipt() layout as a single receipt
@@ -3103,17 +3127,9 @@ const FB_ROOT = "pmawas_d"; // root node under which all app data lives
 const AUTHORIZED_ADMIN_UID = "73FltOg2l9gkPT8iM5gVNwZRtV42";
 function isAuthorizedAdminSignedIn(){ const user = firebase.auth().currentUser; return !!user && user.uid === AUTHORIZED_ADMIN_UID; }
 
-// Firebase access now waits for the authorized Email/Password admin account below.
-
-// Firebase Rules for this file allow only the configured admin UID:
-// {
-//   "rules": {
-//     "pmawas_d": {
-//       ".read": "auth != null && auth.uid === '73FltOg2l9gkPT8iM5gVNwZRtV42'",
-//       ".write": "auth != null && auth.uid === '73FltOg2l9gkPT8iM5gVNwZRtV42'"
-//     }
-//   }
-// }
+// Admin signs in with the authorized Firebase Email/Password account.
+// Owners sign in anonymously. The companion Rules JSON verifies flat + saved mobile before granting read access to that flat.
+// Keep every other path Admin-only; never enable public read access.
 
 // One shared JSON object lives at FB_ROOT. Local vars below are just an
 // in-memory mirror of that node — every save writes to Firebase, and a
@@ -3371,6 +3387,50 @@ function initFirebaseSync(){
 function stopFirebaseSync(){
   if(firebaseDataRef){ firebaseDataRef.off('value'); firebaseDataRef = null; }
   fbFirstSyncDone = false;
+}
+
+// An anonymous owner session receives only the matched flat's data nodes.
+// Firebase Rules validate the saved flat/mobile pair before allowing reads.
+async function initResidentFirebaseSync(flatNum){
+  stopFirebaseSync();
+  stopEnhancementsSync();
+  fbFirstSyncDone = false;
+  const readValue = async path => (await fbDb.ref(FB_ROOT + "/" + path).once("value")).val();
+  const user = firebase.auth().currentUser;
+  if(!user || !user.isAnonymous) throw new Error("Owner anonymous sign-in nathi.");
+  const [session, record, receipts, defaultAmount, upiId, ownerOverride] = await Promise.all([
+    readValue("ownerSessions/" + user.uid),
+    readValue("records/" + flatNum),
+    readValue("receiptHistory/" + flatNum),
+    readValue("settings/defaultAmount"),
+    readValue("settings/upiId"),
+    readValue("ownerOverrides/" + flatNum)
+  ]);
+  if(!session || String(session.flat) !== String(flatNum) || !Number.isFinite(Number(session.createdAt)) || Date.now() - Number(session.createdAt) >= OWNER_SESSION_TTL_MS){
+    throw new Error("Owner session expired or flat/mobile did not match.");
+  }
+  if(!record || typeof record !== "object") throw new Error("Owner Rules access nathi malyo.");
+  store = { [flatNum]: record };
+  ledger = {};
+  settings = { defaultAmount: toNum(defaultAmount), upiId: upiId || "", locked: false, presidentName: "" };
+  openingBalanceOverrides = {};
+  receiptHistory = { [flatNum]: normaliseLedgerList(receipts) };
+  ownerOverrides = ownerOverride ? { [flatNum]: ownerOverride } : {};
+  applyOwnerOverrides();
+  fbFirstSyncDone = true;
+  buildFYOptions();
+  buildLedgerMonthOptions();
+  const fySel = document.getElementById('rvFYSelect');
+  fySel.innerHTML = document.getElementById('fySelect').innerHTML;
+  fySel.value = document.getElementById('fySelect').value;
+  residentFlat = flatNum;
+  document.body.classList.remove('locked','firebase-loading');
+  document.body.classList.add('resident-active');
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('residentView').classList.add('active');
+  renderResidentView(flatNum);
+  if(residentSessionTimer) clearTimeout(residentSessionTimer);
+  residentSessionTimer = setTimeout(()=>residentLogout(true), Math.max(1000, OWNER_SESSION_TTL_MS - (Date.now() - Number(session.createdAt))));
 }
 
 // ---- Testing helper: wipe all paid/pending month data + ledger entries ----
@@ -6612,16 +6672,19 @@ function clearSignedOutData(){
   openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
   pendingLedgerEntries.clear(); pendingLedgerDeletes.clear(); pendingFlatRecords.clear();
   sessionStorage.removeItem('ur2_unlocked');
+  sessionStorage.removeItem('ur2_owner_flat');
   document.body.classList.add('locked');
   document.body.classList.remove('resident-active','firebase-loading');
   document.getElementById('lockScreen').classList.remove('hidden');
   document.getElementById('residentView').classList.remove('active');
   const passwordInput=document.getElementById('lockPassInput'); if(passwordInput) passwordInput.value="";
 }
-function handleFirebaseAuthState(user){
+async function handleFirebaseAuthState(user){
   if(user && user.uid === AUTHORIZED_ADMIN_UID){
     if(activeFirebaseUid === user.uid) return;
     activeFirebaseUid = user.uid;
+    sessionStorage.removeItem('ur2_owner_flat');
+    if(residentSessionTimer){ clearTimeout(residentSessionTimer); residentSessionTimer = null; }
     document.body.classList.remove('locked','resident-active');
     document.body.classList.add('firebase-loading');
     document.getElementById('lockScreen').classList.add('hidden');
@@ -6631,10 +6694,38 @@ function handleFirebaseAuthState(user){
     startEnhancementsSync();
     return;
   }
-  if(user && user.uid !== AUTHORIZED_ADMIN_UID){
+  if(user && user.isAnonymous){
+    if(ownerLoginInProgress){ activeFirebaseUid = user.uid; return; }
+    const flatNum = sessionStorage.getItem('ur2_owner_flat');
+    if(!flatNum){ activeFirebaseUid = user.uid; return; }
+    if(activeFirebaseUid === user.uid && document.body.classList.contains('resident-active')) return;
+    activeFirebaseUid = user.uid;
+    sessionStorage.removeItem('ur2_unlocked');
+    stopFirebaseSync();
+    stopEnhancementsSync();
+    store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
+    openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
+    document.body.classList.remove('locked');
+    document.body.classList.add('firebase-loading');
+    document.getElementById('lockScreen').classList.add('hidden');
+    initResidentFirebaseSync(flatNum).catch(async err=>{
+      console.error("Owner Firebase read failed:",err);
+      const errBox=document.getElementById('residentErrMsg');
+      if(errBox) errBox.textContent="Owner session puri thai ke Rules access nathi malyo. Flat ane Mobile fari nakho.";
+      residentFlat = null;
+      sessionStorage.removeItem('ur2_owner_flat');
+      await fbDb.ref(FB_ROOT + "/ownerSessions/" + user.uid).remove().catch(()=>{});
+      activeFirebaseUid = null;
+      await firebase.auth().signOut().catch(signOutErr=>console.error("Owner access sign-out failed:",signOutErr));
+    });
+    return;
+  }
+  if(user){
     const errBox=document.getElementById('lockErrMsg');
-    if(errBox) errBox.textContent="Aa Firebase account ne admin access nathi.";
-    firebase.auth().signOut().catch(err=>console.error("Unauthorized Firebase sign-out failed:",err));
+    if(errBox) errBox.textContent="Aa Firebase account Admin UID nathi.";
+    activeFirebaseUid = null;
+    firebase.auth().signOut().catch(err=>console.error("Unmatched Firebase sign-out failed:",err));
+    return;
   }
   activeFirebaseUid = null;
   clearSignedOutData();
