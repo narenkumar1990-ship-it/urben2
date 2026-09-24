@@ -904,13 +904,17 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </div>
 
 <div id="adminLoginBox">
-<p class="lock-desc">Society data joi ne edit karva mate password nakho</p>
+<p class="lock-desc">Firebase Admin email ane password nakho</p>
+<div class="lock-field">
+<span class="lock-field-icon">✉️</span>
+<input type="email" id="adminEmailInput" placeholder="Admin email" autocomplete="username" onkeydown="if(event.key==='Enter') tryUnlockApp()">
+</div>
 <div class="lock-field">
 <span class="lock-field-icon">🔑</span>
-<input type="password" id="lockPassInput" inputmode="numeric" placeholder="Password" autocomplete="off">
+<input type="password" id="lockPassInput" placeholder="Firebase password" autocomplete="current-password">
 <button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">👁️</button>
 </div>
-<button type="button" class="lock-submit" onclick="tryUnlockApp()">Enter →</button>
+<button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in →</button>
 <div class="lock-err" id="lockErrMsg"></div>
 </div>
 
@@ -978,22 +982,11 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </div>
 </div>
 <script>
-// ---- App access lock (simple front-door password, NOT a security boundary) ----
-// This only hides the UI in the browser — it does NOT protect the Firebase
-// data itself. Anyone with the Firebase apiKey/databaseURL (visible in this
-// file's source) can still read/write the data directly unless Firebase
-// Realtime Database Rules are also locked down in the Firebase console.
-// See the note next to firebaseConfig below for the rules to paste there.
-const APP_ACCESS_PASSWORD = "urban2bil"; // change this anytime, then re-share the file
-const MASTER_PASSWORD = ""; // Intentionally disabled: do not keep a permanent master password in a shared HTML file.
+// Firebase Authentication is the actual admin sign-in. The old app password
+// is retained only for compatibility with the separate Master Admin prompts.
+const APP_ACCESS_PASSWORD = "urban2bil";
+const MASTER_PASSWORD = "";
 
-// ---- Password hashing helpers ----
-// Admin/Master passwords set via the app are now stored as a SHA-256 hash
-// (not plain text) in the Firebase "settings" node, so anyone reading the
-// database directly (e.g. if Read rules are left open) cannot see the
-// actual password. Old passwords saved before this change (plain text) are
-// still accepted so nobody gets locked out — the very next time a password
-// is changed it is saved as a hash automatically.
 async function sha256Hex(str){
   const buf = new TextEncoder().encode(String(str));
   const hashBuf = await crypto.subtle.digest('SHA-256', buf);
@@ -1002,32 +995,52 @@ async function sha256Hex(str){
 function looksLikeHash(v){ return typeof v === 'string' && /^[0-9a-f]{64}$/i.test(v); }
 async function passwordMatches(inputPlain, storedValue){
   if(!storedValue) return false;
-  if(looksLikeHash(storedValue)){
-    const inputHash = await sha256Hex(inputPlain);
-    return inputHash === storedValue;
-  }
-  return inputPlain === storedValue; // legacy plain-text value, compared as-is
+  if(looksLikeHash(storedValue)) return (await sha256Hex(inputPlain)) === storedValue;
+  return inputPlain === storedValue;
 }
 
 (function(){
-  if(!sessionStorage.getItem('ur2_unlocked')){
-    document.body.classList.add('locked');
-  } else {
-    document.getElementById('lockScreen').classList.add('hidden');
-  }
+  sessionStorage.removeItem('ur2_unlocked');
+  document.body.classList.add('locked');
 })();
+
 async function tryUnlockApp(){
-  const val = document.getElementById('lockPassInput').value;
-  const activeAdminPassword = settings && settings.adminPassword ? settings.adminPassword : APP_ACCESS_PASSWORD;
-  const ok = await passwordMatches(val, activeAdminPassword);
-  if(ok){
-    sessionStorage.setItem('ur2_unlocked','1');
-    document.body.classList.remove('locked');
-    document.getElementById('lockScreen').classList.add('hidden');
-  } else {
-    document.getElementById('lockErrMsg').textContent = "❌ Khoto password, fari try karo";
+  const email = document.getElementById('adminEmailInput').value.trim();
+  const password = document.getElementById('lockPassInput').value;
+  const errBox = document.getElementById('lockErrMsg');
+  errBox.textContent = "";
+  if(!email || !password){ errBox.textContent = "Admin email ane password banne lakho."; return; }
+  try{
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+  }catch(err){
+    const code = err && err.code ? err.code : "";
+    if(code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found"){
+      errBox.textContent = "Email ke Firebase password khoto chhe.";
+    } else if(code === "auth/too-many-requests"){
+      errBox.textContent = "Ghani vaar try thayu. Thodi vaar pachi fari try karo.";
+    } else if(code === "auth/network-request-failed"){
+      errBox.textContent = "Internet connection check karo.";
+    } else {
+      errBox.textContent = "Firebase login nathi thayu. " + (err && err.message ? err.message : "");
+    }
   }
 }
+
+function showAdminLoginBox(){
+  document.getElementById('residentLoginBox').style.display = "none";
+  document.getElementById('adminLoginBox').style.display = "block";
+  document.getElementById('tabOwner').classList.remove('active');
+  document.getElementById('tabAdmin').classList.add('active');
+  const emailInput = document.getElementById('adminEmailInput');
+  if(emailInput) emailInput.focus();
+}
+function togglePassVisibility(){
+  const inp = document.getElementById('lockPassInput');
+  const btn = document.getElementById('lockPassToggle');
+  if(inp.type === "password"){ inp.type = "text"; btn.textContent = "🙈"; }
+  else { inp.type = "password"; btn.textContent = "👁️"; }
+}
+
 function showResidentLoginBox(){
   document.getElementById('adminLoginBox').style.display = "none";
   document.getElementById('residentLoginBox').style.display = "block";
@@ -1037,31 +1050,10 @@ function showResidentLoginBox(){
   const inp = document.getElementById('residentFlatInput');
   if(inp) inp.focus();
 }
-function showAdminLoginBox(){
-  document.getElementById('residentLoginBox').style.display = "none";
-  document.getElementById('adminLoginBox').style.display = "block";
-  document.getElementById('tabOwner').classList.remove('active');
-  document.getElementById('tabAdmin').classList.add('active');
-  const passInput = document.getElementById('lockPassInput');
-  if(passInput) passInput.focus();
-}
-function togglePassVisibility(){
-  const inp = document.getElementById('lockPassInput');
-  const btn = document.getElementById('lockPassToggle');
-  if(inp.type === "password"){ inp.type = "text"; btn.textContent = "🙈"; }
-  else { inp.type = "password"; btn.textContent = "👁️"; }
-}
 function adminLogout(){
   if(!confirm("Admin panel thi logout thavu che?")) return;
   sessionStorage.removeItem('ur2_unlocked');
-  document.body.classList.add('locked');
-  document.getElementById('lockScreen').classList.remove('hidden');
-  const passInput = document.getElementById('lockPassInput');
-  if(passInput) passInput.value = "";
-  const errMsg = document.getElementById('lockErrMsg');
-  if(errMsg) errMsg.textContent = "";
-  showAdminLoginBox();
-  if(passInput) passInput.focus();
+  firebase.auth().signOut().catch(err=>console.error("Firebase sign-out failed:", err));
 }
 document.addEventListener('DOMContentLoaded', function(){
   const inp = document.getElementById('lockPassInput');
@@ -2941,6 +2933,7 @@ function tryResidentLogin(){
   const mobileEntered = document.getElementById('residentMobileInput').value.replace(/\D/g,"");
   const errBox = document.getElementById('residentErrMsg');
   errBox.textContent = "";
+  if(!isAuthorizedAdminSignedIn()){ errBox.textContent = "Pehla Admin Firebase account thi sign in karo."; showAdminLoginBox(); return; }
   if(!flatNum || !mobileEntered){ errBox.textContent = "Flat No. ane Mobile No. banne bharo"; return; }
   if(!fbFirstSyncDone){ errBox.textContent = "Data load thai rahyu chhe... 2-3 second ma fari try karo"; return; }
   const rec = store[flatNum];
@@ -3107,46 +3100,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const fbDb = firebase.database();
 const FB_ROOT = "pmawas_d"; // root node under which all app data lives
+const AUTHORIZED_ADMIN_UID = "73FltOg2l9gkPT8iM5gVNwZRtV42";
+function isAuthorizedAdminSignedIn(){ const user = firebase.auth().currentUser; return !!user && user.uid === AUTHORIZED_ADMIN_UID; }
 
-// ---- Anonymous Firebase Auth (silent, no login screen shown to user) ----
-// This signs the browser in to Firebase invisibly in the background so that
-// once you lock down the Database Rules below to require "auth != null",
-// the app keeps working exactly as before with zero visible change, while
-// someone who does NOT open this app (e.g. hitting the REST API directly
-// with just the apiKey/URL) is blocked. This alone does nothing until you
-// also (a) enable "Anonymous" sign-in in Firebase Console -> Authentication
-// -> Sign-in method, and (b) update the Rules as shown below. Until you do
-// both, this call simply fails quietly and the app behaves as it did before
-// — so it is safe to leave in even if you haven't set those up yet.
-firebase.auth().signInAnonymously().catch(function(err){
-  console.warn("Anonymous Firebase Auth not enabled yet (safe to ignore until Database Rules are locked down):", err && err.message);
-});
+// Firebase access now waits for the authorized Email/Password admin account below.
 
-// ⚠️ IMPORTANT — Firebase Realtime Database Rules:
-// The APP_ACCESS_PASSWORD lock screen above only hides the UI in the browser.
-// It does NOT stop someone who has this apiKey/databaseURL (visible right
-// above, to anyone who opens this file) from reading/writing the data
-// directly via the Firebase REST API. If your Database Rules are still the
-// default "read/write: true for everyone", the actual data (owner names,
-// mobile numbers, dues, ledger) is unprotected regardless of the lock screen.
-//
-// To actually lock this down (recommended, since this app now signs in
-// anonymously on load):
-//   1) Firebase Console -> Authentication -> Sign-in method -> enable "Anonymous".
-//   2) Firebase Console -> Realtime Database -> Rules, paste:
-//   {
-//     "rules": {
-//       "pmawas_d": {
-//         ".read": "auth != null",
-//         ".write": "auth != null"
-//       }
+// Firebase Rules for this file allow only the configured admin UID:
+// {
+//   "rules": {
+//     "pmawas_d": {
+//       ".read": "auth != null && auth.uid === '73FltOg2l9gkPT8iM5gVNwZRtV42'",
+//       ".write": "auth != null && auth.uid === '73FltOg2l9gkPT8iM5gVNwZRtV42'"
 //     }
 //   }
-//   3) Publish the rules.
-// After both steps, only browsers that have loaded this app (and so signed
-// in anonymously) can read/write the data — direct REST/curl access with
-// just the apiKey no longer works. No further change is needed in this file.
-
+// }
 
 // One shared JSON object lives at FB_ROOT. Local vars below are just an
 // in-memory mirror of that node — every save writes to Firebase, and a
@@ -3161,6 +3128,7 @@ let openingBalanceOverrides = {};
 let receiptHistory = {};
 let ownerOverrides = {}; // { flatNum: { name, history:[{oldName,newName,changedAt}] } }
 let fbFirstSyncDone = false;
+let firebaseDataRef = null;
 
 // ---- Visible sync status badge (header) ----
 // Shows Connecting / Online (idle) / Saving... / Saved (checkmark) / Failed (x)
@@ -3344,7 +3312,9 @@ function migrateLocalStorageToFirebaseIfEmpty(remoteData){
 // Live real-time listener: fires immediately with current data, then again
 // every time ANY device changes the data — this is what makes it "real time".
 function initFirebaseSync(){
-  fbDb.ref(FB_ROOT).on('value', (snapshot)=>{
+  if(firebaseDataRef) firebaseDataRef.off('value');
+  firebaseDataRef = fbDb.ref(FB_ROOT);
+  firebaseDataRef.on('value', (snapshot)=>{
     try{
       const data = snapshot.val() || {};
       if(!fbFirstSyncDone){
@@ -3397,6 +3367,10 @@ function initFirebaseSync(){
     document.body.classList.remove('firebase-loading');
     alert("Firebase thi connect nathi thai raryu. Internet check karo athva firebaseConfig barabar chhe ke nahi e check karo.");
   });
+}
+function stopFirebaseSync(){
+  if(firebaseDataRef){ firebaseDataRef.off('value'); firebaseDataRef = null; }
+  fbFirstSyncDone = false;
 }
 
 // ---- Testing helper: wipe all paid/pending month data + ledger entries ----
@@ -6549,11 +6523,21 @@ function audit(action, detail){
   saveEnhancedData();
 }
 let enhancementsFirstLoad = true;
-fbDb.ref(FB_ROOT + '/enhancements').on('value', snap=>{
-  enhancedData=Object.assign({notices:[],complaints:[],audit:[],expenseProofs:{},reconciliations:{},reminderSettings:{day:5,enabled:false},reminderLog:[],backupLog:[]},snap.val()||{});
-  if(document.getElementById('screen-community') && document.getElementById('screen-community').style.display!=='none') renderCommunity();
-  if(enhancementsFirstLoad){ enhancementsFirstLoad = false; checkBackupReminder(); }
-});
+let enhancementsRef = null;
+function startEnhancementsSync(){
+  if(enhancementsRef) enhancementsRef.off('value');
+  enhancementsRef = fbDb.ref(FB_ROOT + '/enhancements');
+  enhancementsRef.on('value', snap=>{
+    enhancedData=Object.assign({notices:[],complaints:[],audit:[],expenseProofs:{},reconciliations:{},reminderSettings:{day:5,enabled:false},reminderLog:[],backupLog:[]},snap.val()||{});
+    if(document.getElementById('screen-community') && document.getElementById('screen-community').style.display!=='none') renderCommunity();
+    if(enhancementsFirstLoad){ enhancementsFirstLoad = false; checkBackupReminder(); }
+  }, err=>console.error('Enhancement sync failed',err));
+}
+function stopEnhancementsSync(){
+  if(enhancementsRef){ enhancementsRef.off('value'); enhancementsRef = null; }
+  enhancedData={notices:[],complaints:[],audit:[],expenseProofs:{},reconciliations:{},reminderSettings:{day:5,enabled:false},reminderLog:[],backupLog:[]};
+  enhancementsFirstLoad=true;
+}
 function addExtensionStyles(){
  const s=document.createElement('style'); s.textContent=`
  .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
@@ -6576,7 +6560,7 @@ function showCommunity(){
 function renderCommunity(){
  const el=document.getElementById('screen-community'); if(!el) return;
  el.innerHTML=`<div class="community"><h2>⚙️ Settings</h2><div class="community-grid">
- <section class="c-card"><h3>🔐 Admin password controls</h3><p class="mini">Admin password app ખોલવા માટે છે. Master Admin password માત્ર સંપૂર્ણ Reset માટે છે.</p><button class="c-btn" onclick="changeAdminPassword()">Change Admin password</button><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
+ <section class="c-card"><h3>🔐 Admin account</h3><p class="mini">Admin login Firebase Authentication account thi thay chhe. Email/password Firebase Console → Authentication → Users ma manage karo.</p><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
  </div></div>`;
 }
 async function changeAdminPassword(){
@@ -6620,8 +6604,42 @@ render();
 
 buildFYOptions();
 buildLedgerMonthOptions();
-initFirebaseSync(); // connects to Firebase, then calls render() once data arrives (and again on every real-time update)
-</script>
+let activeFirebaseUid = null;
+function clearSignedOutData(){
+  stopFirebaseSync();
+  stopEnhancementsSync();
+  store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
+  openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
+  pendingLedgerEntries.clear(); pendingLedgerDeletes.clear(); pendingFlatRecords.clear();
+  sessionStorage.removeItem('ur2_unlocked');
+  document.body.classList.add('locked');
+  document.body.classList.remove('resident-active','firebase-loading');
+  document.getElementById('lockScreen').classList.remove('hidden');
+  document.getElementById('residentView').classList.remove('active');
+  const passwordInput=document.getElementById('lockPassInput'); if(passwordInput) passwordInput.value="";
+}
+function handleFirebaseAuthState(user){
+  if(user && user.uid === AUTHORIZED_ADMIN_UID){
+    if(activeFirebaseUid === user.uid) return;
+    activeFirebaseUid = user.uid;
+    document.body.classList.remove('locked','resident-active');
+    document.body.classList.add('firebase-loading');
+    document.getElementById('lockScreen').classList.add('hidden');
+    document.getElementById('residentView').classList.remove('active');
+    sessionStorage.setItem('ur2_unlocked','1');
+    initFirebaseSync();
+    startEnhancementsSync();
+    return;
+  }
+  if(user && user.uid !== AUTHORIZED_ADMIN_UID){
+    const errBox=document.getElementById('lockErrMsg');
+    if(errBox) errBox.textContent="Aa Firebase account ne admin access nathi.";
+    firebase.auth().signOut().catch(err=>console.error("Unauthorized Firebase sign-out failed:",err));
+  }
+  activeFirebaseUid = null;
+  clearSignedOutData();
+}
+firebase.auth().onAuthStateChanged(handleFirebaseAuthState);</script>
 
 
 
