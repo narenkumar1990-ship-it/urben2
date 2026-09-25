@@ -2452,7 +2452,7 @@ FY:
 <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:14px;">
 <div style="flex:1;">
 <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Single Month Select Karo</label>
-<select id="ledgerMonthSelect" onchange="updateLedgerOverviewMonth()" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option><option value="Jul" selected="selected">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option><option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option></select>
+<select id="ledgerMonthSelect" onchange="renderLedger(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option><option value="Jul" selected="selected">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option><option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option></select>
 </div>
 <button style="flex:none;padding:10px 14px;border:none;border-radius:8px;background:var(--saffron);color:#fff;font-weight:700;font-size:13px;cursor:pointer;" onclick="downloadMonthLedgerPDF()">📄 Download</button>
 </div>
@@ -2592,13 +2592,13 @@ FY:
 <div class="mini" style="padding:6px 2px 0;color:var(--muted);font-size:11.5px;line-height:1.4;">ℹ️ Aa entry Total Collection/Expense ne asar nathi karti — fakt Bank ane Cash balance vachche paisa move thay chhe.</div>
 </div>
 
-<div class="section-title">Credit Entries</div>
+<div class="section-title" id="creditListTitle">Credit Entries</div>
 <div class="entry-list" id="creditList"><div class="no-results">No credit entries yet</div></div>
 
-<div class="section-title">Expense Entries</div>
+<div class="section-title" id="expenseListTitle">Expense Entries</div>
 <div class="entry-list" id="expenseList"><div class="no-results">No expense entries yet</div></div>
 
-<div class="section-title">Cash ⇄ Bank Transfers</div>
+<div class="section-title" id="transferListTitle">Cash ⇄ Bank Transfers</div>
 <div class="entry-list" id="transferList"><div class="no-results">No transfer entries yet</div></div>
 
 <div style="padding:6px 15px 4px 15px;">
@@ -4616,28 +4616,39 @@ updateLedgerOverviewMonth();
 renderMonthlyLedger(fy);
 
 const l = getLedgerFY(fy);
+const selectedMonth = document.getElementById('ledgerMonthSelect').value;
+
 const creditList = document.getElementById('creditList');
-creditList.innerHTML = l.credits.length ? l.credits.map(c=>`
+const monthCredits = l.credits.filter(c=>dateToFYMonth(c.date)===selectedMonth).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.id||"").localeCompare(a.id||""));
+const creditListTitleEl = document.getElementById('creditListTitle');
+if(creditListTitleEl) creditListTitleEl.textContent = `Credit Entries · ${selectedMonth} ${fy}`;
+creditList.innerHTML = monthCredits.length ? monthCredits.map(c=>`
 <div class="entry-item">
 <div><div class="e-desc">${c.desc}</div><div class="e-date">${c.date ? displayDate(c.date) : ''}${c.mode ? ' · '+(c.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div></div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt credit">+${fmt(c.amount)}</div>
 <button class="e-del" onclick="deleteEntry('credits','${c.id}')">✕</button>
 </div>
-</div>`).join("") : `<div class="no-results">No credit entries yet</div>`;
+</div>`).join("") : `<div class="no-results">No credit entries for ${selectedMonth} ${fy}</div>`;
 
 const expenseList = document.getElementById('expenseList');
-expenseList.innerHTML = l.expenses.length ? l.expenses.map(e=>`
+const monthExpenses = l.expenses.filter(e=>dateToFYMonth(e.date)===selectedMonth).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.id||"").localeCompare(a.id||""));
+const expenseListTitleEl = document.getElementById('expenseListTitle');
+if(expenseListTitleEl) expenseListTitleEl.textContent = `Expense Entries · ${selectedMonth} ${fy}`;
+expenseList.innerHTML = monthExpenses.length ? monthExpenses.map(e=>`
 <div class="entry-item">
 <div><div class="e-desc">🔒 ${e.desc}</div><div class="e-date">${e.date ? displayDate(e.date) : ''}${e.mode ? ' · '+(e.mode==='Cash'?'💵 Cash':'🏦 Bank') : ''}</div>${e.remark ? `<div class="e-date" style="font-style:italic;">📝 ${esc(e.remark)}</div>` : ''}</div>
 <div style="display:flex;align-items:center;">
 <div class="e-amt expense">-${fmt(e.amount)}</div>
 <button class="e-del" onclick="deleteEntry('expenses','${e.id}')">✕</button>
 </div>
-</div>`).join("") : `<div class="no-results">No expense entries yet</div>`;
+</div>`).join("") : `<div class="no-results">No expense entries for ${selectedMonth} ${fy}</div>`;
 
 const transferList = document.getElementById('transferList');
-transferList.innerHTML = l.transfers.length ? l.transfers.slice().sort((a,b)=>(b.id||"").localeCompare(a.id||"")).map(t=>{
+const monthTransfers = l.transfers.filter(t=>dateToFYMonth(t.date)===selectedMonth).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.id||"").localeCompare(a.id||""));
+const transferListTitleEl = document.getElementById('transferListTitle');
+if(transferListTitleEl) transferListTitleEl.textContent = `Cash ⇄ Bank Transfers · ${selectedMonth} ${fy}`;
+transferList.innerHTML = monthTransfers.length ? monthTransfers.map(t=>{
 const isCashToBank = t.direction === "CashToBank";
 const label = isCashToBank ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash';
 return `
@@ -4648,7 +4659,7 @@ return `
 <button class="e-del" onclick="deleteEntry('transfers','${t.id}')">✕</button>
 </div>
 </div>`;
-}).join("") : `<div class="no-results">No transfer entries yet</div>`;
+}).join("") : `<div class="no-results">No transfer entries for ${selectedMonth} ${fy}</div>`;
 }
 
 function computeMonthWiseCollectionRows(fy){
