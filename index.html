@@ -828,6 +828,18 @@ button:active{transform:scale(.985);}
 .tabbar button{box-shadow:0 2px 7px rgba(25,44,75,.05);}
 .tabbar button.tab-active{box-shadow:0 5px 14px rgba(21,42,78,.13);}
 .modal{box-shadow:0 20px 55px rgba(6,20,43,.27);}
+.owner-card-heading{padding-bottom:4px;border-bottom:1px solid var(--line);margin-bottom:12px;}
+.owner-card-heading h2{margin-bottom:2px;}
+.owner-card-heading .sub{margin-bottom:0;}
+.owner-dues-summary{margin:10px 0 14px;padding:11px 13px;background:#FBEAEA;border:1.5px solid #e7b8b4;border-radius:12px;font-size:12.5px;line-height:1.55;color:var(--ink);}
+.owner-accordion{margin:0 0 11px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.76);overflow:hidden;}
+.owner-accordion>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;cursor:pointer;color:var(--navy);font-size:12.5px;font-weight:700;}
+.owner-accordion>summary::-webkit-details-marker{display:none;}
+.owner-accordion>summary::after{content:'＋';color:var(--muted);font-size:15px;line-height:1;}
+.owner-accordion[open]>summary::after{content:'−';}
+.owner-accordion>summary:focus-visible{outline:3px solid rgba(226,160,60,.35);outline-offset:-3px;}
+.owner-accordion-body{padding:0 12px 12px;border-top:1px solid rgba(231,223,204,.75);}
+.owner-accordion-body>.field:last-child{margin-bottom:0;}
 .modal-actions .btn-save,.btn-add{background:linear-gradient(135deg,#173d70,#10284d);}
 /* Reset stays unavailable from the UI to protect the existing society data. */
 button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
@@ -859,6 +871,81 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 .hp-right{min-width:0!important;}
 .hp-kpi-row{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
 .hp-kpi{min-width:0!important;}
+/* Premium owner card polish */
+.overlay{background:rgba(13,27,49,.58);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+.modal{position:relative;width:min(100%,520px);max-height:90vh;padding:18px 16px 24px;background:linear-gradient(180deg,#fff 0%,#fffdf8 100%);border:1px solid rgba(218,226,236,.9);border-bottom:0;border-radius:24px 24px 0 0;box-shadow:0 -18px 50px rgba(10,28,53,.25);}
+.owner-card-heading{position:relative;isolation:isolate;display:flex;align-items:center;gap:12px;overflow:hidden;margin:-18px -16px 16px;padding:17px 16px 16px;background:linear-gradient(125deg,#11284b 0%,#1b4372 62%,#2b5a83 100%);border:0;border-bottom:1px solid rgba(255,255,255,.18);border-radius:0 0 18px 18px;box-shadow:0 8px 20px rgba(14,39,73,.15);}
+.owner-card-heading::after{content:"";position:absolute;z-index:-1;width:150px;height:150px;right:-36px;top:-86px;border-radius:50%;background:rgba(239,190,91,.22);}
+.owner-card-badge{flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.38);border-radius:14px;background:linear-gradient(145deg,#f1c668,#d89122);color:#173052;font-size:21px;box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.owner-card-copy{position:relative;z-index:1;min-width:0;}
+.owner-card-kicker{margin-bottom:2px;color:#f3cb73;font-size:9px;font-weight:800;letter-spacing:1.35px;text-transform:uppercase;}
+.owner-card-heading h2{margin:0 0 2px;color:#fff;font-size:20px;line-height:1.15;letter-spacing:.1px;}
+.owner-card-heading .sub{margin:0;color:rgba(255,255,255,.78);font-size:12px;line-height:1.45;}
+.owner-card-heading #modalOwner{overflow-wrap:anywhere;}
+.owner-card-heading .sub button{border:1px solid rgba(255,255,255,.28)!important;border-radius:7px!important;padding:4px 8px!important;background:rgba(255,255,255,.12)!important;color:#fff!important;font-size:10.5px!important;}
+.owner-card-heading .sub button:hover{background:rgba(255,255,255,.22)!important;}
+#ownerHistoryBox{margin:0 0 10px;padding:7px 10px;border:1px solid #e8dfcb;border-radius:9px;background:#fffaf0;}
+.owner-dues-summary{margin:0 0 14px;padding:13px 14px;border-radius:13px;box-shadow:0 7px 18px rgba(28,45,68,.07);line-height:1.55;}
+.owner-dues-summary strong:first-child{color:var(--navy);font-size:12.5px;}
+.owner-dues-summary strong:nth-of-type(2){color:var(--navy);font-size:14px;}
+.owner-dues-summary span{display:block;margin-top:3px!important;font-size:11.5px;}
+.modal .field{margin-bottom:12px;}
+.modal .field label{margin-bottom:6px;color:#687487;font-size:10.5px;letter-spacing:.55px;}
+.modal .field input,.modal .field select{min-height:43px;border:1px solid #dce3ec;border-radius:10px;background:#fff;box-shadow:0 2px 5px rgba(23,45,73,.025);transition:border-color .16s ease,box-shadow .16s ease;}
+.modal .field input:hover,.modal .field select:hover{border-color:#c2cedd;}
+.modal .field input:focus,.modal .field select:focus{outline:0;border-color:#bd8a2e;box-shadow:0 0 0 3px rgba(226,160,60,.16);}
+.month-grid{gap:8px;margin-bottom:13px;}
+.month-pill{min-height:38px;display:flex;align-items:center;justify-content:center;padding:8px 5px;border-radius:10px;border-width:1px;box-shadow:0 2px 7px rgba(20,39,66,.045);transition:transform .14s ease,box-shadow .14s ease;}
+.month-pill:active{transform:scale(.98);}
+.month-pill.m-paid{border-color:#c7e3d0;background:linear-gradient(145deg,#f0faf3,#e5f3e9);color:#267448;}
+.month-pill.m-pending{border-color:#efd0d0;background:linear-gradient(145deg,#fff6f5,#fbe9e9);color:#ad4c54;}
+.month-pill.m-staged{border-color:#e9d29a;background:linear-gradient(145deg,#fff9e9,#f9edcf);color:#996615;}
+.month-pill.m-selected{outline:2px solid #b9821d;outline-offset:1px;box-shadow:0 0 0 4px rgba(226,160,60,.12);}
+.month-pill .m-check{accent-color:#1d6f48;}
+#batchTotalInfo{border-radius:12px!important;box-shadow:0 7px 18px rgba(26,114,63,.08);}
+.toggle-row{gap:9px;margin-bottom:12px;}
+.toggle-btn{min-height:43px;border-radius:11px;transition:background .15s ease,border-color .15s ease,transform .15s ease;}
+.owner-accordion{margin:0 0 10px;border-color:#e4e9ef;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfcfe);box-shadow:0 4px 12px rgba(22,43,72,.045);}
+.owner-accordion>summary{min-height:44px;padding:11px 13px;color:#243956;font-size:12px;letter-spacing:.05px;}
+.owner-accordion>summary::after{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#f2f5f8;color:#687487;font-size:14px;}
+.owner-accordion[open]>summary{background:#fbfcfe;}
+.owner-accordion-body{padding:12px 13px 13px;border-top:1px solid #edf0f4;}
+.modal-actions{gap:9px;margin-top:10px;}
+.modal-actions .btn{min-height:46px;border-radius:11px;font-size:13px;}
+.modal-actions .btn-save{background:linear-gradient(135deg,#1e4978,#11294c);box-shadow:0 6px 14px rgba(20,53,91,.2);}
+.modal-actions .btn-close{border:1px solid #e3e8ef;background:#f5f7fa;color:#506078;}
+@media (min-width:900px){.overlay{align-items:center;padding:24px;}.modal{max-height:88vh;border:1px solid rgba(218,226,236,.9);border-radius:24px;padding:22px 20px 24px;}.owner-card-heading{margin:-22px -20px 18px;padding:18px 20px 17px;}}
+@media (max-width:480px){.modal{padding:16px 13px 21px;border-radius:22px 22px 0 0;}.owner-card-heading{margin:-16px -13px 14px;padding:15px 13px 14px;}.owner-card-badge{flex-basis:42px;width:42px;height:42px;border-radius:13px;font-size:19px;}.owner-card-heading h2{font-size:18px;}.owner-dues-summary{padding:11px 12px;}.month-grid{gap:6px;}.month-pill{min-height:36px;font-size:10px;}}
+/* Premium login refinement: navy and warm gold access portal. */
+#lockScreen{background:radial-gradient(ellipse 80% 65% at 50% 0%,rgba(71,104,153,.72) 0%,transparent 72%),linear-gradient(145deg,#0b1730 0%,#132b4c 52%,#091426 100%);padding:clamp(18px,4vw,42px);overflow-y:auto;}
+#lockScreen::before{background-image:radial-gradient(circle at 12% 18%,rgba(226,180,91,.2) 0%,transparent 33%),radial-gradient(circle at 88% 78%,rgba(49,111,100,.18) 0%,transparent 38%),linear-gradient(115deg,transparent 0%,rgba(255,255,255,.025) 48%,transparent 72%);}
+#lockScreen::after{opacity:.24;background-size:32px 32px;}.lock-orb{opacity:.38;filter:blur(62px);}.lock-skyline{opacity:.13;}
+.lock-wrap{max-width:400px;margin:auto;}.lock-brand{margin-bottom:17px;}
+.lock-brand-badge{width:60px;height:60px;border-radius:19px;background:linear-gradient(145deg,#f5d88f 0%,#d6a441 58%,#b87919 100%);border:1px solid rgba(255,255,255,.4);box-shadow:0 12px 30px rgba(201,137,24,.28),0 0 0 7px rgba(232,188,97,.09);}
+.lock-brand-kicker{margin:0 0 5px;color:#ecd295;font-size:9px;line-height:1.4;font-weight:800;letter-spacing:2px;}
+.lock-brand-name{font-size:21px;line-height:1.25;letter-spacing:.5px;}.lock-brand-name span{color:#e8c16d;white-space:nowrap;}
+.lock-brand-sub{font-size:11.5px;letter-spacing:.45px;color:rgba(244,246,250,.72);}
+.lock-card{position:relative;overflow:hidden;text-align:left;padding:25px 26px 21px;border:1px solid rgba(255,255,255,.72);border-radius:24px;background:linear-gradient(155deg,#fffefa 0%,#fff 54%,#fbf8f1 100%);box-shadow:0 32px 85px rgba(0,0,0,.42),0 10px 24px rgba(0,0,0,.14);}
+.lock-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#a96d13,#f0d58f 36%,#d5a33f 70%,#9d6211);}
+.lock-card-heading{margin:0 0 16px;text-align:left;}.lock-card-eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:8px;color:#8d6720;font-size:9px;font-weight:800;letter-spacing:1.15px;text-transform:uppercase;}
+.lock-card-eyebrow span{width:7px;height:7px;border-radius:50%;background:#2e8b57;box-shadow:0 0 0 3px rgba(46,139,87,.12);}
+.lock-card-heading h2{margin:0;color:#152a4e;font-family:'Poppins',sans-serif;font-size:23px;line-height:1.2;letter-spacing:-.3px;}.lock-card-heading p{margin:4px 0 0;color:#778296;font-size:11.5px;}
+.lock-tabs{gap:5px;margin-bottom:17px;padding:4px;border:1px solid #ece6d9;border-radius:13px;background:#f5f2eb;}
+.lock-tab{min-height:40px;padding:9px 8px;border-radius:10px;color:#69758a;font-size:12px;transition:background .18s ease,color .18s ease,box-shadow .18s ease;}
+.lock-tab.active{background:linear-gradient(140deg,#18385f 0%,#102544 100%);color:#fff;box-shadow:0 4px 10px rgba(21,42,78,.2);}
+.lock-desc{margin:0 0 15px;text-align:left;color:#69758a;font-size:12px;line-height:1.5;}.lock-field-label{display:block;margin:0 0 5px 1px;color:#53647a;font-size:9.5px;font-weight:800;letter-spacing:.85px;text-transform:uppercase;}
+.lock-field{margin-bottom:12px;}.lock-field-icon{left:12px;z-index:1;display:grid;width:25px;height:25px;place-items:center;border-radius:8px;background:#f3efe5;color:#203858;font-size:13px;}
+.lock-field input{box-sizing:border-box;width:100%;height:49px;padding:0 43px 0 46px;border:1px solid #dce3ec;border-radius:12px;background:#fff;color:#182e4e;font-size:13.5px;letter-spacing:0;box-shadow:0 2px 6px rgba(20,39,66,.025);transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;}
+.lock-field input:hover{border-color:#bfccdc;background:#fffefa;}.lock-field input:focus{outline:none;border-color:#c18b29;box-shadow:0 0 0 3px rgba(201,137,24,.14),0 3px 8px rgba(20,39,66,.04);}.lock-field input::placeholder{color:#9aa4b3;letter-spacing:0;}
+.lock-eye{right:7px;display:grid;width:34px;height:34px;place-items:center;border-radius:9px;color:#65738a;opacity:.8;}.lock-eye:hover{background:#f3efe5;opacity:1;}
+.lock-submit{display:flex;align-items:center;justify-content:center;gap:9px;min-height:49px;margin-top:7px;padding:12px;border:1px solid rgba(153,99,17,.28);border-radius:12px;background:linear-gradient(135deg,#f1d38b 0%,#d5a13d 56%,#bd801d 100%);color:#172d4c;font-size:13px;font-weight:800;letter-spacing:.15px;box-shadow:0 8px 18px rgba(179,124,32,.22),inset 0 1px 0 rgba(255,255,255,.42);transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;}
+.lock-submit span{font-size:17px;line-height:1;}.lock-submit:hover{filter:brightness(1.035);transform:translateY(-1px);box-shadow:0 10px 23px rgba(179,124,32,.28),inset 0 1px 0 rgba(255,255,255,.5);}.lock-submit:active{transform:translateY(0);filter:brightness(.98);}
+.lock-err{min-height:0;margin-top:0;font-size:11.5px;line-height:1.45;}.lock-err:not(:empty){margin-top:11px;padding:9px 11px;border:1px solid #f1cfca;border-radius:10px;background:#fff2f0;color:#a83c38;}
+.lock-footer{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;padding:8px 12px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.045);color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.1px;}
+.lock-footer-shield{display:grid;width:16px;height:16px;place-items:center;border-radius:50%;background:rgba(78,180,119,.2);color:#91dfaa;font-size:10px;font-weight:900;}
+@media (max-width:480px){#lockScreen{padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));}.lock-wrap{max-width:380px;}.lock-brand{margin-bottom:14px;}.lock-brand-badge{width:52px;height:52px;border-radius:16px;margin-bottom:9px;}.lock-brand-name{font-size:19px;}.lock-card{padding:23px 19px 19px;border-radius:21px;}.lock-card-heading h2{font-size:21px;}}
+@media (max-height:700px){#lockScreen{align-items:flex-start;}.lock-wrap{margin:auto 0;}.lock-brand{margin-bottom:12px;}.lock-brand-badge{width:46px;height:46px;margin-bottom:7px;border-radius:14px;}.lock-brand-name{font-size:18px;}.lock-brand-sub{font-size:10.5px;}.lock-card{padding-top:21px;padding-bottom:17px;}.lock-card-heading{margin-bottom:12px;}}
+@media (prefers-reduced-motion:reduce){.lock-orb{animation:none!important;}.lock-submit,.lock-tab,.lock-field input{transition:none!important;}}
 </style>
 </head>
 
@@ -893,46 +980,52 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </svg>
 <div class="lock-wrap">
 <div class="lock-brand">
-<div class="lock-brand-badge">🏢</div>
-<div class="lock-brand-name">URBAN RESIDENCY 2 BIL</div>
-<div class="lock-brand-sub">Tower D · Society Maintenance Ledger</div>
+<div class="lock-brand-badge" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 27V11.5L16 5l11 6.5V27H5Z" stroke="#152A4E" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 27v-5h10v5M10.5 13.5h2m7 0h2m-11 4h2m7 0h2M16 5v3" stroke="#152A4E" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="17.5" r="1.15" fill="#C98918"/></svg></div>
+<div class="lock-brand-kicker">TOWER D · SECURE RESIDENT PORTAL</div>
+<div class="lock-brand-name">URBAN RESIDENCY <span>2 BIL</span></div>
+<div class="lock-brand-sub">Maintenance &amp; Accounts</div>
 </div>
 <div class="lock-card">
+<div class="lock-card-heading"><div class="lock-card-eyebrow"><span></span> SECURE ACCESS</div><h2>Welcome back</h2><p>Choose your account to continue</p></div>
 <div class="lock-tabs">
 <button type="button" id="tabAdmin" class="lock-tab active" onclick="showAdminLoginBox()">🔒 Admin</button>
 <button type="button" id="tabOwner" class="lock-tab" onclick="showResidentLoginBox()">🏠 Flat Owner</button>
 </div>
 
 <div id="adminLoginBox">
-<p class="lock-desc">Firebase Admin email ane password nakho</p>
+<p class="lock-desc">Tamara authorized admin account thi sign in karo</p>
+<label class="lock-field-label" for="adminEmailInput">Admin email</label>
 <div class="lock-field">
 <span class="lock-field-icon">✉️</span>
-<input type="email" id="adminEmailInput" placeholder="Admin email" autocomplete="username" onkeydown="if(event.key==='Enter') tryUnlockApp()">
+<input type="email" id="adminEmailInput" placeholder="name@example.com" autocomplete="username" aria-label="Admin email" onkeydown="if(event.key==='Enter') tryUnlockApp()">
 </div>
+<label class="lock-field-label" for="lockPassInput">Firebase password</label>
 <div class="lock-field">
 <span class="lock-field-icon">🔑</span>
-<input type="password" id="lockPassInput" placeholder="Firebase password" autocomplete="current-password">
+<input type="password" id="lockPassInput" placeholder="Enter your password" autocomplete="current-password" aria-label="Firebase password">
 <button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">👁️</button>
 </div>
-<button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in →</button>
+<button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in securely <span aria-hidden="true">→</span></button>
 <div class="lock-err" id="lockErrMsg"></div>
 </div>
 
 <div id="residentLoginBox" style="display:none;">
-<p class="lock-desc">Tamaro flat number ane admin pase register mobile number nakho</p>
+<p class="lock-desc">Tamari maintenance details jovaa registered details nakho</p>
+<label class="lock-field-label" for="residentFlatInput">Flat number</label>
 <div class="lock-field">
 <span class="lock-field-icon">🏠</span>
-<input type="text" id="residentFlatInput" inputmode="numeric" placeholder="Flat No. (e.g. 402)" autocomplete="off" style="letter-spacing:normal;">
+<input type="text" id="residentFlatInput" inputmode="numeric" placeholder="e.g. 402" autocomplete="off" aria-label="Flat number" style="letter-spacing:normal;">
 </div>
+<label class="lock-field-label" for="residentMobileInput">Registered mobile number</label>
 <div class="lock-field">
 <span class="lock-field-icon">📱</span>
-<input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="Registered Mobile No." autocomplete="off" style="letter-spacing:normal;">
+<input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="10-digit mobile number" autocomplete="off" aria-label="Registered mobile number" style="letter-spacing:normal;">
 </div>
-<button type="button" class="lock-submit" onclick="tryResidentLogin()">View My Details →</button>
+<button type="button" class="lock-submit" onclick="tryResidentLogin()">View my details <span aria-hidden="true">→</span></button>
 <div class="lock-err" id="residentErrMsg"></div>
 </div>
 </div>
-<div class="lock-footer">🔐 Aapnu data securely Firebase cloud ma save thay che</div>
+<div class="lock-footer"><span class="lock-footer-shield">✓</span> Secure sign-in · Society data protected by Firebase</div>
 </div>
 </div>
 
@@ -2551,7 +2644,7 @@ FY:
 <div class="entry-form show" id="formCredit">
 <div class="field"><label>Description</label><input type="text" id="creditDesc" placeholder="e.g. Interest, Hall booking"></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="creditAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date</label><input type="date" id="creditDate"></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="creditDate" required></div>
 <div class="field"><label>Received In</label><select id="creditMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <button class="btn-add" onclick="addCredit()">Add Credit</button>
 </div>
@@ -2577,7 +2670,7 @@ FY:
 <option value="Extra Expenses"></option>
 </datalist>
 <div class="field"><label>Amount (₹)</label><input type="number" id="expenseAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date</label><input type="date" id="expenseDate"></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="expenseDate" required></div>
 <div class="field"><label>Paid From</label><select id="expenseMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="expenseRemark" placeholder="e.g. Extra note about this expense"></div>
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
@@ -2586,7 +2679,7 @@ FY:
 <div class="entry-form" id="formTransfer">
 <div class="field"><label>Direction</label><select id="transferDirection"><option value="CashToBank">💵 Cash → 🏦 Bank (Cash deposited into bank)</option><option value="BankToCash">🏦 Bank → 💵 Cash (Cash withdrawn from bank)</option></select></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="transferAmount" placeholder="e.g. 5000"></div>
-<div class="field"><label>Date</label><input type="date" id="transferDate"></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="transferDate" required></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="transferRemark" placeholder="e.g. Ganpati dharmada cash deposited"></div>
 <button class="btn-add" onclick="addTransfer()">Add Transfer</button>
 <div class="mini" style="padding:6px 2px 0;color:var(--muted);font-size:11.5px;line-height:1.4;">ℹ️ Aa entry Total Collection/Expense ne asar nathi karti — fakt Bank ane Cash balance vachche paisa move thay chhe.</div>
@@ -2661,14 +2754,20 @@ FY:
 <!-- Modal -->
 <div class="overlay" id="overlay">
 <div class="modal">
+<div class="owner-card-heading">
+<div class="owner-card-badge" aria-hidden="true">🏠</div>
+<div class="owner-card-copy">
+<div class="owner-card-kicker">Maintenance Account</div>
 <h2 id="modalFlatNum">Flat 207</h2>
 <div class="sub" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
 <span id="modalOwner">Patel Meena Rameshbhai</span>
 <button type="button" onclick="editOwnerName(currentFlat)" title="Owner naam sudharo (history save thashe)" style="border:none;background:#EEF3FC;color:#1565C0;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer;">✏️ Edit</button>
 </div>
+</div>
+</div>
 <div id="ownerHistoryBox" style="display:none;font-size:11px;color:var(--muted);margin-top:2px;"></div>
 
-<div id="duesSummaryBox" style="margin: 10px 0px 14px; padding: 12px 14px; background: rgb(251, 234, 234); border: 1.5px solid rgb(231, 184, 180); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.7;">
+<div id="duesSummaryBox" class="owner-dues-summary">
 <strong>⏳ Baki Months (8/12) — FY 2026-27</strong><br>
 Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <strong style="display:inline-block;margin-top:6px;">Kul Baki Amount (aa FY + Pichhla Baki): ₹4,000</strong>
@@ -2676,6 +2775,9 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <span style="display:inline-block;margin-top:4px;">Current Month (Jul): ✅ Paid</span>
 </div>
 
+<details class="owner-accordion">
+<summary>📇 Owner Details &amp; Remarks</summary>
+<div class="owner-accordion-body">
 <div class="field">
 <label>Mobile Number</label>
 <input type="tel" id="inputMobile" placeholder="Enter 10-digit mobile number" maxlength="10">
@@ -2694,6 +2796,8 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <div id="remarkList" style="margin-top:8px;"></div>
 <div style="font-size:11px;color:var(--muted);margin-top:5px;">Remark save thaya pachi box khali thai jashe (next payment mate navu lakho). Juna remarks "Pichhla Remarks" button ma chhupela rahese, ane Full Ledger PDF ma sauthi neeche "Remarks" table ma dekhashe.</div>
 </div>
+</div>
+</details>
 
 <div class="field" style="background:#FFF7E6;border:1.5px solid #F0D89B;border-radius:10px;padding:10px 12px;display:none;">
 <label style="color:#9C6B14;">⚠️ Pichhla Baki (Aa app pehla nu Baki, ₹)</label>
@@ -2773,7 +2877,7 @@ Mar
 <div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Aug&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Sep&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Oct&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Nov&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick="downloadMaintenanceReceiptPDF(&quot;207&quot;)">🧾 Maintenance Receipt (₹2,000)</button>
-<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button></div>
+<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo(); suggestChalanNoIfNeeded();">✖️ Selection Clear</button></div>
 
 <div class="field">
 <label>Payment Status (for selected month)</label>
@@ -2783,6 +2887,9 @@ Mar
 </div>
 </div>
 
+<details class="owner-accordion">
+<summary>⚙️ Default Amount Lock</summary>
+<div class="owner-accordion-body">
 <div class="field">
 <label>Default Amount Lock <span style="font-weight:400;text-transform:none;letter-spacing:0;">(ek var set karo, pachi darek mahine amount automatic bharai jashe)</span></label>
 <div style="display:flex;gap:8px;align-items:center;">
@@ -2790,6 +2897,8 @@ Mar
 <button type="button" class="toggle-btn paid-on" id="btnLockAmount" style="flex:none;padding:10px 14px;white-space:nowrap;" onclick="toggleAmountLock()">🔒 Locked</button>
 </div>
 </div>
+</div>
+</details>
 
 <div class="field">
 <label>Maintenance Amount (₹)</label>
@@ -2810,22 +2919,16 @@ Mar
 </div>
 
 <div class="field">
-<label>Chalan No. <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
-<input type="text" id="inputChalanNo" placeholder="e.g. 1024">
-<button type="button" class="btn" style="width:100%;margin-top:8px;background:#B3791C;color:#fff;font-size:12px;" onclick="applyChalanToAllPaidMonths()">🧾 Apply this Chalan No. to ALL paid months (this FY)</button>
-<div style="margin-top:5px;font-size:11px;color:var(--muted);line-height:1.4;">Offline chalan book ma je number aapyo hoy e ahi lakho — online data ane offline chalan match karva mate.</div>
+<label>Chalan No. <span style="color:#B42318;font-weight:700;">* Required</span> <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
+<input type="text" id="inputChalanNo" placeholder="One number, or e.g. 125, 126, 127" required aria-required="true" oninput="updateChalanNumberHint()">
+<div id="chalanNumberHint" style="display:none;margin-top:4px;font-size:11px;color:var(--muted);"></div>
 </div>
 
 <div class="field">
 <label>Paid On (date)</label>
 <input type="date" id="inputDate">
-<button type="button" class="btn" style="width:100%;margin-top:8px;background:#1565C0;color:#fff;font-size:12px;" onclick="applyDateToAllPaidMonths()">🗓️ Apply this date to ALL paid months (this FY)</button>
-<div style="margin-top:5px;font-size:11px;color:var(--muted);line-height:1.4;">એક જ વખતમાં maintenance મળ્યું હોય તો આ button દબાવો. Receipt અને Avak બન્ને આ જ તારીખના મહિના માં જશે.</div>
 </div>
-
-<div class="history-box" id="historyBox" style="display: block;"><strong>History</strong><div><span>2026-27</span><span>4/12 months paid</span></div></div>
-<div class="history-box" id="receiptHistoryBox" style="display: none; margin-top: 8px;"></div>
-
+<details class="owner-accordion"><summary>🕰️ Backdated Entry</summary><div class="owner-accordion-body">
 <div class="field" style="background:#FFF7E6;border:1.5px solid var(--saffron);border-radius:10px;padding:10px 12px;margin-top:10px;">
 <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;">
 <input type="checkbox" id="inputNoBalance" style="width:16px;height:16px;flex:none;">
@@ -2833,11 +2936,18 @@ Mar
 </label>
 <div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;">Aa check karo to j entry Paid/Receipt/History ma save thashe, PAN Total Collection ane Cash Balance ma UMERAI NAHI — kem ke e paisa Opening Balance ma pehla thi j gantroi lidhela hoy. Naavu chalu mahina thi (regular) entry mate aa UNCHECK j rakho.</div>
 </div>
+</div></details>
 
 <div class="modal-actions">
 <button class="btn btn-close" onclick="closeModal()">Close</button>
 <button class="btn btn-save" id="btnConfirmEntry" onclick="confirmEntry()" style="opacity: 1;">🔐 Confirm</button>
 </div>
+<details class="owner-accordion" id="ownerHistoryDetails">
+<summary>📜 History, Ledger &amp; Sharing</summary>
+<div class="owner-accordion-body">
+<div class="history-box" id="historyBox" style="display: block;"><strong>History</strong><div><span>2026-27</span><span>4/12 months paid</span></div></div>
+<div class="history-box" id="receiptHistoryBox" style="display: none; margin-top: 8px;"></div>
+
 <div class="modal-actions" style="margin-top:8px;">
 <button class="btn" style="background:var(--green);color:#fff;" onclick="togglePaymentHistory()">📜 Payment History</button>
 </div>
@@ -2847,7 +2957,9 @@ Mar
 </div>
 <div class="modal-actions" style="margin-top:8px;">
 <button class="btn" style="background:#25D366;color:#073B1D;" onclick="sharePaymentOnWhatsApp()">💬 WhatsApp Payment Summary</button>
-</div>
+</div></div>
+</details>
+
 </div>
 </div>
 
@@ -3057,7 +3169,7 @@ function renderResidentView(flatNum){
     histBox.innerHTML = list.map(entry=>{
       const monthsStr = entry.months.map(x=>x.month).join(", ");
       return `<div class="rv-history-item">
-<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${formatReceiptChalanNumbers(entry) ? " · 🧾 " + formatReceiptChalanNumbers(entry) : ""}</span>
 <button type="button" class="btn" style="flex:none;background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 </div>`;
     }).join("");
@@ -3149,7 +3261,7 @@ function isAuthorizedAdminSignedIn(){ const user = firebase.auth().currentUser; 
 // device's mirror (and screen) updated in real time.
 let store = {};
 let ledger = {};
-let settings = {defaultAmount:0, locked:false, presidentName:""};
+let settings = {defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]};
 let bulkPrintMode = false;
 let bulkSelectedFlats = new Set();
 let openingBalanceOverrides = {};
@@ -3363,7 +3475,8 @@ function initFirebaseSync(){
         ledger[fy].expenses = normaliseLedgerList(ledger[fy].expenses);
         ledger[fy].transfers = normaliseLedgerList(ledger[fy].transfers);
       });
-      settings = data.settings || {defaultAmount:0, locked:false, presidentName:""};
+      settings = Object.assign({defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]}, data.settings || {});
+      if(!Array.isArray(settings.voidedChalans)) settings.voidedChalans = [];
       renderPresidentName();
       renderUpiId();
       openingBalanceOverrides = data.openingBalanceOverrides || {};
@@ -3382,6 +3495,7 @@ function initFirebaseSync(){
         buildLedgerMonthOptions();
       }
       render();
+      if(document.getElementById('screen-chalan-settings') && document.getElementById('screen-chalan-settings').style.display !== 'none') renderChalanSettings();
     }catch(renderErr){
       // Never let a rendering error leave the app stuck on the loading
       // screen forever — surface it instead so it can be reported/fixed.
@@ -3424,7 +3538,7 @@ async function initResidentFirebaseSync(flatNum){
   if(!record || typeof record !== "object") throw new Error("Owner Rules access nathi malyo.");
   store = { [flatNum]: record };
   ledger = {};
-  settings = { defaultAmount: toNum(defaultAmount), upiId: upiId || "", locked: false, presidentName: "" };
+  settings = { defaultAmount: toNum(defaultAmount), upiId: upiId || "", locked: false, presidentName: "", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[] };
   openingBalanceOverrides = {};
   receiptHistory = { [flatNum]: normaliseLedgerList(receipts) };
   ownerOverrides = ownerOverride ? { [flatNum]: ownerOverride } : {};
@@ -3782,7 +3896,7 @@ const backup = JSON.parse(e.target.result);
 const upload = {
 records: backup.records || {},
 ledger: backup.ledger || {},
-settings: backup.settings || {defaultAmount:0, locked:false},
+settings: Object.assign({defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]}, backup.settings || {}),
 openingBalanceOverrides: backup.openingBalanceOverrides || {},
 receiptHistory: backup.receiptHistory || {}
 };
@@ -5121,6 +5235,9 @@ const date = document.getElementById('creditDate').value;
 const modeEl = document.getElementById('creditMode');
 const mode = modeEl ? modeEl.value : "Bank";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
+// A dated entry is essential: otherwise it appears after March as
+// "Other (no date)", making the month-end closing and FY closing look different.
+if(!date){ alert("Credit ni Date select karo. Aa thi month closing ane FY carry-forward barabar raheshe."); document.getElementById('creditDate').focus(); return; }
 const fy = getFY();
 const entry = {id: Date.now().toString(), desc, amount, date, mode};
 getLedgerFY(fy).credits.push(entry);
@@ -5142,6 +5259,7 @@ const mode = modeEl ? modeEl.value : "Bank";
 const remarkEl = document.getElementById('expenseRemark');
 const remark = remarkEl ? remarkEl.value.trim() : "";
 if(!desc || !amount){ alert("Description ane Amount bharo"); return; }
+if(!date){ alert("Expense ni Date select karo. Aa thi month closing ane FY carry-forward barabar raheshe."); document.getElementById('expenseDate').focus(); return; }
 const fy = getFY();
 const entry = {id: Date.now().toString(), desc, amount, date, mode, remark, locked:true};
 getLedgerFY(fy).expenses.push(entry);
@@ -5163,7 +5281,7 @@ const date = document.getElementById('transferDate').value;
 const remarkEl = document.getElementById('transferRemark');
 const remark = remarkEl ? remarkEl.value.trim() : "";
 if(!amount || toNum(amount) <= 0){ alert("Sacho Amount bharo"); return; }
-if(!date){ alert("Date bharo"); return; }
+if(!date){ alert("Transfer ni Date select karo. Aa thi Bank/Cash closing ane FY carry-forward barabar raheshe."); document.getElementById('transferDate').focus(); return; }
 const fy = getFY();
 const entry = {id: Date.now().toString(), amount, date, direction, remark};
 getLedgerFY(fy).transfers.push(entry);
@@ -5212,6 +5330,7 @@ let manuallyUnlockedMonths = [];
 // dashboard) until the bottom "🔐 Confirm" button is pressed. Keyed by
 // month -> {status, amount, date, mode}.
 let stagedMonths = {};
+let suggestedChalanValue = "";
 // Snapshot (Set of month names) of which months were ALREADY Paid in the
 // real store when this flat+FY was opened this sitting. Used to tell a
 // brand-new payment (must be staged) apart from editing an existing,
@@ -5469,7 +5588,7 @@ const monthChips = months.map(m=> `${m} <span onclick="event.stopPropagation(); 
 box.innerHTML = `✅ Select karel: <b>${monthChips}</b> (${months.length} mahina)<br>Kul Amount: <b>₹${total.toLocaleString('en-IN')}</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick='downloadMaintenanceReceiptPDF(${JSON.stringify(currentFlat)})'>🧾 Maintenance Receipt (₹${total.toLocaleString('en-IN')})</button>
-<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button>${fixBtn}`;
+<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo(); suggestChalanNoIfNeeded();">✖️ Selection Clear</button>${fixBtn}`;
 }
 updateMaintenanceAmountTotalLabel();
 applyMaintenanceAmountDisplay();
@@ -5596,6 +5715,7 @@ renderMonthGrid(currentFlat, fy);
 applyAmountLockUI();
 applyMaintenanceAmountDisplay();
 applyFormLockUI();
+suggestChalanNoIfNeeded();
 }
 // Confirm button: saves the current month, then freezes the ENTIRE form so
 // nothing can be accidentally changed afterwards. For a new entry, the user
@@ -5648,17 +5768,147 @@ if(md && md.status === "Paid") md.mode = paymentMode;
 if(stagedMonths[m]) stagedMonths[m].mode = paymentMode;
 });
 }
-// Copies whatever Chalan No. is typed in the form onto every month covered
-// by this receipt (optional field — offline chalan-book number, used only
-// to match this app's online record with the physical/offline chalan book).
-function applyChalanToReceiptMonths(months, chalanNo){
-if(!currentFlat || !chalanNo) return;
+// Applies one shared chalan number to a combined receipt, or one number per
+// selected month when the user enters a comma-separated list.
+function applyChalanToReceiptMonths(months, chalanNumbers){
+if(!currentFlat || !Array.isArray(chalanNumbers) || !chalanNumbers.length) return;
 const fy = getFY();
-months.forEach(m=>{
+months.forEach((m,index)=>{
+const chalanNo = chalanNumbers.length===1 ? chalanNumbers[0] : chalanNumbers[index];
 const md = getMonthData(currentFlat, fy, m);
 if(md && md.status === "Paid") md.chalanNo = chalanNo;
 if(stagedMonths[m]) stagedMonths[m].chalanNo = chalanNo;
 });
+}
+function normalizeChalanNo(value){ return String(value || "").trim().toUpperCase(); }
+function sameChalanNo(a,b){
+const left=normalizeChalanNo(a), right=normalizeChalanNo(b);
+if(!left || !right) return false;
+if(/^\d+$/.test(left) && /^\d+$/.test(right)) return Number(left)===Number(right);
+return left===right;
+}
+function getReceiptChalanNo(entry){
+return entry && (entry.chalanNo || (Array.isArray(entry.months) ? entry.months.map(x=>x && x.chalanNo).find(Boolean) : "")) || "";
+}
+function receiptHasChalanNo(entry,chalanNo){
+return !!(entry && (sameChalanNo(entry.chalanNo,chalanNo) || (Array.isArray(entry.months) && entry.months.some(x=>x && sameChalanNo(x.chalanNo,chalanNo)))));
+}
+function formatReceiptChalanNumbers(entry){
+const pairs=(entry&&Array.isArray(entry.months)?entry.months:[]).filter(x=>x&&x.chalanNo);
+if(!pairs.length) return entry&&entry.chalanNo?'Chalan #'+esc(entry.chalanNo):'';
+if(pairs.every(x=>sameChalanNo(x.chalanNo,pairs[0].chalanNo))) return 'Chalan #'+esc(pairs[0].chalanNo);
+return 'Chalan: '+pairs.map(x=>esc(x.month)+' #'+esc(x.chalanNo)).join(', ');
+}
+function sameReceiptDetails(entry,fy,months,total,paidDate){
+if(!entry || String(entry.fy||"")!==String(fy)) return false;
+const wanted=(months||[]).map(String).sort().join("|");
+const saved=(Array.isArray(entry.months)?entry.months:[]).map(x=>String(x.month)).sort().join("|");
+return saved===wanted && toNum(entry.total)===toNum(total) && String(entry.paidDate||"")===String(paidDate||"");
+}
+function isExactSavedChalanReceipt(chalanNo, flatNum, fy, months, total, paidDate){
+const receipts=Array.isArray(receiptHistory && receiptHistory[flatNum]) ? receiptHistory[flatNum] : [];
+return receipts.some(entry=>sameReceiptDetails(entry,fy,months,total,paidDate) && receiptHasChalanNo(entry,chalanNo));
+}
+function findVoidedChalan(chalanNo){
+return (Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).find(item=>item && sameChalanNo(item.number,chalanNo)) || null;
+}
+function findChalanNoConflict(chalanNo, flatNum, fy, months, total, paidDate){
+if(!normalizeChalanNo(chalanNo)) return null;
+const selected=new Set((months||[]).map(String));
+const exactCurrentReceipt=isExactSavedChalanReceipt(chalanNo,flatNum,fy,months,total,paidDate);
+const conflicts=new Map();
+const addConflict=(ownerFlat,year,usedMonths)=>{
+const key=String(ownerFlat)+"|"+String(year);
+if(!conflicts.has(key)) conflicts.set(key,{flat:String(ownerFlat),fy:String(year),months:[]});
+const item=conflicts.get(key);
+(usedMonths||[]).forEach(month=>{ if(month && !item.months.includes(String(month))) item.months.push(String(month)); });
+};
+Object.keys(store||{}).forEach(ownerFlat=>{
+const flatData=store[ownerFlat]||{};
+Object.keys(flatData.years||{}).forEach(year=>{
+const savedMonths=(flatData.years[year]&&flatData.years[year].months)||{};
+MONTHS.forEach(month=>{
+const record=savedMonths[month];
+if(!record || record.status!=="Paid" || !sameChalanNo(record.chalanNo,chalanNo)) return;
+if(exactCurrentReceipt && ownerFlat===flatNum && String(year)===String(fy) && selected.has(month)) return;
+addConflict(ownerFlat,year,[month]);
+});
+});
+});
+Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
+const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
+receipts.forEach(entry=>{
+if(!receiptHasChalanNo(entry,chalanNo)) return;
+if(ownerFlat===flatNum && exactCurrentReceipt && sameReceiptDetails(entry,fy,months,total,paidDate)) return;
+addConflict(ownerFlat,entry.fy||"-",(Array.isArray(entry.months)?entry.months:[]).map(x=>x.month));
+});
+});
+return conflicts.values().next().value || null;
+}
+function nextUnusedChalanNumber(){
+if(!settings.chalanRangeLocked) return "";
+const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
+if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return "";
+const used=new Set();
+const mark=value=>{ const text=String(value||"").trim(); if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } };
+Object.keys(store||{}).forEach(ownerFlat=>{
+const years=(store[ownerFlat]||{}).years||{};
+Object.keys(years).forEach(year=>{
+const savedMonths=(years[year]&&years[year].months)||{};
+MONTHS.forEach(month=>{ const record=savedMonths[month]; if(record&&record.status==="Paid") mark(record.chalanNo); });
+});
+});
+Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
+const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
+receipts.forEach(entry=>{ mark(getReceiptChalanNo(entry)); (Array.isArray(entry.months)?entry.months:[]).forEach(m=>mark(m&&m.chalanNo)); });
+});
+(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).forEach(item=>mark(item&&item.number));
+for(let n=start;n<=end;n++) if(!used.has(n)) return String(n);
+return "";
+}
+function splitChalanNumbers(value){
+return String(value||"").split(/[,;|\n]+/).map(x=>x.trim()).filter(Boolean);
+}
+function nextUnusedChalanNumbers(count){
+if(!settings.chalanRangeLocked) return [];
+const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
+if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return [];
+const used=new Set();
+const mark=value=>{ const text=String(value||"").trim(); if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } };
+Object.keys(store||{}).forEach(ownerFlat=>{
+const years=(store[ownerFlat]||{}).years||{};
+Object.keys(years).forEach(year=>{ const savedMonths=(years[year]&&years[year].months)||{}; MONTHS.forEach(month=>{ const record=savedMonths[month]; if(record&&record.status==="Paid") mark(record.chalanNo); }); });
+});
+Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
+const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
+receipts.forEach(entry=>{ mark(getReceiptChalanNo(entry)); (Array.isArray(entry.months)?entry.months:[]).forEach(m=>mark(m&&m.chalanNo)); });
+});
+(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).forEach(item=>mark(item&&item.number));
+const result=[];
+for(let n=start;n<=end && result.length<Math.max(1,Number(count)||1);n++) if(!used.has(n)) result.push(String(n));
+return result;
+}
+function suggestChalanNoIfNeeded(){
+const input=document.getElementById('inputChalanNo');
+if(!input) return;
+const monthCount=getReceiptMonths().length||1;
+const suggestion=nextUnusedChalanNumbers(monthCount).join(', ');
+if(settings.chalanRangeLocked && (!input.value.trim() || input.value.trim()===suggestedChalanValue)){
+input.value=suggestion; suggestedChalanValue=suggestion;
+}
+updateChalanNumberHint();
+}
+function updateChalanNumberHint(){
+const input=document.getElementById('inputChalanNo'), hint=document.getElementById('chalanNumberHint');
+if(!input || !hint) return;
+if(input.value.trim()!==suggestedChalanValue) suggestedChalanValue='';
+const months=getReceiptMonths(), count=months.length||1;
+hint.style.display=(settings.chalanRangeLocked || count>1)?'block':'none';
+if(settings.chalanRangeLocked){
+hint.textContent='Locked range '+settings.chalanRangeStart+'–'+settings.chalanRangeEnd+'. '+(count>1?'Combined receipt mate ek number, athva '+count+' alag numbers comma thi lakho (month order: '+months.join(', ')+'). ':'Ek unique number lakho. ')+'Repeat/void number save nahi thay.';
+} else {
+hint.textContent=count>1?'Combined receipt mate ek number, athva darek month mate alag number comma thi lakho (month order: '+months.join(', ')+').':'';
+}
 }
 function confirmEntry(){
 const fy = getFY();
@@ -5667,11 +5917,34 @@ const months = getReceiptMonths();
 const paidDate = document.getElementById('inputDate').value;
 const mode = document.getElementById('inputMode').value;
 const chalanNoEl = document.getElementById('inputChalanNo');
-const chalanNo = chalanNoEl ? chalanNoEl.value.trim() : "";
+const enteredChalans = chalanNoEl ? splitChalanNumbers(chalanNoEl.value) : [];
 const total = months.reduce((sum, month)=> sum + toNum((stagedMonths[month] || getEffectiveMonth(currentFlat, fy, month)).amount), 0);
 if(!months.length || !total){ alert("Confirm karta pehla paid month ane amount check karo."); return; }
 if(!paidDate){ alert("Paid On date select karo. Avak aa date na month ma jashe."); document.getElementById('inputDate').focus(); return; }
 if(!mode){ alert("Payment Mode select karo (Cash, UPI, Bank Transfer, etc.)."); document.getElementById('inputMode').focus(); return; }
+if(!enteredChalans.length){ alert("Chalan No. jaruri chhe. Darek receipt mate chalan number lakho."); if(chalanNoEl) chalanNoEl.focus(); return; }
+if(enteredChalans.length!==1 && enteredChalans.length!==months.length){ alert("Ek combined receipt hoy to ek chalan number lakho. Alag chalan hoy to selected "+months.length+" month mate etla j number comma thi alag kari lakho."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
+const chalansForMonths=enteredChalans.length===1?months.map(()=>enteredChalans[0]):enteredChalans;
+const uniqueChalans=[];
+for(let i=0;i<enteredChalans.length;i++){
+const chalanNo=enteredChalans[i];
+if(uniqueChalans.some(x=>sameChalanNo(x,chalanNo))){ alert("Ekaj receipt ma duplicate chalan number chhe: "+chalanNo+". Darek month mate alag number lakho."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
+uniqueChalans.push(chalanNo);
+const existingSameReceipt=isExactSavedChalanReceipt(chalanNo,currentFlat,fy,months,total,paidDate);
+const voidedChalan=findVoidedChalan(chalanNo);
+if(voidedChalan && !existingSameReceipt){ alert("⚠️ Chalan No. \""+chalanNo+"\" Void/Cancelled tarike mark thayelo chhe; fari use na kari shako."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
+if(settings.chalanRangeLocked && !existingSameReceipt){
+const number=/^\d+$/.test(chalanNo)?Number(chalanNo):NaN;
+const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
+if(!Number.isSafeInteger(number)||number<start||number>end){ alert("Aa chalan number locked range "+start+"–"+end+" ni andar hovo joie."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
+}
+const duplicateChalan=findChalanNoConflict(chalanNo,currentFlat,fy,months,total,paidDate);
+if(duplicateChalan){
+const conflictMonths=duplicateChalan.months.length?duplicateChalan.months.join(", "):"receipt history";
+alert("⚠️ Chalan No. \""+chalanNo+"\" pehlethi use thayel chhe.\n\nPehli entry: Flat "+duplicateChalan.flat+" · FY "+duplicateChalan.fy+" · "+conflictMonths+"\n\nRepeat rokva navo chalan number lakho.");
+if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return;
+}
+}
 const paidFY = dateToFY(paidDate) || fy;
 const paidMonth = dateToFYMonth(paidDate) || "-";
 const noBalanceEl = document.getElementById('inputNoBalance');
@@ -5679,14 +5952,14 @@ const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
 const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
-const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
+const chalanLine = "\nChalan No.: " + months.map((m,i)=>m+" — "+chalansForMonths[i]).join("; ");
 const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + displayDate(paidDate) + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
 applyPaymentDateToReceiptMonths(months, paidDate);
 applyPaymentModeToReceiptMonths(months, mode);
-applyChalanToReceiptMonths(months, chalanNo);
+applyChalanToReceiptMonths(months, chalansForMonths);
 saveFlat();
 const receipt = recordReceiptHistory();
 formConfirmed = true;
@@ -5705,7 +5978,7 @@ render();
 applyFormLockUI();
 const flatSummary = computeFlatsSummary(fy).find(f=>f.n===currentFlat);
 const remainingDue = flatSummary ? flatSummary.pendingDue : 0;
-alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + (chalanNo ? ("\nChalan No.: " + chalanNo) : "") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
+alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + "\nChalan No.: " + months.map((m,i)=>m+" — "+chalansForMonths[i]).join("; ") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
 }
 function applyFormLockUI(){
 const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputChalanNo","inputDate","btnPaid","btnPending","btnUnselectMonth"];
@@ -5823,6 +6096,7 @@ receiptSelection = receiptSelection.filter(m=>m!==month);
 saveStore(store);
 }
 if(month === currentMonth){ loadMonthIntoForm(); } else { renderMonthGrid(currentFlat, fy); }
+suggestChalanNoIfNeeded();
 refreshHistoryBox(currentFlat);
 updateBatchTotalInfo();
 renderDuesSummary(currentFlat);
@@ -5880,6 +6154,7 @@ function openModal(flatNum){
 currentFlat = flatNum;
 receiptSelection = [];
 stagedMonths = {};
+suggestedChalanValue = "";
 selectionLocked = false;
 formConfirmed = false;
 manuallyUnlockedMonths = [];
@@ -6134,7 +6409,9 @@ alert("✅ " + paidMonths.length + " Paid month(s) ni date " + displayDate(date)
 function applyChalanToAllPaidMonths(){
 if(!currentFlat) return;
 const fy = getFY();
-const chalanNo = document.getElementById('inputChalanNo').value.trim();
+const bulkChalanValues = splitChalanNumbers(document.getElementById('inputChalanNo').value);
+if(bulkChalanValues.length!==1){ alert('Apply-to-all action ma ek j common chalan number mukay. Darek month no alag number hoy to main Confirm ma comma-separated list lakho.'); document.getElementById('inputChalanNo').focus(); return; }
+const chalanNo = bulkChalanValues[0] || '';
 if(!chalanNo){ alert("Pehla Chalan No. lakho."); document.getElementById('inputChalanNo').focus(); return; }
 const yd = getYearData(currentFlat, fy);
 const paidMonths = MONTHS.filter(m=>{
@@ -6211,11 +6488,12 @@ const fy = document.getElementById('modalFY').value;
 const months = getReceiptMonths();
 const rows = months.map(m=>{
 const em = getEffectiveMonth(flatNum, fy, m);
-return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode || "-"];
+return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode || "-", em.chalanNo || "-"];
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-const chalanNo = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo).find(x=>x) || "";
+const chalanValues=months.map(m=>getEffectiveMonth(flatNum,fy,m).chalanNo||'');
+const chalanNo=chalanValues.length && chalanValues.every(x=>x===chalanValues[0]) ? chalanValues[0] : '';
 buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, chalanNo);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
@@ -6282,8 +6560,8 @@ y += 4;
 
 doc.autoTable({
 startY: y,
-head: [["Month", "Amount", "Date", "Mode"]],
- body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3]]),
+head: [["Month", "Amount", "Date", "Mode", "Chalan No."]],
+ body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3], row[4]||"-"]),
 theme: "grid",
 headStyles: { fillColor: [46,139,87] },
 styles: { fontSize: 10 },
@@ -6346,8 +6624,8 @@ doc.text("Flat: " + flatNum + "    Mobile: " + (rec.mobile || "-") + "    FY: " 
 
 doc.autoTable({
 startY: yOff + 30,
-head: [["Month", "Amount", "Date", "Mode"]],
-body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3]]),
+head: [["Month", "Amount", "Date", "Mode", "Chalan No."]],
+body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3], row[4]||"-"]),
 theme: "grid",
 headStyles: { fillColor: [46,139,87], fontSize: 7.5 },
 styles: { fontSize: 7.5, cellPadding: 1.3 },
@@ -6402,7 +6680,15 @@ toNum(entry.total) === total &&
 (entry.paidDate || "") === (snapshot[0].date || "") &&
 (entry.months || []).map(x=>x.month).sort().join("|") === monthKey
 );
-if(existing) return existing;
+if(existing){
+existing.months=snapshot;
+existing.total=total;
+existing.paidDate=snapshot[0].date || "";
+existing.chalanNo=snapshot.map(x=>x.chalanNo).find(x=>x) || "";
+saveReceiptHistory(receiptHistory);
+renderReceiptHistoryBox(currentFlat);
+return existing;
+}
 const entry = {
 id: "R" + Date.now(),
 fy: fy,
@@ -6442,7 +6728,7 @@ box.style.display = "block";
 box.innerHTML = "<strong>📜 Payment History</strong>" + list.map(entry=>{
 const monthsStr = entry.months.map(x=>x.month).join(", ");
 return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);">
-<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${entry.chalanNo ? " · 🧾 Chalan #" + entry.chalanNo : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${formatReceiptChalanNumbers(entry) ? " · 🧾 " + formatReceiptChalanNumbers(entry) : ""}</span>
 <div style="display:flex;gap:6px;flex:none;">
 <button type="button" class="btn" style="background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 <button type="button" class="btn" style="background:var(--coral);color:#fff;padding:6px 10px;font-size:11px;" onclick='deleteReceiptHistoryEntry(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🗑️</button>
@@ -6479,8 +6765,9 @@ function downloadStoredReceiptPDF(flatNum, entryId){
 const list = receiptHistory[flatNum] || [];
 const entry = list.find(e=>e.id===entryId);
 if(!entry){ alert("Aa receipt history ma nathi malto."); return; }
-const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
-const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-", x.chalanNo || "-"]);
+const values=entry.months.map(x=>x.chalanNo||'');
+const chalanNo=values.length && values.every(x=>x===values[0]) ? values[0] : '';
 buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, chalanNo);
 }
 // Fills the "which ledger" dropdown in the owner card: Full (all years) or one FY.
@@ -6642,14 +6929,17 @@ function stopEnhancementsSync(){
 function addExtensionStyles(){
  const s=document.createElement('style'); s.textContent=`
  .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
+ @media(max-width:899px){.menu button{flex:1;min-width:0;padding:8px 1px;font-size:10px;white-space:nowrap}}
  `; document.head.appendChild(s);
 }
 function addCommunityTab(){
  addExtensionStyles();
  const menu=document.querySelector('.menu');
  if(menu && !document.getElementById('communityTab')){ const b=document.createElement('button'); b.id='communityTab'; b.innerHTML='⚙️ Settings'; menu.appendChild(b); b.addEventListener('click',showCommunity); }
+ if(menu && !document.getElementById('chalanTab')){ const b=document.createElement('button'); b.id='chalanTab'; b.innerHTML='🧾 Chalan'; menu.appendChild(b); b.addEventListener('click',showChalanSettings); }
  const wrap=document.querySelector('.page-wrap');
  if(wrap && !document.getElementById('screen-community')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-community'; d.style.display='none'; wrap.appendChild(d); }
+ if(wrap && !document.getElementById('screen-chalan-settings')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-chalan-settings'; d.style.display='none'; wrap.appendChild(d); }
  const reset=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Reset All Paid'));
  if(reset){ reset.style.display='none'; }
 }
@@ -6657,6 +6947,65 @@ function showCommunity(){
  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
  document.getElementById('communityTab').classList.add('active'); document.getElementById('screen-community').style.display='block'; renderCommunity();
+}
+function showChalanSettings(){
+ document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+ document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+ document.getElementById('chalanTab').classList.add('active');
+ document.getElementById('screen-chalan-settings').style.display='block'; renderChalanSettings();
+}
+function renderChalanSettings(){
+ const el=document.getElementById('screen-chalan-settings'); if(!el) return;
+ const locked=!!settings.chalanRangeLocked;
+ const start=Number(settings.chalanRangeStart||1), end=Number(settings.chalanRangeEnd||5000);
+ const next=locked?nextUnusedChalanNumber():'';
+ const voidList=(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).slice().sort((a,b)=>String(b.at||'').localeCompare(String(a.at||'')));
+ const voidHtml=voidList.length?voidList.slice(0,25).map(item=>'<div class="c-item"><b>Chalan '+esc(item.number)+'</b> <span class="tag open">VOID</span><div class="mini">'+esc(item.reason||'Reason not entered')+(item.flat?' · Flat '+esc(item.flat):'')+(item.at?' · '+esc(new Date(item.at).toLocaleDateString('en-IN')):'')+'</div></div>').join(''):'<div class="mini">Haju koi chalan Void mark nathi karyu.</div>';
+ el.innerHTML=`<div class="community"><h2>🧾 Chalan Settings</h2><div class="community-grid">
+ <section class="c-card" style="max-width:560px;"><h3>Unique Chalan Number Range</h3>
+ <p class="mini">Paper chalan book no start ane end number nakho. Lock karya pachi next unused number suggest thase; range bahar ane repeat number save nahi thay.</p>
+ <div style="display:grid;grid-template-columns:repeat(2,minmax(110px,1fr));gap:10px;">
+  <label style="font-size:12px;font-weight:700;color:var(--navy);">Starting number<input id="chalanRangeStartInput" type="number" min="1" step="1" value="${start}" ${locked?'disabled':''}></label>
+  <label style="font-size:12px;font-weight:700;color:var(--navy);">Ending number<input id="chalanRangeEndInput" type="number" min="1" step="1" value="${end}" ${locked?'disabled':''}></label>
+ </div>
+ <div class="security-note" style="margin:7px 0 10px;">${locked?('🔒 Locked range: <b>'+start+'–'+end+'</b><br>Next unused number: <b>'+(next||'Range ma number baki nathi')+'</b>'):'Range haju lock nathi. 1–5000 example chhe; paper book pramane set karo.'}</div>
+ <button type="button" class="c-btn ${locked?'':'green'}" onclick="toggleChalanRangeLock()">${locked?'🔓 Unlock range to edit':'🔒 Set & Lock range'}</button>
+ </section>
+ <section class="c-card" style="max-width:560px;"><h3>🚫 Void / Cancelled Chalan</h3>
+ <p class="mini">Cancel thayelo chalan number fari use na thay e mate ahiyan Void mark karo. Void number permanently reserve raheshe ane next suggestion ene skip karse. Aa action payment amount ke ledger badaltu nathi.</p>
+ <label style="font-size:12px;font-weight:700;color:var(--navy);">Cancelled chalan number<input id="voidChalanInput" type="number" min="1" step="1" placeholder="e.g. 125"></label>
+ <label style="font-size:12px;font-weight:700;color:var(--navy);">Cancellation reason<input id="voidChalanReason" type="text" maxlength="120" placeholder="e.g. Receipt spoiled / written incorrectly"></label>
+ <label style="font-size:12px;font-weight:700;color:var(--navy);">Flat or receipt reference (optional)<input id="voidChalanFlat" type="text" maxlength="50" placeholder="e.g. Flat 402"></label>
+ <button type="button" class="c-btn red" onclick="voidChalanNumber()">🚫 Mark chalan as Void</button>
+ <div class="security-note" style="margin:8px 0 10px;">Void mark karta pehla confirm thase. Mark thayela number ne pachi unvoid ke reuse nahi kari shakai.</div>
+ <h3 style="margin-top:14px;">Void number register</h3>${voidHtml}
+ </section>
+ </div></div>`;
+}
+function toggleChalanRangeLock(){
+ if(settings.chalanRangeLocked){ if(!confirm('Chalan range unlock karvi chhe? Unlock hoy tya sudhi auto-suggestion ane range validation bandh raheshe.')) return; settings.chalanRangeLocked=false; saveSettings(settings); renderChalanSettings(); audit('Chalan range unlocked',''); return; }
+ const start=Number(document.getElementById('chalanRangeStartInput').value), end=Number(document.getElementById('chalanRangeEndInput').value);
+ if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start||end>1000000){ alert('Sacho range lakho: start 1 ke vadhu, end start karta vadhu ane 1,000,000 ke ochho hovo joie.'); return; }
+ if(!confirm('Chalan range '+start+' thi '+end+' set kari lock karvi chhe? Aa range badha flats mate lagu thase.')) return;
+ settings.chalanRangeStart=start; settings.chalanRangeEnd=end; settings.chalanRangeLocked=true; saveSettings(settings); renderChalanSettings(); audit('Chalan range locked',start+'–'+end);
+ const next=nextUnusedChalanNumber(); alert(next?('✅ Range lock thai. Agal no khali number: '+next):'⚠️ Aa range na badha number vaprayela chhe.');
+}
+function voidChalanNumber(){
+ const input=document.getElementById('voidChalanInput'), reasonInput=document.getElementById('voidChalanReason'), flatInput=document.getElementById('voidChalanFlat');
+ const raw=input?String(input.value||'').trim():'';
+ if(!/^\d+$/.test(raw)||!Number.isSafeInteger(Number(raw))||Number(raw)<1){ alert('Valid positive chalan number lakho.'); if(input) input.focus(); return; }
+ const number=String(Number(raw));
+ const reason=reasonInput?reasonInput.value.trim():'';
+ if(!reason){ alert('Cancellation nu reason lakho.'); if(reasonInput) reasonInput.focus(); return; }
+ if(findVoidedChalan(number)){ alert('Aa chalan pehlethi Void mark thayelo chhe.'); return; }
+ if(!confirm('Chalan No. '+number+' ne permanently Void mark karvo chhe? Aa number fari use nahi thay.')) return;
+ const item={number,reason,flat:flatInput?flatInput.value.trim():'',at:new Date().toISOString()};
+ settings.voidedChalans=Array.isArray(settings.voidedChalans)?settings.voidedChalans:[];
+ settings.voidedChalans.push(item); saveSettings(settings); audit('Chalan marked Void','Chalan '+number+' · '+reason+(item.flat?' · '+item.flat:''));
+ renderChalanSettings();
+ const no=document.getElementById('voidChalanInput'), why=document.getElementById('voidChalanReason'), ref=document.getElementById('voidChalanFlat');
+ if(no) no.value=''; if(why) why.value=''; if(ref) ref.value='';
+ alert('✅ Chalan '+number+' Void register ma save thayu. Have aa number reuse nahi thay.');
 }
 function renderCommunity(){
  const el=document.getElementById('screen-community'); if(!el) return;
@@ -6709,7 +7058,7 @@ let activeFirebaseUid = null;
 function clearSignedOutData(){
   stopFirebaseSync();
   stopEnhancementsSync();
-  store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
+  store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:"",chalanRangeStart:1,chalanRangeEnd:5000,chalanRangeLocked:false,voidedChalans:[]};
   openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
   pendingLedgerEntries.clear(); pendingLedgerDeletes.clear(); pendingFlatRecords.clear();
   sessionStorage.removeItem('ur2_unlocked');
@@ -6744,7 +7093,7 @@ async function handleFirebaseAuthState(user){
     sessionStorage.removeItem('ur2_unlocked');
     stopFirebaseSync();
     stopEnhancementsSync();
-    store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
+    store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:"",chalanRangeStart:1,chalanRangeEnd:5000,chalanRangeLocked:false,voidedChalans:[]};
     openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
     document.body.classList.remove('locked');
     document.body.classList.add('firebase-loading');
