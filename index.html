@@ -2542,10 +2542,14 @@ FY:
 <div class="report-card" style="margin:0 15px 10px 15px;">
 <h3>Dar Mahina nu Ledger — Avak · Javak · Balance</h3>
 
-<div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:14px;">
-<div style="flex:1;">
+<div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px;">
+<div style="flex:1 1 150px;">
 <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Single Month Select Karo</label>
 <select id="ledgerMonthSelect" onchange="renderLedger(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option><option value="Jul" selected="selected">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option><option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option></select>
+</div>
+<div style="flex:1 1 170px;">
+<label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Date Sort</label>
+<select id="ledgerDateSort" onchange="renderMonthlyLedger(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="asc" selected="selected">Oldest → Newest (A–Z)</option><option value="desc">Newest → Oldest (Z–A)</option></select>
 </div>
 <button style="flex:none;padding:10px 14px;border:none;border-radius:8px;background:var(--saffron);color:#fff;font-weight:700;font-size:13px;cursor:pointer;" onclick="downloadMonthLedgerPDF()">📄 Download</button>
 </div>
@@ -4443,18 +4447,38 @@ runningCash += (maintByMonth[m].Cash + creditByMonth[m].Cash) - expenseByMonth[m
 return {month:m, bankBalance:runningBank, cashBalance:runningCash};
 });
 }
+function ledgerDateValue(value){
+const date=String(value||'').trim();
+if(!date || date==='-') return null;
+let parts=date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+if(parts) return Date.UTC(Number(parts[1]),Number(parts[2])-1,Number(parts[3]));
+parts=date.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+if(parts) return Date.UTC(Number(parts[3]),Number(parts[2])-1,Number(parts[1]));
+const parsed=Date.parse(date);
+return Number.isFinite(parsed)?parsed:null;
+}
+function sortLedgerEntriesByDate(entries){
+const direction=(document.getElementById('ledgerDateSort')||{}).value||'asc';
+return (entries||[]).slice().sort((a,b)=>{
+const left=ledgerDateValue(a.date), right=ledgerDateValue(b.date);
+if(left===null && right!==null) return 1;
+if(right===null && left!==null) return -1;
+if(left!==null && right!==null && left!==right) return direction==='desc'?right-left:left-right;
+return String(a.flat||a.desc||a.id||'').localeCompare(String(b.flat||b.desc||b.id||''));
+});
+}
 function renderMonthlyLedger(fy){
 const rows = computeMonthlyLedgerRows(fy);
 const l = getLedgerFY(fy);
 const body = document.getElementById('monthlyLedgerBody');
 body.innerHTML = rows.map(r=>{
 const isOther = r.month === "Other (no date)";
-const credits = l.credits.filter(c=> isOther ? !dateToFYMonth(c.date) : dateToFYMonth(c.date)===r.month);
-const expenses = l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateToFYMonth(e.date)===r.month);
-const transfers = l.transfers.filter(t=> isOther ? !dateToFYMonth(t.date) : dateToFYMonth(t.date)===r.month);
+const credits = sortLedgerEntriesByDate(l.credits.filter(c=> isOther ? !dateToFYMonth(c.date) : dateToFYMonth(c.date)===r.month));
+const expenses = sortLedgerEntriesByDate(l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateToFYMonth(e.date)===r.month));
+const transfers = sortLedgerEntriesByDate(l.transfers.filter(t=> isOther ? !dateToFYMonth(t.date) : dateToFYMonth(t.date)===r.month));
 // Per-flat maintenance collected in this payment month, tagged Regular
 // (paid in its due month) or Backlog (an older due paid now).
-const flatMaintDetails = isOther ? [] : maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month).map(payment=>({
+const flatMaintDetails = isOther ? [] : sortLedgerEntriesByDate(maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month)).map(payment=>({
 flat:payment.flat, name:payment.name, amount:payment.amount, date:payment.date||"-", chalanNo:payment.chalanNo||"",
 type:(payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular"
 }));
@@ -4549,7 +4573,7 @@ if(payment.mode) group.modes.add(payment.mode);
 if(payment.chalanNo) addUniqueChalanNumbers(group.chalanNos,payment.chalanNo);
 if(type === "Backlog") group.isBacklog = true;
 });
-const maintRows = Array.from(maintGroups.values()).map(group=>[
+const maintRows = sortLedgerEntriesByDate(Array.from(maintGroups.values())).map(group=>[
 group.flat,
 group.name,
 group.months.join(", "),
@@ -4559,9 +4583,9 @@ group.modes.size ? Array.from(group.modes).join(", ") : "-",
 group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
-const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
-const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]);
-const transferRows = l.transfers.filter(t=> dateToFYMonth(t.date)===month).map(t=>[
+const creditRows = sortLedgerEntriesByDate(l.credits.filter(c=> dateToFYMonth(c.date)===month)).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
+const expenseRows = sortLedgerEntriesByDate(l.expenses.filter(e=> dateToFYMonth(e.date)===month)).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]);
+const transferRows = sortLedgerEntriesByDate(l.transfers.filter(t=> dateToFYMonth(t.date)===month)).map(t=>[
 t.direction==='CashToBank' ? "Cash to Bank" : "Bank to Cash",
 "Rs. "+toNum(t.amount).toLocaleString('en-IN'), displayDate(t.date||"-"), t.remark||"-"
 ]);
