@@ -1,25 +1,5 @@
 <!DOCTYPE html>
-<!--
-  ⚠️ IMPORTANT — HOW TO SAVE/SHARE THIS FILE (read before saving a new copy):
-  This app needs ONLY this single .html file to work — it loads Firebase,
-  jsPDF, and fonts directly from the internet (CDN links), not from any
-  local folder.
-
-  If you ever save this page again from your browser:
-    ✅ Chrome/Edge "Save As" -> choose "Webpage, HTML Only" (NOT "Webpage, Complete")
-    ✅ Or simply copy/share this exact .html file as-is — do NOT rename or
-       move it into/out of a folder that has a matching "..._files" folder.
-
-  If you pick "Webpage, Complete", the browser rewrites the CDN links above
-  to point at a local "..._files" folder. If that folder isn't included
-  when the file is shared (e.g. sent alone via WhatsApp/email), Firebase,
-  PDF export, and fonts will all fail to load and the app will look broken
-  or blank. If that ever happens again: open the file, check if the
-  <script src="..."> and <link href="..."> tags near the top point to
-  "https://..." links (correct) or to a local "..._files/" folder
-  (broken) — and re-save using "HTML Only" to fix it.
--->
-<!-- saved from url=(0072)file:///C:/Users/Intel/Desktop/URBAN_RECIDENCY_2_BIL_Maintenance_10.html -->
+<!-- saved from url=(0126)file:///C:/Users/SNKGA%20Godown/Documents/Codex/2026-09-26/mane-2/outputs/UR2-maintenance-owner-card-premium-chalan-check.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
@@ -28,16 +8,16 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="./URBAN RECIDENCY 2 BIL Maintenance_files/css2" rel="stylesheet">
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/jspdf.umd.min.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/jspdf.plugin.autotable.min.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/qrcode.min.js.download"></script>
 
 <!-- Firebase (Realtime Database) -->
 <!-- These use public CDNs so this single HTML file can be shared by itself. -->
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/firebase-app-compat.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/firebase-database-compat.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance_files/firebase-auth-compat.js.download"></script>
 
 <style>
 :root{
@@ -947,40 +927,43 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 @media (max-height:700px){#lockScreen{align-items:flex-start;}.lock-wrap{margin:auto 0;}.lock-brand{margin-bottom:12px;}.lock-brand-badge{width:46px;height:46px;margin-bottom:7px;border-radius:14px;}.lock-brand-name{font-size:18px;}.lock-brand-sub{font-size:10.5px;}.lock-card{padding-top:21px;padding-bottom:17px;}.lock-card-heading{margin-bottom:12px;}}
 @media (prefers-reduced-motion:reduce){.lock-orb{animation:none!important;}.lock-submit,.lock-tab,.lock-field input{transition:none!important;}}
 </style>
-</head>
+<style>
+ .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
+ @media(max-width:899px){.menu button{flex:1;min-width:0;padding:8px 1px;font-size:10px;white-space:nowrap}}
+ </style></head>
 
-<body class="firebase-loading">
+<body class="">
 
-<div id="lockScreen">
+<div id="lockScreen" class="hidden">
 <div class="lock-orb lock-orb-1"></div>
 <div class="lock-orb lock-orb-2"></div>
 <div class="lock-orb lock-orb-3"></div>
 <svg class="lock-skyline" viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0" y="40" width="26" height="50" fill="#fff"/>
-<rect x="30" y="55" width="20" height="35" fill="#fff"/>
-<rect x="54" y="30" width="24" height="60" fill="#fff"/>
-<rect x="82" y="48" width="18" height="42" fill="#fff"/>
-<rect x="104" y="20" width="28" height="70" fill="#fff"/>
-<rect x="136" y="42" width="20" height="48" fill="#fff"/>
-<rect x="160" y="58" width="22" height="32" fill="#fff"/>
-<rect x="186" y="15" width="26" height="75" fill="#fff"/>
-<rect x="216" y="45" width="18" height="45" fill="#fff"/>
-<rect x="238" y="28" width="24" height="62" fill="#fff"/>
-<rect x="266" y="50" width="20" height="40" fill="#fff"/>
-<rect x="290" y="35" width="26" height="55" fill="#fff"/>
-<rect x="320" y="55" width="18" height="35" fill="#fff"/>
-<rect x="342" y="22" width="24" height="68" fill="#fff"/>
-<rect x="370" y="46" width="20" height="44" fill="#fff"/>
-<rect x="62" y="38" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="112" y="28" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="194" y="24" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="246" y="36" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="0" y="40" width="26" height="50" fill="#fff"></rect>
+<rect x="30" y="55" width="20" height="35" fill="#fff"></rect>
+<rect x="54" y="30" width="24" height="60" fill="#fff"></rect>
+<rect x="82" y="48" width="18" height="42" fill="#fff"></rect>
+<rect x="104" y="20" width="28" height="70" fill="#fff"></rect>
+<rect x="136" y="42" width="20" height="48" fill="#fff"></rect>
+<rect x="160" y="58" width="22" height="32" fill="#fff"></rect>
+<rect x="186" y="15" width="26" height="75" fill="#fff"></rect>
+<rect x="216" y="45" width="18" height="45" fill="#fff"></rect>
+<rect x="238" y="28" width="24" height="62" fill="#fff"></rect>
+<rect x="266" y="50" width="20" height="40" fill="#fff"></rect>
+<rect x="290" y="35" width="26" height="55" fill="#fff"></rect>
+<rect x="320" y="55" width="18" height="35" fill="#fff"></rect>
+<rect x="342" y="22" width="24" height="68" fill="#fff"></rect>
+<rect x="370" y="46" width="20" height="44" fill="#fff"></rect>
+<rect x="62" y="38" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="112" y="28" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="194" y="24" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="246" y="36" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
 </svg>
 <div class="lock-wrap">
 <div class="lock-brand">
-<div class="lock-brand-badge" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 27V11.5L16 5l11 6.5V27H5Z" stroke="#152A4E" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 27v-5h10v5M10.5 13.5h2m7 0h2m-11 4h2m7 0h2M16 5v3" stroke="#152A4E" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="17.5" r="1.15" fill="#C98918"/></svg></div>
+<div class="lock-brand-badge" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 27V11.5L16 5l11 6.5V27H5Z" stroke="#152A4E" stroke-width="1.8" stroke-linejoin="round"></path><path d="M11 27v-5h10v5M10.5 13.5h2m7 0h2m-11 4h2m7 0h2M16 5v3" stroke="#152A4E" stroke-width="1.8" stroke-linecap="round"></path><circle cx="16" cy="17.5" r="1.15" fill="#C98918"></circle></svg></div>
 <div class="lock-brand-kicker">TOWER D · SECURE RESIDENT PORTAL</div>
 <div class="lock-brand-name">URBAN RESIDENCY <span>2 BIL</span></div>
 <div class="lock-brand-sub">Maintenance &amp; Accounts</div>
@@ -1002,8 +985,8 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 <label class="lock-field-label" for="lockPassInput">Firebase password</label>
 <div class="lock-field">
 <span class="lock-field-icon">🔑</span>
-<input type="password" id="lockPassInput" placeholder="Enter your password" autocomplete="current-password" aria-label="Firebase password">
-<button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">👁️</button>
+<input type="text" id="lockPassInput" placeholder="Enter your password" autocomplete="current-password" aria-label="Firebase password">
+<button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">🙈</button>
 </div>
 <button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in securely <span aria-hidden="true">→</span></button>
 <div class="lock-err" id="lockErrMsg"></div>
@@ -1171,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <button data-tab="ledger" class="active">💰 Ledger</button>
 <button data-tab="reports" class="">📊 Reports</button>
 <button data-tab="form" class="">📄 Form</button>
-</div>
+<button id="communityTab" class="">⚙️ Settings</button><button id="chalanTab">🧾 Chalan</button></div>
 
 <div class="page-wrap">
 <div class="header-pro">
@@ -1186,9 +1169,9 @@ document.addEventListener('DOMContentLoaded', function(){
 <span id="syncText">Firebase Connected</span>
 </div>
 <div class="hp-badge">
-<span class="hp-icon">📅</span><span id="headerDate">18 Jul 2026</span>
+<span class="hp-icon">📅</span><span id="headerDate">26 Sept 2026</span>
 <span class="hp-badge-sep">·</span>
-<span class="hp-icon">🕒</span><span id="headerTime">9:37:03 PM</span>
+<span class="hp-icon">🕒</span><span id="headerTime">6:13:45 PM</span>
 </div>
 <div class="hp-badge hp-badge-click hp-president-badge" id="headerPresidentBox" onclick="editPresidentName()" title="Tap to edit pramukh nu naam">
 <span class="hp-icon">👤</span><span id="headerPresidentName">Pramukh: KAMLESHBHAI SOLANKI</span>
@@ -1197,32 +1180,32 @@ document.addEventListener('DOMContentLoaded', function(){
 <span class="hp-icon">💳</span><span id="headerUpiId">UPI ID Umerva Tap Karo</span>
 </div>
 <span id="headerDay" class="hp-sr-only">Saturday</span>
-<span id="headerHeroSub" class="hp-sr-only">56 flat(s) with dues · FY 2026-27</span>
+<span id="headerHeroSub" class="hp-sr-only">46 flat(s) with dues (all years)</span>
 </div>
 </div>
 
 <div class="hp-right">
 <div class="hp-kpi-row">
 <div class="hp-kpi">
-<div class="hp-kpi-ring" id="headerRingEl" style="--pct: 1;"><div class="hp-kpi-ring-inner"><b id="headerRingPct">1%</b></div></div>
+<div class="hp-kpi-ring" id="headerRingEl" style="--pct: 19;"><div class="hp-kpi-ring-inner"><b id="headerRingPct">19%</b></div></div>
 <div class="hp-kpi-label">Collected</div>
 </div>
 <div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="🔒 Master Admin password thi j sudharay che — Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
-<div class="h-value positive" id="headerDashBankBalance">₹0</div>
+<div class="h-value positive" id="headerDashBankBalance">₹26,797</div>
 <div class="hp-kpi-label">🏦 Bank</div>
 </div>
 <div class="hp-kpi hp-kpi-primary hp-badge-click" onclick="editOpeningBalanceSplit()" title="🔒 Master Admin password thi j sudharay che — Tap to set Opening Balance (Bank/Cash)" style="cursor:pointer;">
-<div class="h-value positive" id="headerDashCashBalance">₹0</div>
+<div class="h-value positive" id="headerDashCashBalance">₹14,842</div>
 <div class="hp-kpi-label">💵 Cash</div>
 </div>
 <div class="hp-kpi hp-kpi-danger" title="Cumulative baki, badha years (all flats)">
-<div id="headerStatOutstanding">₹0</div>
+<div id="headerStatOutstanding">₹1,92,500</div>
 <div class="hp-kpi-label">📊 Total Outstanding</div>
 </div>
 <span id="headerStatTotal" class="hp-sr-only">56</span>
-<span id="headerStatCollection" class="hp-sr-only">₹4,000</span>
-<span id="headerStatExpense" class="hp-sr-only">₹0</span>
-<span id="headerStatPending" class="hp-sr-only">56</span>
+<span id="headerStatCollection" class="hp-sr-only">₹30,500</span>
+<span id="headerStatExpense" class="hp-sr-only">₹14,916</span>
+<span id="headerStatPending" class="hp-sr-only">46</span>
 </div>
 <button type="button" class="hp-admin-logout" onclick="adminLogout()">🔒 Admin Logout</button>
 </div>
@@ -1231,17 +1214,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 <div style="padding:12px 15px 8px 15px;">
-<input type="hidden" id="openingBalanceInput" value="">
+<input type="hidden" id="openingBalanceInput" value="26054.95">
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
 <div style="display:flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--saffron);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;color:var(--navy);flex-shrink:0;">
 FY:
 <select id="fySelect" style="padding:3px 6px;border-radius:6px;border:1px solid var(--line);font-weight:700;color:var(--navy);background:#fff;font-size:12.5px;"><option value="2025-26">2025-26</option><option value="2026-27">2026-27</option><option value="2027-28">2027-28</option></select>
 </div>
 <div style="display:flex;gap:8px;flex:1;min-width:220px;">
-<button type="button" onclick="exportAllData()" style="flex:1;min-width:110px;padding:9px 12px;background:#E4F1E8;color:#1E6E45;border:1.5px solid #BFE0CC;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">⬇️ Export Data</button>
-<button type="button" onclick="document.getElementById(&#39;importDataFile&#39;).click()" style="flex:1;min-width:110px;padding:9px 12px;background:#E3EEFC;color:#1565C0;border:1.5px solid #A9C9F0;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">⬆️ Import Data</button>
+<button type="button" onclick="exportAllData()" style="flex:1;min-width:110px;padding:9px 12px;background:#E4F1E8;color:#1E6E45;border:1.5px solid #BFE0CC;border-radius:10px;font-size:12.5px;font-weight:700;font-family:'Inter',sans-serif;">⬇️ Export Data</button>
+<button type="button" onclick="document.getElementById('importDataFile').click()" style="flex:1;min-width:110px;padding:9px 12px;background:#E3EEFC;color:#1565C0;border:1.5px solid #A9C9F0;border-radius:10px;font-size:12.5px;font-weight:700;font-family:'Inter',sans-serif;">⬆️ Import Data</button>
 </div>
-<button type="button" onclick="resetAllPaidAndExpenses()" style="flex:0 0 auto;margin-left:auto;padding:9px 14px;background:#FCF3F2;color:#B3261E;border:1.5px solid #E7B8B4;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">🗑️ Reset All Paid &amp; Expenses (Testing)</button>
+<button type="button" onclick="resetAllPaidAndExpenses()" style="flex: 0 0 auto; margin-left: auto; padding: 9px 14px; background: rgb(252, 243, 242); color: rgb(179, 38, 30); border: 1.5px solid rgb(231, 184, 180); border-radius: 10px; font-size: 12.5px; font-weight: 700; font-family: Inter, sans-serif; display: none;">🗑️ Reset All Paid &amp; Expenses (Testing)</button>
 <input type="file" id="importDataFile" accept="application/json" style="display:none;" onchange="importAllData(this.files[0])">
 </div>
 </div>
@@ -1258,27 +1241,27 @@ FY:
 
 <div class="dashboard">
 <div class="hero">
-<div class="ring" id="ringEl" style="--pct: 1;"><div class="ring-inner"><b id="ringPct">1%</b><span>Collected</span></div></div>
+<div class="ring" id="ringEl" style="--pct: 19;"><div class="ring-inner"><b id="ringPct">19%</b><span>Collected</span></div></div>
 <div class="hero-text" style="display:flex;gap:18px;flex-wrap:wrap;">
 <div>
 <div class="h-label">🏦 Bank</div>
-<div class="h-value positive" id="dashBankBalance">₹0</div>
+<div class="h-value positive" id="dashBankBalance">₹26,797</div>
 </div>
 <div>
 <div class="h-label">💵 Cash</div>
-<div class="h-value positive" id="dashCashBalance">₹0</div>
+<div class="h-value positive" id="dashCashBalance">₹14,842</div>
 </div>
-<div class="h-sub" id="heroSub" style="width:100%;">56 flat(s) with dues · FY 2026-27</div>
+<div class="h-sub" id="heroSub" style="width:100%;">46 flat(s) with dues · FY 2026-27</div>
 </div>
 </div>
 </div>
 
 <div class="chips">
 <div class="chip total"><div class="c-num" id="statTotal">56</div><div class="c-label">Total Flats</div></div>
-<div class="chip collection"><div class="c-num" id="statCollection">₹4,000</div><div class="c-label">Total Collection</div></div>
-<div class="chip expense"><div class="c-num" id="statExpense">₹0</div><div class="c-label">Total Expense</div></div>
-<div class="chip pending"><div class="c-num" id="statPendingFlats">56</div><div class="c-label">Flats Pending</div></div>
-<div class="chip outstanding"><div class="c-num" id="statTotalOutstanding">₹0</div><div class="c-label">Total Outstanding</div></div>
+<div class="chip collection"><div class="c-num" id="statCollection">₹30,500</div><div class="c-label">Total Collection</div></div>
+<div class="chip expense"><div class="c-num" id="statExpense">₹14,916</div><div class="c-label">Total Expense</div></div>
+<div class="chip pending"><div class="c-num" id="statPendingFlats">46</div><div class="c-label">Flats Pending</div></div>
+<div class="chip outstanding"><div class="c-num" id="statTotalOutstanding">₹1,92,500</div><div class="c-label">Total Outstanding</div></div>
 </div>
 
 <div class="section-title">🏢 Flats</div>
@@ -1291,11 +1274,627 @@ FY:
 <option value="due_asc">Sort: Due Amount (Low-High)</option>
 </select>
 </div>
-<div class="results" id="homeResults"></div>
+<div class="results" id="homeResults">
+<div class="flat-item is-pending" onclick="openModal('101')">
+<div class="flat-left">
+
+<div class="flat-num">101</div>
+<div>
+<div class="flat-name">Parmar Amitkumar Shanabhai</div>
+<div class="flat-mobile">📱 9510203171</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('102')">
+<div class="flat-left">
+
+<div class="flat-num">102</div>
+<div>
+<div class="flat-name">Valand Dilipbhai Babubhai</div>
+<div class="flat-mobile">📱 9898236552</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('103')">
+<div class="flat-left">
+
+<div class="flat-num">103</div>
+<div>
+<div class="flat-name">Parmar Bhagyashri Prakashbhai</div>
+<div class="flat-mobile">📱 9033817168</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹4,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('104')">
+<div class="flat-left">
+
+<div class="flat-num">104</div>
+<div>
+<div class="flat-name">Gohil Mayursinh Bharatsinh</div>
+<div class="flat-mobile">📱 8490037789</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('105')">
+<div class="flat-left">
+
+<div class="flat-num">105</div>
+<div>
+<div class="flat-name">Parmar Narmadaben Natvarbhai</div>
+<div class="flat-mobile">📱 9265540687</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹5,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('106')">
+<div class="flat-left">
+
+<div class="flat-num">106</div>
+<div>
+<div class="flat-name">Shegar Rajkapoor Dharmnath</div>
+<div class="flat-mobile">📱 8469800887</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹8,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('107')">
+<div class="flat-left">
+
+<div class="flat-num">107</div>
+<div>
+<div class="flat-name">Pandya Tusharkumar Bharatbhai</div>
+<div class="flat-mobile">📱 9428490853</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹7,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('108')">
+<div class="flat-left">
+
+<div class="flat-num">108</div>
+<div>
+<div class="flat-name">Jadav Mehul Navinbhai</div>
+<div class="flat-mobile">📱 9874700564</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹8,500</div>
+</div>
+<div class="flat-item " onclick="openModal('201')">
+<div class="flat-left">
+
+<div class="flat-num">201</div>
+<div>
+<div class="flat-name">Parmar Nileshkumar Chimanbhai</div>
+<div class="flat-mobile">📱 9998932246</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('202')">
+<div class="flat-left">
+
+<div class="flat-num">202</div>
+<div>
+<div class="flat-name">Parmar Niruben Jagdishbhai</div>
+<div class="flat-mobile">📱 7990558277</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('203')">
+<div class="flat-left">
+
+<div class="flat-num">203</div>
+<div>
+<div class="flat-name">Parmar Bharatbhai Hasmukhbhai</div>
+<div class="flat-mobile">📱 9664976286</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('204')">
+<div class="flat-left">
+
+<div class="flat-num">204</div>
+<div>
+<div class="flat-name">Gandhi Archana Tusharkumar</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item " onclick="openModal('205')">
+<div class="flat-left">
+
+<div class="flat-num">205</div>
+<div>
+<div class="flat-name">Parmar Balwantsinh Chandrasinh</div>
+<div class="flat-mobile">📱 9724617769</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('206')">
+<div class="flat-left">
+
+<div class="flat-num">206</div>
+<div>
+<div class="flat-name">Parmar Dhanlaxmiben Ishwarbhai</div>
+<div class="flat-mobile">📱 9662333691</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('207')">
+<div class="flat-left">
+
+<div class="flat-num">207</div>
+<div>
+<div class="flat-name">Patel Meena Rameshbhai</div>
+<div class="flat-mobile">📱 9558903656</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('208')">
+<div class="flat-left">
+
+<div class="flat-num">208</div>
+<div>
+<div class="flat-name">Parmar Narenbhai Ratilal</div>
+<div class="flat-mobile">📱 8735050770</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹2,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('301')">
+<div class="flat-left">
+
+<div class="flat-num">301</div>
+<div>
+<div class="flat-name">Rajput Ravi Mukeshbhai</div>
+<div class="flat-mobile">📱 9925293099</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('302')">
+<div class="flat-left">
+
+<div class="flat-num">302</div>
+<div>
+<div class="flat-name">Shelar Rakesh Satyavijay</div>
+<div class="flat-mobile">📱 9624820304</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('303')">
+<div class="flat-left">
+
+<div class="flat-num">303</div>
+<div>
+<div class="flat-name">Rajput Chetan Mukeshbhai</div>
+<div class="flat-mobile">📱 9687511169</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('304')">
+<div class="flat-left">
+
+<div class="flat-num">304</div>
+<div>
+<div class="flat-name">Parmar Nareshbhai Dahyabhai</div>
+<div class="flat-mobile">📱 9727064957</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('305')">
+<div class="flat-left">
+
+<div class="flat-num">305</div>
+<div>
+<div class="flat-name">Parmar Meenaben Jagdishbhai</div>
+<div class="flat-mobile">📱 6356792551</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('306')">
+<div class="flat-left">
+
+<div class="flat-num">306</div>
+<div>
+<div class="flat-name">Valand Rushikumar Narayanbhai</div>
+<div class="flat-mobile">📱 8140555289</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item " onclick="openModal('307')">
+<div class="flat-left">
+
+<div class="flat-num">307</div>
+<div>
+<div class="flat-name">Valand Hetalben Kanubhai</div>
+<div class="flat-mobile">📱 7016726423</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('308')">
+<div class="flat-left">
+
+<div class="flat-num">308</div>
+<div>
+<div class="flat-name">Gujjar Bhavinkumar Sureshbhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('401')">
+<div class="flat-left">
+
+<div class="flat-num">401</div>
+<div>
+<div class="flat-name">Mahant Saraswati Rahulbhai</div>
+<div class="flat-mobile">📱 8401265517</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('402')">
+<div class="flat-left">
+
+<div class="flat-num">402</div>
+<div>
+<div class="flat-name">Solanki Bharatbhai Pujabhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item " onclick="openModal('403')">
+<div class="flat-left">
+
+<div class="flat-num">403</div>
+<div>
+<div class="flat-name">Padhiyar Vilasben Kishanbhai</div>
+<div class="flat-mobile">📱 9712827375</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('404')">
+<div class="flat-left">
+
+<div class="flat-num">404</div>
+<div>
+<div class="flat-name">Parmar Pushpaben Jigneshbhai</div>
+<div class="flat-mobile">📱 9377540072</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('405')">
+<div class="flat-left">
+
+<div class="flat-num">405</div>
+<div>
+<div class="flat-name">Darji Ritaben Jayeshbhai</div>
+<div class="flat-mobile">📱 8200499789</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹2,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('406')">
+<div class="flat-left">
+
+<div class="flat-num">406</div>
+<div>
+<div class="flat-name">Parekh Daxaben Rameshchandra</div>
+<div class="flat-mobile">📱 9879395219</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹2,500</div>
+</div>
+<div class="flat-item " onclick="openModal('407')">
+<div class="flat-left">
+
+<div class="flat-num">407</div>
+<div>
+<div class="flat-name">Saroj Dayasankar Bhairam</div>
+<div class="flat-mobile">📱 9601184857</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('408')">
+<div class="flat-left">
+
+<div class="flat-num">408</div>
+<div>
+<div class="flat-name">Bhaliya Soniben Ashokbhai</div>
+<div class="flat-mobile">📱 7600427451</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹5,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('501')">
+<div class="flat-left">
+
+<div class="flat-num">501</div>
+<div>
+<div class="flat-name">Sindha Rekhaben Udesingbhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('502')">
+<div class="flat-left">
+
+<div class="flat-num">502</div>
+<div>
+<div class="flat-name">Mistri Truptiben Navinchandra</div>
+<div class="flat-mobile">📱 8160966431</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('503')">
+<div class="flat-left">
+
+<div class="flat-num">503</div>
+<div>
+<div class="flat-name">Rana Pratikkumar Gopalbhai</div>
+<div class="flat-mobile">📱 9712675031</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('504')">
+<div class="flat-left">
+
+<div class="flat-num">504</div>
+<div>
+<div class="flat-name">Vasava Sanjaybhai Kantibhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('505')">
+<div class="flat-left">
+
+<div class="flat-num">505</div>
+<div>
+<div class="flat-name">Patel Vinodbhai Naginbhai</div>
+<div class="flat-mobile">📱 9974662612</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹6,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('506')">
+<div class="flat-left">
+
+<div class="flat-num">506</div>
+<div>
+<div class="flat-name">Parmar Ranjitsinh Ramanbhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('507')">
+<div class="flat-left">
+
+<div class="flat-num">507</div>
+<div>
+<div class="flat-name">Mali Maheshbhai Chandubhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item " onclick="openModal('508')">
+<div class="flat-left">
+
+<div class="flat-num">508</div>
+<div>
+<div class="flat-name">Darbar Alpa Mahendrabhai</div>
+<div class="flat-mobile">📱 7567865844</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('601')">
+<div class="flat-left">
+
+<div class="flat-num">601</div>
+<div>
+<div class="flat-name">Rana Surbhiben Deepakbhai</div>
+<div class="flat-mobile">📱 7600597658</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('602')">
+<div class="flat-left">
+
+<div class="flat-num">602</div>
+<div>
+<div class="flat-name">Kanneganti Dhiren Jagrit</div>
+<div class="flat-mobile">📱 9427313368</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹4,500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('603')">
+<div class="flat-left">
+
+<div class="flat-num">603</div>
+<div>
+<div class="flat-name">Ghanchi Ikbalbhai Ibrahimbhai</div>
+<div class="flat-mobile">📱 9723496735</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('604')">
+<div class="flat-left">
+
+<div class="flat-num">604</div>
+<div>
+<div class="flat-name">Sharma Rakhiben Maheshkumar</div>
+<div class="flat-mobile">📱 8488945276</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹3,000</div>
+</div>
+<div class="flat-item " onclick="openModal('605')">
+<div class="flat-left">
+
+<div class="flat-num">605</div>
+<div>
+<div class="flat-name">Bariya Narpatbhai Govindbhai</div>
+<div class="flat-mobile">📱 9687581056</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('606')">
+<div class="flat-left">
+
+<div class="flat-num">606</div>
+<div>
+<div class="flat-name">Rohit Tejalben Satishkumar</div>
+<div class="flat-mobile">📱 9725277119</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹8,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('607')">
+<div class="flat-left">
+
+<div class="flat-num">607</div>
+<div>
+<div class="flat-name">Shinde Hanshabai Bhagvanbhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('608')">
+<div class="flat-left">
+
+<div class="flat-num">608</div>
+<div>
+<div class="flat-name">Parmar Pramodbhai Somabhai</div>
+<div class="flat-mobile">📱 9586003623</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('701')">
+<div class="flat-left">
+
+<div class="flat-num">701</div>
+<div>
+<div class="flat-name">Solanki Jashodaben Kamleshbhai</div>
+<div class="flat-mobile">📱 6352838164</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹2,500</div>
+</div>
+<div class="flat-item " onclick="openModal('702')">
+<div class="flat-left">
+
+<div class="flat-num">702</div>
+<div>
+<div class="flat-name">Patel Jinalben Maulikkumar</div>
+<div class="flat-mobile">📱 6352838164</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('703')">
+<div class="flat-left">
+
+<div class="flat-num">703</div>
+<div>
+<div class="flat-name">Patel Mayaben Vasantbhai</div>
+<div class="flat-mobile">📱 9714526566</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,000</div>
+</div>
+<div class="flat-item " onclick="openModal('704')">
+<div class="flat-left">
+
+<div class="flat-num">704</div>
+<div>
+<div class="flat-name">Sindha Urmilaben Rupeshbhai</div>
+<div class="flat-mobile">📱 9727170645</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('705')">
+<div class="flat-left">
+
+<div class="flat-num">705</div>
+<div>
+<div class="flat-name">Gohil Jayendrasinh Parsottambhai</div>
+<div class="flat-mobile">📱 9537507466</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹500</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('706')">
+<div class="flat-left">
+
+<div class="flat-num">706</div>
+<div>
+<div class="flat-name">Khan Sabnam Mohmmad Jilani</div>
+<div class="flat-mobile">📱 7016443291</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹1,500</div>
+</div>
+<div class="flat-item " onclick="openModal('707')">
+<div class="flat-left">
+
+<div class="flat-num">707</div>
+<div>
+<div class="flat-name">Sharma Kalpana Surendra</div>
+<div class="flat-mobile">📱 9726313849</div>
+</div>
+</div>
+<div class="status-badge status-paid">✅ Up to date</div>
+</div>
+<div class="flat-item is-pending" onclick="openModal('708')">
+<div class="flat-left">
+
+<div class="flat-num">708</div>
+<div>
+<div class="flat-name">Makwana Hemant Keshavbhai</div>
+<div class="flat-mobile">Mobile not added</div>
+</div>
+</div>
+<div class="status-badge status-pending">⏳ Baki ₹9,000</div>
+</div></div>
 
 <script>/* legacy static flat cards below removed — see homeResults render() output */</script>
 <div style="display:none">
-<div class="flat-item is-pending" onclick="openModal(&#39;101&#39;)">
+<div class="flat-item is-pending" onclick="openModal('101')">
 <div class="flat-left">
 
 <div class="flat-num">101</div>
@@ -1306,7 +1905,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 4 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;102&#39;)">
+<div class="flat-item is-pending" onclick="openModal('102')">
 <div class="flat-left">
 
 <div class="flat-num">102</div>
@@ -1317,7 +1916,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;103&#39;)">
+<div class="flat-item is-pending" onclick="openModal('103')">
 <div class="flat-left">
 
 <div class="flat-num">103</div>
@@ -1328,7 +1927,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;104&#39;)">
+<div class="flat-item is-pending" onclick="openModal('104')">
 <div class="flat-left">
 
 <div class="flat-num">104</div>
@@ -1339,7 +1938,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;105&#39;)">
+<div class="flat-item is-pending" onclick="openModal('105')">
 <div class="flat-left">
 
 <div class="flat-num">105</div>
@@ -1350,7 +1949,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;106&#39;)">
+<div class="flat-item is-pending" onclick="openModal('106')">
 <div class="flat-left">
 
 <div class="flat-num">106</div>
@@ -1361,7 +1960,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;107&#39;)">
+<div class="flat-item is-pending" onclick="openModal('107')">
 <div class="flat-left">
 
 <div class="flat-num">107</div>
@@ -1372,7 +1971,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;108&#39;)">
+<div class="flat-item is-pending" onclick="openModal('108')">
 <div class="flat-left">
 
 <div class="flat-num">108</div>
@@ -1383,7 +1982,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;201&#39;)">
+<div class="flat-item is-pending" onclick="openModal('201')">
 <div class="flat-left">
 
 <div class="flat-num">201</div>
@@ -1394,7 +1993,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;202&#39;)">
+<div class="flat-item is-pending" onclick="openModal('202')">
 <div class="flat-left">
 
 <div class="flat-num">202</div>
@@ -1405,7 +2004,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;203&#39;)">
+<div class="flat-item is-pending" onclick="openModal('203')">
 <div class="flat-left">
 
 <div class="flat-num">203</div>
@@ -1416,7 +2015,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;204&#39;)">
+<div class="flat-item is-pending" onclick="openModal('204')">
 <div class="flat-left">
 
 <div class="flat-num">204</div>
@@ -1427,7 +2026,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;205&#39;)">
+<div class="flat-item is-pending" onclick="openModal('205')">
 <div class="flat-left">
 
 <div class="flat-num">205</div>
@@ -1438,7 +2037,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;206&#39;)">
+<div class="flat-item is-pending" onclick="openModal('206')">
 <div class="flat-left">
 
 <div class="flat-num">206</div>
@@ -1449,7 +2048,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;207&#39;)">
+<div class="flat-item is-pending" onclick="openModal('207')">
 <div class="flat-left">
 
 <div class="flat-num">207</div>
@@ -1460,7 +2059,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;208&#39;)">
+<div class="flat-item is-pending" onclick="openModal('208')">
 <div class="flat-left">
 
 <div class="flat-num">208</div>
@@ -1471,7 +2070,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;301&#39;)">
+<div class="flat-item is-pending" onclick="openModal('301')">
 <div class="flat-left">
 
 <div class="flat-num">301</div>
@@ -1482,7 +2081,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;302&#39;)">
+<div class="flat-item is-pending" onclick="openModal('302')">
 <div class="flat-left">
 
 <div class="flat-num">302</div>
@@ -1493,7 +2092,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;303&#39;)">
+<div class="flat-item is-pending" onclick="openModal('303')">
 <div class="flat-left">
 
 <div class="flat-num">303</div>
@@ -1504,7 +2103,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;304&#39;)">
+<div class="flat-item is-pending" onclick="openModal('304')">
 <div class="flat-left">
 
 <div class="flat-num">304</div>
@@ -1515,7 +2114,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;305&#39;)">
+<div class="flat-item is-pending" onclick="openModal('305')">
 <div class="flat-left">
 
 <div class="flat-num">305</div>
@@ -1526,7 +2125,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;306&#39;)">
+<div class="flat-item is-pending" onclick="openModal('306')">
 <div class="flat-left">
 
 <div class="flat-num">306</div>
@@ -1537,7 +2136,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;307&#39;)">
+<div class="flat-item is-pending" onclick="openModal('307')">
 <div class="flat-left">
 
 <div class="flat-num">307</div>
@@ -1548,7 +2147,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;308&#39;)">
+<div class="flat-item is-pending" onclick="openModal('308')">
 <div class="flat-left">
 
 <div class="flat-num">308</div>
@@ -1559,7 +2158,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;401&#39;)">
+<div class="flat-item is-pending" onclick="openModal('401')">
 <div class="flat-left">
 
 <div class="flat-num">401</div>
@@ -1570,7 +2169,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;402&#39;)">
+<div class="flat-item is-pending" onclick="openModal('402')">
 <div class="flat-left">
 
 <div class="flat-num">402</div>
@@ -1581,7 +2180,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;403&#39;)">
+<div class="flat-item is-pending" onclick="openModal('403')">
 <div class="flat-left">
 
 <div class="flat-num">403</div>
@@ -1592,7 +2191,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;404&#39;)">
+<div class="flat-item is-pending" onclick="openModal('404')">
 <div class="flat-left">
 
 <div class="flat-num">404</div>
@@ -1603,7 +2202,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;405&#39;)">
+<div class="flat-item is-pending" onclick="openModal('405')">
 <div class="flat-left">
 
 <div class="flat-num">405</div>
@@ -1614,7 +2213,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;406&#39;)">
+<div class="flat-item is-pending" onclick="openModal('406')">
 <div class="flat-left">
 
 <div class="flat-num">406</div>
@@ -1625,7 +2224,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;407&#39;)">
+<div class="flat-item is-pending" onclick="openModal('407')">
 <div class="flat-left">
 
 <div class="flat-num">407</div>
@@ -1636,7 +2235,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;408&#39;)">
+<div class="flat-item is-pending" onclick="openModal('408')">
 <div class="flat-left">
 
 <div class="flat-num">408</div>
@@ -1647,7 +2246,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;501&#39;)">
+<div class="flat-item is-pending" onclick="openModal('501')">
 <div class="flat-left">
 
 <div class="flat-num">501</div>
@@ -1658,7 +2257,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;502&#39;)">
+<div class="flat-item is-pending" onclick="openModal('502')">
 <div class="flat-left">
 
 <div class="flat-num">502</div>
@@ -1669,7 +2268,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;503&#39;)">
+<div class="flat-item is-pending" onclick="openModal('503')">
 <div class="flat-left">
 
 <div class="flat-num">503</div>
@@ -1680,7 +2279,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;504&#39;)">
+<div class="flat-item is-pending" onclick="openModal('504')">
 <div class="flat-left">
 
 <div class="flat-num">504</div>
@@ -1691,7 +2290,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;505&#39;)">
+<div class="flat-item is-pending" onclick="openModal('505')">
 <div class="flat-left">
 
 <div class="flat-num">505</div>
@@ -1702,7 +2301,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;506&#39;)">
+<div class="flat-item is-pending" onclick="openModal('506')">
 <div class="flat-left">
 
 <div class="flat-num">506</div>
@@ -1713,7 +2312,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;507&#39;)">
+<div class="flat-item is-pending" onclick="openModal('507')">
 <div class="flat-left">
 
 <div class="flat-num">507</div>
@@ -1724,7 +2323,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;508&#39;)">
+<div class="flat-item is-pending" onclick="openModal('508')">
 <div class="flat-left">
 
 <div class="flat-num">508</div>
@@ -1735,7 +2334,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;601&#39;)">
+<div class="flat-item is-pending" onclick="openModal('601')">
 <div class="flat-left">
 
 <div class="flat-num">601</div>
@@ -1746,7 +2345,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;602&#39;)">
+<div class="flat-item is-pending" onclick="openModal('602')">
 <div class="flat-left">
 
 <div class="flat-num">602</div>
@@ -1757,7 +2356,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;603&#39;)">
+<div class="flat-item is-pending" onclick="openModal('603')">
 <div class="flat-left">
 
 <div class="flat-num">603</div>
@@ -1768,7 +2367,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;604&#39;)">
+<div class="flat-item is-pending" onclick="openModal('604')">
 <div class="flat-left">
 
 <div class="flat-num">604</div>
@@ -1779,7 +2378,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;605&#39;)">
+<div class="flat-item is-pending" onclick="openModal('605')">
 <div class="flat-left">
 
 <div class="flat-num">605</div>
@@ -1790,7 +2389,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;606&#39;)">
+<div class="flat-item is-pending" onclick="openModal('606')">
 <div class="flat-left">
 
 <div class="flat-num">606</div>
@@ -1801,7 +2400,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;607&#39;)">
+<div class="flat-item is-pending" onclick="openModal('607')">
 <div class="flat-left">
 
 <div class="flat-num">607</div>
@@ -1812,7 +2411,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;608&#39;)">
+<div class="flat-item is-pending" onclick="openModal('608')">
 <div class="flat-left">
 
 <div class="flat-num">608</div>
@@ -1823,7 +2422,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;701&#39;)">
+<div class="flat-item is-pending" onclick="openModal('701')">
 <div class="flat-left">
 
 <div class="flat-num">701</div>
@@ -1834,7 +2433,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;702&#39;)">
+<div class="flat-item is-pending" onclick="openModal('702')">
 <div class="flat-left">
 
 <div class="flat-num">702</div>
@@ -1845,7 +2444,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;703&#39;)">
+<div class="flat-item is-pending" onclick="openModal('703')">
 <div class="flat-left">
 
 <div class="flat-num">703</div>
@@ -1856,7 +2455,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;704&#39;)">
+<div class="flat-item is-pending" onclick="openModal('704')">
 <div class="flat-left">
 
 <div class="flat-num">704</div>
@@ -1867,7 +2466,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;705&#39;)">
+<div class="flat-item is-pending" onclick="openModal('705')">
 <div class="flat-left">
 
 <div class="flat-num">705</div>
@@ -1878,7 +2477,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;706&#39;)">
+<div class="flat-item is-pending" onclick="openModal('706')">
 <div class="flat-left">
 
 <div class="flat-num">706</div>
@@ -1889,7 +2488,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;707&#39;)">
+<div class="flat-item is-pending" onclick="openModal('707')">
 <div class="flat-left">
 
 <div class="flat-num">707</div>
@@ -1900,7 +2499,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;708&#39;)">
+<div class="flat-item is-pending" onclick="openModal('708')">
 <div class="flat-left">
 
 <div class="flat-num">708</div>
@@ -1917,10 +2516,38 @@ FY:
 <div id="recentActivityList"><div class="ra-item">
 <div class="ra-icon credit">➕</div>
 <div class="ra-info">
-<div class="ra-desc">Flat 101 - Parmar Amitkumar Shanabhai (Apr, May, Jun, Jul, Aug, Sep, Oct, Nov)</div>
-<div class="ra-date">2026-04-04</div>
+<div class="ra-desc">Flat 307 - Valand Hetalben Kanubhai (Jul, Aug, Sep, Oct)</div>
+<div class="ra-date">26-09-2026</div>
 </div>
-<div class="ra-amt credit">+₹4,000</div>
+<div class="ra-amt credit">+₹2,000</div>
+</div><div class="ra-item">
+<div class="ra-icon expense">➖</div>
+<div class="ra-info">
+<div class="ra-desc">Dharmada / Festival Fund - Handover to Committee 🔒</div>
+<div class="ra-date">14-09-2026</div>
+</div>
+<div class="ra-amt expense">-₹2,742</div>
+</div><div class="ra-item">
+<div class="ra-icon credit">➕</div>
+<div class="ra-info">
+<div class="ra-desc">Ganesh chaturthi</div>
+<div class="ra-date">14-09-2026</div>
+</div>
+<div class="ra-amt credit">+₹2,742</div>
+</div><div class="ra-item">
+<div class="ra-icon credit">➕</div>
+<div class="ra-info">
+<div class="ra-desc">Flat 404 - Parmar Pushpaben Jigneshbhai (Jun, Jul)</div>
+<div class="ra-date">04-09-2026</div>
+</div>
+<div class="ra-amt credit">+₹1,000</div>
+</div><div class="ra-item">
+<div class="ra-icon credit">➕</div>
+<div class="ra-info">
+<div class="ra-desc">Flat 205 - Parmar Balwantsinh Chandrasinh (Sep)</div>
+<div class="ra-date">10-09-2026</div>
+</div>
+<div class="ra-amt credit">+₹500</div>
 </div></div>
 </div>
 
@@ -1950,16 +2577,16 @@ FY:
 <div class="section-sub">Owner · Mobile · Paid/Pending · months paid</div>
 
 <div style="padding:0 15px 8px 15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-<button type="button" id="bulkPrintToggleBtn" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--saffron);background:#fff;color:var(--navy);font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">🖨️ Multiple Receipt Print</button>
+<button type="button" id="bulkPrintToggleBtn" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--saffron);background:#fff;color:var(--navy);font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">🖨️ Multiple Receipt Print</button>
 <div id="bulkPrintBar" style="display:none;gap:8px;align-items:center;flex-wrap:wrap;">
 <span style="font-size:12px;font-weight:700;color:var(--navy);"><span id="bulkCount">0</span> owner(s) selected</span>
-<button type="button" onclick="generateBulkReceiptPDF()" style="padding:8px 12px;border-radius:10px;border:none;background:var(--green);color:#fff;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">⬇️ Print (3 per A4 page)</button>
-<button type="button" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--coral);background:#fff;color:var(--coral);font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">Cancel</button>
+<button type="button" onclick="generateBulkReceiptPDF()" style="padding:8px 12px;border-radius:10px;border:none;background:var(--green);color:#fff;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">⬇️ Print (3 per A4 page)</button>
+<button type="button" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--coral);background:#fff;color:var(--coral);font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">Cancel</button>
 </div>
 </div>
 
 <div class="results" id="results">
-<div class="flat-item is-pending" onclick="openModal(&#39;101&#39;)">
+<div class="flat-item is-pending" onclick="openModal('101')">
 <div class="flat-left">
 <div class="flat-num">101</div>
 <div>
@@ -1969,7 +2596,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;102&#39;)">
+<div class="flat-item is-pending" onclick="openModal('102')">
 <div class="flat-left">
 <div class="flat-num">102</div>
 <div>
@@ -1979,7 +2606,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;103&#39;)">
+<div class="flat-item is-pending" onclick="openModal('103')">
 <div class="flat-left">
 <div class="flat-num">103</div>
 <div>
@@ -1989,7 +2616,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;104&#39;)">
+<div class="flat-item is-pending" onclick="openModal('104')">
 <div class="flat-left">
 <div class="flat-num">104</div>
 <div>
@@ -1999,7 +2626,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;105&#39;)">
+<div class="flat-item is-pending" onclick="openModal('105')">
 <div class="flat-left">
 <div class="flat-num">105</div>
 <div>
@@ -2009,7 +2636,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;106&#39;)">
+<div class="flat-item is-pending" onclick="openModal('106')">
 <div class="flat-left">
 <div class="flat-num">106</div>
 <div>
@@ -2019,7 +2646,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;107&#39;)">
+<div class="flat-item is-pending" onclick="openModal('107')">
 <div class="flat-left">
 <div class="flat-num">107</div>
 <div>
@@ -2029,7 +2656,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;108&#39;)">
+<div class="flat-item is-pending" onclick="openModal('108')">
 <div class="flat-left">
 <div class="flat-num">108</div>
 <div>
@@ -2039,7 +2666,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;201&#39;)">
+<div class="flat-item is-pending" onclick="openModal('201')">
 <div class="flat-left">
 <div class="flat-num">201</div>
 <div>
@@ -2049,7 +2676,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;202&#39;)">
+<div class="flat-item is-pending" onclick="openModal('202')">
 <div class="flat-left">
 <div class="flat-num">202</div>
 <div>
@@ -2059,7 +2686,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;203&#39;)">
+<div class="flat-item is-pending" onclick="openModal('203')">
 <div class="flat-left">
 <div class="flat-num">203</div>
 <div>
@@ -2069,7 +2696,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;204&#39;)">
+<div class="flat-item is-pending" onclick="openModal('204')">
 <div class="flat-left">
 <div class="flat-num">204</div>
 <div>
@@ -2079,7 +2706,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;205&#39;)">
+<div class="flat-item is-pending" onclick="openModal('205')">
 <div class="flat-left">
 <div class="flat-num">205</div>
 <div>
@@ -2089,7 +2716,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;206&#39;)">
+<div class="flat-item is-pending" onclick="openModal('206')">
 <div class="flat-left">
 <div class="flat-num">206</div>
 <div>
@@ -2099,7 +2726,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;207&#39;)">
+<div class="flat-item is-pending" onclick="openModal('207')">
 <div class="flat-left">
 <div class="flat-num">207</div>
 <div>
@@ -2109,7 +2736,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;208&#39;)">
+<div class="flat-item is-pending" onclick="openModal('208')">
 <div class="flat-left">
 <div class="flat-num">208</div>
 <div>
@@ -2119,7 +2746,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 10 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;301&#39;)">
+<div class="flat-item is-pending" onclick="openModal('301')">
 <div class="flat-left">
 <div class="flat-num">301</div>
 <div>
@@ -2129,7 +2756,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;302&#39;)">
+<div class="flat-item is-pending" onclick="openModal('302')">
 <div class="flat-left">
 <div class="flat-num">302</div>
 <div>
@@ -2139,7 +2766,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;303&#39;)">
+<div class="flat-item is-pending" onclick="openModal('303')">
 <div class="flat-left">
 <div class="flat-num">303</div>
 <div>
@@ -2149,7 +2776,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;304&#39;)">
+<div class="flat-item is-pending" onclick="openModal('304')">
 <div class="flat-left">
 <div class="flat-num">304</div>
 <div>
@@ -2159,7 +2786,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;305&#39;)">
+<div class="flat-item is-pending" onclick="openModal('305')">
 <div class="flat-left">
 <div class="flat-num">305</div>
 <div>
@@ -2169,7 +2796,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;306&#39;)">
+<div class="flat-item is-pending" onclick="openModal('306')">
 <div class="flat-left">
 <div class="flat-num">306</div>
 <div>
@@ -2179,7 +2806,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;307&#39;)">
+<div class="flat-item is-pending" onclick="openModal('307')">
 <div class="flat-left">
 <div class="flat-num">307</div>
 <div>
@@ -2189,7 +2816,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;308&#39;)">
+<div class="flat-item is-pending" onclick="openModal('308')">
 <div class="flat-left">
 <div class="flat-num">308</div>
 <div>
@@ -2199,7 +2826,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;401&#39;)">
+<div class="flat-item is-pending" onclick="openModal('401')">
 <div class="flat-left">
 <div class="flat-num">401</div>
 <div>
@@ -2209,7 +2836,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;402&#39;)">
+<div class="flat-item is-pending" onclick="openModal('402')">
 <div class="flat-left">
 <div class="flat-num">402</div>
 <div>
@@ -2219,7 +2846,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;403&#39;)">
+<div class="flat-item is-pending" onclick="openModal('403')">
 <div class="flat-left">
 <div class="flat-num">403</div>
 <div>
@@ -2229,7 +2856,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;404&#39;)">
+<div class="flat-item is-pending" onclick="openModal('404')">
 <div class="flat-left">
 <div class="flat-num">404</div>
 <div>
@@ -2239,7 +2866,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;405&#39;)">
+<div class="flat-item is-pending" onclick="openModal('405')">
 <div class="flat-left">
 <div class="flat-num">405</div>
 <div>
@@ -2249,7 +2876,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;406&#39;)">
+<div class="flat-item is-pending" onclick="openModal('406')">
 <div class="flat-left">
 <div class="flat-num">406</div>
 <div>
@@ -2259,7 +2886,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;407&#39;)">
+<div class="flat-item is-pending" onclick="openModal('407')">
 <div class="flat-left">
 <div class="flat-num">407</div>
 <div>
@@ -2269,7 +2896,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;408&#39;)">
+<div class="flat-item is-pending" onclick="openModal('408')">
 <div class="flat-left">
 <div class="flat-num">408</div>
 <div>
@@ -2279,7 +2906,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;501&#39;)">
+<div class="flat-item is-pending" onclick="openModal('501')">
 <div class="flat-left">
 <div class="flat-num">501</div>
 <div>
@@ -2289,7 +2916,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;502&#39;)">
+<div class="flat-item is-pending" onclick="openModal('502')">
 <div class="flat-left">
 <div class="flat-num">502</div>
 <div>
@@ -2299,7 +2926,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;503&#39;)">
+<div class="flat-item is-pending" onclick="openModal('503')">
 <div class="flat-left">
 <div class="flat-num">503</div>
 <div>
@@ -2309,7 +2936,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;504&#39;)">
+<div class="flat-item is-pending" onclick="openModal('504')">
 <div class="flat-left">
 <div class="flat-num">504</div>
 <div>
@@ -2319,7 +2946,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;505&#39;)">
+<div class="flat-item is-pending" onclick="openModal('505')">
 <div class="flat-left">
 <div class="flat-num">505</div>
 <div>
@@ -2329,7 +2956,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;506&#39;)">
+<div class="flat-item is-pending" onclick="openModal('506')">
 <div class="flat-left">
 <div class="flat-num">506</div>
 <div>
@@ -2339,7 +2966,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;507&#39;)">
+<div class="flat-item is-pending" onclick="openModal('507')">
 <div class="flat-left">
 <div class="flat-num">507</div>
 <div>
@@ -2349,7 +2976,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;508&#39;)">
+<div class="flat-item is-pending" onclick="openModal('508')">
 <div class="flat-left">
 <div class="flat-num">508</div>
 <div>
@@ -2359,7 +2986,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;601&#39;)">
+<div class="flat-item is-pending" onclick="openModal('601')">
 <div class="flat-left">
 <div class="flat-num">601</div>
 <div>
@@ -2369,7 +2996,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;602&#39;)">
+<div class="flat-item is-pending" onclick="openModal('602')">
 <div class="flat-left">
 <div class="flat-num">602</div>
 <div>
@@ -2379,7 +3006,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;603&#39;)">
+<div class="flat-item is-pending" onclick="openModal('603')">
 <div class="flat-left">
 <div class="flat-num">603</div>
 <div>
@@ -2389,7 +3016,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;604&#39;)">
+<div class="flat-item is-pending" onclick="openModal('604')">
 <div class="flat-left">
 <div class="flat-num">604</div>
 <div>
@@ -2399,7 +3026,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;605&#39;)">
+<div class="flat-item is-pending" onclick="openModal('605')">
 <div class="flat-left">
 <div class="flat-num">605</div>
 <div>
@@ -2409,7 +3036,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;606&#39;)">
+<div class="flat-item is-pending" onclick="openModal('606')">
 <div class="flat-left">
 <div class="flat-num">606</div>
 <div>
@@ -2419,7 +3046,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;607&#39;)">
+<div class="flat-item is-pending" onclick="openModal('607')">
 <div class="flat-left">
 <div class="flat-num">607</div>
 <div>
@@ -2429,7 +3056,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;608&#39;)">
+<div class="flat-item is-pending" onclick="openModal('608')">
 <div class="flat-left">
 <div class="flat-num">608</div>
 <div>
@@ -2439,7 +3066,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;701&#39;)">
+<div class="flat-item is-pending" onclick="openModal('701')">
 <div class="flat-left">
 <div class="flat-num">701</div>
 <div>
@@ -2449,7 +3076,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;702&#39;)">
+<div class="flat-item is-pending" onclick="openModal('702')">
 <div class="flat-left">
 <div class="flat-num">702</div>
 <div>
@@ -2459,7 +3086,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;703&#39;)">
+<div class="flat-item is-pending" onclick="openModal('703')">
 <div class="flat-left">
 <div class="flat-num">703</div>
 <div>
@@ -2469,7 +3096,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;704&#39;)">
+<div class="flat-item is-pending" onclick="openModal('704')">
 <div class="flat-left">
 <div class="flat-num">704</div>
 <div>
@@ -2479,7 +3106,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;705&#39;)">
+<div class="flat-item is-pending" onclick="openModal('705')">
 <div class="flat-left">
 <div class="flat-num">705</div>
 <div>
@@ -2489,7 +3116,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;706&#39;)">
+<div class="flat-item is-pending" onclick="openModal('706')">
 <div class="flat-left">
 <div class="flat-num">706</div>
 <div>
@@ -2499,7 +3126,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;707&#39;)">
+<div class="flat-item is-pending" onclick="openModal('707')">
 <div class="flat-left">
 <div class="flat-num">707</div>
 <div>
@@ -2509,7 +3136,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;708&#39;)">
+<div class="flat-item is-pending" onclick="openModal('708')">
 <div class="flat-left">
 <div class="flat-num">708</div>
 <div>
@@ -2527,15 +3154,15 @@ FY:
 
 <div class="ledger-summary">
 <div class="l-label">Auto Balance (this financial year)</div>
-<div class="l-value" id="ledgerBalance">₹4,000</div>
+<div class="l-value" id="ledgerBalance">₹41,639</div>
 <div class="ledger-rows">
-<div><span class="lr-label">Opening Balance</span><span class="lr-val" id="ledgerOpening">₹0</span></div>
-<div><span class="lr-label">Total Collection</span><span class="lr-val" id="ledgerCollection">₹4,000</span></div>
-<div><span class="lr-label">Total Expense</span><span class="lr-val" id="ledgerExpense">₹0</span></div>
+<div><span class="lr-label">Opening Balance</span><span class="lr-val" id="ledgerOpening">₹26,055</span></div>
+<div><span class="lr-label">Total Collection</span><span class="lr-val" id="ledgerCollection">₹30,500</span></div>
+<div><span class="lr-label">Total Expense</span><span class="lr-val" id="ledgerExpense">₹14,916</span></div>
 </div>
 <div class="ledger-extra">
-<span><b id="ledgerMonthLabel">Jul</b> Avak: <strong id="ledgerMonthIncome">₹0</strong></span>
-<span>Pending Maintenance: <strong id="ledgerPending">₹0</strong> <span id="ledgerPendingFlats">(No dues)</span></span>
+<span><b id="ledgerMonthLabel">Sep</b> Avak: <strong id="ledgerMonthIncome">₹30,500</strong></span>
+<span>Pending Maintenance: <strong id="ledgerPending">₹1,92,500</strong> <span id="ledgerPendingFlats">(46 flats)</span></span>
 </div>
 </div>
 
@@ -2553,98 +3180,99 @@ FY:
 <table class="month-table">
 <thead><tr><th>Month</th><th style="text-align:right">Avak</th><th style="text-align:right">Javak</th><th style="text-align:right">Balance</th></tr></thead>
 <tbody id="monthlyLedgerBody">
-<tr style="cursor:pointer;" onclick="toggleMonthLedgerDetail(&#39;mld-Apr&#39;)">
-<td>Apr <span style="font-size:10px;color:var(--muted);">▾ details</span></td>
-<td class="num" style="color:var(--green)">+₹4,000</td>
+<tr style="">
+<td>Apr</td>
+<td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
-</tr>
-<tr id="mld-Apr" style="display:none;">
-<td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
-<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 101 (Parmar Amitkumar Shanabhai) — ₹500 (2026-04-04) <span style="font-weight:700;color:var(--coral);">Backlog</span></div>
-
-
-</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹26,055</td>
 </tr>
 <tr style="">
 <td>May</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹26,055</td>
 </tr>
 <tr style="">
 <td>Jun</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹26,055</td>
 </tr>
 <tr style="">
 <td>Jul</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹26,055</td>
 </tr>
 <tr style="">
 <td>Aug</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹26,055</td>
 </tr>
-<tr style="">
-<td>Sep</td>
-<td class="num" style="color:var(--green)">+₹0</td>
-<td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<tr style="cursor:pointer;" onclick="toggleMonthLedgerDetail('mld-Sep')">
+<td>Sep <span style="font-size:10px;color:var(--muted);">▾ details</span></td>
+<td class="num" style="color:var(--green)">+₹30,500</td>
+<td class="num" style="color:var(--coral)">-₹14,916</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
+</tr>
+<tr id="mld-Sep" style="display:none;">
+<td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
+<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div><div style="padding:1px 0;">• Flat 201 (Parmar Nileshkumar Chimanbhai) — ₹500 (08-09-2026) · 🧾 Chalan #1779 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 205 (Parmar Balwantsinh Chandrasinh) — ₹500 (10-09-2026) · 🧾 Chalan #1803 1804 1805 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 205 (Parmar Balwantsinh Chandrasinh) — ₹500 (10-09-2026) · 🧾 Chalan #1803 1804 1805 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 205 (Parmar Balwantsinh Chandrasinh) — ₹500 (10-09-2026) · 🧾 Chalan #1803 1804 1805 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 205 (Parmar Balwantsinh Chandrasinh) — ₹500 (10-09-2026) · 🧾 Chalan #1808 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 302 (Shelar Rakesh Satyavijay) — ₹500 (07-09-2026) · 🧾 Chalan #1783 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 305 (Parmar Meenaben Jagdishbhai) — ₹500 (03-09-2026) · 🧾 Chalan #1778 , 1780 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 305 (Parmar Meenaben Jagdishbhai) — ₹500 (03-09-2026) · 🧾 Chalan #1778 , 1780 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 307 (Valand Hetalben Kanubhai) — ₹500 (26-09-2026) · 🧾 Chalan #1809 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 307 (Valand Hetalben Kanubhai) — ₹500 (26-09-2026) · 🧾 Chalan #1810 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 307 (Valand Hetalben Kanubhai) — ₹500 (26-09-2026) · 🧾 Chalan #1811 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 307 (Valand Hetalben Kanubhai) — ₹500 (26-09-2026) · 🧾 Chalan #1809, 1810, 1811, 1812 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 403 (Padhiyar Vilasben Kishanbhai) — ₹500 (15-09-2026) · 🧾 Chalan #1802 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 404 (Parmar Pushpaben Jigneshbhai) — ₹500 (04-09-2026) · 🧾 Chalan #1781 1782 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 404 (Parmar Pushpaben Jigneshbhai) — ₹500 (04-09-2026) · 🧾 Chalan #1781 1782 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 407 (Saroj Dayasankar Bhairam) — ₹500 (03-09-2026) · 🧾 Chalan #1793 to 1796 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 407 (Saroj Dayasankar Bhairam) — ₹500 (03-09-2026) · 🧾 Chalan #1793 to 1796 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 407 (Saroj Dayasankar Bhairam) — ₹500 (03-09-2026) · 🧾 Chalan #1793 to 1796 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 407 (Saroj Dayasankar Bhairam) — ₹500 (03-09-2026) · 🧾 Chalan #1793 to 1796 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1760 to 1767 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1768 to 1772 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1768 to 1772 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1768 to 1772 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1768 to 1772 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 502 (Mistri Truptiben Navinchandra) — ₹500 (02-09-2026) · 🧾 Chalan #1768 to 1772 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 508 (Darbar Alpa Mahendrabhai) — ₹500 (08-09-2026) · 🧾 Chalan #1785 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 601 (Rana Surbhiben Deepakbhai) — ₹500 (02-09-2026) · 🧾 Chalan #1777 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 604 (Sharma Rakhiben Maheshkumar) — ₹500 (06-09-2026) · 🧾 Chalan #1786 to 1791 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 605 (Bariya Narpatbhai Govindbhai) — ₹500 (13-09-2026) · 🧾 Chalan #1797 1798 1799 1800 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 605 (Bariya Narpatbhai Govindbhai) — ₹500 (13-09-2026) · 🧾 Chalan #1797 1798 1799 1800 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 605 (Bariya Narpatbhai Govindbhai) — ₹500 (13-09-2026) · 🧾 Chalan #1797 1798 1799 1800 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 605 (Bariya Narpatbhai Govindbhai) — ₹500 (13-09-2026) · 🧾 Chalan #1797 1798 1799 1800 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 701 (Solanki Jashodaben Kamleshbhai) — ₹500 (02-09-2026) · 🧾 Chalan #1773 ot 1775 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 701 (Solanki Jashodaben Kamleshbhai) — ₹500 (02-09-2026) · 🧾 Chalan #1773 ot 1775 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 701 (Solanki Jashodaben Kamleshbhai) — ₹500 (02-09-2026) · 🧾 Chalan #1773 ot 1775 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 701 (Solanki Jashodaben Kamleshbhai) — ₹500 (02-09-2026) · 🧾 Chalan #1776 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 702 (Patel Jinalben Maulikkumar) — ₹500 (09-09-2026) · 🧾 Chalan #1807 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 703 (Patel Mayaben Vasantbhai) — ₹500 (01-09-2026) · 🧾 Chalan #1758 to 1759 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 703 (Patel Mayaben Vasantbhai) — ₹500 (01-09-2026) · 🧾 Chalan #1758 to 1759 <span style="font-weight:700;color:var(--coral);">Backlog</span></div><div style="padding:1px 0;">• Flat 704 (Sindha Urmilaben Rupeshbhai) — ₹500 (15-09-2026) · 🧾 Chalan #1801 <span style="font-weight:700;color:var(--green);">Regular</span></div><div style="padding:1px 0;">• Flat 707 (Sharma Kalpana Surendra) — ₹500 (13-09-2026) · 🧾 Chalan #1806 <span style="font-weight:700;color:var(--green);">Regular</span></div>
+<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div><div style="padding:1px 0;">• Security Salary — ₹1,930 (01-09-2026)</div><div style="padding:1px 0;">• Cleaning / Housekeeping — ₹6,000 (02-09-2026)</div><div style="padding:1px 0;">• Extra Expenses — ₹50 (06-09-2026)</div><div style="padding:1px 0;">• Light Bill — ₹2,936.41 (20-09-2026)</div><div style="padding:1px 0;">• Dharmada / Festival Fund - Handover to Committee — ₹1,258 (14-09-2026) <span style="color:var(--muted);font-style:italic;">— Ganesh chaturthi</span></div><div style="padding:1px 0;">• Dharmada / Festival Fund - Handover to Committee — ₹2,742 (14-09-2026) <span style="color:var(--muted);font-style:italic;">— Ganesh chaturthi</span></div>
+<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div><div style="padding:1px 0;">• Ganesh chaturthi — ₹1,258 (14-09-2026)</div><div style="padding:1px 0;">• Ganesh chaturthi — ₹2,742 (14-09-2026)</div>
+<div style="color:var(--navy);font-weight:700;margin:6px 0 3px;">🔄 Cash ⇄ Bank Transfer:</div><div style="padding:1px 0;">• 💵 Cash → 🏦 Bank — ₹1,500 (15-09-2026) <span style="color:var(--muted);font-style:italic;">— Bank transfer</span></div>
+</td>
 </tr>
 <tr style="">
 <td>Oct</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr>
 <tr style="">
 <td>Nov</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr>
 <tr style="">
 <td>Dec</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr>
 <tr style="">
 <td>Jan</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr>
 <tr style="">
 <td>Feb</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr>
 <tr style="">
 <td>Mar</td>
 <td class="num" style="color:var(--green)">+₹0</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
-<td class="num" style="font-weight:700;color:var(--navy)">₹4,000</td>
+<td class="num" style="font-weight:700;color:var(--navy)">₹41,639</td>
 </tr></tbody>
 </table>
 </div>
 
 <div class="tabbar">
-<button id="tabCredit" class="tab-active" onclick="switchLedgerTab(&#39;credit&#39;)">➕ Credit Entry</button>
-<button id="tabExpense" onclick="switchLedgerTab(&#39;expense&#39;)">➖ Expense Entry</button>
-<button id="tabTransfer" onclick="switchLedgerTab(&#39;transfer&#39;)">🔄 Cash ⇄ Bank</button>
+<button id="tabCredit" class="tab-active" onclick="switchLedgerTab('credit')">➕ Credit Entry</button>
+<button id="tabExpense" onclick="switchLedgerTab('expense')">➖ Expense Entry</button>
+<button id="tabTransfer" onclick="switchLedgerTab('transfer')">🔄 Cash ⇄ Bank</button>
 </div>
 
 <div class="entry-form show" id="formCredit">
 <div class="field"><label>Description</label><input type="text" id="creditDesc" placeholder="e.g. Interest, Hall booking"></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="creditAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="creditDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="creditDate" required=""></div>
 <div class="field"><label>Received In</label><select id="creditMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <button class="btn-add" onclick="addCredit()">Add Credit</button>
 </div>
@@ -2670,7 +3298,7 @@ FY:
 <option value="Extra Expenses"></option>
 </datalist>
 <div class="field"><label>Amount (₹)</label><input type="number" id="expenseAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="expenseDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="expenseDate" required=""></div>
 <div class="field"><label>Paid From</label><select id="expenseMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="expenseRemark" placeholder="e.g. Extra note about this expense"></div>
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
@@ -2679,20 +3307,83 @@ FY:
 <div class="entry-form" id="formTransfer">
 <div class="field"><label>Direction</label><select id="transferDirection"><option value="CashToBank">💵 Cash → 🏦 Bank (Cash deposited into bank)</option><option value="BankToCash">🏦 Bank → 💵 Cash (Cash withdrawn from bank)</option></select></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="transferAmount" placeholder="e.g. 5000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="transferDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="transferDate" required=""></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="transferRemark" placeholder="e.g. Ganpati dharmada cash deposited"></div>
 <button class="btn-add" onclick="addTransfer()">Add Transfer</button>
 <div class="mini" style="padding:6px 2px 0;color:var(--muted);font-size:11.5px;line-height:1.4;">ℹ️ Aa entry Total Collection/Expense ne asar nathi karti — fakt Bank ane Cash balance vachche paisa move thay chhe.</div>
 </div>
 
-<div class="section-title" id="creditListTitle">Credit Entries</div>
-<div class="entry-list" id="creditList"><div class="no-results">No credit entries yet</div></div>
+<div class="section-title" id="creditListTitle">Credit Entries · Sep 2026-27</div>
+<div class="entry-list" id="creditList">
+<div class="entry-item">
+<div><div class="e-desc">Ganesh chaturthi</div><div class="e-date">14-09-2026 · 💵 Cash</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt credit">+₹2,742</div>
+<button class="e-del" onclick="deleteEntry('credits','1790272222108')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">Ganesh chaturthi</div><div class="e-date">14-09-2026 · 🏦 Bank</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt credit">+₹1,258</div>
+<button class="e-del" onclick="deleteEntry('credits','1790269582791')">✕</button>
+</div>
+</div></div>
 
-<div class="section-title" id="expenseListTitle">Expense Entries</div>
-<div class="entry-list" id="expenseList"><div class="no-results">No expense entries yet</div></div>
+<div class="section-title" id="expenseListTitle">Expense Entries · Sep 2026-27</div>
+<div class="entry-list" id="expenseList">
+<div class="entry-item">
+<div><div class="e-desc">🔒 Light Bill</div><div class="e-date">20-09-2026 · 🏦 Bank</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹2,936</div>
+<button class="e-del" onclick="deleteEntry('expenses','1789911814829')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">🔒 Dharmada / Festival Fund - Handover to Committee</div><div class="e-date">14-09-2026 · 💵 Cash</div><div class="e-date" style="font-style:italic;">📝 Ganesh chaturthi</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹2,742</div>
+<button class="e-del" onclick="deleteEntry('expenses','1790272261372')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">🔒 Dharmada / Festival Fund - Handover to Committee</div><div class="e-date">14-09-2026 · 💵 Cash</div><div class="e-date" style="font-style:italic;">📝 Ganesh chaturthi</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹1,258</div>
+<button class="e-del" onclick="deleteEntry('expenses','1790269628380')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">🔒 Extra Expenses</div><div class="e-date">06-09-2026 · 🏦 Bank</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹50</div>
+<button class="e-del" onclick="deleteEntry('expenses','1788957412668')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">🔒 Cleaning / Housekeeping</div><div class="e-date">02-09-2026 · 💵 Cash</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹6,000</div>
+<button class="e-del" onclick="deleteEntry('expenses','1788342305093')">✕</button>
+</div>
+</div>
+<div class="entry-item">
+<div><div class="e-desc">🔒 Security Salary</div><div class="e-date">01-09-2026 · 🏦 Bank</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt expense">-₹1,930</div>
+<button class="e-del" onclick="deleteEntry('expenses','1788279092719')">✕</button>
+</div>
+</div></div>
 
-<div class="section-title" id="transferListTitle">Cash ⇄ Bank Transfers</div>
-<div class="entry-list" id="transferList"><div class="no-results">No transfer entries yet</div></div>
+<div class="section-title" id="transferListTitle">Cash ⇄ Bank Transfers · Sep 2026-27</div>
+<div class="entry-list" id="transferList">
+<div class="entry-item">
+<div><div class="e-desc">🔄 💵 Cash → 🏦 Bank</div><div class="e-date">15-09-2026</div><div class="e-date" style="font-style:italic;">📝 Bank transfer</div></div>
+<div style="display:flex;align-items:center;">
+<div class="e-amt" style="color:var(--navy);">₹1,500</div>
+<button class="e-del" onclick="deleteEntry('transfers','1790269699491')">✕</button>
+</div>
+</div></div>
 
 <div style="padding:6px 15px 4px 15px;">
 <button style="width:100%;padding:12px;border:none;border-radius:10px;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadJavakListPDF()">📄 Download Javak (Expense) List PDF</button>
@@ -2706,10 +3397,56 @@ FY:
 <h3>📄 Society Form — Mahina nu Avak / Javak</h3>
 <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5;">Mahino select karo. Society ni chhapel form (Tower D) ma e mahina no avak, javak ane silak automatic bharine PDF download thase.</p>
 <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Month Select Karo</label>
-<select id="formMonthSelect" onchange="renderForm(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"></select>
-<div id="formFYNote" style="font-size:11px;color:var(--muted);margin-top:6px;"></div>
+<select id="formMonthSelect" onchange="renderForm(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="Apr">Apr — એપ્રિલ</option><option value="May">May — મે</option><option value="Jun">Jun — જૂન</option><option value="Jul">Jul — જુલાઈ</option><option value="Aug">Aug — ઓગસ્ટ</option><option value="Sep">Sep — સપ્ટેમ્બર</option><option value="Oct">Oct — ઓક્ટોબર</option><option value="Nov">Nov — નવેમ્બર</option><option value="Dec">Dec — ડિસેમ્બર</option><option value="Jan">Jan — જાન્યુઆરી</option><option value="Feb">Feb — ફેબ્રુઆરી</option><option value="Mar">Mar — માર્ચ</option></select>
+<div id="formFYNote" style="font-size:11px;color:var(--muted);margin-top:6px;">Financial Year: 2026-27 (FY upar na dropdown thi badlay chhe)</div>
 </div>
-<div id="formPreview"></div>
+<div id="formPreview">
+<div class="report-card" style="margin-top:0;">
+<h3>Sep 2026 · સપ્ટેમ્બર</h3>
+<div style="font-size:12.5px;color:var(--muted);margin-bottom:10px;">Tarikh: 01/09/2026 thi 30/09/2026</div>
+<button class="form-dl-btn" onclick="downloadSocietyFormPDF()" style="width:100%;padding:13px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">📄 Form PDF Download Karo</button>
+</div>
+<div class="report-card">
+<h3>Avak ni vigat</h3>
+<table class="month-table"><tbody><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Maintenance pete <span style="color:var(--muted);font-size:11px;">(Regular ₹5,000 + Backlog ₹21,500, 18 flat)</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹26,500</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Late fee / dand / penalty pete</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹0</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Anya avak pete <span style="color:var(--muted);font-size:11px;">(Ganesh chaturthi)</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹4,000</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Pachhla mahina ni silak</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹26,054.95</td></tr>
+<tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);font-weight:700;color:var(--navy);">Kul sarvalo</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;color:var(--green);">₹56,554.95</td></tr></tbody></table>
+</div>
+<div class="report-card">
+<h3>Javak / Kharch ni vigat</h3>
+<div style="font-size:11.5px;color:var(--muted);margin-bottom:6px;">Dar kharch nichenu dropdown form ni kai row ma javu joiye te batave chhe. Tame badlo to app yaad rakhshe.</div>
+<table class="month-table"><tbody><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Security Salary<div style="font-size:10.5px;color:var(--muted);">01-09 · Bank</div>
+<select data-k="security salary|" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec" selected="">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai">Tower safai</option><option value="stat">Stationery</option><option value="tlight">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹1,930</td></tr><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Cleaning / Housekeeping<div style="font-size:10.5px;color:var(--muted);">02-09 · Cash</div>
+<select data-k="cleaning / housekeeping|" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai" selected="">Tower safai</option><option value="stat">Stationery</option><option value="tlight">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹6,000</td></tr><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Extra Expenses<div style="font-size:10.5px;color:var(--muted);">06-09 · Bank</div>
+<select data-k="extra expenses|" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai">Tower safai</option><option value="stat">Stationery</option><option value="tlight">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other" selected="">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹50</td></tr><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Dharmada / Festival Fund - Handover to Committee <span style="color:var(--muted);font-size:11px;">(Ganesh chaturthi)</span><div style="font-size:10.5px;color:var(--muted);">14-09 · Cash</div>
+<select data-k="dharmada / festival fund - handover to committee|ganesh chaturthi" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai">Tower safai</option><option value="stat">Stationery</option><option value="tlight">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other" selected="">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹1,258</td></tr><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Dharmada / Festival Fund - Handover to Committee <span style="color:var(--muted);font-size:11px;">(Ganesh chaturthi)</span><div style="font-size:10.5px;color:var(--muted);">14-09 · Cash</div>
+<select data-k="dharmada / festival fund - handover to committee|ganesh chaturthi" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai">Tower safai</option><option value="stat">Stationery</option><option value="tlight">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other" selected="">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹2,742</td></tr><tr>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Light Bill<div style="font-size:10.5px;color:var(--muted);">20-09 · Bank</div>
+<select data-k="light bill|" onchange="setFormRow(this.dataset.k,this.value)" style="margin-top:4px;max-width:100%;padding:5px 6px;border:1.5px solid var(--line);border-radius:7px;font-size:12px;background:#fff;"><option value="clight">Common light bill</option><option value="csec">Common security pagar</option><option value="cstat">Common stationery</option><option value="safai">Tower safai</option><option value="stat">Stationery</option><option value="tlight" selected="">Tower light bill</option><option value="tstat">Tower stationery</option><option value="other">Other (parchuran)</option></select></td>
+<td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹2,936.41</td></tr></tbody></table>
+<div style="margin-top:12px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;">Form ma je rite aavshe</div><table class="month-table"><tbody><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Common security pagar <span style="color:var(--muted);font-size:11px;">· કોમન સિક્યોરીટી પગાર ખર્ચ</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹1,930</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Tower safai <span style="color:var(--muted);font-size:11px;">· ટાવર સાફ સફાઈ ખર્ચ</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹6,000</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Tower light bill <span style="color:var(--muted);font-size:11px;">· ટાવરના લાઈટ બીલનો ખર્ચ</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹2,936.41</td></tr><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Other (parchuran) <span style="color:var(--muted);font-size:11px;">· અન્ય પરચુરણ ખર્ચ</span></td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹4,050</td></tr></tbody></table>
+<table class="month-table"><tbody><tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);font-weight:700;color:var(--navy);">Kul javak / kharch</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;color:var(--coral);">₹14,916.41</td></tr></tbody></table>
+</div>
+<div class="report-card">
+<h3>Masik sarvaiyu</h3>
+<table class="month-table"><tbody>
+<tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Kul avak</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹56,554.95</td></tr>
+<tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);">Kul javak / kharch</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;">₹14,916.41</td></tr>
+<tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);font-weight:700;color:var(--navy);">Mahina na ante silak</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;color:var(--navy);">₹41,638.54</td></tr>
+<tr><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);color:var(--muted);font-size:11.5px;">Bank / Cash silak</td><td style="font-size:12.5px;padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-weight:600;white-space:nowrap;color:var(--muted);font-size:11.5px;">₹26,796.54 / ₹14,842</td></tr>
+</tbody></table>
+<div style="font-size:11px;color:var(--muted);margin:8px 0 12px;">Kul avak ma pachhla mahina ni silak pan gani chhe, etle silak barabar mel khay chhe.</div>
+<button class="form-dl-btn" onclick="downloadSocietyFormPDF()" style="width:100%;padding:13px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">📄 Form PDF Download Karo</button>
+</div></div>
 </div>
 
 <div class="screen" id="screen-reports" style="display: none;">
@@ -2717,10 +3454,10 @@ FY:
 <div class="report-card">
 <h3 id="reportFYTitle">Report — FY 2026-27</h3>
 <div class="report-grid">
-<div><div class="r-num" id="repCollection">₹4,000</div><div class="r-lbl">Collection</div></div>
-<div><div class="r-num" id="repExpense">₹0</div><div class="r-lbl">Expense</div></div>
-<div><div class="r-num" id="repBalance">₹4,000</div><div class="r-lbl">Balance</div></div>
-<div><div class="r-num" id="repPending">56</div><div class="r-lbl">Flats Pending</div></div>
+<div><div class="r-num" id="repCollection">₹30,500</div><div class="r-lbl">Collection</div></div>
+<div><div class="r-num" id="repExpense">₹14,916</div><div class="r-lbl">Expense</div></div>
+<div><div class="r-num" id="repBalance">₹41,639</div><div class="r-lbl">Balance</div></div>
+<div><div class="r-num" id="repPending">46</div><div class="r-lbl">Flats Pending</div></div>
 </div>
 <div class="report-actions">
 <button style="padding:12px;border:none;border-radius:10px;background:var(--saffron);color:#fff;font-weight:700;font-size:14px;cursor:pointer;" onclick="downloadFYReportPDF()">📄 Download Financial Year Report PDF</button>
@@ -2732,10 +3469,58 @@ FY:
 
 <div class="report-card">
 <h3>Month-wise Collection</h3>
-<div id="collectionChartBox" style="margin-bottom:14px;"></div>
+<div id="collectionChartBox" style="margin-bottom:14px;"><svg viewBox="0 0 700 170" style="width:100%;height:auto;display:block;" preserveAspectRatio="xMidYMid meet"><g>
+<rect x="4.0" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="29.8" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Apr</text>
+
+</g><g>
+<rect x="61.7" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="87.5" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">May</text>
+
+</g><g>
+<rect x="119.3" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="145.2" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Jun</text>
+
+</g><g>
+<rect x="177.0" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="202.8" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Jul</text>
+
+</g><g>
+<rect x="234.7" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="260.5" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Aug</text>
+
+</g><g>
+<rect x="292.3" y="10.0" width="51.7" height="136.0" rx="3" fill="#2E8B57" opacity="1"></rect>
+<text x="318.2" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Sep</text>
+<text x="318.2" y="7.0" font-size="8" text-anchor="middle" fill="#152A4E" font-family="Inter,sans-serif" font-weight="700">27k</text>
+</g><g>
+<rect x="350.0" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="375.8" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Oct</text>
+
+</g><g>
+<rect x="407.7" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="433.5" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Nov</text>
+
+</g><g>
+<rect x="465.3" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="491.2" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Dec</text>
+
+</g><g>
+<rect x="523.0" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="548.8" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Jan</text>
+
+</g><g>
+<rect x="580.7" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="606.5" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Feb</text>
+
+</g><g>
+<rect x="638.3" y="146.0" width="51.7" height="0.0" rx="3" fill="#E2A03C" opacity="0.25"></rect>
+<text x="664.2" y="162" font-size="9" text-anchor="middle" fill="#7A7466" font-family="Inter,sans-serif">Mar</text>
+
+</g></svg></div>
 <table class="month-table">
 <thead><tr><th>Month</th><th style="text-align:right">Flats Paid</th><th style="text-align:right">Amount</th></tr></thead>
-<tbody id="monthTableBody"><tr><td>Apr</td><td class="num">1/56</td><td class="num">₹4,000</td></tr><tr><td>May</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jun</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jul</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Aug</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Sep</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Oct</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Nov</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Dec</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jan</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Feb</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Mar</td><td class="num">0/56</td><td class="num">₹0</td></tr></tbody>
+<tbody id="monthTableBody"><tr><td>Apr</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>May</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jun</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jul</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Aug</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Sep</td><td class="num">18/56</td><td class="num">₹26,500</td></tr><tr><td>Oct</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Nov</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Dec</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Jan</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Feb</td><td class="num">0/56</td><td class="num">₹0</td></tr><tr><td>Mar</td><td class="num">0/56</td><td class="num">₹0</td></tr></tbody>
 </table>
 </div>
 
@@ -2743,13 +3528,15 @@ FY:
 <h3 style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">Total Outstanding — All Years<button type="button" class="btn" style="flex:none;background:#25D366;color:#fff;padding:7px 12px;font-size:12px;" onclick="sendAllDueReminders()">📲 Badhane Reminder</button></h3>
 <table class="month-table">
 <thead><tr><th>Flat</th><th>Owner</th><th style="text-align:right">Amount</th><th></th></tr></thead>
-<tbody id="defaulterTableBody"><tr><td>101<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Dec, Jan, Feb, Mar</div></td><td>Parmar Amitkumar Shanabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,000</td></tr><tr><td>102<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Dilipbhai Babubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>103<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bhagyashri Prakashbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>104<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Mayursinh Bharatsinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>105<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narmadaben Natvarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>106<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shegar Rajkapoor Dharmnath</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>107<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Pandya Tusharkumar Bharatbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>108<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Jadav Mehul Navinbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>201<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nileshkumar Chimanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>202<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Niruben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>203<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Bharatbhai Hasmukhbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>204<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gandhi Archana Tusharkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>205<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Balwantsinh Chandrasinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>206<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Dhanlaxmiben Ishwarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>207<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Meena Rameshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>208<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Narenbhai Ratilal</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>301<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Ravi Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>302<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shelar Rakesh Satyavijay</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>303<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rajput Chetan Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>304<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Nareshbhai Dahyabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>305<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Meenaben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>306<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Rushikumar Narayanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>307<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Valand Hetalben Kanubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>308<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gujjar Bhavinkumar Sureshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>401<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mahant Saraswati Rahulbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>402<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Bharatbhai Pujabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>403<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Padhiyar Vilasben Kishanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>404<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pushpaben Jigneshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>405<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darji Ritaben Jayeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>406<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parekh Daxaben Rameshchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>407<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Saroj Dayasankar Bhairam</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>408<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bhaliya Soniben Ashokbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>501<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Rekhaben Udesingbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>502<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mistri Truptiben Navinchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>503<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Pratikkumar Gopalbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>504<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Vasava Sanjaybhai Kantibhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>505<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Vinodbhai Naginbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>506<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Ranjitsinh Ramanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>507<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Mali Maheshbhai Chandubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>508<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Darbar Alpa Mahendrabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>601<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rana Surbhiben Deepakbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>602<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Kanneganti Dhiren Jagrit</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>603<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Ghanchi Ikbalbhai Ibrahimbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>604<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Rakhiben Maheshkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>605<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Bariya Narpatbhai Govindbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>606<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Rohit Tejalben Satishkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>607<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Shinde Hanshabai Bhagvanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>608<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Parmar Pramodbhai Somabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>701<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Solanki Jashodaben Kamleshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>702<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Jinalben Maulikkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>703<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Patel Mayaben Vasantbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>704<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sindha Urmilaben Rupeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>705<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Gohil Jayendrasinh Parsottambhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>706<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Khan Sabnam Mohmmad Jilani</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>707<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Sharma Kalpana Surendra</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr><tr><td>708<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar</div></td><td>Makwana Hemant Keshavbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,000</td></tr></tbody>
+<tbody id="defaulterTableBody"><tr><td>101<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jul, Aug, Sep</div></td><td>Parmar Amitkumar Shanabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;101&quot;)">📲</button></td></tr><tr><td>102<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Valand Dilipbhai Babubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;102&quot;)">📲</button></td></tr><tr><td>103<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Parmar Bhagyashri Prakashbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹4,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;103&quot;)">📲</button></td></tr><tr><td>104<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Gohil Mayursinh Bharatsinh</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;104&quot;)">📲</button></td></tr><tr><td>105<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Parmar Narmadaben Natvarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹5,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;105&quot;)">📲</button></td></tr><tr><td>106<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Shegar Rajkapoor Dharmnath</td><td class="num" style="color:var(--coral);font-weight:700;">₹8,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;106&quot;)">📲</button></td></tr><tr><td>107<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Pandya Tusharkumar Bharatbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹7,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;107&quot;)">📲</button></td></tr><tr><td>108<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Jadav Mehul Navinbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹8,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;108&quot;)">📲</button></td></tr><tr><td>202<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Parmar Niruben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;202&quot;)">📲</button></td></tr><tr><td>203<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Parmar Bharatbhai Hasmukhbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;203&quot;)">📲</button></td></tr><tr><td>204<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Gandhi Archana Tusharkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;204&quot;)">📲</button></td></tr><tr><td>206<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Parmar Dhanlaxmiben Ishwarbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;206&quot;)">📲</button></td></tr><tr><td>207<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Patel Meena Rameshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;207&quot;)">📲</button></td></tr><tr><td>208<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: May, Jun, Jul, Aug, Sep</div></td><td>Parmar Narenbhai Ratilal</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;208&quot;)">📲</button></td></tr><tr><td>301<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Rajput Ravi Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;301&quot;)">📲</button></td></tr><tr><td>302<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Sep</div></td><td>Shelar Rakesh Satyavijay</td><td class="num" style="color:var(--coral);font-weight:700;">₹500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;302&quot;)">📲</button></td></tr><tr><td>303<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Rajput Chetan Mukeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;303&quot;)">📲</button></td></tr><tr><td>304<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jul, Aug, Sep</div></td><td>Parmar Nareshbhai Dahyabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;304&quot;)">📲</button></td></tr><tr><td>305<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jul, Aug, Sep</div></td><td>Parmar Meenaben Jagdishbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;305&quot;)">📲</button></td></tr><tr><td>306<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Valand Rushikumar Narayanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;306&quot;)">📲</button></td></tr><tr><td>308<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Gujjar Bhavinkumar Sureshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;308&quot;)">📲</button></td></tr><tr><td>401<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jul, Aug, Sep</div></td><td>Mahant Saraswati Rahulbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;401&quot;)">📲</button></td></tr><tr><td>402<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Solanki Bharatbhai Pujabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;402&quot;)">📲</button></td></tr><tr><td>404<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Parmar Pushpaben Jigneshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;404&quot;)">📲</button></td></tr><tr><td>405<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jun, Jul, Aug, Sep</div></td><td>Darji Ritaben Jayeshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;405&quot;)">📲</button></td></tr><tr><td>406<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: May, Jun, Jul, Aug, Sep</div></td><td>Parekh Daxaben Rameshchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;406&quot;)">📲</button></td></tr><tr><td>408<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Bhaliya Soniben Ashokbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹5,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;408&quot;)">📲</button></td></tr><tr><td>501<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Sindha Rekhaben Udesingbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;501&quot;)">📲</button></td></tr><tr><td>502<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Sep</div></td><td>Mistri Truptiben Navinchandra</td><td class="num" style="color:var(--coral);font-weight:700;">₹500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;502&quot;)">📲</button></td></tr><tr><td>503<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Rana Pratikkumar Gopalbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;503&quot;)">📲</button></td></tr><tr><td>504<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Vasava Sanjaybhai Kantibhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;504&quot;)">📲</button></td></tr><tr><td>505<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Patel Vinodbhai Naginbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹6,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;505&quot;)">📲</button></td></tr><tr><td>506<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Parmar Ranjitsinh Ramanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;506&quot;)">📲</button></td></tr><tr><td>507<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Mali Maheshbhai Chandubhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;507&quot;)">📲</button></td></tr><tr><td>601<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Sep</div></td><td>Rana Surbhiben Deepakbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;601&quot;)">📲</button></td></tr><tr><td>602<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Kanneganti Dhiren Jagrit</td><td class="num" style="color:var(--coral);font-weight:700;">₹4,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;602&quot;)">📲</button></td></tr><tr><td>603<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Ghanchi Ikbalbhai Ibrahimbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;603&quot;)">📲</button></td></tr><tr><td>604<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Sharma Rakhiben Maheshkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹3,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;604&quot;)">📲</button></td></tr><tr><td>606<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Jun, Jul, Aug, Sep</div></td><td>Rohit Tejalben Satishkumar</td><td class="num" style="color:var(--coral);font-weight:700;">₹8,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;606&quot;)">📲</button></td></tr><tr><td>607<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Shinde Hanshabai Bhagvanbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;607&quot;)">📲</button></td></tr><tr><td>608<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Parmar Pramodbhai Somabhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;608&quot;)">📲</button></td></tr><tr><td>701<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: May, Jun, Jul, Aug, Sep</div></td><td>Solanki Jashodaben Kamleshbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹2,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;701&quot;)">📲</button></td></tr><tr><td>703<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Aug, Sep</div></td><td>Patel Mayaben Vasantbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;703&quot;)">📲</button></td></tr><tr><td>705<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Sep</div></td><td>Gohil Jayendrasinh Parsottambhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;705&quot;)">📲</button></td></tr><tr><td>706<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2026-27: Jul, Aug, Sep</div></td><td>Khan Sabnam Mohmmad Jilani</td><td class="num" style="color:var(--coral);font-weight:700;">₹1,500</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;706&quot;)">📲</button></td></tr><tr><td>708<div style="font-size:10.5px;font-weight:400;color:var(--muted);margin-top:2px;">2025-26: Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar | 2026-27: Apr, May, Jun, Jul, Aug, Sep</div></td><td>Makwana Hemant Keshavbhai</td><td class="num" style="color:var(--coral);font-weight:700;">₹9,000</td><td style="text-align:right;"><button type="button" class="btn" style="background:#25D366;color:#fff;padding:6px 9px;font-size:11px;white-space:nowrap;" onclick="sendDueReminderWhatsApp(&quot;708&quot;)">📲</button></td></tr></tbody>
 </table>
 </div>
 
 </div>
 
-</div><!-- /page-wrap -->
+<div class="screen" id="screen-community" style="display: none;"><div class="community"><h2>⚙️ Settings</h2><div class="community-grid">
+ <section class="c-card"><h3>🔐 Admin account</h3><p class="mini">Admin login Firebase Authentication account thi thay chhe. Email/password Firebase Console → Authentication → Users ma manage karo.</p><button class="c-btn gold" onclick="setMasterAdminPassword()">Change Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
+ </div></div></div><div class="screen" id="screen-chalan-settings" style="display: none;"></div></div><!-- /page-wrap -->
 
 <!-- Modal -->
 <div class="overlay" id="overlay">
@@ -2803,8 +3590,8 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <label style="color:#9C6B14;">⚠️ Pichhla Baki (Aa app pehla nu Baki, ₹)</label>
 <div style="display:flex;gap:8px;">
 <input type="number" id="inputPriorDue" placeholder="0" style="flex:1;">
-<button type="button" onclick="savePriorDue()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">Save</button>
-<button type="button" onclick="clearPriorDue()" style="padding:8px 12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;white-space:nowrap;">✅ Clear</button>
+<button type="button" onclick="savePriorDue()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">Save</button>
+<button type="button" onclick="clearPriorDue()" style="padding:8px 12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;white-space:nowrap;">✅ Clear</button>
 </div>
 <div style="font-size:10.5px;color:#9C6B14;margin-top:5px;">Jo aa flat 
 na pichhla varsh (aa app na use pehla) na kai baki mahina/amount hoy, to
@@ -2824,57 +3611,57 @@ dekhashe, jya sudhi owner pay na kare ane tame "Clear" na dabavo.</div>
 <select id="inputMonth" class="month-select-paid"><option value="Apr" style="color: rgb(46, 139, 87);">✅ Apr</option><option value="May" style="color: rgb(46, 139, 87);">✅ May</option><option value="Jun" style="color: rgb(46, 139, 87);">✅ Jun</option><option value="Jul" style="color: rgb(46, 139, 87);">✅ Jul</option><option value="Aug" style="color: rgb(156, 107, 20);">❌ Aug</option><option value="Sep" style="color: rgb(156, 107, 20);" selected="selected">❌ Sep</option><option value="Oct" style="color: rgb(156, 107, 20);">❌ Oct</option><option value="Nov" style="color: rgb(156, 107, 20);">❌ Nov</option><option value="Dec" style="color: rgb(209, 73, 91);">❌ Dec</option><option value="Jan" style="color: rgb(209, 73, 91);">❌ Jan</option><option value="Feb" style="color: rgb(209, 73, 91);">❌ Feb</option><option value="Mar" style="color: rgb(209, 73, 91);">❌ Mar</option></select>
 </div>
 
-<div class="month-grid" id="monthGrid"><div class="month-pill m-paid " onclick="pickMonth(&#39;Apr&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Apr&#39;, this.checked)">
+<div class="month-grid" id="monthGrid"><div class="month-pill m-paid " onclick="pickMonth('Apr')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Apr', this.checked)">
 Apr · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;May&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;May&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('May')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('May', this.checked)">
 May · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;Jun&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jun&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('Jun')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Jun', this.checked)">
 Jun · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;Jul&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jul&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('Jul')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Jul', this.checked)">
 Jul · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Aug&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Aug&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Aug')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Aug', this.checked)">
 Aug
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged m-selected" onclick="pickMonth(&#39;Sep&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Sep&#39;, this.checked)">
+</div><div class="month-pill m-staged m-selected" onclick="pickMonth('Sep')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Sep', this.checked)">
 Sep
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Oct&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Oct&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Oct')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Oct', this.checked)">
 Oct
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Nov&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Nov&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Nov')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Nov', this.checked)">
 Nov
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Dec&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Dec&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Dec')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Dec', this.checked)">
 Dec
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Jan&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jan&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Jan')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Jan', this.checked)">
 Jan
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Feb&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Feb&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Feb')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Feb', this.checked)">
 Feb
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Mar&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Mar&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Mar')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Mar', this.checked)">
 Mar
 
 </div></div>
 
-<div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Aug&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Sep&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Oct&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Nov&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
+<div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection('Aug')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection('Sep')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection('Oct')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection('Nov')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick="downloadMaintenanceReceiptPDF(&quot;207&quot;)">🧾 Maintenance Receipt (₹2,000)</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo(); suggestChalanNoIfNeeded();">✖️ Selection Clear</button></div>
@@ -2882,8 +3669,8 @@ Mar
 <div class="field">
 <label>Payment Status (for selected month)</label>
 <div class="toggle-row">
-<button class="toggle-btn paid-on" id="btnPaid" onclick="setStatus(&#39;Paid&#39;)">✅ Paid</button>
-<button class="toggle-btn" id="btnPending" onclick="setStatus(&#39;Pending&#39;)">❌ Unpaid</button>
+<button class="toggle-btn paid-on" id="btnPaid" onclick="setStatus('Paid')">✅ Paid</button>
+<button class="toggle-btn" id="btnPending" onclick="setStatus('Pending')">❌ Unpaid</button>
 </div>
 </div>
 
@@ -2920,7 +3707,7 @@ Mar
 
 <div class="field">
 <label>Chalan No. <span style="color:#B42318;font-weight:700;">* Required</span> <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
-<input type="text" id="inputChalanNo" placeholder="One number, or e.g. 125, 126, 127" required aria-required="true" oninput="updateChalanNumberHint()">
+<input type="text" id="inputChalanNo" placeholder="One number, or e.g. 125, 126, 127" required="" aria-required="true" oninput="updateChalanNumberHint()">
 <div id="chalanNumberHint" style="display:none;margin-top:4px;font-size:11px;color:var(--muted);"></div>
 </div>
 
@@ -4546,7 +5333,7 @@ const group = maintGroups.get(key);
 group.amount += amt;
 group.months.push(payment.dueMonth);
 if(payment.mode) group.modes.add(payment.mode);
-if(payment.chalanNo) group.chalanNos.add(payment.chalanNo);
+if(payment.chalanNo) addUniqueChalanNumbers(group.chalanNos,payment.chalanNo);
 if(type === "Backlog") group.isBacklog = true;
 });
 const maintRows = Array.from(maintGroups.values()).map(group=>[
@@ -5784,6 +6571,8 @@ function normalizeChalanNo(value){ return String(value || "").trim().toUpperCase
 function sameChalanNo(a,b){
 const left=normalizeChalanNo(a), right=normalizeChalanNo(b);
 if(!left || !right) return false;
+const leftParts=splitChalanNumbers(left), rightParts=splitChalanNumbers(right);
+if(leftParts.length>1 || rightParts.length>1) return leftParts.some(x=>rightParts.some(y=>sameChalanNo(x,y)));
 if(/^\d+$/.test(left) && /^\d+$/.test(right)) return Number(left)===Number(right);
 return left===right;
 }
@@ -5795,9 +6584,12 @@ return !!(entry && (sameChalanNo(entry.chalanNo,chalanNo) || (Array.isArray(entr
 }
 function formatReceiptChalanNumbers(entry){
 const pairs=(entry&&Array.isArray(entry.months)?entry.months:[]).filter(x=>x&&x.chalanNo);
-if(!pairs.length) return entry&&entry.chalanNo?'Chalan #'+esc(entry.chalanNo):'';
-if(pairs.every(x=>sameChalanNo(x.chalanNo,pairs[0].chalanNo))) return 'Chalan #'+esc(pairs[0].chalanNo);
-return 'Chalan: '+pairs.map(x=>esc(x.month)+' #'+esc(x.chalanNo)).join(', ');
+const numbers=new Set(); pairs.forEach(x=>addUniqueChalanNumbers(numbers,x.chalanNo));
+if(!numbers.size && entry&&entry.chalanNo) addUniqueChalanNumbers(numbers,entry.chalanNo);
+if(!numbers.size) return '';
+if(numbers.size===1) return 'Chalan #'+esc(Array.from(numbers)[0]);
+if(pairs.length && pairs.every(x=>splitChalanNumbers(x.chalanNo).length===1)) return 'Chalan: '+pairs.map(x=>esc(x.month)+' #'+esc(x.chalanNo)).join(', ');
+return 'Chalans #'+Array.from(numbers).map(esc).join(', ');
 }
 function sameReceiptDetails(entry,fy,months,total,paidDate){
 if(!entry || String(entry.fy||"")!==String(fy)) return false;
@@ -5850,7 +6642,7 @@ if(!settings.chalanRangeLocked) return "";
 const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
 if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return "";
 const used=new Set();
-const mark=value=>{ const text=String(value||"").trim(); if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } };
+const mark=value=>splitChalanNumbers(value).forEach(text=>{ if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } });
 Object.keys(store||{}).forEach(ownerFlat=>{
 const years=(store[ownerFlat]||{}).years||{};
 Object.keys(years).forEach(year=>{
@@ -5869,12 +6661,17 @@ return "";
 function splitChalanNumbers(value){
 return String(value||"").split(/[,;|\n]+/).map(x=>x.trim()).filter(Boolean);
 }
+function addUniqueChalanNumbers(target,value){
+splitChalanNumbers(value).forEach(number=>{
+if(!Array.from(target).some(existing=>sameChalanNo(existing,number))) target.add(number);
+});
+}
 function nextUnusedChalanNumbers(count){
 if(!settings.chalanRangeLocked) return [];
 const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
 if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return [];
 const used=new Set();
-const mark=value=>{ const text=String(value||"").trim(); if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } };
+const mark=value=>splitChalanNumbers(value).forEach(text=>{ if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } });
 Object.keys(store||{}).forEach(ownerFlat=>{
 const years=(store[ownerFlat]||{}).years||{};
 Object.keys(years).forEach(year=>{ const savedMonths=(years[year]&&years[year].months)||{}; MONTHS.forEach(month=>{ const record=savedMonths[month]; if(record&&record.status==="Paid") mark(record.chalanNo); }); });
@@ -7408,5 +8205,6 @@ async function downloadSocietyFormPDF(){
   }catch(err){ console.error(err); alert('Form PDF banavvama error: '+err.message); }
 }
 </script>
+
 
 </body></html>
