@@ -1,26 +1,6 @@
 <!DOCTYPE html>
-<!--
-  ⚠️ IMPORTANT — HOW TO SAVE/SHARE THIS FILE (read before saving a new copy):
-  This app needs ONLY this single .html file to work — it loads Firebase,
-  jsPDF, and fonts directly from the internet (CDN links), not from any
-  local folder.
-
-  If you ever save this page again from your browser:
-    ✅ Chrome/Edge "Save As" -> choose "Webpage, HTML Only" (NOT "Webpage, Complete")
-    ✅ Or simply copy/share this exact .html file as-is — do NOT rename or
-       move it into/out of a folder that has a matching "..._files" folder.
-
-  If you pick "Webpage, Complete", the browser rewrites the CDN links above
-  to point at a local "..._files" folder. If that folder isn't included
-  when the file is shared (e.g. sent alone via WhatsApp/email), Firebase,
-  PDF export, and fonts will all fail to load and the app will look broken
-  or blank. If that ever happens again: open the file, check if the
-  <script src="..."> and <link href="..."> tags near the top point to
-  "https://..." links (correct) or to a local "..._files/" folder
-  (broken) — and re-save using "HTML Only" to fix it.
--->
-<!-- saved from url=(0072)file:///C:/Users/Intel/Desktop/URBAN_RECIDENCY_2_BIL_Maintenance_10.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0080)file:///C:/Users/SNKGA%20Godown/Documents/Codex/2026-10-07/hi/outputs/index.html -->
+<html lang="en" class="t-col t-cmp t-pc" style="--t-p: #000000; --t-s: #000000; --t-a: #666666; --t-bg: #f2f2f2; --t-hl: #d9b863; --t-pat: none; --t-hp: none; --t-r: 20px; --t-rb: 14px; --t-z: 1; --t-cols: 4; --t-paid: #2563EB; --t-pend: #EA580C;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -28,16 +8,16 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/css2" rel="stylesheet">
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/jspdf.umd.min.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/jspdf.plugin.autotable.min.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/qrcode.min.js.download"></script>
 
 <!-- Firebase (Realtime Database) -->
 <!-- These use public CDNs so this single HTML file can be shared by itself. -->
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/firebase-app-compat.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/firebase-database-compat.js.download"></script>
+<script src="./URBAN RECIDENCY 2 BIL Maintenance mobile vesion_files/firebase-auth-compat.js.download"></script>
 
 <style>
 :root{
@@ -1136,7 +1116,7 @@ body.t-open #tBack{display:block;}body.t-open #tPanel{display:flex;flex-directio
 #tPanel .tp-body{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
 #tPanel #tpPrev{position:sticky;top:0;z-index:2;background:#fff;padding-bottom:6px;}
 #tPanel .tp-foot{margin-top:8px;padding-top:10px;border-top:1px solid #eee;}
-#tPanel .tp-f{flex-wrap:wrap;}#tPanel .tp-f button{min-width:90px;}
+#tPanel .tp-f{flex-wrap:wrap;}#tPanel .tp-f button{min-width:90px;color:#22262E;}#tPanel .tp-f .pri{color:#fff;}
 @media(min-width:900px){#tFab{bottom:22px;right:22px}#tBack{background:transparent}#tPanel{left:auto;right:22px;bottom:80px;width:360px;border-radius:20px;}}
 #tPanel .tp-h{display:flex;justify-content:space-between;align-items:center;font-size:16px;margin-bottom:4px;}
 #tPanel .tp-h button{border:0;background:#eee;border-radius:50%;width:30px;height:30px;cursor:pointer;}
@@ -1288,38 +1268,51 @@ try{db.ref(FB_ROOT+'/theme').on('value',function(s){soc=s.val();if(soc&&!st.own)
 startSync();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
 })();
-</script>
+</script><meta name="theme-color" content="#000000">
 
-</head>
+<style id="ur2-mobile-fix">
+/* Mobile fit: compact Theme button, KPI labels no clipping, shorter panel on small screens */
+@media(max-width:480px){
+#tFab{right:10px!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;width:42px!important;min-width:42px!important;height:42px!important;padding:0!important;font-size:0!important;border-radius:50%!important;opacity:.9;box-shadow:0 4px 14px rgba(0,0,0,.25)!important;}
+#tFab::before{content:'🎨';font-size:20px;line-height:42px;display:block;text-align:center;}
+.hp-kpi-row .hp-kpi .hp-kpi-label{font-size:8px!important;letter-spacing:-.2px!important;line-height:1.2!important;overflow-wrap:normal;word-break:normal;}
+.hp-kpi-row .hp-kpi{padding:6px 3px!important;min-width:0!important;overflow:hidden;}
+.hp-kpi-row .hp-kpi #headerStatOutstanding,.hp-kpi-row .hp-kpi #headerDashBankBalance,.hp-kpi-row .hp-kpi #headerDashCashBalance{font-size:12px!important;}
+}
+@media(max-height:700px){#tPanel #tpPrev{display:none;}#tPanel{max-height:90vh;}}
+</style>
+<style>#ur2FxChip{position:fixed;left:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:100000;display:none;align-items:center;gap:6px;max-width:calc(100vw - 90px);background:rgba(255,255,255,.96);color:#22262E;border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:5px 6px 5px 12px;font:600 12px/1.2 Poppins,system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.18);}#ur2FxChip .fxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}#ur2FxChip button{border:0;border-radius:999px;min-width:34px;height:34px;background:#EEF2F7;font-size:16px;cursor:pointer;padding:0 8px;}#ur2FxChip button.off{opacity:.45;}#ur2FxPanel{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,22,40,.45);align-items:center;justify-content:center;padding:16px;}#ur2FxPanel .box{background:#fff;color:#22262E;border-radius:18px;padding:16px;width:100%;max-width:380px;max-height:80vh;overflow:auto;font-family:Poppins,system-ui,sans-serif;}#ur2FxPanel h3{margin:0 0 4px;font-size:16px;}#ur2FxPanel p{margin:0 0 10px;font-size:12px;color:#667;}#ur2FxPanel .g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}#ur2FxPanel .g button{border:2px solid #E5E7EB;background:#fff;border-radius:12px;padding:10px 6px;font-size:13px;font-weight:600;cursor:pointer;}#ur2FxPanel .g button.on{border-color:#4338CA;background:#EEF0FF;}#ur2FxPanel .cl{margin-top:12px;width:100%;border:0;border-radius:12px;padding:11px;background:#1F3A5F;color:#fff;font-weight:700;cursor:pointer;}#ur2FxToast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:100004;background:rgba(20,20,30,.9);color:#fff;padding:8px 14px;border-radius:999px;font:600 12px Poppins,system-ui,sans-serif;display:none;}</style><style>
+ .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
+ </style></head>
 
-<body class="firebase-loading">
+<body class="locked">
 
 <div id="lockScreen">
 <div class="lock-orb lock-orb-1"></div>
 <div class="lock-orb lock-orb-2"></div>
 <div class="lock-orb lock-orb-3"></div>
 <svg class="lock-skyline" viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0" y="40" width="26" height="50" fill="#fff"/>
-<rect x="30" y="55" width="20" height="35" fill="#fff"/>
-<rect x="54" y="30" width="24" height="60" fill="#fff"/>
-<rect x="82" y="48" width="18" height="42" fill="#fff"/>
-<rect x="104" y="20" width="28" height="70" fill="#fff"/>
-<rect x="136" y="42" width="20" height="48" fill="#fff"/>
-<rect x="160" y="58" width="22" height="32" fill="#fff"/>
-<rect x="186" y="15" width="26" height="75" fill="#fff"/>
-<rect x="216" y="45" width="18" height="45" fill="#fff"/>
-<rect x="238" y="28" width="24" height="62" fill="#fff"/>
-<rect x="266" y="50" width="20" height="40" fill="#fff"/>
-<rect x="290" y="35" width="26" height="55" fill="#fff"/>
-<rect x="320" y="55" width="18" height="35" fill="#fff"/>
-<rect x="342" y="22" width="24" height="68" fill="#fff"/>
-<rect x="370" y="46" width="20" height="44" fill="#fff"/>
-<rect x="62" y="38" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="112" y="28" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="194" y="24" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="246" y="36" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"/>
-<rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"/>
+<rect x="0" y="40" width="26" height="50" fill="#fff"></rect>
+<rect x="30" y="55" width="20" height="35" fill="#fff"></rect>
+<rect x="54" y="30" width="24" height="60" fill="#fff"></rect>
+<rect x="82" y="48" width="18" height="42" fill="#fff"></rect>
+<rect x="104" y="20" width="28" height="70" fill="#fff"></rect>
+<rect x="136" y="42" width="20" height="48" fill="#fff"></rect>
+<rect x="160" y="58" width="22" height="32" fill="#fff"></rect>
+<rect x="186" y="15" width="26" height="75" fill="#fff"></rect>
+<rect x="216" y="45" width="18" height="45" fill="#fff"></rect>
+<rect x="238" y="28" width="24" height="62" fill="#fff"></rect>
+<rect x="266" y="50" width="20" height="40" fill="#fff"></rect>
+<rect x="290" y="35" width="26" height="55" fill="#fff"></rect>
+<rect x="320" y="55" width="18" height="35" fill="#fff"></rect>
+<rect x="342" y="22" width="24" height="68" fill="#fff"></rect>
+<rect x="370" y="46" width="20" height="44" fill="#fff"></rect>
+<rect x="62" y="38" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="112" y="28" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="194" y="24" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="246" y="36" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
+<rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"></rect>
 </svg>
 <div class="lock-wrap">
 <div class="lock-brand">
@@ -1508,7 +1501,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <button data-tab="ledger" class="active">💰 Ledger</button>
 <button data-tab="reports" class="">📊 Reports</button>
 <button data-tab="form" class="">📄 Form</button>
-</div>
+<button id="communityTab">⚙️ Settings</button></div>
 
 <div class="page-wrap">
 <div class="header-pro">
@@ -1523,17 +1516,18 @@ document.addEventListener('DOMContentLoaded', function(){
 <span id="syncText">Firebase Connected</span>
 </div>
 <div class="hp-badge">
-<span class="hp-icon">📅</span><span id="headerDate">18 Jul 2026</span>
+<span class="hp-icon">📅</span><span id="headerDate">07 Oct 2026</span>
 <span class="hp-badge-sep">·</span>
-<span class="hp-icon">🕒</span><span id="headerTime">9:37:03 PM</span>
+<span class="hp-icon">🕒</span><span id="headerTime">7:51:24 PM</span>
 </div>
+<div class="hp-badge" title="Backup email address"><span class="hp-icon">📧</span><a href="mailto:urbanrecidencybil@gmail.com" style="color:inherit;text-decoration:none;font-weight:700;">urbanrecidencybil@gmail.com</a></div>
 <div class="hp-badge hp-badge-click hp-president-badge" id="headerPresidentBox" onclick="editPresidentName()" title="Tap to edit pramukh nu naam">
 <span class="hp-icon">👤</span><span id="headerPresidentName">Pramukh: KAMLESHBHAI SOLANKI</span>
 </div>
 <div class="hp-badge hp-badge-click" id="headerUpiBox" onclick="editUpiId()" title="Tap to set/change UPI ID">
 <span class="hp-icon">💳</span><span id="headerUpiId">UPI ID Umerva Tap Karo</span>
 </div>
-<span id="headerDay" class="hp-sr-only">Saturday</span>
+<span id="headerDay" class="hp-sr-only">Wednesday</span>
 <span id="headerHeroSub" class="hp-sr-only">56 flat(s) with dues · FY 2026-27</span>
 </div>
 </div>
@@ -1575,10 +1569,10 @@ FY:
 <select id="fySelect" style="padding:3px 6px;border-radius:6px;border:1px solid var(--line);font-weight:700;color:var(--navy);background:#fff;font-size:12.5px;"><option value="2025-26">2025-26</option><option value="2026-27">2026-27</option><option value="2027-28">2027-28</option></select>
 </div>
 <div style="display:flex;gap:8px;flex:1;min-width:220px;">
-<button type="button" onclick="exportAllData()" style="flex:1;min-width:110px;padding:9px 12px;background:#E4F1E8;color:#1E6E45;border:1.5px solid #BFE0CC;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">⬇️ Export Data</button>
-<button type="button" onclick="document.getElementById(&#39;importDataFile&#39;).click()" style="flex:1;min-width:110px;padding:9px 12px;background:#E3EEFC;color:#1565C0;border:1.5px solid #A9C9F0;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">⬆️ Import Data</button>
+<button type="button" onclick="exportAllData()" style="flex:1;min-width:110px;padding:9px 12px;background:#E4F1E8;color:#1E6E45;border:1.5px solid #BFE0CC;border-radius:10px;font-size:12.5px;font-weight:700;font-family:'Inter',sans-serif;">⬇️ Export Data</button>
+<button type="button" onclick="document.getElementById('importDataFile').click()" style="flex:1;min-width:110px;padding:9px 12px;background:#E3EEFC;color:#1565C0;border:1.5px solid #A9C9F0;border-radius:10px;font-size:12.5px;font-weight:700;font-family:'Inter',sans-serif;">⬆️ Import Data</button>
 </div>
-<button type="button" onclick="resetAllPaidAndExpenses()" style="flex:0 0 auto;margin-left:auto;padding:9px 14px;background:#FCF3F2;color:#B3261E;border:1.5px solid #E7B8B4;border-radius:10px;font-size:12.5px;font-weight:700;font-family:&#39;Inter&#39;,sans-serif;">🗑️ Reset All Paid &amp; Expenses (Testing)</button>
+<button type="button" onclick="resetAllPaidAndExpenses()" style="flex: 0 0 auto; margin-left: auto; padding: 9px 14px; background: rgb(252, 243, 242); color: rgb(179, 38, 30); border: 1.5px solid rgb(231, 184, 180); border-radius: 10px; font-size: 12.5px; font-weight: 700; font-family: Inter, sans-serif; display: none;">🗑️ Reset All Paid &amp; Expenses (Testing)</button>
 <input type="file" id="importDataFile" accept="application/json" style="display:none;" onchange="importAllData(this.files[0])">
 </div>
 </div>
@@ -1632,7 +1626,7 @@ FY:
 
 <script>/* legacy static flat cards below removed — see homeResults render() output */</script>
 <div style="display:none">
-<div class="flat-item is-pending" onclick="openModal(&#39;101&#39;)">
+<div class="flat-item is-pending" onclick="openModal('101')">
 <div class="flat-left">
 
 <div class="flat-num">101</div>
@@ -1643,7 +1637,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 4 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;102&#39;)">
+<div class="flat-item is-pending" onclick="openModal('102')">
 <div class="flat-left">
 
 <div class="flat-num">102</div>
@@ -1654,7 +1648,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;103&#39;)">
+<div class="flat-item is-pending" onclick="openModal('103')">
 <div class="flat-left">
 
 <div class="flat-num">103</div>
@@ -1665,7 +1659,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;104&#39;)">
+<div class="flat-item is-pending" onclick="openModal('104')">
 <div class="flat-left">
 
 <div class="flat-num">104</div>
@@ -1676,7 +1670,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;105&#39;)">
+<div class="flat-item is-pending" onclick="openModal('105')">
 <div class="flat-left">
 
 <div class="flat-num">105</div>
@@ -1687,7 +1681,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;106&#39;)">
+<div class="flat-item is-pending" onclick="openModal('106')">
 <div class="flat-left">
 
 <div class="flat-num">106</div>
@@ -1698,7 +1692,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;107&#39;)">
+<div class="flat-item is-pending" onclick="openModal('107')">
 <div class="flat-left">
 
 <div class="flat-num">107</div>
@@ -1709,7 +1703,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;108&#39;)">
+<div class="flat-item is-pending" onclick="openModal('108')">
 <div class="flat-left">
 
 <div class="flat-num">108</div>
@@ -1720,7 +1714,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;201&#39;)">
+<div class="flat-item is-pending" onclick="openModal('201')">
 <div class="flat-left">
 
 <div class="flat-num">201</div>
@@ -1731,7 +1725,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;202&#39;)">
+<div class="flat-item is-pending" onclick="openModal('202')">
 <div class="flat-left">
 
 <div class="flat-num">202</div>
@@ -1742,7 +1736,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;203&#39;)">
+<div class="flat-item is-pending" onclick="openModal('203')">
 <div class="flat-left">
 
 <div class="flat-num">203</div>
@@ -1753,7 +1747,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;204&#39;)">
+<div class="flat-item is-pending" onclick="openModal('204')">
 <div class="flat-left">
 
 <div class="flat-num">204</div>
@@ -1764,7 +1758,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;205&#39;)">
+<div class="flat-item is-pending" onclick="openModal('205')">
 <div class="flat-left">
 
 <div class="flat-num">205</div>
@@ -1775,7 +1769,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;206&#39;)">
+<div class="flat-item is-pending" onclick="openModal('206')">
 <div class="flat-left">
 
 <div class="flat-num">206</div>
@@ -1786,7 +1780,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;207&#39;)">
+<div class="flat-item is-pending" onclick="openModal('207')">
 <div class="flat-left">
 
 <div class="flat-num">207</div>
@@ -1797,7 +1791,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;208&#39;)">
+<div class="flat-item is-pending" onclick="openModal('208')">
 <div class="flat-left">
 
 <div class="flat-num">208</div>
@@ -1808,7 +1802,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;301&#39;)">
+<div class="flat-item is-pending" onclick="openModal('301')">
 <div class="flat-left">
 
 <div class="flat-num">301</div>
@@ -1819,7 +1813,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;302&#39;)">
+<div class="flat-item is-pending" onclick="openModal('302')">
 <div class="flat-left">
 
 <div class="flat-num">302</div>
@@ -1830,7 +1824,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;303&#39;)">
+<div class="flat-item is-pending" onclick="openModal('303')">
 <div class="flat-left">
 
 <div class="flat-num">303</div>
@@ -1841,7 +1835,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;304&#39;)">
+<div class="flat-item is-pending" onclick="openModal('304')">
 <div class="flat-left">
 
 <div class="flat-num">304</div>
@@ -1852,7 +1846,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;305&#39;)">
+<div class="flat-item is-pending" onclick="openModal('305')">
 <div class="flat-left">
 
 <div class="flat-num">305</div>
@@ -1863,7 +1857,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;306&#39;)">
+<div class="flat-item is-pending" onclick="openModal('306')">
 <div class="flat-left">
 
 <div class="flat-num">306</div>
@@ -1874,7 +1868,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;307&#39;)">
+<div class="flat-item is-pending" onclick="openModal('307')">
 <div class="flat-left">
 
 <div class="flat-num">307</div>
@@ -1885,7 +1879,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;308&#39;)">
+<div class="flat-item is-pending" onclick="openModal('308')">
 <div class="flat-left">
 
 <div class="flat-num">308</div>
@@ -1896,7 +1890,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;401&#39;)">
+<div class="flat-item is-pending" onclick="openModal('401')">
 <div class="flat-left">
 
 <div class="flat-num">401</div>
@@ -1907,7 +1901,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;402&#39;)">
+<div class="flat-item is-pending" onclick="openModal('402')">
 <div class="flat-left">
 
 <div class="flat-num">402</div>
@@ -1918,7 +1912,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;403&#39;)">
+<div class="flat-item is-pending" onclick="openModal('403')">
 <div class="flat-left">
 
 <div class="flat-num">403</div>
@@ -1929,7 +1923,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;404&#39;)">
+<div class="flat-item is-pending" onclick="openModal('404')">
 <div class="flat-left">
 
 <div class="flat-num">404</div>
@@ -1940,7 +1934,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;405&#39;)">
+<div class="flat-item is-pending" onclick="openModal('405')">
 <div class="flat-left">
 
 <div class="flat-num">405</div>
@@ -1951,7 +1945,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;406&#39;)">
+<div class="flat-item is-pending" onclick="openModal('406')">
 <div class="flat-left">
 
 <div class="flat-num">406</div>
@@ -1962,7 +1956,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;407&#39;)">
+<div class="flat-item is-pending" onclick="openModal('407')">
 <div class="flat-left">
 
 <div class="flat-num">407</div>
@@ -1973,7 +1967,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;408&#39;)">
+<div class="flat-item is-pending" onclick="openModal('408')">
 <div class="flat-left">
 
 <div class="flat-num">408</div>
@@ -1984,7 +1978,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;501&#39;)">
+<div class="flat-item is-pending" onclick="openModal('501')">
 <div class="flat-left">
 
 <div class="flat-num">501</div>
@@ -1995,7 +1989,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;502&#39;)">
+<div class="flat-item is-pending" onclick="openModal('502')">
 <div class="flat-left">
 
 <div class="flat-num">502</div>
@@ -2006,7 +2000,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;503&#39;)">
+<div class="flat-item is-pending" onclick="openModal('503')">
 <div class="flat-left">
 
 <div class="flat-num">503</div>
@@ -2017,7 +2011,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;504&#39;)">
+<div class="flat-item is-pending" onclick="openModal('504')">
 <div class="flat-left">
 
 <div class="flat-num">504</div>
@@ -2028,7 +2022,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;505&#39;)">
+<div class="flat-item is-pending" onclick="openModal('505')">
 <div class="flat-left">
 
 <div class="flat-num">505</div>
@@ -2039,7 +2033,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;506&#39;)">
+<div class="flat-item is-pending" onclick="openModal('506')">
 <div class="flat-left">
 
 <div class="flat-num">506</div>
@@ -2050,7 +2044,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;507&#39;)">
+<div class="flat-item is-pending" onclick="openModal('507')">
 <div class="flat-left">
 
 <div class="flat-num">507</div>
@@ -2061,7 +2055,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;508&#39;)">
+<div class="flat-item is-pending" onclick="openModal('508')">
 <div class="flat-left">
 
 <div class="flat-num">508</div>
@@ -2072,7 +2066,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;601&#39;)">
+<div class="flat-item is-pending" onclick="openModal('601')">
 <div class="flat-left">
 
 <div class="flat-num">601</div>
@@ -2083,7 +2077,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;602&#39;)">
+<div class="flat-item is-pending" onclick="openModal('602')">
 <div class="flat-left">
 
 <div class="flat-num">602</div>
@@ -2094,7 +2088,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;603&#39;)">
+<div class="flat-item is-pending" onclick="openModal('603')">
 <div class="flat-left">
 
 <div class="flat-num">603</div>
@@ -2105,7 +2099,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;604&#39;)">
+<div class="flat-item is-pending" onclick="openModal('604')">
 <div class="flat-left">
 
 <div class="flat-num">604</div>
@@ -2116,7 +2110,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;605&#39;)">
+<div class="flat-item is-pending" onclick="openModal('605')">
 <div class="flat-left">
 
 <div class="flat-num">605</div>
@@ -2127,7 +2121,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;606&#39;)">
+<div class="flat-item is-pending" onclick="openModal('606')">
 <div class="flat-left">
 
 <div class="flat-num">606</div>
@@ -2138,7 +2132,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;607&#39;)">
+<div class="flat-item is-pending" onclick="openModal('607')">
 <div class="flat-left">
 
 <div class="flat-num">607</div>
@@ -2149,7 +2143,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;608&#39;)">
+<div class="flat-item is-pending" onclick="openModal('608')">
 <div class="flat-left">
 
 <div class="flat-num">608</div>
@@ -2160,7 +2154,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;701&#39;)">
+<div class="flat-item is-pending" onclick="openModal('701')">
 <div class="flat-left">
 
 <div class="flat-num">701</div>
@@ -2171,7 +2165,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;702&#39;)">
+<div class="flat-item is-pending" onclick="openModal('702')">
 <div class="flat-left">
 
 <div class="flat-num">702</div>
@@ -2182,7 +2176,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;703&#39;)">
+<div class="flat-item is-pending" onclick="openModal('703')">
 <div class="flat-left">
 
 <div class="flat-num">703</div>
@@ -2193,7 +2187,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;704&#39;)">
+<div class="flat-item is-pending" onclick="openModal('704')">
 <div class="flat-left">
 
 <div class="flat-num">704</div>
@@ -2204,7 +2198,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;705&#39;)">
+<div class="flat-item is-pending" onclick="openModal('705')">
 <div class="flat-left">
 
 <div class="flat-num">705</div>
@@ -2215,7 +2209,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;706&#39;)">
+<div class="flat-item is-pending" onclick="openModal('706')">
 <div class="flat-left">
 
 <div class="flat-num">706</div>
@@ -2226,7 +2220,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;707&#39;)">
+<div class="flat-item is-pending" onclick="openModal('707')">
 <div class="flat-left">
 
 <div class="flat-num">707</div>
@@ -2237,7 +2231,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;708&#39;)">
+<div class="flat-item is-pending" onclick="openModal('708')">
 <div class="flat-left">
 
 <div class="flat-num">708</div>
@@ -2287,16 +2281,16 @@ FY:
 <div class="section-sub">Owner · Mobile · Paid/Pending · months paid</div>
 
 <div style="padding:0 15px 8px 15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-<button type="button" id="bulkPrintToggleBtn" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--saffron);background:#fff;color:var(--navy);font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">🖨️ Multiple Receipt Print</button>
+<button type="button" id="bulkPrintToggleBtn" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--saffron);background:#fff;color:var(--navy);font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">🖨️ Multiple Receipt Print</button>
 <div id="bulkPrintBar" style="display:none;gap:8px;align-items:center;flex-wrap:wrap;">
 <span style="font-size:12px;font-weight:700;color:var(--navy);"><span id="bulkCount">0</span> owner(s) selected</span>
-<button type="button" onclick="generateBulkReceiptPDF()" style="padding:8px 12px;border-radius:10px;border:none;background:var(--green);color:#fff;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">⬇️ Print (3 per A4 page)</button>
-<button type="button" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--coral);background:#fff;color:var(--coral);font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">Cancel</button>
+<button type="button" onclick="generateBulkReceiptPDF()" style="padding:8px 12px;border-radius:10px;border:none;background:var(--green);color:#fff;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">⬇️ Print (3 per A4 page)</button>
+<button type="button" onclick="toggleBulkPrintMode()" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--coral);background:#fff;color:var(--coral);font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">Cancel</button>
 </div>
 </div>
 
 <div class="results" id="results">
-<div class="flat-item is-pending" onclick="openModal(&#39;101&#39;)">
+<div class="flat-item is-pending" onclick="openModal('101')">
 <div class="flat-left">
 <div class="flat-num">101</div>
 <div>
@@ -2306,7 +2300,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;102&#39;)">
+<div class="flat-item is-pending" onclick="openModal('102')">
 <div class="flat-left">
 <div class="flat-num">102</div>
 <div>
@@ -2316,7 +2310,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;103&#39;)">
+<div class="flat-item is-pending" onclick="openModal('103')">
 <div class="flat-left">
 <div class="flat-num">103</div>
 <div>
@@ -2326,7 +2320,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;104&#39;)">
+<div class="flat-item is-pending" onclick="openModal('104')">
 <div class="flat-left">
 <div class="flat-num">104</div>
 <div>
@@ -2336,7 +2330,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;105&#39;)">
+<div class="flat-item is-pending" onclick="openModal('105')">
 <div class="flat-left">
 <div class="flat-num">105</div>
 <div>
@@ -2346,7 +2340,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;106&#39;)">
+<div class="flat-item is-pending" onclick="openModal('106')">
 <div class="flat-left">
 <div class="flat-num">106</div>
 <div>
@@ -2356,7 +2350,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;107&#39;)">
+<div class="flat-item is-pending" onclick="openModal('107')">
 <div class="flat-left">
 <div class="flat-num">107</div>
 <div>
@@ -2366,7 +2360,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;108&#39;)">
+<div class="flat-item is-pending" onclick="openModal('108')">
 <div class="flat-left">
 <div class="flat-num">108</div>
 <div>
@@ -2376,7 +2370,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;201&#39;)">
+<div class="flat-item is-pending" onclick="openModal('201')">
 <div class="flat-left">
 <div class="flat-num">201</div>
 <div>
@@ -2386,7 +2380,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;202&#39;)">
+<div class="flat-item is-pending" onclick="openModal('202')">
 <div class="flat-left">
 <div class="flat-num">202</div>
 <div>
@@ -2396,7 +2390,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;203&#39;)">
+<div class="flat-item is-pending" onclick="openModal('203')">
 <div class="flat-left">
 <div class="flat-num">203</div>
 <div>
@@ -2406,7 +2400,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;204&#39;)">
+<div class="flat-item is-pending" onclick="openModal('204')">
 <div class="flat-left">
 <div class="flat-num">204</div>
 <div>
@@ -2416,7 +2410,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;205&#39;)">
+<div class="flat-item is-pending" onclick="openModal('205')">
 <div class="flat-left">
 <div class="flat-num">205</div>
 <div>
@@ -2426,7 +2420,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;206&#39;)">
+<div class="flat-item is-pending" onclick="openModal('206')">
 <div class="flat-left">
 <div class="flat-num">206</div>
 <div>
@@ -2436,7 +2430,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;207&#39;)">
+<div class="flat-item is-pending" onclick="openModal('207')">
 <div class="flat-left">
 <div class="flat-num">207</div>
 <div>
@@ -2446,7 +2440,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;208&#39;)">
+<div class="flat-item is-pending" onclick="openModal('208')">
 <div class="flat-left">
 <div class="flat-num">208</div>
 <div>
@@ -2456,7 +2450,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 10 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;301&#39;)">
+<div class="flat-item is-pending" onclick="openModal('301')">
 <div class="flat-left">
 <div class="flat-num">301</div>
 <div>
@@ -2466,7 +2460,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;302&#39;)">
+<div class="flat-item is-pending" onclick="openModal('302')">
 <div class="flat-left">
 <div class="flat-num">302</div>
 <div>
@@ -2476,7 +2470,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;303&#39;)">
+<div class="flat-item is-pending" onclick="openModal('303')">
 <div class="flat-left">
 <div class="flat-num">303</div>
 <div>
@@ -2486,7 +2480,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;304&#39;)">
+<div class="flat-item is-pending" onclick="openModal('304')">
 <div class="flat-left">
 <div class="flat-num">304</div>
 <div>
@@ -2496,7 +2490,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;305&#39;)">
+<div class="flat-item is-pending" onclick="openModal('305')">
 <div class="flat-left">
 <div class="flat-num">305</div>
 <div>
@@ -2506,7 +2500,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;306&#39;)">
+<div class="flat-item is-pending" onclick="openModal('306')">
 <div class="flat-left">
 <div class="flat-num">306</div>
 <div>
@@ -2516,7 +2510,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;307&#39;)">
+<div class="flat-item is-pending" onclick="openModal('307')">
 <div class="flat-left">
 <div class="flat-num">307</div>
 <div>
@@ -2526,7 +2520,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;308&#39;)">
+<div class="flat-item is-pending" onclick="openModal('308')">
 <div class="flat-left">
 <div class="flat-num">308</div>
 <div>
@@ -2536,7 +2530,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;401&#39;)">
+<div class="flat-item is-pending" onclick="openModal('401')">
 <div class="flat-left">
 <div class="flat-num">401</div>
 <div>
@@ -2546,7 +2540,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;402&#39;)">
+<div class="flat-item is-pending" onclick="openModal('402')">
 <div class="flat-left">
 <div class="flat-num">402</div>
 <div>
@@ -2556,7 +2550,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;403&#39;)">
+<div class="flat-item is-pending" onclick="openModal('403')">
 <div class="flat-left">
 <div class="flat-num">403</div>
 <div>
@@ -2566,7 +2560,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;404&#39;)">
+<div class="flat-item is-pending" onclick="openModal('404')">
 <div class="flat-left">
 <div class="flat-num">404</div>
 <div>
@@ -2576,7 +2570,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;405&#39;)">
+<div class="flat-item is-pending" onclick="openModal('405')">
 <div class="flat-left">
 <div class="flat-num">405</div>
 <div>
@@ -2586,7 +2580,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;406&#39;)">
+<div class="flat-item is-pending" onclick="openModal('406')">
 <div class="flat-left">
 <div class="flat-num">406</div>
 <div>
@@ -2596,7 +2590,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;407&#39;)">
+<div class="flat-item is-pending" onclick="openModal('407')">
 <div class="flat-left">
 <div class="flat-num">407</div>
 <div>
@@ -2606,7 +2600,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;408&#39;)">
+<div class="flat-item is-pending" onclick="openModal('408')">
 <div class="flat-left">
 <div class="flat-num">408</div>
 <div>
@@ -2616,7 +2610,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;501&#39;)">
+<div class="flat-item is-pending" onclick="openModal('501')">
 <div class="flat-left">
 <div class="flat-num">501</div>
 <div>
@@ -2626,7 +2620,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;502&#39;)">
+<div class="flat-item is-pending" onclick="openModal('502')">
 <div class="flat-left">
 <div class="flat-num">502</div>
 <div>
@@ -2636,7 +2630,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;503&#39;)">
+<div class="flat-item is-pending" onclick="openModal('503')">
 <div class="flat-left">
 <div class="flat-num">503</div>
 <div>
@@ -2646,7 +2640,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;504&#39;)">
+<div class="flat-item is-pending" onclick="openModal('504')">
 <div class="flat-left">
 <div class="flat-num">504</div>
 <div>
@@ -2656,7 +2650,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;505&#39;)">
+<div class="flat-item is-pending" onclick="openModal('505')">
 <div class="flat-left">
 <div class="flat-num">505</div>
 <div>
@@ -2666,7 +2660,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;506&#39;)">
+<div class="flat-item is-pending" onclick="openModal('506')">
 <div class="flat-left">
 <div class="flat-num">506</div>
 <div>
@@ -2676,7 +2670,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;507&#39;)">
+<div class="flat-item is-pending" onclick="openModal('507')">
 <div class="flat-left">
 <div class="flat-num">507</div>
 <div>
@@ -2686,7 +2680,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;508&#39;)">
+<div class="flat-item is-pending" onclick="openModal('508')">
 <div class="flat-left">
 <div class="flat-num">508</div>
 <div>
@@ -2696,7 +2690,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;601&#39;)">
+<div class="flat-item is-pending" onclick="openModal('601')">
 <div class="flat-left">
 <div class="flat-num">601</div>
 <div>
@@ -2706,7 +2700,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;602&#39;)">
+<div class="flat-item is-pending" onclick="openModal('602')">
 <div class="flat-left">
 <div class="flat-num">602</div>
 <div>
@@ -2716,7 +2710,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;603&#39;)">
+<div class="flat-item is-pending" onclick="openModal('603')">
 <div class="flat-left">
 <div class="flat-num">603</div>
 <div>
@@ -2726,7 +2720,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;604&#39;)">
+<div class="flat-item is-pending" onclick="openModal('604')">
 <div class="flat-left">
 <div class="flat-num">604</div>
 <div>
@@ -2736,7 +2730,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;605&#39;)">
+<div class="flat-item is-pending" onclick="openModal('605')">
 <div class="flat-left">
 <div class="flat-num">605</div>
 <div>
@@ -2746,7 +2740,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;606&#39;)">
+<div class="flat-item is-pending" onclick="openModal('606')">
 <div class="flat-left">
 <div class="flat-num">606</div>
 <div>
@@ -2756,7 +2750,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;607&#39;)">
+<div class="flat-item is-pending" onclick="openModal('607')">
 <div class="flat-left">
 <div class="flat-num">607</div>
 <div>
@@ -2766,7 +2760,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;608&#39;)">
+<div class="flat-item is-pending" onclick="openModal('608')">
 <div class="flat-left">
 <div class="flat-num">608</div>
 <div>
@@ -2776,7 +2770,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;701&#39;)">
+<div class="flat-item is-pending" onclick="openModal('701')">
 <div class="flat-left">
 <div class="flat-num">701</div>
 <div>
@@ -2786,7 +2780,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;702&#39;)">
+<div class="flat-item is-pending" onclick="openModal('702')">
 <div class="flat-left">
 <div class="flat-num">702</div>
 <div>
@@ -2796,7 +2790,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;703&#39;)">
+<div class="flat-item is-pending" onclick="openModal('703')">
 <div class="flat-left">
 <div class="flat-num">703</div>
 <div>
@@ -2806,7 +2800,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;704&#39;)">
+<div class="flat-item is-pending" onclick="openModal('704')">
 <div class="flat-left">
 <div class="flat-num">704</div>
 <div>
@@ -2816,7 +2810,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;705&#39;)">
+<div class="flat-item is-pending" onclick="openModal('705')">
 <div class="flat-left">
 <div class="flat-num">705</div>
 <div>
@@ -2826,7 +2820,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;706&#39;)">
+<div class="flat-item is-pending" onclick="openModal('706')">
 <div class="flat-left">
 <div class="flat-num">706</div>
 <div>
@@ -2836,7 +2830,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;707&#39;)">
+<div class="flat-item is-pending" onclick="openModal('707')">
 <div class="flat-left">
 <div class="flat-num">707</div>
 <div>
@@ -2846,7 +2840,7 @@ FY:
 </div>
 <div class="status-badge status-pending">⏳ 12 Mahina Baki</div>
 </div>
-<div class="flat-item is-pending" onclick="openModal(&#39;708&#39;)">
+<div class="flat-item is-pending" onclick="openModal('708')">
 <div class="flat-left">
 <div class="flat-num">708</div>
 <div>
@@ -2890,7 +2884,7 @@ FY:
 <table class="month-table">
 <thead><tr><th>Month</th><th style="text-align:right">Avak</th><th style="text-align:right">Javak</th><th style="text-align:right">Balance</th></tr></thead>
 <tbody id="monthlyLedgerBody">
-<tr style="cursor:pointer;" onclick="toggleMonthLedgerDetail(&#39;mld-Apr&#39;)">
+<tr style="cursor:pointer;" onclick="toggleMonthLedgerDetail('mld-Apr')">
 <td>Apr <span style="font-size:10px;color:var(--muted);">▾ details</span></td>
 <td class="num" style="color:var(--green)">+₹4,000</td>
 <td class="num" style="color:var(--coral)">-₹0</td>
@@ -2973,15 +2967,15 @@ FY:
 </div>
 
 <div class="tabbar">
-<button id="tabCredit" class="tab-active" onclick="switchLedgerTab(&#39;credit&#39;)">➕ Credit Entry</button>
-<button id="tabExpense" onclick="switchLedgerTab(&#39;expense&#39;)">➖ Expense Entry</button>
-<button id="tabTransfer" onclick="switchLedgerTab(&#39;transfer&#39;)">🔄 Cash ⇄ Bank</button>
+<button id="tabCredit" class="tab-active" onclick="switchLedgerTab('credit')">➕ Credit Entry</button>
+<button id="tabExpense" onclick="switchLedgerTab('expense')">➖ Expense Entry</button>
+<button id="tabTransfer" onclick="switchLedgerTab('transfer')">🔄 Cash ⇄ Bank</button>
 </div>
 
 <div class="entry-form show" id="formCredit">
 <div class="field"><label>Description</label><input type="text" id="creditDesc" placeholder="e.g. Interest, Hall booking"></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="creditAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="creditDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="creditDate" required=""></div>
 <div class="field"><label>Received In</label><select id="creditMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <button class="btn-add" onclick="addCredit()">Add Credit</button>
 </div>
@@ -3007,7 +3001,7 @@ FY:
 <option value="Extra Expenses"></option>
 </datalist>
 <div class="field"><label>Amount (₹)</label><input type="number" id="expenseAmount" placeholder="e.g. 1000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="expenseDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="expenseDate" required=""></div>
 <div class="field"><label>Paid From</label><select id="expenseMode"><option value="Bank">🏦 Bank</option><option value="Cash">💵 Cash</option></select></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="expenseRemark" placeholder="e.g. Extra note about this expense"></div>
 <button class="btn-add" onclick="addExpense()">Add Expense</button>
@@ -3016,7 +3010,7 @@ FY:
 <div class="entry-form" id="formTransfer">
 <div class="field"><label>Direction</label><select id="transferDirection"><option value="CashToBank">💵 Cash → 🏦 Bank (Cash deposited into bank)</option><option value="BankToCash">🏦 Bank → 💵 Cash (Cash withdrawn from bank)</option></select></div>
 <div class="field"><label>Amount (₹)</label><input type="number" id="transferAmount" placeholder="e.g. 5000"></div>
-<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="transferDate" required></div>
+<div class="field"><label>Date <span style="color:var(--coral)">*</span></label><input type="date" id="transferDate" required=""></div>
 <div class="field"><label>Remark (optional)</label><input type="text" id="transferRemark" placeholder="e.g. Ganpati dharmada cash deposited"></div>
 <button class="btn-add" onclick="addTransfer()">Add Transfer</button>
 <div class="mini" style="padding:6px 2px 0;color:var(--muted);font-size:11.5px;line-height:1.4;">ℹ️ Aa entry Total Collection/Expense ne asar nathi karti — fakt Bank ane Cash balance vachche paisa move thay chhe.</div>
@@ -3086,7 +3080,7 @@ FY:
 
 </div>
 
-</div><!-- /page-wrap -->
+<div class="screen" id="screen-community" style="display: none;"></div></div><!-- /page-wrap -->
 
 <!-- Modal -->
 <div class="overlay" id="overlay">
@@ -3134,8 +3128,8 @@ Aug, Sep, Oct, Nov, Dec, Jan, Feb, Mar<br>
 <label style="color:#9C6B14;">⚠️ Pichhla Baki (Aa app pehla nu Baki, ₹)</label>
 <div style="display:flex;gap:8px;">
 <input type="number" id="inputPriorDue" placeholder="0" style="flex:1;">
-<button type="button" onclick="savePriorDue()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;">Save</button>
-<button type="button" onclick="clearPriorDue()" style="padding:8px 12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:&#39;Inter&#39;,sans-serif;white-space:nowrap;">✅ Clear</button>
+<button type="button" onclick="savePriorDue()" style="padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;">Save</button>
+<button type="button" onclick="clearPriorDue()" style="padding:8px 12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;font-family:'Inter',sans-serif;white-space:nowrap;">✅ Clear</button>
 </div>
 <div style="font-size:10.5px;color:#9C6B14;margin-top:5px;">Jo aa flat 
 na pichhla varsh (aa app na use pehla) na kai baki mahina/amount hoy, to
@@ -3155,57 +3149,57 @@ dekhashe, jya sudhi owner pay na kare ane tame "Clear" na dabavo.</div>
 <select id="inputMonth" class="month-select-paid"><option value="Apr" style="color: rgb(46, 139, 87);">✅ Apr</option><option value="May" style="color: rgb(46, 139, 87);">✅ May</option><option value="Jun" style="color: rgb(46, 139, 87);">✅ Jun</option><option value="Jul" style="color: rgb(46, 139, 87);">✅ Jul</option><option value="Aug" style="color: rgb(156, 107, 20);">❌ Aug</option><option value="Sep" style="color: rgb(156, 107, 20);" selected="selected">❌ Sep</option><option value="Oct" style="color: rgb(156, 107, 20);">❌ Oct</option><option value="Nov" style="color: rgb(156, 107, 20);">❌ Nov</option><option value="Dec" style="color: rgb(209, 73, 91);">❌ Dec</option><option value="Jan" style="color: rgb(209, 73, 91);">❌ Jan</option><option value="Feb" style="color: rgb(209, 73, 91);">❌ Feb</option><option value="Mar" style="color: rgb(209, 73, 91);">❌ Mar</option></select>
 </div>
 
-<div class="month-grid" id="monthGrid"><div class="month-pill m-paid " onclick="pickMonth(&#39;Apr&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Apr&#39;, this.checked)">
+<div class="month-grid" id="monthGrid"><div class="month-pill m-paid " onclick="pickMonth('Apr')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Apr', this.checked)">
 Apr · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;May&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;May&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('May')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('May', this.checked)">
 May · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;Jun&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jun&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('Jun')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Jun', this.checked)">
 Jun · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-paid " onclick="pickMonth(&#39;Jul&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jul&#39;, this.checked)">
+</div><div class="month-pill m-paid " onclick="pickMonth('Jul')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Jul', this.checked)">
 Jul · <span style="color:#D32F2F;font-size:8px;font-weight:800;letter-spacing:.2px;">PAID</span>
 
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Aug&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Aug&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Aug')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Aug', this.checked)">
 Aug
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged m-selected" onclick="pickMonth(&#39;Sep&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Sep&#39;, this.checked)">
+</div><div class="month-pill m-staged m-selected" onclick="pickMonth('Sep')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Sep', this.checked)">
 Sep
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Oct&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Oct&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Oct')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Oct', this.checked)">
 Oct
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-staged " onclick="pickMonth(&#39;Nov&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Nov&#39;, this.checked)">
+</div><div class="month-pill m-staged " onclick="pickMonth('Nov')" style="position:relative;">
+<input type="checkbox" class="m-check" checked="checked" onclick="event.stopPropagation(); toggleMonthPaid('Nov', this.checked)">
 Nov
 <span style="position:absolute;top:2px;right:4px;font-size:9px;" title="Confirm dabaya pachi j Paid thashe">⏳</span>
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Dec&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Dec&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Dec')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Dec', this.checked)">
 Dec
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Jan&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Jan&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Jan')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Jan', this.checked)">
 Jan
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Feb&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Feb&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Feb')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Feb', this.checked)">
 Feb
 
-</div><div class="month-pill m-pending " onclick="pickMonth(&#39;Mar&#39;)" style="position:relative;">
-<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid(&#39;Mar&#39;, this.checked)">
+</div><div class="month-pill m-pending " onclick="pickMonth('Mar')" style="position:relative;">
+<input type="checkbox" class="m-check" onclick="event.stopPropagation(); toggleMonthPaid('Mar', this.checked)">
 Mar
 
 </div></div>
 
-<div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Aug&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Sep&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Oct&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Nov&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
+<div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection('Aug')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection('Sep')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection('Oct')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection('Nov')" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick="downloadMaintenanceReceiptPDF(&quot;207&quot;)">🧾 Maintenance Receipt (₹2,000)</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button></div>
@@ -3213,8 +3207,8 @@ Mar
 <div class="field">
 <label>Payment Status (for selected month)</label>
 <div class="toggle-row">
-<button class="toggle-btn paid-on" id="btnPaid" onclick="setStatus(&#39;Paid&#39;)">✅ Paid</button>
-<button class="toggle-btn" id="btnPending" onclick="setStatus(&#39;Pending&#39;)">❌ Unpaid</button>
+<button class="toggle-btn paid-on" id="btnPaid" onclick="setStatus('Paid')">✅ Paid</button>
+<button class="toggle-btn" id="btnPending" onclick="setStatus('Pending')">❌ Unpaid</button>
 </div>
 </div>
 
@@ -7696,4 +7690,5 @@ function init(){loadFx();css();refresh();sync();setInterval(refresh,2500);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
-</body></html>
+
+<button id="tFab" type="button" title="Theme &amp; Pattern">🎨 Theme</button><div id="tBack"></div><div id="tPanel"><div class="tp-h"><b>🎨 Theme Studio</b><button type="button" data-x="close">✕</button></div><div class="tp-body"><div id="tpPrev"><div style="border-radius:14px;overflow:hidden;border:1px solid #e5e7eb"><div style="padding:10px 12px;color:#fff;font-weight:800;font-size:12px;background:linear-gradient(135deg,#000000,#000000 55%,#666666)">URBAN RESIDENCY 2 BIL<div style="font-weight:600;opacity:.8;font-size:10px">Live preview</div></div><div style="display:flex;gap:6px;padding:8px;background:#f2f2f2"><span style="flex:1;text-align:center;padding:6px 4px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;color:#22262E;border-top:4px solid #2563EB">Paid</span><span style="flex:1;text-align:center;padding:6px 4px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;color:#22262E;border-top:4px solid #EA580C">Pending</span><span style="flex:1;text-align:center;padding:6px 4px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;color:#22262E;border-top:4px solid #d9b863">Bank ₹0</span></div></div></div><div class="tp-l">Mode</div><div class="tp-r" id="tpM"><button type="button" data-m="light" class="">☀️ Light</button><button type="button" data-m="dark" class="">🌙 Dark</button><button type="button" data-m="black" class="">🖤 Black</button><button type="button" data-m="auto" class="on">🌓 Auto</button></div><div class="tp-l">Colour Theme</div><div class="tp-g" id="tpT"><button type="button" data-t="ocean" class=""><i style="background:linear-gradient(135deg,#0A2540,#0B6BCB 55%,#38A9E8)"></i>Ocean</button><button type="button" data-t="indigo" class=""><i style="background:linear-gradient(135deg,#1E1B4B,#4338CA 55%,#818CF8)"></i>Indigo</button><button type="button" data-t="emerald" class=""><i style="background:linear-gradient(135deg,#064E3B,#059669 55%,#34D399)"></i>Emerald</button><button type="button" data-t="teal" class=""><i style="background:linear-gradient(135deg,#134E4A,#0D9488 55%,#2DD4BF)"></i>Teal</button><button type="button" data-t="sunset" class=""><i style="background:linear-gradient(135deg,#7C2D12,#EA580C 55%,#FB923C)"></i>Sunset</button><button type="button" data-t="rose" class=""><i style="background:linear-gradient(135deg,#881337,#E11D48 55%,#FB7185)"></i>Rose</button><button type="button" data-t="violet" class=""><i style="background:linear-gradient(135deg,#3B0764,#7E22CE 55%,#C084FC)"></i>Violet</button><button type="button" data-t="graphite" class=""><i style="background:linear-gradient(135deg,#111827,#374151 55%,#6B7280)"></i>Graphite</button><button type="button" data-t="gold" class=""><i style="background:linear-gradient(135deg,#152A4E,#1F3E70 55%,#E2A03C)"></i>Classic Gold</button><button type="button" data-t="mint" class=""><i style="background:linear-gradient(135deg,#134E3A,#10B981 55%,#6EE7B7)"></i>Mint</button><button type="button" data-t="sky" class=""><i style="background:linear-gradient(135deg,#075985,#0EA5E9 55%,#7DD3FC)"></i>Sky</button><button type="button" data-t="lavender" class=""><i style="background:linear-gradient(135deg,#3B2A7A,#8B5CF6 55%,#C4B5FD)"></i>Lavender</button><button type="button" data-t="coffee" class=""><i style="background:linear-gradient(135deg,#3E2723,#795548 55%,#D7A86E)"></i>Coffee</button><button type="button" data-t="berry" class=""><i style="background:linear-gradient(135deg,#4A0D3A,#BE185D 55%,#F472B6)"></i>Berry</button></div><div class="tp-l">Festival Themes</div><div class="tp-g" id="tpF"><button type="button" data-t="diwali" class=""><i style="background:linear-gradient(135deg,#3B0D2E,#C2410C 55%,#FBBF24)"></i>🪔 Diwali</button><button type="button" data-t="navratri" class=""><i style="background:linear-gradient(135deg,#4A044E,#DB2777 55%,#FB923C)"></i>💃 Navratri</button><button type="button" data-t="holi" class=""><i style="background:linear-gradient(135deg,#312E81,#C026D3 55%,#22D3EE)"></i>🎨 Holi</button><button type="button" data-t="uttarayan" class=""><i style="background:linear-gradient(135deg,#0C4A6E,#0284C7 55%,#FACC15)"></i>🪁 Uttarayan</button><button type="button" data-t="christmas" class=""><i style="background:linear-gradient(135deg,#14532D,#B91C1C 55%,#4ADE80)"></i>🎄 Christmas</button><button type="button" data-t="eid" class=""><i style="background:linear-gradient(135deg,#064E3B,#0F766E 55%,#FDE68A)"></i>🌙 Eid</button><button type="button" data-t="tiranga" class=""><i style="background:linear-gradient(135deg,#1E3A8A,#F97316 55%,#16A34A)"></i>🇮🇳 Tiranga</button><button type="button" data-t="ganesh" class=""><i style="background:linear-gradient(135deg,#7F1D1D,#DC2626 55%,#FB923C)"></i>🐘 Ganesh Chaturthi</button><button type="button" data-t="rakhi" class=""><i style="background:linear-gradient(135deg,#831843,#DB2777 55%,#FBBF24)"></i>🧵 Raksha Bandhan</button><button type="button" data-t="janmashtami" class=""><i style="background:linear-gradient(135deg,#0F3D5E,#0E7490 55%,#FACC15)"></i>🦚 Janmashtami</button></div><div class="tp-l">Custom Colours</div><div class="tp-c"><label>Main<input type="color" id="tcS"></label><label>Highlight<input type="color" id="tcH"></label><label>Background<input type="color" id="tcB"></label></div><div class="tp-l">Pattern</div><div class="tp-g tp-p" id="tpP"><button type="button" data-p="none" class="on"><i style="background-color:#e6e6e6"></i>None</button><button type="button" data-p="dots" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2224%22%20height%3d%2224%22%20opacity%3d%220.6%22%3e%3ccircle%20cx%3d%2212%22%20cy%3d%2212%22%20r%3d%221.7%22%20fill%3d%22%23000000%22%2f%3e%3c%2fsvg%3e")"=""></i>Dots</button><button type="button" data-p="grid" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2232%22%20height%3d%2232%22%20opacity%3d%220.6%22%3e%3cpath%20d%3d%22m32%200h0v32%22%20fill%3d%22none%22%20stroke%3d%22%23000000%22%20stroke-width%3d%221%22%2f%3e%3c%2fsvg%3e")"=""></i>Grid</button><button type="button" data-p="lines" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2214%22%20height%3d%2214%22%20opacity%3d%220.6%22%3e%3cpath%20d%3d%22m0%2014l14%200m-3%203l3-3m11%2017l17%2011%22%20stroke%3d%22%23000000%22%20stroke-width%3d%221.2%22%2f%3e%3c%2fsvg%3e")"=""></i>Lines</button><button type="button" data-p="waves" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2240%22%20height%3d%2240%22%20opacity%3d%220.6%22%3e%3cpath%20d%3d%22m0%2010q10%200%2020%2010t40%2010m0%2030q10%2020%2020%2030t40%2030%22%20fill%3d%22none%22%20stroke%3d%22%23000000%22%20stroke-width%3d%221.4%22%2f%3e%3c%2fsvg%3e")"=""></i>Waves</button><button type="button" data-p="cross" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2228%22%20height%3d%2228%22%20opacity%3d%220.6%22%3e%3cpath%20d%3d%22m14%209v10m9%2014h10%22%20stroke%3d%22%23000000%22%20stroke-width%3d%221.5%22%20stroke-linecap%3d%22round%22%2f%3e%3c%2fsvg%3e")"=""></i>Plus</button><button type="button" data-p="zig" class=""><i style="background-color:#e6e6e6;background-image:url(" data:image="" svg+xml,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2224%22%20height%3d%2224%22%20opacity%3d%220.6%22%3e%3cpath%20d%3d%22m0%2012l6%202l12%2012l18%202l24%2012%22%20fill%3d%22none%22%20stroke%3d%22%23000000%22%20stroke-width%3d%221.2%22%2f%3e%3c%2fsvg%3e")"=""></i>Zigzag</button></div><div class="tp-l">Pattern strength</div><input type="range" id="tpS" min="4" max="40"><div class="tp-l">Text size</div><div class="tp-r" id="tpZ"><button type="button" data-z="sm" class="" style="font-size:11px">Small</button><button type="button" data-z="md" class="on" style="font-size:12.5px">Normal</button><button type="button" data-z="lg" class="" style="font-size:14px">Large</button><button type="button" data-z="xl" class="" style="font-size:15.5px">Extra large</button></div><div class="tp-l">Font</div><div class="tp-r" id="tpN"><button type="button" data-f="def" class="on" style="">Default</button><button type="button" data-f="hind" class="" style="font-family:'Hind Vadodara',sans-serif;">હિન્દ Hind Vadodara</button><button type="button" data-f="noto" class="" style="font-family:'Noto Sans Gujarati',sans-serif;">Noto Gujarati</button><button type="button" data-f="mukta" class="" style="font-family:'Mukta Vaani',sans-serif;">Mukta Vaani</button><button type="button" data-f="baloo" class="" style="font-family:'Baloo Bhai 2',sans-serif;">Baloo Bhai</button><button type="button" data-f="shri" class="" style="font-family:'Shrikhand',serif;">Shrikhand</button><button type="button" data-f="pop" class="" style="font-family:'Poppins',sans-serif;">Poppins</button><button type="button" data-f="jak" class="" style="font-family:'Plus Jakarta Sans',sans-serif;">Jakarta</button><button type="button" data-f="nun" class="" style="font-family:'Nunito',sans-serif;">Nunito</button><button type="button" data-f="mon" class="" style="font-family:'Montserrat',sans-serif;">Montserrat</button><button type="button" data-f="lora" class="" style="font-family:'Lora',serif;">Lora</button><button type="button" data-f="play" class="" style="font-family:'Playfair Display',serif;">Playfair</button><button type="button" data-f="rmono" class="" style="font-family:'Roboto Mono',monospace;">Roboto Mono</button><button type="button" data-f="ser" class="" style="font-family:Georgia,serif;">Georgia</button></div><div id="tpPv" style="font-family: inherit;">Urban Residency 2 · ફ્લેટ ૪૦૨ · ₹૧,૦૦૦ · Maintenance</div><div class="tp-l">Corners</div><div class="tp-r" id="tpR"><button type="button" data-r="sharp" class="">Sharp</button><button type="button" data-r="round" class="on">Rounded</button><button type="button" data-r="xl" class="">Extra round</button></div><details class="tp-d"><summary>⚙️ Advanced</summary><div class="tp-l">Card style</div><div class="tp-r" id="tpCS"><button type="button" data-cs="shadow" class="on">Shadow</button><button type="button" data-cs="flat" class="">Flat</button><button type="button" data-cs="glass" class="">Glass</button><button type="button" data-cs="outline" class="">Outline</button></div><div class="tp-l">Header style</div><div class="tp-r" id="tpHS"><button type="button" data-hs="grad" class="on">Gradient</button><button type="button" data-hs="solid" class="">Solid</button><button type="button" data-hs="rad" class="">Glow</button></div><div class="tp-l">Flat tiles columns</div><div class="tp-r" id="tpCL"><button type="button" data-cl="auto" class="">Auto</button><button type="button" data-cl="2" class="">2</button><button type="button" data-cl="3" class="">3</button><button type="button" data-cl="4" class="on">4</button></div><div class="tp-l">Tile size</div><div class="tp-r" id="tpCD"><button type="button" data-cd="norm" class="">Normal</button><button type="button" data-cd="cmp" class="on">Compact</button></div><div class="tp-l">Paid / Pending colours</div><div class="tp-r" id="tpPC"><button type="button" data-pc="def" class="">Green / Red</button><button type="button" data-pc="cb" class="on">Blue / Orange</button><button type="button" data-pc="pg" class="">Teal / Purple</button></div><div class="tp-l">Animations</div><div class="tp-r" id="tpNA"><button type="button" data-na="0" class="on">On</button><button type="button" data-na="1" class="">Off (fast)</button></div></details><details class="tp-d"><summary>💾 My themes &amp; Share</summary><div class="tp-r" style="margin-top:8px" id="tpSV"><small style="color:#6b7280">Haju koi theme save nathi</small></div><div class="tp-f"><button type="button" data-x="save">💾 Save</button><button type="button" data-x="share">📤 Share</button><button type="button" data-x="imp">📥 Import</button></div></details><div class="tp-f" id="tpA"><button type="button" data-x="rand">🎲 Surprise me</button><button type="button" data-x="soc">🔄 Society theme</button></div></div><div class="tp-f tp-foot"><button type="button" data-x="reset">↺ Reset</button><button type="button" data-x="close" class="pri">Done</button></div></div><div id="ur2FxChip" style="display: none;"></div></body></html>
