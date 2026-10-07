@@ -871,82 +871,425 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 .hp-right{min-width:0!important;}
 .hp-kpi-row{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
 .hp-kpi{min-width:0!important;}
-/* Premium owner card polish */
-.overlay{background:rgba(13,27,49,.58);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
-.modal{position:relative;width:min(100%,520px);max-height:90vh;padding:18px 16px 24px;background:linear-gradient(180deg,#fff 0%,#fffdf8 100%);border:1px solid rgba(218,226,236,.9);border-bottom:0;border-radius:24px 24px 0 0;box-shadow:0 -18px 50px rgba(10,28,53,.25);}
-.owner-card-heading{position:relative;isolation:isolate;display:flex;align-items:center;gap:12px;overflow:hidden;margin:-18px -16px 16px;padding:17px 16px 16px;background:linear-gradient(125deg,#11284b 0%,#1b4372 62%,#2b5a83 100%);border:0;border-bottom:1px solid rgba(255,255,255,.18);border-radius:0 0 18px 18px;box-shadow:0 8px 20px rgba(14,39,73,.15);}
-.owner-card-heading::after{content:"";position:absolute;z-index:-1;width:150px;height:150px;right:-36px;top:-86px;border-radius:50%;background:rgba(239,190,91,.22);}
-.owner-card-badge{flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.38);border-radius:14px;background:linear-gradient(145deg,#f1c668,#d89122);color:#173052;font-size:21px;box-shadow:0 6px 16px rgba(0,0,0,.18);}
-.owner-card-copy{position:relative;z-index:1;min-width:0;}
-.owner-card-kicker{margin-bottom:2px;color:#f3cb73;font-size:9px;font-weight:800;letter-spacing:1.35px;text-transform:uppercase;}
-.owner-card-heading h2{margin:0 0 2px;color:#fff;font-size:20px;line-height:1.15;letter-spacing:.1px;}
-.owner-card-heading .sub{margin:0;color:rgba(255,255,255,.78);font-size:12px;line-height:1.45;}
-.owner-card-heading #modalOwner{overflow-wrap:anywhere;}
-.owner-card-heading .sub button{border:1px solid rgba(255,255,255,.28)!important;border-radius:7px!important;padding:4px 8px!important;background:rgba(255,255,255,.12)!important;color:#fff!important;font-size:10.5px!important;}
-.owner-card-heading .sub button:hover{background:rgba(255,255,255,.22)!important;}
-#ownerHistoryBox{margin:0 0 10px;padding:7px 10px;border:1px solid #e8dfcb;border-radius:9px;background:#fffaf0;}
-.owner-dues-summary{margin:0 0 14px;padding:13px 14px;border-radius:13px;box-shadow:0 7px 18px rgba(28,45,68,.07);line-height:1.55;}
-.owner-dues-summary strong:first-child{color:var(--navy);font-size:12.5px;}
-.owner-dues-summary strong:nth-of-type(2){color:var(--navy);font-size:14px;}
-.owner-dues-summary span{display:block;margin-top:3px!important;font-size:11.5px;}
-.modal .field{margin-bottom:12px;}
-.modal .field label{margin-bottom:6px;color:#687487;font-size:10.5px;letter-spacing:.55px;}
-.modal .field input,.modal .field select{min-height:43px;border:1px solid #dce3ec;border-radius:10px;background:#fff;box-shadow:0 2px 5px rgba(23,45,73,.025);transition:border-color .16s ease,box-shadow .16s ease;}
-.modal .field input:hover,.modal .field select:hover{border-color:#c2cedd;}
-.modal .field input:focus,.modal .field select:focus{outline:0;border-color:#bd8a2e;box-shadow:0 0 0 3px rgba(226,160,60,.16);}
-.month-grid{gap:8px;margin-bottom:13px;}
-.month-pill{min-height:38px;display:flex;align-items:center;justify-content:center;padding:8px 5px;border-radius:10px;border-width:1px;box-shadow:0 2px 7px rgba(20,39,66,.045);transition:transform .14s ease,box-shadow .14s ease;}
-.month-pill:active{transform:scale(.98);}
-.month-pill.m-paid{border-color:#c7e3d0;background:linear-gradient(145deg,#f0faf3,#e5f3e9);color:#267448;}
-.month-pill.m-pending{border-color:#efd0d0;background:linear-gradient(145deg,#fff6f5,#fbe9e9);color:#ad4c54;}
-.month-pill.m-staged{border-color:#e9d29a;background:linear-gradient(145deg,#fff9e9,#f9edcf);color:#996615;}
-.month-pill.m-selected{outline:2px solid #b9821d;outline-offset:1px;box-shadow:0 0 0 4px rgba(226,160,60,.12);}
-.month-pill .m-check{accent-color:#1d6f48;}
-#batchTotalInfo{border-radius:12px!important;box-shadow:0 7px 18px rgba(26,114,63,.08);}
-.toggle-row{gap:9px;margin-bottom:12px;}
-.toggle-btn{min-height:43px;border-radius:11px;transition:background .15s ease,border-color .15s ease,transform .15s ease;}
-.owner-accordion{margin:0 0 10px;border-color:#e4e9ef;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfcfe);box-shadow:0 4px 12px rgba(22,43,72,.045);}
-.owner-accordion>summary{min-height:44px;padding:11px 13px;color:#243956;font-size:12px;letter-spacing:.05px;}
-.owner-accordion>summary::after{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#f2f5f8;color:#687487;font-size:14px;}
-.owner-accordion[open]>summary{background:#fbfcfe;}
-.owner-accordion-body{padding:12px 13px 13px;border-top:1px solid #edf0f4;}
-.modal-actions{gap:9px;margin-top:10px;}
-.modal-actions .btn{min-height:46px;border-radius:11px;font-size:13px;}
-.modal-actions .btn-save{background:linear-gradient(135deg,#1e4978,#11294c);box-shadow:0 6px 14px rgba(20,53,91,.2);}
-.modal-actions .btn-close{border:1px solid #e3e8ef;background:#f5f7fa;color:#506078;}
-@media (min-width:900px){.overlay{align-items:center;padding:24px;}.modal{max-height:88vh;border:1px solid rgba(218,226,236,.9);border-radius:24px;padding:22px 20px 24px;}.owner-card-heading{margin:-22px -20px 18px;padding:18px 20px 17px;}}
-@media (max-width:480px){.modal{padding:16px 13px 21px;border-radius:22px 22px 0 0;}.owner-card-heading{margin:-16px -13px 14px;padding:15px 13px 14px;}.owner-card-badge{flex-basis:42px;width:42px;height:42px;border-radius:13px;font-size:19px;}.owner-card-heading h2{font-size:18px;}.owner-dues-summary{padding:11px 12px;}.month-grid{gap:6px;}.month-pill{min-height:36px;font-size:10px;}}
-/* Premium login refinement: navy and warm gold access portal. */
-#lockScreen{background:radial-gradient(ellipse 80% 65% at 50% 0%,rgba(71,104,153,.72) 0%,transparent 72%),linear-gradient(145deg,#0b1730 0%,#132b4c 52%,#091426 100%);padding:clamp(18px,4vw,42px);overflow-y:auto;}
-#lockScreen::before{background-image:radial-gradient(circle at 12% 18%,rgba(226,180,91,.2) 0%,transparent 33%),radial-gradient(circle at 88% 78%,rgba(49,111,100,.18) 0%,transparent 38%),linear-gradient(115deg,transparent 0%,rgba(255,255,255,.025) 48%,transparent 72%);}
-#lockScreen::after{opacity:.24;background-size:32px 32px;}.lock-orb{opacity:.38;filter:blur(62px);}.lock-skyline{opacity:.13;}
-.lock-wrap{max-width:400px;margin:auto;}.lock-brand{margin-bottom:17px;}
-.lock-brand-badge{width:60px;height:60px;border-radius:19px;background:linear-gradient(145deg,#f5d88f 0%,#d6a441 58%,#b87919 100%);border:1px solid rgba(255,255,255,.4);box-shadow:0 12px 30px rgba(201,137,24,.28),0 0 0 7px rgba(232,188,97,.09);}
-.lock-brand-kicker{margin:0 0 5px;color:#ecd295;font-size:9px;line-height:1.4;font-weight:800;letter-spacing:2px;}
-.lock-brand-name{font-size:21px;line-height:1.25;letter-spacing:.5px;}.lock-brand-name span{color:#e8c16d;white-space:nowrap;}
-.lock-brand-sub{font-size:11.5px;letter-spacing:.45px;color:rgba(244,246,250,.72);}
-.lock-card{position:relative;overflow:hidden;text-align:left;padding:25px 26px 21px;border:1px solid rgba(255,255,255,.72);border-radius:24px;background:linear-gradient(155deg,#fffefa 0%,#fff 54%,#fbf8f1 100%);box-shadow:0 32px 85px rgba(0,0,0,.42),0 10px 24px rgba(0,0,0,.14);}
-.lock-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#a96d13,#f0d58f 36%,#d5a33f 70%,#9d6211);}
-.lock-card-heading{margin:0 0 16px;text-align:left;}.lock-card-eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:8px;color:#8d6720;font-size:9px;font-weight:800;letter-spacing:1.15px;text-transform:uppercase;}
-.lock-card-eyebrow span{width:7px;height:7px;border-radius:50%;background:#2e8b57;box-shadow:0 0 0 3px rgba(46,139,87,.12);}
-.lock-card-heading h2{margin:0;color:#152a4e;font-family:'Poppins',sans-serif;font-size:23px;line-height:1.2;letter-spacing:-.3px;}.lock-card-heading p{margin:4px 0 0;color:#778296;font-size:11.5px;}
-.lock-tabs{gap:5px;margin-bottom:17px;padding:4px;border:1px solid #ece6d9;border-radius:13px;background:#f5f2eb;}
-.lock-tab{min-height:40px;padding:9px 8px;border-radius:10px;color:#69758a;font-size:12px;transition:background .18s ease,color .18s ease,box-shadow .18s ease;}
-.lock-tab.active{background:linear-gradient(140deg,#18385f 0%,#102544 100%);color:#fff;box-shadow:0 4px 10px rgba(21,42,78,.2);}
-.lock-desc{margin:0 0 15px;text-align:left;color:#69758a;font-size:12px;line-height:1.5;}.lock-field-label{display:block;margin:0 0 5px 1px;color:#53647a;font-size:9.5px;font-weight:800;letter-spacing:.85px;text-transform:uppercase;}
-.lock-field{margin-bottom:12px;}.lock-field-icon{left:12px;z-index:1;display:grid;width:25px;height:25px;place-items:center;border-radius:8px;background:#f3efe5;color:#203858;font-size:13px;}
-.lock-field input{box-sizing:border-box;width:100%;height:49px;padding:0 43px 0 46px;border:1px solid #dce3ec;border-radius:12px;background:#fff;color:#182e4e;font-size:13.5px;letter-spacing:0;box-shadow:0 2px 6px rgba(20,39,66,.025);transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;}
-.lock-field input:hover{border-color:#bfccdc;background:#fffefa;}.lock-field input:focus{outline:none;border-color:#c18b29;box-shadow:0 0 0 3px rgba(201,137,24,.14),0 3px 8px rgba(20,39,66,.04);}.lock-field input::placeholder{color:#9aa4b3;letter-spacing:0;}
-.lock-eye{right:7px;display:grid;width:34px;height:34px;place-items:center;border-radius:9px;color:#65738a;opacity:.8;}.lock-eye:hover{background:#f3efe5;opacity:1;}
-.lock-submit{display:flex;align-items:center;justify-content:center;gap:9px;min-height:49px;margin-top:7px;padding:12px;border:1px solid rgba(153,99,17,.28);border-radius:12px;background:linear-gradient(135deg,#f1d38b 0%,#d5a13d 56%,#bd801d 100%);color:#172d4c;font-size:13px;font-weight:800;letter-spacing:.15px;box-shadow:0 8px 18px rgba(179,124,32,.22),inset 0 1px 0 rgba(255,255,255,.42);transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;}
-.lock-submit span{font-size:17px;line-height:1;}.lock-submit:hover{filter:brightness(1.035);transform:translateY(-1px);box-shadow:0 10px 23px rgba(179,124,32,.28),inset 0 1px 0 rgba(255,255,255,.5);}.lock-submit:active{transform:translateY(0);filter:brightness(.98);}
-.lock-err{min-height:0;margin-top:0;font-size:11.5px;line-height:1.45;}.lock-err:not(:empty){margin-top:11px;padding:9px 11px;border:1px solid #f1cfca;border-radius:10px;background:#fff2f0;color:#a83c38;}
-.lock-footer{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;padding:8px 12px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.045);color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.1px;}
-.lock-footer-shield{display:grid;width:16px;height:16px;place-items:center;border-radius:50%;background:rgba(78,180,119,.2);color:#91dfaa;font-size:10px;font-weight:900;}
-@media (max-width:480px){#lockScreen{padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));}.lock-wrap{max-width:380px;}.lock-brand{margin-bottom:14px;}.lock-brand-badge{width:52px;height:52px;border-radius:16px;margin-bottom:9px;}.lock-brand-name{font-size:19px;}.lock-card{padding:23px 19px 19px;border-radius:21px;}.lock-card-heading h2{font-size:21px;}}
-@media (max-height:700px){#lockScreen{align-items:flex-start;}.lock-wrap{margin:auto 0;}.lock-brand{margin-bottom:12px;}.lock-brand-badge{width:46px;height:46px;margin-bottom:7px;border-radius:14px;}.lock-brand-name{font-size:18px;}.lock-brand-sub{font-size:10.5px;}.lock-card{padding-top:21px;padding-bottom:17px;}.lock-card-heading{margin-bottom:12px;}}
-@media (prefers-reduced-motion:reduce){.lock-orb{animation:none!important;}.lock-submit,.lock-tab,.lock-field input{transition:none!important;}}
 </style>
+
+<style id="ur2-redesign-indigo">
+/* FULL REDESIGN "Indigo Studio" - CSS only. No HTML/JS/Firebase/ID changes.
+   Delete this whole block to return to the original look. */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+:root{--navy:#0A2540;--navy2:#0B6BCB;--sand:#EFF6FD;--card:#fff;--saffron:#F59E0B;--green:#059669;--coral:#E11D48;--ink:#0F2238;--muted:#5B7084;--line:#D8E6F4;--sh:0 10px 30px rgba(11,92,173,.09);}
+#headerStatOutstanding,
+.chip .c-label,
+.chip .c-num,
+.entry-item .e-amt,
+.flat-num,
+.h-stat .hs-label,
+.h-stat .hs-num,
+.header h1,
+.hero-text .h-value,
+.hp-kpi #headerDashBankBalance,
+.hp-kpi #headerDashCashBalance,
+.hp-kpi #headerStatCollection,
+.hp-kpi #headerStatExpense,
+.hp-kpi #headerStatTotal,
+.hp-kpi-overview-row,
+.hp-kpi-ring-inner b,
+.hp-left::before,
+.hp-title,
+.ledger-summary .l-value,
+.lock-brand-name,
+.mini-chart .mc-title,
+.modal h2,
+.ra-title,
+.report-card h3,
+.report-grid .r-num,
+.ring-inner b,
+.rv-header h2,
+.rv-section h3,
+.rv-sum-card .rv-num,
+.section-title,
+.sidebar-brand .sb-text b,
+body.firebase-loading::before{font-family:'Plus Jakarta Sans','Poppins','Inter',sans-serif;}
+body{background:radial-gradient(600px 320px at 92% -4%,rgba(56,169,232,.18),transparent),radial-gradient(500px 300px at -6% 18%,rgba(244,63,94,.07),transparent),#EEF5FC;color:var(--ink);}
+body{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px));}
+
+/* Header = hero card */
+.header-pro{position:relative!important;top:auto!important;margin:12px;border-radius:26px;border:0!important;background:linear-gradient(135deg,#0A2540 0%,#0B5CAD 55%,#1590D4 100%)!important;box-shadow:0 18px 40px rgba(11,92,173,.30)!important;padding:22px 22px 18px!important;}
+.header-pro::after{background:rgba(255,255,255,.08)!important;}
+.hp-left::before{background:rgba(255,255,255,.16)!important;color:#fff!important;border:1px solid rgba(255,255,255,.28);box-shadow:none!important;}
+.hp-eyebrow{color:#9DD3F5!important}.hp-title{color:#fff!important}.hp-subtitle{color:rgba(255,255,255,.72)!important}
+.hp-badge{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.22)!important;color:#fff!important;}
+.hp-badge-click:hover{background:rgba(255,255,255,.22)!important;}
+.hp-president-badge{background:rgba(251,191,36,.2)!important;border-color:rgba(251,191,36,.45)!important;}
+.hp-president-badge #headerPresidentName{color:#fff!important}
+.hp-kpi,.hp-kpi-primary,.hp-kpi-danger{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.22)!important;box-shadow:none!important;border-radius:16px!important;}
+.hp-kpi:hover{background:rgba(255,255,255,.2)!important;}
+.hp-kpi-label,.hp-kpi-danger .hp-kpi-label{color:rgba(255,255,255,.72)!important}
+.hp-kpi #headerStatTotal,.hp-kpi #headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance,.hp-kpi-overview-row{color:#fff!important}
+.hp-kpi #headerStatCollection{color:#6EE7B7!important}.hp-kpi #headerStatExpense{color:#FDA4AF!important}
+.hp-kpi-ring{background:conic-gradient(#34D399 calc(var(--pct,0)*1%),rgba(255,255,255,.25) 0)!important}
+.hp-kpi-ring-inner{background:#0B5CAD!important}.hp-kpi-ring-inner b{color:#fff!important}
+.hp-dot{background:#34D399}
+.hp-admin-logout{background:rgba(255,255,255,.14)!important;color:#fff!important;border:1px solid rgba(255,255,255,.3)!important;}
+.header{background:linear-gradient(135deg,#0A2540,#0B5CAD)!important;}
+.fy-bar{position:static!important;background:#fff;border:1px solid var(--line);border-radius:16px;margin:4px 12px;box-shadow:var(--sh);color:var(--navy);}
+.fy-bar select{border-color:var(--navy2)}
+
+/* Hero card: bold + zoomed */
+.header-pro{padding:30px 28px 26px!important;border-radius:30px!important;}
+.hp-left{padding-left:80px!important;gap:6px!important;}
+.hp-left::before{width:62px!important;height:62px!important;top:4px!important;font-size:17px!important;font-weight:800!important;border-radius:19px!important;}
+.hp-eyebrow{font-size:12px!important;font-weight:800!important;letter-spacing:2.2px!important;}
+.hp-title{font-size:32px!important;font-weight:800!important;line-height:1.12!important;white-space:normal!important;}
+.hp-subtitle{font-size:14.5px!important;font-weight:600!important;white-space:normal!important;}
+.hp-badges-row{gap:9px!important;margin-top:12px!important;}
+.hp-badge{font-size:13px!important;font-weight:700!important;padding:9px 15px!important;}
+.hp-kpi-row{gap:14px!important;}
+.hp-kpi{min-height:124px!important;padding:16px 8px!important;border-radius:22px!important;gap:6px!important;}
+.hp-kpi-label{font-size:11.5px!important;font-weight:800!important;letter-spacing:.6px!important;}
+.hp-kpi #headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:clamp(18px,4.8vw,27px)!important;font-weight:800!important;}
+.hp-kpi-ring{width:64px!important;height:64px!important;}
+.hp-kpi-ring-inner{width:48px!important;height:48px!important;}
+.hp-kpi-ring-inner b{font-size:13px!important;font-weight:800!important;}
+.hp-admin-logout{font-size:12px!important;font-weight:800!important;padding:9px 14px!important;}
+@media(max-width:700px){
+.header-pro{padding:24px 18px 20px!important;}
+.hp-left{padding-left:68px!important;}
+.hp-left::before{width:52px!important;height:52px!important;font-size:14px!important;}
+.hp-title{font-size:25px!important;}
+.hp-kpi{min-height:106px!important;}
+.hp-kpi-ring{width:54px!important;height:54px!important;}.hp-kpi-ring-inner{width:40px!important;height:40px!important;}
+}
+/* Hero card: fit fix (amounts/labels stay inside tiles) */
+@media(min-width:901px){.header-pro{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important;}}
+.hp-kpi-row{gap:10px!important;}
+.hp-kpi{min-height:112px!important;padding:14px 6px!important;overflow:hidden;justify-content:center!important;}
+.hp-kpi #headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:clamp(15px,1.25vw + 3px,20px)!important;white-space:nowrap!important;letter-spacing:-.3px;}
+.hp-kpi-label{font-size:10px!important;letter-spacing:.3px!important;white-space:normal!important;text-align:center!important;line-height:1.25!important;max-width:100%;}
+@media(max-width:700px){
+.hp-kpi #headerStatOutstanding,.hp-kpi #headerDashBankBalance,.hp-kpi #headerDashCashBalance{font-size:21px!important;}
+.hp-kpi-label{font-size:10.5px!important;}
+}
+/* Header: Pramukh + UPI badges hidden (HTML kept so the app code keeps working) */
+#headerPresidentBox,#headerUpiBox{display:none!important;}
+/* Hero KPI labels: bolder + clearer */
+.hp-kpi-label,.hp-kpi-danger .hp-kpi-label{font-size:11.5px!important;font-weight:800!important;color:#fff!important;letter-spacing:.5px!important;text-shadow:0 1px 2px rgba(6,22,40,.35);}
+@media(max-width:700px){.hp-kpi-label{font-size:12px!important;}}
+/* Cards */
+.hero,.chip,.mini-chart,.recent-activity,.entry-item,.report-card,.ledger-summary,.rv-sum-card,.rv-section{border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh);}
+.hero,.mini-chart,.recent-activity{background:#fff}
+.ring{background:conic-gradient(var(--green) calc(var(--pct,0)*1%),#D8E6F4 0)}
+.mc-track{background:#E2EEF9}
+.chip.collection{background:linear-gradient(160deg,#ECFDF5,#fff 70%);border-color:#BBF7D0}
+.chip.expense{background:linear-gradient(160deg,#FFF1F2,#fff 70%);border-color:#FECDD3}
+.chip.total{background:linear-gradient(160deg,#EAF3FC,#fff 70%);border-color:#BBD7F2}
+.chip.pending{background:linear-gradient(160deg,#FFFBEB,#fff 70%);border-color:#FDE68A}
+.chip.outstanding{background:linear-gradient(160deg,#FFF1F2,#fff 70%);border-color:#FECDD3}
+.chip.total .c-num{color:var(--navy2)}.chip.pending .c-num{color:#B45309}
+.section-title{color:var(--navy)}
+.search input{border-radius:16px;background:#fff;box-shadow:var(--sh);border-color:var(--line)}
+
+/* Flat tiles */
+.results{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:0 14px!important;}
+.flat-item{flex-direction:column;align-items:flex-start!important;gap:10px;margin:0!important;padding:14px!important;border:1px solid var(--line)!important;border-top:5px solid var(--green)!important;border-radius:20px!important;box-shadow:var(--sh);background:#fff;}
+.flat-item.is-pending{border-top-color:var(--coral)!important;background:linear-gradient(180deg,#FFF1F3,#fff 60%);}
+.flat-left{width:100%;gap:10px}
+.flat-num{background:linear-gradient(135deg,#0B6BCB,#38A9E8);border-radius:12px;font-size:15px;min-width:46px}
+.flat-name{color:var(--navy);font-weight:700}
+.status-paid{background:#D1FAE5;color:#047857}.status-pending{background:#FFE4E6;color:#BE123C}
+.ra-icon.credit{background:#D1FAE5}.ra-icon.expense{background:#FFE4E6}
+@media(min-width:700px){.results{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(min-width:1180px){.results{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+
+/* Ledger / tabs / reports */
+.ledger-summary{background:linear-gradient(135deg,#0A2540,#0B6BCB 70%,#38A9E8);border:0;box-shadow:0 16px 34px rgba(11,92,173,.28)}
+.ledger-summary .l-label{color:#FCD34D}
+.tabbar{background:#DCEAF8;border-radius:16px;padding:5px!important;margin:12px 15px 2px;gap:4px;max-width:none!important}
+.tabbar button{border:0;background:transparent;box-shadow:none;color:var(--muted);border-radius:12px}
+.tabbar button.tab-active{background:#fff;color:var(--navy2);box-shadow:0 4px 12px rgba(11,92,173,.15)}
+.report-grid div{background:var(--sand);border-radius:14px}
+#screen-reports .report-card:first-child{background:linear-gradient(135deg,#fff,#EAF3FC)!important;border-color:#BBD7F2!important}
+#screen-reports .report-grid div{border-color:#D3E6F8!important;background:#fff!important}
+#screen-reports .report-card:nth-child(3){border-left:1px solid var(--line);border-top:5px solid var(--coral)}
+.month-table th{color:var(--muted)}.month-table tr:not(:first-child):hover td{background:#EEF5FC}
+.history-box{background:var(--sand)}
+.owner-accordion{background:#fff;border-radius:14px}
+
+/* Forms / buttons / modal */
+.field input,.field select,.entry-form input{border-radius:12px;background:#F8FBFE;border-color:var(--line)}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(11,107,203,.16)!important;border-color:var(--navy2)!important;box-shadow:none!important}
+.btn,.btn-add,.toggle-btn,.qa-btn{border-radius:14px}
+.btn-add,.btn-save,.modal-actions .btn-save{background:linear-gradient(135deg,#0B6BCB,#1590D4)!important;color:#fff;box-shadow:0 8px 18px rgba(11,107,203,.28)}
+.btn-close{background:#E1EDF9;color:var(--navy)}
+.qa-btn.qa-credit{background:linear-gradient(135deg,#10B981,#059669)}.qa-btn.qa-expense{background:linear-gradient(135deg,#F43F5E,#E11D48)}
+.month-pill{border-radius:12px;background:#fff}
+.month-pill.m-paid,.toggle-btn.paid-on,#inputMonth.month-select-paid{background:#D1FAE5;border-color:#10B981;color:#047857}
+.month-pill.m-pending,.toggle-btn.pending-on,#inputMonth.month-select-pending{background:#FFE4E6;border-color:#F43F5E;color:#BE123C}
+.month-pill.m-staged{background:#FEF3C7;border-color:#F59E0B;color:#92400E}
+.month-pill.m-selected{outline-color:var(--navy2)}
+.overlay{background:rgba(6,22,40,.55);backdrop-filter:blur(3px)}
+.modal{border-radius:28px 28px 0 0;box-shadow:0 -10px 50px rgba(6,22,40,.3)}
+.modal input:disabled,.modal select:disabled,.modal button:disabled{background:#E2EEF9}
+
+/* Navigation: floating pill (phone) / floating panel (PC) */
+.menu{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;border-radius:24px;padding:8px!important;gap:4px;background:linear-gradient(90deg,#0A2540,#0B5CAD)!important;box-shadow:0 16px 36px rgba(10,37,64,.4)!important;}
+.menu button{flex:1;border-radius:18px;color:#fff}
+.menu button.active{background:rgba(255,255,255,.18)!important;color:#fff!important;opacity:1}
+@media(min-width:900px){
+ body{padding-bottom:0}
+ .menu{top:14px;left:14px;right:auto;bottom:14px;width:228px;border-radius:28px;padding:18px 12px!important;background:linear-gradient(180deg,#0A2540,#123B66)!important;}
+ .menu button{flex:none;border:0}
+ .menu button.active{background:#fff!important;color:#0B5CAD!important;font-weight:700}
+ .sidebar-brand .sb-icon{background:linear-gradient(135deg,#FBBF24,#F59E0B)}
+ .page-wrap{margin-left:256px;max-width:1000px;background:transparent}
+ .header-pro{margin:14px 20px}.fy-bar{margin:6px 20px}
+ .tabbar{max-width:420px!important}
+}
+@media(min-width:1180px){.page-wrap{max-width:1240px}}
+
+/* Login */
+#lockScreen{background:radial-gradient(ellipse 120% 90% at 50% -10%,#1590D4 0%,#0B5CAD 45%,#071A2E 100%)!important}
+.lock-orb-1{background:radial-gradient(circle,rgba(251,191,36,.45),transparent 70%)}
+.lock-orb-2{background:radial-gradient(circle,rgba(244,63,94,.32),transparent 70%)}
+.lock-brand-badge{background:linear-gradient(160deg,#FCD34D,#F59E0B)}
+.lock-card{border-radius:28px}
+.lock-tabs{background:#EEECFB}
+.lock-tab.active,.lock-submit{background:linear-gradient(135deg,#0B6BCB,#1590D4)!important;color:#fff}
+.lock-field input{border-radius:14px}
+.lock-field input:focus{border-color:var(--navy2);box-shadow:0 0 0 3px rgba(11,107,203,.16)}
+
+/* Flat-owner view */
+.rv-header{background:linear-gradient(135deg,#0A2540,#0B6BCB 70%,#38A9E8);border-radius:0 0 28px 28px;padding-bottom:26px}
+.rv-header .rv-eyebrow{color:#9DD3F5}
+.rv-fy-row select{border-color:var(--navy2)}
+.rv-section{border-radius:20px}
+</style>
+
+<style id="ur2-theme-css">
+/* THEME STUDIO - colour theme + pattern + corners. Delete this block + #ur2-theme-js to remove. */
+:root{--t-p:#0A2540;--t-s:#0B6BCB;--t-a:#38A9E8;--t-bg:#EEF5FC;--t-hl:#F59E0B;--t-pat:none;--t-hp:none;--t-r:20px;--t-rb:14px;}
+:root{--navy:var(--t-p);--navy2:var(--t-s);--sand:var(--t-bg);--saffron:var(--t-hl);--line:color-mix(in srgb,var(--t-s) 14%,#fff);}
+body{background-color:var(--t-bg)!important;background-image:var(--t-pat),radial-gradient(600px 320px at 92% -4%,color-mix(in srgb,var(--t-a) 20%,transparent),transparent)!important;background-attachment:fixed,fixed!important;}
+.page-wrap{background:transparent!important;}
+.header-pro,.header{background-color:var(--t-s)!important;background-image:var(--t-hp),linear-gradient(135deg,var(--t-p) 0%,var(--t-s) 55%,var(--t-a) 100%)!important;}
+.ledger-summary,.rv-header{background-image:var(--t-hp),linear-gradient(135deg,var(--t-p),var(--t-s) 70%,var(--t-a))!important;}
+#lockScreen{background-image:var(--t-hp),radial-gradient(ellipse 120% 90% at 50% -10%,var(--t-a) 0%,var(--t-s) 45%,var(--t-p) 100%)!important;}
+.menu{background:linear-gradient(90deg,var(--t-p),var(--t-s))!important;}
+@media(min-width:900px){.menu{background:linear-gradient(180deg,var(--t-p),color-mix(in srgb,var(--t-p) 70%,var(--t-s)))!important;}.menu button.active{color:var(--t-s)!important;}}
+.hp-kpi-ring-inner{background:var(--t-s)!important;}
+.hp-eyebrow,.rv-header .rv-eyebrow{color:color-mix(in srgb,var(--t-a) 55%,#fff)!important;}
+.flat-num{background:linear-gradient(135deg,var(--t-s),var(--t-a))!important;}
+.btn-add,.btn-save,.modal-actions .btn-save,.lock-tab.active,.lock-submit{background:linear-gradient(135deg,var(--t-s),var(--t-a))!important;box-shadow:0 8px 18px color-mix(in srgb,var(--t-s) 30%,transparent);}
+.lock-brand-badge,.sidebar-brand .sb-icon{background:linear-gradient(160deg,color-mix(in srgb,var(--t-hl) 55%,#fff),var(--t-hl))!important;}
+.tabbar{background:color-mix(in srgb,var(--t-s) 14%,#fff)!important;}
+.tabbar button.tab-active{color:var(--t-s)!important;}
+.chip.total{background:linear-gradient(160deg,color-mix(in srgb,var(--t-s) 10%,#fff),#fff 70%);border-color:color-mix(in srgb,var(--t-s) 28%,#fff);}
+.chip.total .c-num{color:var(--t-s);}
+.fy-bar select,.rv-fy-row select{border-color:var(--t-s);}
+.btn-close{background:color-mix(in srgb,var(--t-s) 12%,#fff);color:var(--t-p);}
+.mc-track{background:color-mix(in srgb,var(--t-s) 12%,#fff);}
+.ring{background:conic-gradient(var(--green) calc(var(--pct,0)*1%),color-mix(in srgb,var(--t-s) 14%,#fff) 0);}
+input:focus,select:focus,textarea:focus{outline-color:color-mix(in srgb,var(--t-s) 20%,transparent)!important;border-color:var(--t-s)!important;}
+.month-pill.m-selected{outline-color:var(--t-s);}
+.month-table tr:not(:first-child):hover td{background:color-mix(in srgb,var(--t-s) 7%,#fff);}
+.hero,.chip,.mini-chart,.recent-activity,.entry-item,.report-card,.ledger-summary,.rv-sum-card,.rv-section,.flat-item,.owner-accordion{border-radius:var(--t-r)!important;}
+.header-pro{border-radius:calc(var(--t-r) + 10px)!important;}
+.btn,.btn-add,.toggle-btn,.qa-btn,.field input,.field select,.entry-form input,.tabbar,.month-pill{border-radius:var(--t-rb)!important;}
+.tabbar button{border-radius:calc(var(--t-rb) - 2px)!important;}
+/* Dark mode */
+html.t-dark{--ink:#E6EDF6;--muted:#9FB0C4;--card:var(--d-card);--line:var(--d-line);--sand:var(--d-bg);color-scheme:dark;}
+html.t-dark .hero,html.t-dark .chip,html.t-dark .mini-chart,html.t-dark .recent-activity,html.t-dark .entry-item,html.t-dark .report-card,html.t-dark .rv-sum-card,html.t-dark .rv-section,html.t-dark .flat-item,html.t-dark .owner-accordion,html.t-dark .fy-bar,html.t-dark .history-box,html.t-dark .report-grid div,html.t-dark #screen-reports .report-grid div,html.t-dark #screen-reports .report-card:first-child,html.t-dark .month-pill,html.t-dark .modal,html.t-dark .lock-card,html.t-dark .ring-inner,html.t-dark .month-table{background:var(--d-card)!important;border-color:var(--d-line)!important;color:var(--ink);}
+html.t-dark .search input,html.t-dark .field input,html.t-dark .field select,html.t-dark .entry-form input,html.t-dark .fy-bar select,html.t-dark .rv-fy-row select,html.t-dark .modal input,html.t-dark .modal select,html.t-dark .modal textarea{background:rgba(255,255,255,.06)!important;color:var(--ink)!important;border-color:var(--d-line)!important;}
+html.t-dark .section-title,html.t-dark .flat-name,html.t-dark .hero-text .h-value,html.t-dark .ring-inner b,html.t-dark .chip .c-label,html.t-dark .rv-sum-card .rv-num,html.t-dark .rv-section h3,html.t-dark .modal h2,html.t-dark .report-card h3,html.t-dark .mini-chart .mc-title,html.t-dark .month-table td,html.t-dark .month-table th,html.t-dark .owner-accordion>summary{color:var(--ink)!important;}
+html.t-dark .flat-item.is-pending{background:rgba(225,29,72,.16)!important;}
+html.t-dark .tabbar{background:var(--d-card)!important;}
+html.t-dark .tabbar button.tab-active{background:var(--d-line)!important;color:#fff!important;}
+html.t-dark .ring{background:conic-gradient(var(--green) calc(var(--pct,0)*1%),var(--d-line) 0);}
+html.t-dark .mc-track,html.t-dark .btn-close{background:var(--d-line);color:var(--ink);}
+html.t-dark .month-table tr:not(:first-child):hover td{background:var(--d-line);}
+/* Advanced */
+html.t-cf .hero,html.t-cf .chip,html.t-cf .mini-chart,html.t-cf .recent-activity,html.t-cf .entry-item,html.t-cf .report-card,html.t-cf .rv-sum-card,html.t-cf .rv-section,html.t-cf .flat-item{box-shadow:none!important;}
+html.t-co .hero,html.t-co .chip,html.t-co .mini-chart,html.t-co .recent-activity,html.t-co .entry-item,html.t-co .report-card,html.t-co .rv-sum-card,html.t-co .rv-section,html.t-co .flat-item{box-shadow:none!important;outline:2px solid color-mix(in srgb,var(--t-s) 45%,transparent);outline-offset:-2px;}
+html.t-cg:not(.t-dark) .hero,html.t-cg:not(.t-dark) .chip,html.t-cg:not(.t-dark) .mini-chart,html.t-cg:not(.t-dark) .recent-activity,html.t-cg:not(.t-dark) .entry-item,html.t-cg:not(.t-dark) .report-card,html.t-cg:not(.t-dark) .rv-sum-card,html.t-cg:not(.t-dark) .rv-section,html.t-cg:not(.t-dark) .flat-item{background:rgba(255,255,255,.55)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:rgba(255,255,255,.7)!important;}
+html.t-cg.t-dark .hero,html.t-cg.t-dark .chip,html.t-cg.t-dark .mini-chart,html.t-cg.t-dark .recent-activity,html.t-cg.t-dark .entry-item,html.t-cg.t-dark .report-card,html.t-cg.t-dark .rv-sum-card,html.t-cg.t-dark .rv-section,html.t-cg.t-dark .flat-item{background:rgba(255,255,255,.07)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html.t-hs .header-pro,html.t-hs .header,html.t-hs .ledger-summary,html.t-hs .rv-header{background-image:var(--t-hp),linear-gradient(var(--t-s),var(--t-s))!important;}
+html.t-hr .header-pro,html.t-hr .header,html.t-hr .ledger-summary,html.t-hr .rv-header{background-image:var(--t-hp),radial-gradient(circle at 85% 0%,var(--t-a),var(--t-s) 45%,var(--t-p))!important;}
+html.t-col .results{grid-template-columns:repeat(var(--t-cols),minmax(0,1fr))!important;}
+html.t-cmp .flat-item{padding:8px!important;gap:6px!important;}html.t-cmp .flat-left{gap:6px;}html.t-cmp .flat-num{min-width:36px;font-size:13px;}
+html.t-pc .flat-item{border-top-color:var(--t-paid)!important;}
+html.t-pc .flat-item.is-pending{border-top-color:var(--t-pend)!important;background:color-mix(in srgb,var(--t-pend) 12%,transparent)!important;}
+html.t-pc .status-paid,html.t-pc .month-pill.m-paid,html.t-pc .toggle-btn.paid-on,html.t-pc #inputMonth.month-select-paid{background:color-mix(in srgb,var(--t-paid) 16%,transparent)!important;border-color:var(--t-paid)!important;color:var(--t-paid)!important;}
+html.t-pc .status-pending,html.t-pc .month-pill.m-pending,html.t-pc .toggle-btn.pending-on,html.t-pc #inputMonth.month-select-pending{background:color-mix(in srgb,var(--t-pend) 16%,transparent)!important;border-color:var(--t-pend)!important;color:var(--t-pend)!important;}
+html.t-tr *{transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease!important;}
+html.t-na *{transition:none!important;animation:none!important;}
+#tPanel .tp-d{margin-top:12px;border:1px solid #e5e7eb;border-radius:12px;padding:8px 12px;}#tPanel .tp-d summary{font-weight:800;cursor:pointer;font-size:13px;}
+#tPanel .svw{display:flex;flex:1 1 45%;}#tPanel .svw button:first-child{flex:1;border-radius:12px 0 0 12px;}#tPanel .svw button:last-child{flex:0 0 32px;border-radius:0 12px 12px 0;border-left:0;color:#b91c1c;}
+html{zoom:var(--t-z,1);}
+html.t-f *{font-family:var(--t-f)!important;}
+#tPanel #tpN button{flex:1 1 30%;font-size:13px;}
+#tPanel #tpPv{margin-top:10px;padding:10px;border:1px dashed #cbd5e1;border-radius:10px;font-size:15px;line-height:1.5;background:#f8fafc;}
+/* Theme Studio UI */
+#tFab{position:fixed;right:14px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:100000;width:auto;min-width:48px;height:48px;padding:0 14px;font-size:15px!important;font-weight:700;font-family:inherit;border-radius:24px;border:0;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--t-s),var(--t-a));box-shadow:0 8px 22px rgba(0,0,0,.28);}
+#tBack{display:none;position:fixed;inset:0;z-index:100001;background:rgba(6,22,40,.4);}
+#tPanel{display:none;position:fixed;z-index:100002;left:0;right:0;bottom:0;max-height:85vh;overflow:hidden;background:#fff;color:#22262E;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.3);}
+body.t-open #tBack{display:block;}body.t-open #tPanel{display:flex;flex-direction:column;}
+#tPanel .tp-body{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+#tPanel #tpPrev{position:sticky;top:0;z-index:2;background:#fff;padding-bottom:6px;}
+#tPanel .tp-foot{margin-top:8px;padding-top:10px;border-top:1px solid #eee;}
+#tPanel .tp-f{flex-wrap:wrap;}#tPanel .tp-f button{min-width:90px;}
+@media(min-width:900px){#tFab{bottom:22px;right:22px}#tBack{background:transparent}#tPanel{left:auto;right:22px;bottom:80px;width:360px;border-radius:20px;}}
+#tPanel .tp-h{display:flex;justify-content:space-between;align-items:center;font-size:16px;margin-bottom:4px;}
+#tPanel .tp-h button{border:0;background:#eee;border-radius:50%;width:30px;height:30px;cursor:pointer;}
+#tPanel .tp-l{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#6b7280;margin:14px 0 7px;}
+#tPanel .tp-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+#tPanel .tp-g button,#tPanel .tp-r button{border:2px solid #e5e7eb;background:#fff;border-radius:12px;padding:7px 4px;font-size:11.5px;font-weight:700;cursor:pointer;color:#22262E;}
+#tPanel .tp-g i{display:block;height:28px;border-radius:8px;margin-bottom:5px;border:1px solid rgba(0,0,0,.08);}
+#tPanel .on{border-color:var(--t-s)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--t-s) 25%,transparent);}
+#tPanel .tp-p{grid-template-columns:repeat(4,1fr);}
+#tPanel .tp-c{display:flex;gap:8px;}#tPanel .tp-c label{flex:1;font-size:11px;font-weight:700;display:flex;flex-direction:column;gap:4px;}
+#tPanel .tp-c input{width:100%;height:36px;border:1px solid #e5e7eb;border-radius:8px;padding:2px;background:#fff;}
+#tPanel input[type=range]{width:100%;}
+#tPanel .tp-r{display:flex;gap:8px;flex-wrap:wrap;}#tPanel .tp-r button{flex:1;}
+#tPanel .tp-f{display:flex;gap:8px;margin-top:16px;}
+#tPanel .tp-f button{flex:1;padding:11px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;font-weight:700;cursor:pointer;}
+#tPanel .tp-f .pri{background:linear-gradient(135deg,var(--t-s),var(--t-a));color:#fff;border:0;}
+</style>
+<script id="ur2-theme-js">
+(function(){
+var K='ur2_theme_v1',
+P={ocean:['Ocean','#0A2540','#0B6BCB','#38A9E8','#EEF5FC','#F59E0B'],
+indigo:['Indigo','#1E1B4B','#4338CA','#818CF8','#F0F0FF','#F59E0B'],
+emerald:['Emerald','#064E3B','#059669','#34D399','#ECF8F2','#F59E0B'],
+teal:['Teal','#134E4A','#0D9488','#2DD4BF','#EAF8F6','#F59E0B'],
+sunset:['Sunset','#7C2D12','#EA580C','#FB923C','#FFF4EA','#FACC15'],
+rose:['Rose','#881337','#E11D48','#FB7185','#FFF0F3','#F59E0B'],
+violet:['Violet','#3B0764','#7E22CE','#C084FC','#F7EFFE','#F59E0B'],
+graphite:['Graphite','#111827','#374151','#6B7280','#F1F2F4','#F59E0B'],
+gold:['Classic Gold','#152A4E','#1F3E70','#E2A03C','#F6F1E4','#E2A03C'],
+mint:['Mint','#134E3A','#10B981','#6EE7B7','#EDFBF5','#F59E0B'],
+sky:['Sky','#075985','#0EA5E9','#7DD3FC','#EEF9FF','#F59E0B'],
+lavender:['Lavender','#3B2A7A','#8B5CF6','#C4B5FD','#F5F3FF','#F59E0B'],
+coffee:['Coffee','#3E2723','#795548','#D7A86E','#F8F1EA','#D7A86E'],
+berry:['Berry','#4A0D3A','#BE185D','#F472B6','#FFF0F7','#FBBF24'],
+diwali:['🪔 Diwali','#3B0D2E','#C2410C','#FBBF24','#FFF6E5','#FBBF24','dots'],
+navratri:['💃 Navratri','#4A044E','#DB2777','#FB923C','#FFF0F6','#FACC15','zig'],
+holi:['🎨 Holi','#312E81','#C026D3','#22D3EE','#FDF2FF','#FACC15','dots'],
+uttarayan:['🪁 Uttarayan','#0C4A6E','#0284C7','#FACC15','#F0F9FF','#F97316','lines'],
+christmas:['🎄 Christmas','#14532D','#B91C1C','#4ADE80','#F3FAF3','#FACC15','cross'],
+eid:['🌙 Eid','#064E3B','#0F766E','#FDE68A','#F2FBF6','#FBBF24','waves'],
+tiranga:['🇮🇳 Tiranga','#1E3A8A','#F97316','#16A34A','#FFF8EE','#F59E0B','none'],
+ganesh:['🐘 Ganesh Chaturthi','#7F1D1D','#DC2626','#FB923C','#FFF3E8','#FACC15','dots'],
+rakhi:['🧵 Raksha Bandhan','#831843','#DB2777','#FBBF24','#FFF1F5','#FACC15','dots'],
+janmashtami:['🦚 Janmashtami','#0F3D5E','#0E7490','#FACC15','#EFFAFC','#FACC15','waves']},
+PN={none:'None',dots:'Dots',grid:'Grid',lines:'Lines',waves:'Waves',cross:'Plus',zig:'Zigzag'},
+R={sharp:[6,4,'Sharp'],round:[20,14,'Rounded'],xl:[28,20,'Extra round']},
+Z={sm:.92,md:1,lg:1.12,xl:1.25},ZN={sm:'Small',md:'Normal',lg:'Large',xl:'Extra large'},
+FN={def:["Default","",""],hind:["હિન્દ Hind Vadodara","'Hind Vadodara',sans-serif","Hind+Vadodara:wght@400;500;600;700"],noto:["Noto Gujarati","'Noto Sans Gujarati',sans-serif","Noto+Sans+Gujarati:wght@400;500;600;700"],mukta:["Mukta Vaani","'Mukta Vaani',sans-serif","Mukta+Vaani:wght@400;500;600;700"],baloo:["Baloo Bhai","'Baloo Bhai 2',sans-serif","Baloo+Bhai+2:wght@400;500;600;700"],shri:["Shrikhand","'Shrikhand',serif","Shrikhand"],pop:["Poppins","'Poppins',sans-serif",""],jak:["Jakarta","'Plus Jakarta Sans',sans-serif",""],nun:["Nunito","'Nunito',sans-serif","Nunito:wght@400;600;700"],mon:["Montserrat","'Montserrat',sans-serif","Montserrat:wght@400;600;700"],lora:["Lora","'Lora',serif","Lora:wght@400;600;700"],play:["Playfair","'Playfair Display',serif","Playfair+Display:wght@400;600;700"],rmono:["Roboto Mono","'Roboto Mono',monospace","Roboto+Mono:wght@400;500;700"],ser:["Georgia","Georgia,serif",""]},
+soc=null,fest=null,redraw=null,tries=0,
+CS=[['shadow','Shadow'],['flat','Flat'],['glass','Glass'],['outline','Outline']],HS=[['grad','Gradient'],['solid','Solid'],['rad','Glow']],CL=[['auto','Auto'],['2','2'],['3','3'],['4','4']],CD=[['norm','Normal'],['cmp','Compact']],PCL=[['def','Green / Red'],['cb','Blue / Orange'],['pg','Teal / Purple']],PCV={cb:['#2563EB','#EA580C'],pg:['#0D9488','#9333EA']};
+function dflt(){return {t:'ocean',c:{s:'#7C3AED',hl:'#F59E0B',bg:'#F6F0FF'},pat:'none',ps:14,r:'round',m:'light',f:'def',z:'md',own:false,cs:'shadow',hs:'grad',cl:'auto',cd:'norm',pc:'def',na:false};}
+function inl(L,v){return L.some(function(x){return x[0]===v;});}
+function fix(o){var d=dflt(),hx6=/^#[0-9a-f]{6}$/i;o=Object.assign(d,o);
+if(!FN[o.f])o.f='def';if(!R[o.r])o.r='round';if(!Z[o.z])o.z='md';if(['light','dark','black','auto'].indexOf(o.m)<0)o.m='light';if(!PN[o.pat])o.pat='none';
+if(o.t!=='custom'&&!P[o.t])o.t='ocean';
+if(!o.c||!hx6.test(o.c.s)||!hx6.test(o.c.hl)||!hx6.test(o.c.bg))o.c=dflt().c;
+o.ps=Math.min(40,Math.max(0,+o.ps||14));
+if(!inl(CS,o.cs))o.cs='shadow';if(!inl(HS,o.hs))o.hs='grad';if(!inl(CL,o.cl))o.cl='auto';if(!inl(CD,o.cd))o.cd='norm';if(!inl(PCL,o.pc))o.pc='def';o.na=!!o.na;return o;}
+var st=dflt();
+try{var sv=JSON.parse(localStorage.getItem(K)||'null');if(sv)st=fix(sv);}catch(e){}
+function hx(h){h=h.replace('#','');return [0,2,4].map(function(i){return parseInt(h.substr(i,2),16);});}
+function mix(a,b,w){var x=hx(a),y=hx(b);return '#'+x.map(function(v,i){var n=Math.round(v*(1-w)+y[i]*w);return (n<16?'0':'')+n.toString(16);}).join('');}
+function cols(){if(fest&&!st.own&&P[fest]){var f=P[fest];return {p:f[1],s:f[2],a:f[3],bg:f[4],hl:f[5]};}if(st.t==='custom'){var c=st.c;return {p:mix(c.s,'#000000',.55),s:c.s,a:mix(c.s,'#ffffff',.4),bg:c.bg,hl:c.hl};}var x=P[st.t]||P.ocean;return {p:x[1],s:x[2],a:x[3],bg:x[4],hl:x[5]};}
+function uri(k,col,op){var T={dots:[24,'<circle cx="12" cy="12" r="1.7" fill="@"/>'],grid:[32,'<path d="M32 0H0V32" fill="none" stroke="@" stroke-width="1"/>'],lines:[14,'<path d="M0 14L14 0M-3 3L3-3M11 17L17 11" stroke="@" stroke-width="1.2"/>'],waves:[40,'<path d="M0 10Q10 0 20 10T40 10M0 30Q10 20 20 30T40 30" fill="none" stroke="@" stroke-width="1.4"/>'],cross:[28,'<path d="M14 9v10M9 14h10" stroke="@" stroke-width="1.5" stroke-linecap="round"/>'],zig:[24,'<path d="M0 12L6 2L12 12L18 2L24 12" fill="none" stroke="@" stroke-width="1.2"/>']}[k];
+var s='<svg xmlns="http://www.w3.org/2000/svg" width="'+T[0]+'" height="'+T[0]+'" opacity="'+op+'">'+T[1].replace(/@/g,col)+'</svg>';
+return 'url("data:image/svg+xml,'+encodeURIComponent(s)+'")';}
+function lf(k){var x=FN[k];if(!x||!x[2]||document.getElementById('tf-'+k))return;var l=document.createElement('link');l.id='tf-'+k;l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+x[2]+'&display=swap';document.head.appendChild(l);}
+function xc(){var L=document.documentElement.classList,s=document.documentElement.style,pv=PCV[st.pc];
+L.toggle('t-cf',st.cs==='flat');L.toggle('t-cg',st.cs==='glass');L.toggle('t-co',st.cs==='outline');
+L.toggle('t-hs',st.hs==='solid');L.toggle('t-hr',st.hs==='rad');
+L.toggle('t-col',st.cl!=='auto');s.setProperty('--t-cols',st.cl==='auto'?'2':st.cl);
+L.toggle('t-cmp',st.cd==='cmp');L.toggle('t-na',!!st.na);L.toggle('t-pc',!!pv);
+if(pv){s.setProperty('--t-paid',pv[0]);s.setProperty('--t-pend',pv[1]);}}
+function apply(save){var c=cols(),s=document.documentElement.style,o=st.ps/100,on=st.pat!=='none';
+var d=st.m==='dark'||st.m==='black'||(st.m==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)c=Object.assign({},c,{bg:st.m==='black'?'#000000':mix(c.p,'#000000',.72)});
+[['--t-p',c.p],['--t-s',c.s],['--t-a',c.a],['--t-bg',c.bg],['--t-hl',c.hl],['--t-pat',on?uri(st.pat,c.s,o):'none'],['--t-hp',on?uri(st.pat,'#ffffff',Math.min(o*1.3,.5)):'none'],['--t-r',R[st.r][0]+'px'],['--t-rb',R[st.r][1]+'px'],['--t-z',Z[st.z]||1],['--t-f',(FN[st.f]||['',''])[1]]].forEach(function(a){s.setProperty(a[0],a[1]);});
+document.documentElement.classList.toggle('t-dark',d);try{var mt=document.querySelector('meta[name=theme-color]');if(!mt){mt=document.createElement('meta');mt.name='theme-color';document.head.appendChild(mt);}mt.content=d?c.bg:c.p;}catch(e){}lf(st.f);xc();document.documentElement.classList.toggle('t-f',st.f!=='def'&&!!FN[st.f]);if(d)[['--d-bg',c.bg],['--d-card',mix(c.bg,'#ffffff',.07)],['--d-line',mix(c.bg,'#ffffff',.17)]].forEach(function(a){s.setProperty(a[0],a[1]);});
+if(save!==false)try{localStorage.setItem(K,JSON.stringify(st));}catch(e){}}
+apply(false);
+window.ur2SetFestTheme=function(k){fest=k||null;apply(false);};
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){if(st.m==='auto')apply(false);});}catch(e){}
+function build(){
+var f=document.createElement('button');f.id='tFab';f.type='button';f.title='Theme & Pattern';f.textContent='🎨 Theme';
+var b=document.createElement('div');b.id='tBack';
+var p=document.createElement('div');p.id='tPanel';
+p.innerHTML='<div class="tp-h"><b>🎨 Theme Studio</b><button type="button" data-x="close">✕</button></div>'
++'<div class="tp-body"><div id="tpPrev"></div><div class="tp-l">Mode</div><div class="tp-r" id="tpM"></div><div class="tp-l">Colour Theme</div><div class="tp-g" id="tpT"></div>'
++'<div class="tp-l">Festival Themes</div><div class="tp-g" id="tpF"></div><div class="tp-l">Custom Colours</div><div class="tp-c"><label>Main<input type="color" id="tcS"></label><label>Highlight<input type="color" id="tcH"></label><label>Background<input type="color" id="tcB"></label></div>'
++'<div class="tp-l">Pattern</div><div class="tp-g tp-p" id="tpP"></div>'
++'<div class="tp-l">Pattern strength</div><input type="range" id="tpS" min="4" max="40">'
++'<div class="tp-l">Text size</div><div class="tp-r" id="tpZ"></div><div class="tp-l">Font</div><div class="tp-r" id="tpN"></div><div id="tpPv">Urban Residency 2 · ફ્લેટ ૪૦૨ · ₹૧,૦૦૦ · Maintenance</div><div class="tp-l">Corners</div><div class="tp-r" id="tpR"></div>'
++'<details class="tp-d"><summary>⚙️ Advanced</summary>'
++'<div class="tp-l">Card style</div><div class="tp-r" id="tpCS"></div>'
++'<div class="tp-l">Header style</div><div class="tp-r" id="tpHS"></div>'
++'<div class="tp-l">Flat tiles columns</div><div class="tp-r" id="tpCL"></div>'
++'<div class="tp-l">Tile size</div><div class="tp-r" id="tpCD"></div>'
++'<div class="tp-l">Paid / Pending colours</div><div class="tp-r" id="tpPC"></div>'
++'<div class="tp-l">Animations</div><div class="tp-r" id="tpNA"></div></details>'
++'<details class="tp-d"><summary>💾 My themes &amp; Share</summary><div class="tp-r" style="margin-top:8px" id="tpSV"></div><div class="tp-f"><button type="button" data-x="save">💾 Save</button><button type="button" data-x="share">📤 Share</button><button type="button" data-x="imp">📥 Import</button></div></details>'
++'<div class="tp-f" id="tpA"></div></div><div class="tp-f tp-foot"><button type="button" data-x="reset">↺ Reset</button><button type="button" data-x="close" class="pri">Done</button></div>';
+document.body.appendChild(f);document.body.appendChild(b);document.body.appendChild(p);
+function $(i){return document.getElementById(i);}
+function draw(sync){var c=cols();
+function th(fe){return Object.keys(P).filter(function(k){return (P[k].length>6)===fe;}).map(function(k){var x=P[k];return '<button type="button" data-t="'+k+'" class="'+(st.t===k?'on':'')+'"><i style="background:linear-gradient(135deg,'+x[1]+','+x[2]+' 55%,'+x[3]+')"></i>'+x[0]+'</button>';}).join('');}
+$('tpT').innerHTML=th(false);$('tpF').innerHTML=th(true);
+$('tpP').innerHTML=Object.keys(PN).map(function(k){return '<button type="button" data-p="'+k+'" class="'+(st.pat===k?'on':'')+'"><i style="background-color:'+mix(c.s,'#ffffff',.9)+(k==='none'?'':';background-image:'+uri(k,c.s,.6))+'"></i>'+PN[k]+'</button>';}).join('');
+$('tpR').innerHTML=Object.keys(R).map(function(k){return '<button type="button" data-r="'+k+'" class="'+(st.r===k?'on':'')+'">'+R[k][2]+'</button>';}).join('');
+$('tpM').innerHTML=[['light','☀️ Light'],['dark','🌙 Dark'],['black','🖤 Black'],['auto','🌓 Auto']].map(function(k){return '<button type="button" data-m="'+k[0]+'" class="'+(st.m===k[0]?'on':'')+'">'+k[1]+'</button>';}).join('');
+function row(o,key,cur){return Object.keys(o).map(function(k){return '<button type="button" data-'+key+'="'+k+'" class="'+(cur===k?'on':'')+'">'+(o[k][0]||o[k])+'</button>';}).join('');}
+$('tpZ').innerHTML=Object.keys(ZN).map(function(k,i){return '<button type="button" data-z="'+k+'" class="'+(st.z===k?'on':'')+'" style="font-size:'+(11+i*1.5)+'px">'+ZN[k]+'</button>';}).join('');$('tpN').innerHTML=Object.keys(FN).map(function(k){return '<button type="button" data-f="'+k+'" class="'+(st.f===k?'on':'')+'" style="'+(FN[k][1]?'font-family:'+FN[k][1]+';':'')+'">'+FN[k][0]+'</button>';}).join('');
+$('tpPv').style.fontFamily=FN[st.f][1]||'inherit';
+var adm=false;try{adm=isAuthorizedAdminSignedIn();}catch(e){}
+$('tpA').innerHTML='<button type="button" data-x="rand">🎲 Surprise me</button><button type="button" data-x="soc">🔄 Society theme</button>'+(adm?'<button type="button" data-x="push">📡 Badha ma lagu karo</button>':'');
+function r2(L,key,cur){return L.map(function(x){return '<button type="button" data-'+key+'="'+x[0]+'" class="'+(cur===x[0]?'on':'')+'">'+x[1]+'</button>';}).join('');}
+$('tpCS').innerHTML=r2(CS,'cs',st.cs);$('tpHS').innerHTML=r2(HS,'hs',st.hs);$('tpCL').innerHTML=r2(CL,'cl',st.cl);$('tpCD').innerHTML=r2(CD,'cd',st.cd);$('tpPC').innerHTML=r2(PCL,'pc',st.pc);
+$('tpNA').innerHTML=r2([['0','On'],['1','Off (fast)']],'na',st.na?'1':'0');
+$('tpSV').innerHTML=ld().map(function(a,i){return '<span class="svw"><button type="button" data-sv="'+i+'">'+String(a.n).replace(/</g,'&lt;')+'</button><button type="button" data-dl="'+i+'">×</button></span>';}).join('')||'<small style="color:#6b7280">Haju koi theme save nathi</small>';
+var pc2=PCV[st.pc]||['#059669','#E11D48'];function chip(t,col){return '<span style="flex:1;text-align:center;padding:6px 4px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;color:#22262E;border-top:4px solid '+col+'">'+t+'</span>';}
+$('tpPrev').innerHTML='<div style="border-radius:14px;overflow:hidden;border:1px solid #e5e7eb"><div style="padding:10px 12px;color:#fff;font-weight:800;font-size:12px;background:linear-gradient(135deg,'+c.p+','+c.s+' 55%,'+c.a+')">URBAN RESIDENCY 2 BIL<div style="font-weight:600;opacity:.8;font-size:10px">Live preview</div></div><div style="display:flex;gap:6px;padding:8px;background:'+c.bg+'">'+chip('Paid',pc2[0])+chip('Pending',pc2[1])+chip('Bank ₹0',c.hl)+'</div></div>';
+$('tpS').value=st.ps;
+if(sync){$('tcS').value=c.s;$('tcH').value=c.hl;$('tcB').value=c.bg;}}
+function set(fn){var HL=document.documentElement.classList;if(!st.na){HL.add('t-tr');clearTimeout(set._t);set._t=setTimeout(function(){HL.remove('t-tr');},450);}fn();st.own=true;apply();draw(true);}
+redraw=draw;
+function useSoc(){if(soc){st=fix(Object.assign({},soc,{own:false}));apply();draw(true);}else alert('Haju society theme set nathi. Admin e "Badha ma lagu karo" dabavvu padse.');}
+function push(){var o=JSON.parse(JSON.stringify(st));delete o.own;try{fbDb.ref(FB_ROOT+'/theme').set(o).then(function(){alert('✅ Have badha ma aa theme lagu thashe');}).catch(function(e){alert('Save na thayu: '+e.message);});}catch(e){alert('Firebase taiyar nathi');}}
+function ld(){try{return JSON.parse(localStorage.getItem('ur2_theme_saved')||'[]');}catch(e){return [];}}
+function sd(a){try{localStorage.setItem('ur2_theme_saved',JSON.stringify(a));}catch(e){}}
+function rand(){set(function(){var ks=Object.keys(P).filter(function(k){return P[k].length<=6;}),pk=Object.keys(PN).filter(function(k){return k!=='none';}),n;do{n=ks[Math.floor(Math.random()*ks.length)];}while(n===st.t&&ks.length>1);st.t=n;st.pat=Math.random()<.5?'none':pk[Math.floor(Math.random()*pk.length)];if(st.pat!=='none'&&st.ps<10)st.ps=16;});}
+function cur(){var o=JSON.parse(JSON.stringify(st));delete o.own;return o;}
+function save(){var n=prompt('Theme nu naam lakho:');if(!n)return;var a=ld();a.push({n:n.slice(0,20),d:cur()});sd(a);draw(false);}
+function share(){var code=btoa(unescape(encodeURIComponent(JSON.stringify(cur()))));try{navigator.clipboard.writeText(code).then(function(){alert('✅ Theme code copy thayo. WhatsApp ma paste kari ne moklo.');},function(){prompt('Aa code copy karo:',code);});}catch(e){prompt('Aa code copy karo:',code);}}
+function imp(){var code=prompt('Theme code paste karo:');if(!code)return;try{var o=JSON.parse(decodeURIComponent(escape(atob(code.trim()))));if(!o||typeof o!=='object'||!o.t)throw 0;st=fix(Object.assign({},o,{own:true}));apply();draw(true);}catch(e){alert('Code sachho nathi');}}
+f.onclick=function(){Object.keys(FN).forEach(lf);document.body.classList.toggle('t-open');draw(true);};
+b.onclick=function(){document.body.classList.remove('t-open');};
+p.addEventListener('click',function(e){var t=e.target.closest('button');if(!t)return;var d=t.dataset;
+if(d.t)set(function(){st.t=d.t;var x=P[d.t];if(x[6]){st.pat=x[6];if(st.ps<10)st.ps=16;}});else if(d.p)set(function(){st.pat=d.p;if(d.p!=='none'&&st.ps<6)st.ps=14;});else if(d.r)set(function(){st.r=d.r;});else if(d.m)set(function(){st.m=d.m;});else if(d.f)set(function(){st.f=d.f;});else if(d.z)set(function(){st.z=d.z;});else if(d.cs)set(function(){st.cs=d.cs;});else if(d.hs)set(function(){st.hs=d.hs;});else if(d.cl)set(function(){st.cl=d.cl;});else if(d.cd)set(function(){st.cd=d.cd;});else if(d.pc)set(function(){st.pc=d.pc;});else if(d.na!==undefined)set(function(){st.na=d.na==='1';});
+else if(d.sv!==undefined){var a=ld()[+d.sv];if(a){st=fix(Object.assign({},a.d,{own:true}));apply();draw(true);}}
+else if(d.dl!==undefined){var b2=ld();b2.splice(+d.dl,1);sd(b2);draw(false);}
+else if(d.x==='save')save();else if(d.x==='share')share();else if(d.x==='imp')imp();
+else if(d.x==='rand')rand();else if(d.x==='soc')useSoc();else if(d.x==='push')push();
+else if(d.x==='close')document.body.classList.remove('t-open');
+else if(d.x==='reset'){st=dflt();st.own=true;apply();draw(true);}});
+function cust(){st.c={s:$('tcS').value,hl:$('tcH').value,bg:$('tcB').value};st.t='custom';st.own=true;apply();draw(false);}
+['tcS','tcH','tcB'].forEach(function(i){$(i).oninput=cust;});
+$('tpS').oninput=function(){st.ps=+this.value;st.own=true;apply();};
+draw(true);}
+function startSync(){var db;try{db=fbDb;}catch(e){}if(!db){if(tries++<60)setTimeout(startSync,1000);return;}
+try{db.ref(FB_ROOT+'/theme').on('value',function(s){soc=s.val();if(soc&&!st.own){st=fix(Object.assign({},soc,{own:false}));apply(false);if(redraw)redraw(true);}},function(){if(tries++<60)setTimeout(startSync,5000);});}catch(e){}}
+startSync();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
+})();
+</script>
+
 </head>
 
 <body class="firebase-loading">
@@ -980,52 +1323,46 @@ button[onclick="resetAllPaidAndExpenses()"]{display:none!important;}
 </svg>
 <div class="lock-wrap">
 <div class="lock-brand">
-<div class="lock-brand-badge" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 27V11.5L16 5l11 6.5V27H5Z" stroke="#152A4E" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 27v-5h10v5M10.5 13.5h2m7 0h2m-11 4h2m7 0h2M16 5v3" stroke="#152A4E" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="17.5" r="1.15" fill="#C98918"/></svg></div>
-<div class="lock-brand-kicker">TOWER D · SECURE RESIDENT PORTAL</div>
-<div class="lock-brand-name">URBAN RESIDENCY <span>2 BIL</span></div>
-<div class="lock-brand-sub">Maintenance &amp; Accounts</div>
+<div class="lock-brand-badge">🏢</div>
+<div class="lock-brand-name">URBAN RESIDENCY 2 BIL</div>
+<div class="lock-brand-sub">Tower D · Society Maintenance Ledger</div>
 </div>
 <div class="lock-card">
-<div class="lock-card-heading"><div class="lock-card-eyebrow"><span></span> SECURE ACCESS</div><h2>Welcome back</h2><p>Choose your account to continue</p></div>
 <div class="lock-tabs">
 <button type="button" id="tabAdmin" class="lock-tab active" onclick="showAdminLoginBox()">🔒 Admin</button>
 <button type="button" id="tabOwner" class="lock-tab" onclick="showResidentLoginBox()">🏠 Flat Owner</button>
 </div>
 
 <div id="adminLoginBox">
-<p class="lock-desc">Tamara authorized admin account thi sign in karo</p>
-<label class="lock-field-label" for="adminEmailInput">Admin email</label>
+<p class="lock-desc">Firebase Admin email ane password nakho</p>
 <div class="lock-field">
 <span class="lock-field-icon">✉️</span>
-<input type="email" id="adminEmailInput" placeholder="name@example.com" autocomplete="username" aria-label="Admin email" onkeydown="if(event.key==='Enter') tryUnlockApp()">
+<input type="email" id="adminEmailInput" placeholder="Admin email" autocomplete="username" onkeydown="if(event.key==='Enter') tryUnlockApp()">
 </div>
-<label class="lock-field-label" for="lockPassInput">Firebase password</label>
 <div class="lock-field">
 <span class="lock-field-icon">🔑</span>
-<input type="password" id="lockPassInput" placeholder="Enter your password" autocomplete="current-password" aria-label="Firebase password">
+<input type="password" id="lockPassInput" placeholder="Firebase password" autocomplete="current-password">
 <button type="button" class="lock-eye" id="lockPassToggle" onclick="togglePassVisibility()" title="Password batavo/chhupavo">👁️</button>
 </div>
-<button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in securely <span aria-hidden="true">→</span></button>
+<button type="button" class="lock-submit" onclick="tryUnlockApp()">Sign in →</button>
 <div class="lock-err" id="lockErrMsg"></div>
 </div>
 
 <div id="residentLoginBox" style="display:none;">
-<p class="lock-desc">Tamari maintenance details jovaa registered details nakho</p>
-<label class="lock-field-label" for="residentFlatInput">Flat number</label>
+<p class="lock-desc">Tamaro flat number ane admin pase register mobile number nakho</p>
 <div class="lock-field">
 <span class="lock-field-icon">🏠</span>
-<input type="text" id="residentFlatInput" inputmode="numeric" placeholder="e.g. 402" autocomplete="off" aria-label="Flat number" style="letter-spacing:normal;">
+<input type="text" id="residentFlatInput" inputmode="numeric" placeholder="Flat No. (e.g. 402)" autocomplete="off" style="letter-spacing:normal;">
 </div>
-<label class="lock-field-label" for="residentMobileInput">Registered mobile number</label>
 <div class="lock-field">
 <span class="lock-field-icon">📱</span>
-<input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="10-digit mobile number" autocomplete="off" aria-label="Registered mobile number" style="letter-spacing:normal;">
+<input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="Registered Mobile No." autocomplete="off" style="letter-spacing:normal;">
 </div>
-<button type="button" class="lock-submit" onclick="tryResidentLogin()">View my details <span aria-hidden="true">→</span></button>
+<button type="button" class="lock-submit" onclick="tryResidentLogin()">View My Details →</button>
 <div class="lock-err" id="residentErrMsg"></div>
 </div>
 </div>
-<div class="lock-footer"><span class="lock-footer-shield">✓</span> Secure sign-in · Society data protected by Firebase</div>
+<div class="lock-footer">🔐 Aapnu data securely Firebase cloud ma save thay che</div>
 </div>
 </div>
 
@@ -2542,14 +2879,10 @@ FY:
 <div class="report-card" style="margin:0 15px 10px 15px;">
 <h3>Dar Mahina nu Ledger — Avak · Javak · Balance</h3>
 
-<div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px;">
-<div style="flex:1 1 150px;">
+<div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:14px;">
+<div style="flex:1;">
 <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Single Month Select Karo</label>
 <select id="ledgerMonthSelect" onchange="renderLedger(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option><option value="Jul" selected="selected">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option><option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option></select>
-</div>
-<div style="flex:1 1 170px;">
-<label style="display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Date Sort</label>
-<select id="ledgerDateSort" onchange="renderMonthlyLedger(getFY())" style="width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;"><option value="asc" selected="selected">Oldest → Newest (A–Z)</option><option value="desc">Newest → Oldest (Z–A)</option></select>
 </div>
 <button style="flex:none;padding:10px 14px;border:none;border-radius:8px;background:var(--saffron);color:#fff;font-weight:700;font-size:13px;cursor:pointer;" onclick="downloadMonthLedgerPDF()">📄 Download</button>
 </div>
@@ -2758,16 +3091,10 @@ FY:
 <!-- Modal -->
 <div class="overlay" id="overlay">
 <div class="modal">
-<div class="owner-card-heading">
-<div class="owner-card-badge" aria-hidden="true">🏠</div>
-<div class="owner-card-copy">
-<div class="owner-card-kicker">Maintenance Account</div>
 <h2 id="modalFlatNum">Flat 207</h2>
 <div class="sub" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
 <span id="modalOwner">Patel Meena Rameshbhai</span>
 <button type="button" onclick="editOwnerName(currentFlat)" title="Owner naam sudharo (history save thashe)" style="border:none;background:#EEF3FC;color:#1565C0;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer;">✏️ Edit</button>
-</div>
-</div>
 </div>
 <div id="ownerHistoryBox" style="display:none;font-size:11px;color:var(--muted);margin-top:2px;"></div>
 
@@ -2881,7 +3208,7 @@ Mar
 <div id="batchTotalInfo" style="display: block; margin: 10px 0px; padding: 10px 12px; background: rgb(234, 246, 238); border: 1.5px solid rgb(46, 139, 87); border-radius: 10px; font-size: 13px; color: rgb(28, 28, 28); line-height: 1.6;">✅ Select karel: <b>Aug <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Aug&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Aug kadho">✖</span>, &nbsp;Sep <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Sep&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Sep kadho">✖</span>, &nbsp;Oct <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Oct&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Oct kadho">✖</span>, &nbsp;Nov <span onclick="event.stopPropagation(); removeMonthFromSelection(&#39;Nov&#39;)" style="cursor:pointer;font-weight:800;color:#B3261E;padding:0 3px;" title="Nov kadho">✖</span></b> (4 mahina)<br>Kul Amount: <b>₹2,000</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick="downloadMaintenanceReceiptPDF(&quot;207&quot;)">🧾 Maintenance Receipt (₹2,000)</button>
-<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo(); suggestChalanNoIfNeeded();">✖️ Selection Clear</button></div>
+<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button></div>
 
 <div class="field">
 <label>Payment Status (for selected month)</label>
@@ -2923,9 +3250,8 @@ Mar
 </div>
 
 <div class="field">
-<label>Chalan No. <span style="color:#B42318;font-weight:700;">* Required</span> <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
-<input type="text" id="inputChalanNo" placeholder="One number, or e.g. 125, 126, 127" required aria-required="true" oninput="updateChalanNumberHint()">
-<div id="chalanNumberHint" style="display:none;margin-top:4px;font-size:11px;color:var(--muted);"></div>
+<label>Chalan No. <span style="font-weight:400;text-transform:none;letter-spacing:0;">(offline chalan/receipt book number)</span></label>
+<input type="text" id="inputChalanNo" placeholder="e.g. 1024">
 </div>
 
 <div class="field">
@@ -3173,7 +3499,7 @@ function renderResidentView(flatNum){
     histBox.innerHTML = list.map(entry=>{
       const monthsStr = entry.months.map(x=>x.month).join(", ");
       return `<div class="rv-history-item">
-<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${formatReceiptChalanNumbers(entry) ? " · 🧾 " + formatReceiptChalanNumbers(entry) : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;color:var(--ink);">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}</span>
 <button type="button" class="btn" style="flex:none;background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 </div>`;
     }).join("");
@@ -3265,7 +3591,7 @@ function isAuthorizedAdminSignedIn(){ const user = firebase.auth().currentUser; 
 // device's mirror (and screen) updated in real time.
 let store = {};
 let ledger = {};
-let settings = {defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]};
+let settings = {defaultAmount:0, locked:false, presidentName:""};
 let bulkPrintMode = false;
 let bulkSelectedFlats = new Set();
 let openingBalanceOverrides = {};
@@ -3479,8 +3805,7 @@ function initFirebaseSync(){
         ledger[fy].expenses = normaliseLedgerList(ledger[fy].expenses);
         ledger[fy].transfers = normaliseLedgerList(ledger[fy].transfers);
       });
-      settings = Object.assign({defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]}, data.settings || {});
-      if(!Array.isArray(settings.voidedChalans)) settings.voidedChalans = [];
+      settings = data.settings || {defaultAmount:0, locked:false, presidentName:""};
       renderPresidentName();
       renderUpiId();
       openingBalanceOverrides = data.openingBalanceOverrides || {};
@@ -3499,7 +3824,6 @@ function initFirebaseSync(){
         buildLedgerMonthOptions();
       }
       render();
-      if(document.getElementById('screen-chalan-settings') && document.getElementById('screen-chalan-settings').style.display !== 'none') renderChalanSettings();
     }catch(renderErr){
       // Never let a rendering error leave the app stuck on the loading
       // screen forever — surface it instead so it can be reported/fixed.
@@ -3542,7 +3866,7 @@ async function initResidentFirebaseSync(flatNum){
   if(!record || typeof record !== "object") throw new Error("Owner Rules access nathi malyo.");
   store = { [flatNum]: record };
   ledger = {};
-  settings = { defaultAmount: toNum(defaultAmount), upiId: upiId || "", locked: false, presidentName: "", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[] };
+  settings = { defaultAmount: toNum(defaultAmount), upiId: upiId || "", locked: false, presidentName: "" };
   openingBalanceOverrides = {};
   receiptHistory = { [flatNum]: normaliseLedgerList(receipts) };
   ownerOverrides = ownerOverride ? { [flatNum]: ownerOverride } : {};
@@ -3900,7 +4224,7 @@ const backup = JSON.parse(e.target.result);
 const upload = {
 records: backup.records || {},
 ledger: backup.ledger || {},
-settings: Object.assign({defaultAmount:0, locked:false, presidentName:"", chalanRangeStart:1, chalanRangeEnd:5000, chalanRangeLocked:false, voidedChalans:[]}, backup.settings || {}),
+settings: backup.settings || {defaultAmount:0, locked:false},
 openingBalanceOverrides: backup.openingBalanceOverrides || {},
 receiptHistory: backup.receiptHistory || {}
 };
@@ -4057,6 +4381,53 @@ updateHeaderClock();
 // of EVERY page of a PDF, right before it's saved. Used by every PDF export
 // (receipts, ledgers, reports) so anyone reading a printout can see exactly
 // when it was generated.
+function urBanner(doc,title,sub){
+const W=doc.internal.pageSize.getWidth();
+doc.setFillColor(10,37,64); doc.rect(0,0,W,36,'F');
+doc.setFillColor(21,144,212); doc.triangle(W-78,0,W,0,W,36,'F');
+doc.setFillColor(245,158,11); doc.rect(0,36,W,1.6,'F');
+doc.setFillColor(255,255,255); doc.roundedRect(14,9,18,18,3,3,'F');
+doc.setTextColor(11,92,173); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text('UR2',23,20.2,{align:'center'});
+doc.setTextColor(255,255,255); doc.setFontSize(15); doc.text('URBAN RESIDENCY 2 BIL',37,16);
+doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(157,211,245); doc.text('Tower D | Society Maintenance Ledger',37,22.5);
+doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text(title,W-14,16,{align:'right'});
+doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(220,238,252); doc.text(sub,W-14,23,{align:'right'});
+doc.setTextColor(0,0,0);
+}
+function urCard(doc,x,y,w,h,label,value,rgb){
+doc.setFillColor(248,251,254); doc.setDrawColor(216,230,244); doc.setLineWidth(.3); doc.roundedRect(x,y,w,h,2.5,2.5,'FD');
+doc.setFillColor(rgb[0],rgb[1],rgb[2]); doc.roundedRect(x,y,2.2,h,1,1,'F');
+doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(91,112,132); doc.text(String(label).toUpperCase(),x+6,y+6.5);
+doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(rgb[0],rgb[1],rgb[2]); doc.text(String(value),x+6,y+h-4.5);
+doc.setTextColor(0,0,0);
+}
+function urSection(doc,label,y,rgb){
+doc.setFillColor(rgb[0],rgb[1],rgb[2]); doc.roundedRect(14,y-4.6,1.8,6.4,.8,.8,'F');
+doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(10,37,64); doc.text(label,19,y);
+doc.setTextColor(0,0,0);
+}
+function urMonthTop(doc,month,fy,v){
+urBanner(doc,'MONTHLY LEDGER',month+'  |  FY '+fy);
+const W=doc.internal.pageSize.getWidth(), g=4, w=(W-28-3*g)/4, y=44;
+urCard(doc,14,y,w,18,'Opening balance',v[0],[10,37,64]);
+urCard(doc,14+(w+g),y,w,18,'Total Avak',v[1],[5,150,105]);
+urCard(doc,14+2*(w+g),y,w,18,'Total Javak',v[2],[225,29,72]);
+urCard(doc,14+3*(w+g),y,w,18,'Closing balance',v[3],[11,107,203]);
+return y+18+11;
+}
+function urFooter(doc){
+const ts=new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const n=doc.internal.getNumberOfPages(), W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
+for(let i=1;i<=n;i++){
+doc.setPage(i);
+doc.setDrawColor(216,230,244); doc.setLineWidth(.3); doc.line(14,H-13,W-14,H-13);
+doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(91,112,132);
+doc.text('URBAN RESIDENCY 2 BIL | Society Ledger',14,H-8);
+doc.text('Generated: '+ts,W/2,H-8,{align:'center'});
+doc.text('Page '+i+' of '+n,W-14,H-8,{align:'right'});
+}
+doc.setTextColor(0,0,0);
+}
 function stampGeneratedOnAllPages(doc){
 const ts = new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
 const pageCount = doc.internal.getNumberOfPages();
@@ -4447,38 +4818,18 @@ runningCash += (maintByMonth[m].Cash + creditByMonth[m].Cash) - expenseByMonth[m
 return {month:m, bankBalance:runningBank, cashBalance:runningCash};
 });
 }
-function ledgerDateValue(value){
-const date=String(value||'').trim();
-if(!date || date==='-') return null;
-let parts=date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-if(parts) return Date.UTC(Number(parts[1]),Number(parts[2])-1,Number(parts[3]));
-parts=date.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
-if(parts) return Date.UTC(Number(parts[3]),Number(parts[2])-1,Number(parts[1]));
-const parsed=Date.parse(date);
-return Number.isFinite(parsed)?parsed:null;
-}
-function sortLedgerEntriesByDate(entries){
-const direction=(document.getElementById('ledgerDateSort')||{}).value||'asc';
-return (entries||[]).slice().sort((a,b)=>{
-const left=ledgerDateValue(a.date), right=ledgerDateValue(b.date);
-if(left===null && right!==null) return 1;
-if(right===null && left!==null) return -1;
-if(left!==null && right!==null && left!==right) return direction==='desc'?right-left:left-right;
-return String(a.flat||a.desc||a.id||'').localeCompare(String(b.flat||b.desc||b.id||''));
-});
-}
 function renderMonthlyLedger(fy){
 const rows = computeMonthlyLedgerRows(fy);
 const l = getLedgerFY(fy);
 const body = document.getElementById('monthlyLedgerBody');
 body.innerHTML = rows.map(r=>{
 const isOther = r.month === "Other (no date)";
-const credits = sortLedgerEntriesByDate(l.credits.filter(c=> isOther ? !dateToFYMonth(c.date) : dateToFYMonth(c.date)===r.month));
-const expenses = sortLedgerEntriesByDate(l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateToFYMonth(e.date)===r.month));
-const transfers = sortLedgerEntriesByDate(l.transfers.filter(t=> isOther ? !dateToFYMonth(t.date) : dateToFYMonth(t.date)===r.month));
+const credits = l.credits.filter(c=> isOther ? !dateToFYMonth(c.date) : dateToFYMonth(c.date)===r.month);
+const expenses = l.expenses.filter(e=> isOther ? !dateToFYMonth(e.date) : dateToFYMonth(e.date)===r.month);
+const transfers = l.transfers.filter(t=> isOther ? !dateToFYMonth(t.date) : dateToFYMonth(t.date)===r.month);
 // Per-flat maintenance collected in this payment month, tagged Regular
 // (paid in its due month) or Backlog (an older due paid now).
-const flatMaintDetails = isOther ? [] : sortLedgerEntriesByDate(maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month)).map(payment=>({
+const flatMaintDetails = isOther ? [] : maintenancePaymentsForFY(fy).filter(payment=> (dateToFYMonth(payment.date) || payment.dueMonth)===r.month).map(payment=>({
 flat:payment.flat, name:payment.name, amount:payment.amount, date:payment.date||"-", chalanNo:payment.chalanNo||"",
 type:(payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular"
 }));
@@ -4533,18 +4884,6 @@ const closingCashForMonth = modeRow.cashBalance;
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(15);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Tower D - Society Ledger", 14, 22);
-doc.setDrawColor(226,160,60);
-doc.line(14,26,196,26);
-
-doc.setFont('helvetica','bold');
-doc.setFontSize(12);
-doc.text("Month: " + month + "  |  Financial Year: " + fy, 14, 34);
 
 const l = getLedgerFY(fy);
 // Classify each flat's collected maintenance for THIS month as:
@@ -4570,10 +4909,10 @@ const group = maintGroups.get(key);
 group.amount += amt;
 group.months.push(payment.dueMonth);
 if(payment.mode) group.modes.add(payment.mode);
-if(payment.chalanNo) addUniqueChalanNumbers(group.chalanNos,payment.chalanNo);
+if(payment.chalanNo) group.chalanNos.add(payment.chalanNo);
 if(type === "Backlog") group.isBacklog = true;
 });
-const maintRows = sortLedgerEntriesByDate(Array.from(maintGroups.values())).map(group=>[
+const maintRows = Array.from(maintGroups.values()).map(group=>[
 group.flat,
 group.name,
 group.months.join(", "),
@@ -4583,14 +4922,14 @@ group.modes.size ? Array.from(group.modes).join(", ") : "-",
 group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
-const creditRows = sortLedgerEntriesByDate(l.credits.filter(c=> dateToFYMonth(c.date)===month)).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
-const expenseRows = sortLedgerEntriesByDate(l.expenses.filter(e=> dateToFYMonth(e.date)===month)).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]);
-const transferRows = sortLedgerEntriesByDate(l.transfers.filter(t=> dateToFYMonth(t.date)===month)).map(t=>[
+const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
+const expenseRows = l.expenses.filter(e=> dateToFYMonth(e.date)===month).map(e=>[e.desc, "Rs. "+toNum(e.amount).toLocaleString('en-IN'), displayDate(e.date||"-"), e.mode||"-", e.remark||"-"]);
+const transferRows = l.transfers.filter(t=> dateToFYMonth(t.date)===month).map(t=>[
 t.direction==='CashToBank' ? "Cash to Bank" : "Bank to Cash",
 "Rs. "+toNum(t.amount).toLocaleString('en-IN'), displayDate(t.date||"-"), t.remark||"-"
 ]);
 
-let y = 40;
+let y = urMonthTop(doc, month, fy, [fmt(openingForMonth).replace('₹','Rs. '), fmt(row.income).replace('₹','Rs. '), fmt(row.expense).replace('₹','Rs. '), fmt(row.balance).replace('₹','Rs. ')]);
 // Keep each section together. autoTable can add pages for long lists, but
 // ordinary text written after a table does not paginate by itself.
 function ensureLedgerSpace(requiredHeight){
@@ -4600,13 +4939,12 @@ doc.addPage();
 y = 18;
 }
 }
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Maintenance Collection (Avak)", 14, y);
+urSection(doc,"Maintenance Collection (Avak)",y,[11,107,203]);
 doc.autoTable({
 startY: y+3,
 head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Chalan No.","Type"]],
 body: maintRows.length ? maintRows : [["-","No maintenance collected this month","-","-","-","-","-","-"]],
-theme: 'grid', headStyles:{fillColor:[21,42,78], fontSize:8.5}, styles:{fontSize:8, cellPadding:2.5, overflow:'linebreak'},
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:[243,248,253]}, headStyles:{fillColor:[11,107,203], fontSize:8.5}, styles:{lineColor:[216,230,244],lineWidth:.2,textColor:[15,34,56],fontSize:8, cellPadding:2.5, overflow:'linebreak'},
 columnStyles:{0:{cellWidth:10},1:{cellWidth:34},2:{cellWidth:36},3:{cellWidth:22},4:{cellWidth:20},5:{cellWidth:16},6:{cellWidth:16},7:{cellWidth:14}},
 didParseCell: function(data){
 if(data.section==='body' && data.column.index===7){
@@ -4627,64 +4965,50 @@ y += 3;
 }
 
 ensureLedgerSpace(32);
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Other Credit Entries (Avak)", 14, y);
+urSection(doc,"Other Credit Entries (Avak)",y,[5,150,105]);
 doc.autoTable({
 startY: y+3,
 head: [["Description","Amount","Date","Mode"]],
 body: creditRows.length ? creditRows : [["No credit entries this month","-","-","-"]],
-theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:[243,248,253]}, headStyles:{fillColor:[5,150,105], fontSize:9}, styles:{lineColor:[216,230,244],lineWidth:.2,textColor:[15,34,56],fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 8;
 
 ensureLedgerSpace(32);
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Expense Entries (Javak)", 14, y);
+urSection(doc,"Expense Entries (Javak)",y,[225,29,72]);
 doc.autoTable({
 startY: y+3,
 head: [["Description","Amount","Date","Mode","Remark"]],
 body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-","-","-"]],
-theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:[243,248,253]}, headStyles:{fillColor:[225,29,72], fontSize:9}, styles:{lineColor:[216,230,244],lineWidth:.2,textColor:[15,34,56],fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
 
 if(transferRows.length){
 ensureLedgerSpace(32);
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Cash <-> Bank Transfers (Note only - not counted in Avak/Javak)", 14, y);
+urSection(doc,"Cash <-> Bank Transfers (Note only - not counted in Avak/Javak)",y,[245,158,11]);
 doc.autoTable({
 startY: y+3,
 head: [["Direction","Amount","Date","Remark"]],
 body: transferRows,
-theme: 'grid', headStyles:{fillColor:[21,42,78], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:[243,248,253]}, headStyles:{fillColor:[11,107,203], fontSize:9}, styles:{lineColor:[216,230,244],lineWidth:.2,textColor:[15,34,56],fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
 }
 
-ensureLedgerSpace(64);
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Opening Balance (before this month): " + fmt(openingForMonth).replace('₹','Rs. '), 14, y);
-doc.text("Total Avak (this month): " + fmt(row.income).replace('₹','Rs. '), 14, y+7);
-doc.text("Total Javak (this month): " + fmt(row.expense).replace('₹','Rs. '), 14, y+14);
-doc.text("Closing Balance (after this month): " + fmt(row.balance).replace('₹','Rs. '), 14, y+21);
-
-doc.setDrawColor(231,223,204);
-doc.line(14, y+27, 196, y+27);
-
-doc.setFontSize(10.5);
-doc.setTextColor(31,62,112);
-doc.text("Bank Balance (closing): " + fmt(closingBankForMonth).replace('₹','Rs. '), 14, y+35);
-doc.setTextColor(46,139,87);
-doc.text("Cash Balance (closing): " + fmt(closingCashForMonth).replace('₹','Rs. '), 14, y+43);
-doc.setTextColor(0,0,0);
-doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(120,116,102);
-doc.text("Opening this month - Bank: Rs. " + openingBankForMonth.toLocaleString('en-IN') + "   |   Cash: Rs. " + openingCashForMonth.toLocaleString('en-IN'), 14, y+50);
+ensureLedgerSpace(62);
+urSection(doc,"Bank & Cash Position (closing)",y,[11,107,203]);
+{ const W=doc.internal.pageSize.getWidth(), w=(W-32)/2;
+urCard(doc,14,y+4,w,18,"Bank balance (closing)",fmt(closingBankForMonth).replace('₹','Rs. '),[11,107,203]);
+urCard(doc,14+w+4,y+4,w,18,"Cash balance (closing)",fmt(closingCashForMonth).replace('₹','Rs. '),[5,150,105]); }
+doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(91,112,132);
+doc.text("Opening this month - Bank: Rs. " + openingBankForMonth.toLocaleString('en-IN') + "   |   Cash: Rs. " + openingCashForMonth.toLocaleString('en-IN'), 14, y+30);
+doc.setDrawColor(180,200,225); doc.setLineWidth(.3);
+doc.line(14,y+47,70,y+47); doc.line(140,y+47,196,y+47);
+doc.setFontSize(8); doc.text("Prepared By",14,y+52); doc.text("Treasurer / Secretary",140,y+52);
 doc.setTextColor(0,0,0);
 
-doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + displayDate(localDateISO()), 14, y+60);
-
-stampGeneratedOnAllPages(doc);
+urFooter(doc);
 doc.save("Ledger-" + month + "-" + fy + ".pdf");
 }
 
@@ -5184,47 +5508,28 @@ t.debit ? "Rs. "+t.debit.toLocaleString('en-IN') : "-",
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(16);
-doc.text("URBAN RECIDENCY 2 BIL", 14, 16);
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Tower D - Society Ledger", 14, 22);
-doc.setDrawColor(226,160,60);
-doc.line(14,26,196,26);
-
-doc.setFont('helvetica','bold');
-doc.setFontSize(13);
-doc.text("Official Cash Book / Ledger Statement — FY " + fy, 14, 34);
-doc.setFont('helvetica','normal'); doc.setFontSize(9.5);
-doc.text("(For internal audit / verification purposes)", 14, 40);
-
-doc.setFont('helvetica','bold'); doc.setFontSize(10);
-doc.text("Opening Balance (start of FY " + fy + "): Rs. " + Math.round(opening).toLocaleString('en-IN'), 14, 48);
+urBanner(doc,'OFFICIAL CASH BOOK','Ledger Statement | FY '+fy);
+urCard(doc,14,44,182,18,"Opening balance (start of FY "+fy+")","Rs. "+Math.round(opening).toLocaleString('en-IN'),[11,107,203]);
+doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(91,112,132); doc.text("For internal audit / verification purposes",14,67); doc.setTextColor(0,0,0);
 
 doc.autoTable({
-startY: 53,
+startY: 71,
 head: [["Sr.","Date","Particulars","Mode","Credit (Avak)","Debit (Javak)","Balance"]],
 body: rows.length ? rows : [["-","-","No transactions recorded this FY","-","-","-","-"]],
-theme: 'grid',
-headStyles: {fillColor:[21,42,78], fontSize:8.5},
-styles: {fontSize:8, cellPadding:2.2},
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:[243,248,253]},
+headStyles: {fillColor:[11,107,203], fontSize:8.5},
+styles: {lineColor:[216,230,244],lineWidth:.2,textColor:[15,34,56],fontSize:8, cellPadding:2.2},
 columnStyles: {0:{cellWidth:10}, 1:{cellWidth:20}, 3:{cellWidth:16}, 4:{cellWidth:24,halign:'right'}, 5:{cellWidth:24,halign:'right'}, 6:{cellWidth:26,halign:'right'}},
-didDrawPage: function(data){
-doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(120,116,102);
-doc.text("Page " + doc.internal.getNumberOfPages(), 196, 290, {align:'right'});
-}
 });
 
 let y = doc.lastAutoTable.finalY + 8;
 if(y > 250){ doc.addPage(); y = 20; }
 
-doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(0,0,0);
-doc.text("Total Credit (Avak): Rs. " + Math.round(totalCredit).toLocaleString('en-IN'), 14, y);
-doc.text("Total Debit (Javak): Rs. " + Math.round(totalDebit).toLocaleString('en-IN'), 105, y);
-y += 7;
-doc.text("Closing Balance (end of FY " + fy + "): Rs. " + Math.round(opening + totalCredit - totalDebit).toLocaleString('en-IN'), 14, y);
-y += 20;
+{ const W=doc.internal.pageSize.getWidth(), w=(W-36)/3;
+urCard(doc,14,y,w,18,"Total credit (Avak)","Rs. "+Math.round(totalCredit).toLocaleString('en-IN'),[5,150,105]);
+urCard(doc,14+w+4,y,w,18,"Total debit (Javak)","Rs. "+Math.round(totalDebit).toLocaleString('en-IN'),[225,29,72]);
+urCard(doc,14+2*(w+4),y,w,18,"Closing balance (end of FY "+fy+")","Rs. "+Math.round(opening + totalCredit - totalDebit).toLocaleString('en-IN'),[11,107,203]); }
+y += 30;
 
 if(y > 250){ doc.addPage(); y = 20; }
 doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(0,0,0);
@@ -5238,7 +5543,7 @@ y += 14;
 doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(120,116,102);
 doc.text("This is a system-generated ledger statement based on entries recorded in the app as of " + displayDate(localDateISO()) + ".", 14, y);
 
-stampGeneratedOnAllPages(doc);
+urFooter(doc);
 doc.save("Official-Ledger-FY-" + fy + ".pdf");
 }
 
@@ -5354,7 +5659,6 @@ let manuallyUnlockedMonths = [];
 // dashboard) until the bottom "🔐 Confirm" button is pressed. Keyed by
 // month -> {status, amount, date, mode}.
 let stagedMonths = {};
-let suggestedChalanValue = "";
 // Snapshot (Set of month names) of which months were ALREADY Paid in the
 // real store when this flat+FY was opened this sitting. Used to tell a
 // brand-new payment (must be staged) apart from editing an existing,
@@ -5612,7 +5916,7 @@ const monthChips = months.map(m=> `${m} <span onclick="event.stopPropagation(); 
 box.innerHTML = `✅ Select karel: <b>${monthChips}</b> (${months.length} mahina)<br>Kul Amount: <b>₹${total.toLocaleString('en-IN')}</b>
 <button type="button" class="btn" style="margin-top:8px;background:#1E6E45;color:#fff;padding:7px 12px;font-size:12px;font-weight:600;" onclick="selectionLocked=true; renderMonthGrid(currentFlat, getFY()); updateBatchTotalInfo();">🔐 Confirm</button>
 <button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--green);color:#fff;padding:7px 12px;font-size:12px;" onclick='downloadMaintenanceReceiptPDF(${JSON.stringify(currentFlat)})'>🧾 Maintenance Receipt (₹${total.toLocaleString('en-IN')})</button>
-<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo(); suggestChalanNoIfNeeded();">✖️ Selection Clear</button>${fixBtn}`;
+<button type="button" class="btn" style="margin-top:8px;margin-left:6px;background:var(--sand);color:var(--navy);border:1.5px solid var(--line);padding:7px 12px;font-size:12px;" onclick="receiptSelection=[]; updateBatchTotalInfo();">✖️ Selection Clear</button>${fixBtn}`;
 }
 updateMaintenanceAmountTotalLabel();
 applyMaintenanceAmountDisplay();
@@ -5739,7 +6043,6 @@ renderMonthGrid(currentFlat, fy);
 applyAmountLockUI();
 applyMaintenanceAmountDisplay();
 applyFormLockUI();
-suggestChalanNoIfNeeded();
 }
 // Confirm button: saves the current month, then freezes the ENTIRE form so
 // nothing can be accidentally changed afterwards. For a new entry, the user
@@ -5792,157 +6095,17 @@ if(md && md.status === "Paid") md.mode = paymentMode;
 if(stagedMonths[m]) stagedMonths[m].mode = paymentMode;
 });
 }
-// Applies one shared chalan number to a combined receipt, or one number per
-// selected month when the user enters a comma-separated list.
-function applyChalanToReceiptMonths(months, chalanNumbers){
-if(!currentFlat || !Array.isArray(chalanNumbers) || !chalanNumbers.length) return;
+// Copies whatever Chalan No. is typed in the form onto every month covered
+// by this receipt (optional field — offline chalan-book number, used only
+// to match this app's online record with the physical/offline chalan book).
+function applyChalanToReceiptMonths(months, chalanNo){
+if(!currentFlat || !chalanNo) return;
 const fy = getFY();
-months.forEach((m,index)=>{
-const chalanNo = chalanNumbers.length===1 ? chalanNumbers[0] : chalanNumbers[index];
+months.forEach(m=>{
 const md = getMonthData(currentFlat, fy, m);
 if(md && md.status === "Paid") md.chalanNo = chalanNo;
 if(stagedMonths[m]) stagedMonths[m].chalanNo = chalanNo;
 });
-}
-function normalizeChalanNo(value){ return String(value || "").trim().toUpperCase(); }
-function sameChalanNo(a,b){
-const left=normalizeChalanNo(a), right=normalizeChalanNo(b);
-if(!left || !right) return false;
-const leftParts=splitChalanNumbers(left), rightParts=splitChalanNumbers(right);
-if(leftParts.length>1 || rightParts.length>1) return leftParts.some(x=>rightParts.some(y=>sameChalanNo(x,y)));
-if(/^\d+$/.test(left) && /^\d+$/.test(right)) return Number(left)===Number(right);
-return left===right;
-}
-function getReceiptChalanNo(entry){
-return entry && (entry.chalanNo || (Array.isArray(entry.months) ? entry.months.map(x=>x && x.chalanNo).find(Boolean) : "")) || "";
-}
-function receiptHasChalanNo(entry,chalanNo){
-return !!(entry && (sameChalanNo(entry.chalanNo,chalanNo) || (Array.isArray(entry.months) && entry.months.some(x=>x && sameChalanNo(x.chalanNo,chalanNo)))));
-}
-function formatReceiptChalanNumbers(entry){
-const pairs=(entry&&Array.isArray(entry.months)?entry.months:[]).filter(x=>x&&x.chalanNo);
-const numbers=new Set(); pairs.forEach(x=>addUniqueChalanNumbers(numbers,x.chalanNo));
-if(!numbers.size && entry&&entry.chalanNo) addUniqueChalanNumbers(numbers,entry.chalanNo);
-if(!numbers.size) return '';
-if(numbers.size===1) return 'Chalan #'+esc(Array.from(numbers)[0]);
-if(pairs.length && pairs.every(x=>splitChalanNumbers(x.chalanNo).length===1)) return 'Chalan: '+pairs.map(x=>esc(x.month)+' #'+esc(x.chalanNo)).join(', ');
-return 'Chalans #'+Array.from(numbers).map(esc).join(', ');
-}
-function sameReceiptDetails(entry,fy,months,total,paidDate){
-if(!entry || String(entry.fy||"")!==String(fy)) return false;
-const wanted=(months||[]).map(String).sort().join("|");
-const saved=(Array.isArray(entry.months)?entry.months:[]).map(x=>String(x.month)).sort().join("|");
-return saved===wanted && toNum(entry.total)===toNum(total) && String(entry.paidDate||"")===String(paidDate||"");
-}
-function isExactSavedChalanReceipt(chalanNo, flatNum, fy, months, total, paidDate){
-const receipts=Array.isArray(receiptHistory && receiptHistory[flatNum]) ? receiptHistory[flatNum] : [];
-return receipts.some(entry=>sameReceiptDetails(entry,fy,months,total,paidDate) && receiptHasChalanNo(entry,chalanNo));
-}
-function findVoidedChalan(chalanNo){
-return (Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).find(item=>item && sameChalanNo(item.number,chalanNo)) || null;
-}
-function findChalanNoConflict(chalanNo, flatNum, fy, months, total, paidDate){
-if(!normalizeChalanNo(chalanNo)) return null;
-const selected=new Set((months||[]).map(String));
-const exactCurrentReceipt=isExactSavedChalanReceipt(chalanNo,flatNum,fy,months,total,paidDate);
-const conflicts=new Map();
-const addConflict=(ownerFlat,year,usedMonths)=>{
-const key=String(ownerFlat)+"|"+String(year);
-if(!conflicts.has(key)) conflicts.set(key,{flat:String(ownerFlat),fy:String(year),months:[]});
-const item=conflicts.get(key);
-(usedMonths||[]).forEach(month=>{ if(month && !item.months.includes(String(month))) item.months.push(String(month)); });
-};
-Object.keys(store||{}).forEach(ownerFlat=>{
-const flatData=store[ownerFlat]||{};
-Object.keys(flatData.years||{}).forEach(year=>{
-const savedMonths=(flatData.years[year]&&flatData.years[year].months)||{};
-MONTHS.forEach(month=>{
-const record=savedMonths[month];
-if(!record || record.status!=="Paid" || !sameChalanNo(record.chalanNo,chalanNo)) return;
-if(exactCurrentReceipt && ownerFlat===flatNum && String(year)===String(fy) && selected.has(month)) return;
-addConflict(ownerFlat,year,[month]);
-});
-});
-});
-Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
-const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
-receipts.forEach(entry=>{
-if(!receiptHasChalanNo(entry,chalanNo)) return;
-if(ownerFlat===flatNum && exactCurrentReceipt && sameReceiptDetails(entry,fy,months,total,paidDate)) return;
-addConflict(ownerFlat,entry.fy||"-",(Array.isArray(entry.months)?entry.months:[]).map(x=>x.month));
-});
-});
-return conflicts.values().next().value || null;
-}
-function nextUnusedChalanNumber(){
-if(!settings.chalanRangeLocked) return "";
-const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
-if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return "";
-const used=new Set();
-const mark=value=>splitChalanNumbers(value).forEach(text=>{ if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } });
-Object.keys(store||{}).forEach(ownerFlat=>{
-const years=(store[ownerFlat]||{}).years||{};
-Object.keys(years).forEach(year=>{
-const savedMonths=(years[year]&&years[year].months)||{};
-MONTHS.forEach(month=>{ const record=savedMonths[month]; if(record&&record.status==="Paid") mark(record.chalanNo); });
-});
-});
-Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
-const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
-receipts.forEach(entry=>{ mark(getReceiptChalanNo(entry)); (Array.isArray(entry.months)?entry.months:[]).forEach(m=>mark(m&&m.chalanNo)); });
-});
-(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).forEach(item=>mark(item&&item.number));
-for(let n=start;n<=end;n++) if(!used.has(n)) return String(n);
-return "";
-}
-function splitChalanNumbers(value){
-return String(value||"").split(/[,;|\n]+/).map(x=>x.trim()).filter(Boolean);
-}
-function addUniqueChalanNumbers(target,value){
-splitChalanNumbers(value).forEach(number=>{
-if(!Array.from(target).some(existing=>sameChalanNo(existing,number))) target.add(number);
-});
-}
-function nextUnusedChalanNumbers(count){
-if(!settings.chalanRangeLocked) return [];
-const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
-if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start) return [];
-const used=new Set();
-const mark=value=>splitChalanNumbers(value).forEach(text=>{ if(/^\d+$/.test(text)){ const n=Number(text); if(Number.isSafeInteger(n)) used.add(n); } });
-Object.keys(store||{}).forEach(ownerFlat=>{
-const years=(store[ownerFlat]||{}).years||{};
-Object.keys(years).forEach(year=>{ const savedMonths=(years[year]&&years[year].months)||{}; MONTHS.forEach(month=>{ const record=savedMonths[month]; if(record&&record.status==="Paid") mark(record.chalanNo); }); });
-});
-Object.keys(receiptHistory||{}).forEach(ownerFlat=>{
-const receipts=Array.isArray(receiptHistory[ownerFlat])?receiptHistory[ownerFlat]:[];
-receipts.forEach(entry=>{ mark(getReceiptChalanNo(entry)); (Array.isArray(entry.months)?entry.months:[]).forEach(m=>mark(m&&m.chalanNo)); });
-});
-(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).forEach(item=>mark(item&&item.number));
-const result=[];
-for(let n=start;n<=end && result.length<Math.max(1,Number(count)||1);n++) if(!used.has(n)) result.push(String(n));
-return result;
-}
-function suggestChalanNoIfNeeded(){
-const input=document.getElementById('inputChalanNo');
-if(!input) return;
-const monthCount=getReceiptMonths().length||1;
-const suggestion=nextUnusedChalanNumbers(monthCount).join(', ');
-if(settings.chalanRangeLocked && (!input.value.trim() || input.value.trim()===suggestedChalanValue)){
-input.value=suggestion; suggestedChalanValue=suggestion;
-}
-updateChalanNumberHint();
-}
-function updateChalanNumberHint(){
-const input=document.getElementById('inputChalanNo'), hint=document.getElementById('chalanNumberHint');
-if(!input || !hint) return;
-if(input.value.trim()!==suggestedChalanValue) suggestedChalanValue='';
-const months=getReceiptMonths(), count=months.length||1;
-hint.style.display=(settings.chalanRangeLocked || count>1)?'block':'none';
-if(settings.chalanRangeLocked){
-hint.textContent='Locked range '+settings.chalanRangeStart+'–'+settings.chalanRangeEnd+'. '+(count>1?'Combined receipt mate ek number, athva '+count+' alag numbers comma thi lakho (month order: '+months.join(', ')+'). ':'Ek unique number lakho. ')+'Repeat/void number save nahi thay.';
-} else {
-hint.textContent=count>1?'Combined receipt mate ek number, athva darek month mate alag number comma thi lakho (month order: '+months.join(', ')+').':'';
-}
 }
 function confirmEntry(){
 const fy = getFY();
@@ -5951,34 +6114,11 @@ const months = getReceiptMonths();
 const paidDate = document.getElementById('inputDate').value;
 const mode = document.getElementById('inputMode').value;
 const chalanNoEl = document.getElementById('inputChalanNo');
-const enteredChalans = chalanNoEl ? splitChalanNumbers(chalanNoEl.value) : [];
+const chalanNo = chalanNoEl ? chalanNoEl.value.trim() : "";
 const total = months.reduce((sum, month)=> sum + toNum((stagedMonths[month] || getEffectiveMonth(currentFlat, fy, month)).amount), 0);
 if(!months.length || !total){ alert("Confirm karta pehla paid month ane amount check karo."); return; }
 if(!paidDate){ alert("Paid On date select karo. Avak aa date na month ma jashe."); document.getElementById('inputDate').focus(); return; }
 if(!mode){ alert("Payment Mode select karo (Cash, UPI, Bank Transfer, etc.)."); document.getElementById('inputMode').focus(); return; }
-if(!enteredChalans.length){ alert("Chalan No. jaruri chhe. Darek receipt mate chalan number lakho."); if(chalanNoEl) chalanNoEl.focus(); return; }
-if(enteredChalans.length!==1 && enteredChalans.length!==months.length){ alert("Ek combined receipt hoy to ek chalan number lakho. Alag chalan hoy to selected "+months.length+" month mate etla j number comma thi alag kari lakho."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
-const chalansForMonths=enteredChalans.length===1?months.map(()=>enteredChalans[0]):enteredChalans;
-const uniqueChalans=[];
-for(let i=0;i<enteredChalans.length;i++){
-const chalanNo=enteredChalans[i];
-if(uniqueChalans.some(x=>sameChalanNo(x,chalanNo))){ alert("Ekaj receipt ma duplicate chalan number chhe: "+chalanNo+". Darek month mate alag number lakho."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
-uniqueChalans.push(chalanNo);
-const existingSameReceipt=isExactSavedChalanReceipt(chalanNo,currentFlat,fy,months,total,paidDate);
-const voidedChalan=findVoidedChalan(chalanNo);
-if(voidedChalan && !existingSameReceipt){ alert("⚠️ Chalan No. \""+chalanNo+"\" Void/Cancelled tarike mark thayelo chhe; fari use na kari shako."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
-if(settings.chalanRangeLocked && !existingSameReceipt){
-const number=/^\d+$/.test(chalanNo)?Number(chalanNo):NaN;
-const start=Number(settings.chalanRangeStart), end=Number(settings.chalanRangeEnd);
-if(!Number.isSafeInteger(number)||number<start||number>end){ alert("Aa chalan number locked range "+start+"–"+end+" ni andar hovo joie."); if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return; }
-}
-const duplicateChalan=findChalanNoConflict(chalanNo,currentFlat,fy,months,total,paidDate);
-if(duplicateChalan){
-const conflictMonths=duplicateChalan.months.length?duplicateChalan.months.join(", "):"receipt history";
-alert("⚠️ Chalan No. \""+chalanNo+"\" pehlethi use thayel chhe.\n\nPehli entry: Flat "+duplicateChalan.flat+" · FY "+duplicateChalan.fy+" · "+conflictMonths+"\n\nRepeat rokva navo chalan number lakho.");
-if(chalanNoEl){chalanNoEl.focus();chalanNoEl.select();} return;
-}
-}
 const paidFY = dateToFY(paidDate) || fy;
 const paidMonth = dateToFYMonth(paidDate) || "-";
 const noBalanceEl = document.getElementById('inputNoBalance');
@@ -5986,14 +6126,14 @@ const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
 const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
-const chalanLine = "\nChalan No.: " + months.map((m,i)=>m+" — "+chalansForMonths[i]).join("; ");
+const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
 const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + displayDate(paidDate) + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
 applyPaymentDateToReceiptMonths(months, paidDate);
 applyPaymentModeToReceiptMonths(months, mode);
-applyChalanToReceiptMonths(months, chalansForMonths);
+applyChalanToReceiptMonths(months, chalanNo);
 saveFlat();
 const receipt = recordReceiptHistory();
 formConfirmed = true;
@@ -6012,7 +6152,7 @@ render();
 applyFormLockUI();
 const flatSummary = computeFlatsSummary(fy).find(f=>f.n===currentFlat);
 const remainingDue = flatSummary ? flatSummary.pendingDue : 0;
-alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + "\nChalan No.: " + months.map((m,i)=>m+" — "+chalansForMonths[i]).join("; ") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
+alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + (chalanNo ? ("\nChalan No.: " + chalanNo) : "") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
 }
 function applyFormLockUI(){
 const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputChalanNo","inputDate","btnPaid","btnPending","btnUnselectMonth"];
@@ -6130,7 +6270,6 @@ receiptSelection = receiptSelection.filter(m=>m!==month);
 saveStore(store);
 }
 if(month === currentMonth){ loadMonthIntoForm(); } else { renderMonthGrid(currentFlat, fy); }
-suggestChalanNoIfNeeded();
 refreshHistoryBox(currentFlat);
 updateBatchTotalInfo();
 renderDuesSummary(currentFlat);
@@ -6188,7 +6327,6 @@ function openModal(flatNum){
 currentFlat = flatNum;
 receiptSelection = [];
 stagedMonths = {};
-suggestedChalanValue = "";
 selectionLocked = false;
 formConfirmed = false;
 manuallyUnlockedMonths = [];
@@ -6443,9 +6581,7 @@ alert("✅ " + paidMonths.length + " Paid month(s) ni date " + displayDate(date)
 function applyChalanToAllPaidMonths(){
 if(!currentFlat) return;
 const fy = getFY();
-const bulkChalanValues = splitChalanNumbers(document.getElementById('inputChalanNo').value);
-if(bulkChalanValues.length!==1){ alert('Apply-to-all action ma ek j common chalan number mukay. Darek month no alag number hoy to main Confirm ma comma-separated list lakho.'); document.getElementById('inputChalanNo').focus(); return; }
-const chalanNo = bulkChalanValues[0] || '';
+const chalanNo = document.getElementById('inputChalanNo').value.trim();
 if(!chalanNo){ alert("Pehla Chalan No. lakho."); document.getElementById('inputChalanNo').focus(); return; }
 const yd = getYearData(currentFlat, fy);
 const paidMonths = MONTHS.filter(m=>{
@@ -6522,12 +6658,11 @@ const fy = document.getElementById('modalFY').value;
 const months = getReceiptMonths();
 const rows = months.map(m=>{
 const em = getEffectiveMonth(flatNum, fy, m);
-return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode || "-", em.chalanNo || "-"];
+return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode || "-"];
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-const chalanValues=months.map(m=>getEffectiveMonth(flatNum,fy,m).chalanNo||'');
-const chalanNo=chalanValues.length && chalanValues.every(x=>x===chalanValues[0]) ? chalanValues[0] : '';
+const chalanNo = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo).find(x=>x) || "";
 buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, chalanNo);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
@@ -6594,8 +6729,8 @@ y += 4;
 
 doc.autoTable({
 startY: y,
-head: [["Month", "Amount", "Date", "Mode", "Chalan No."]],
- body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3], row[4]||"-"]),
+head: [["Month", "Amount", "Date", "Mode"]],
+ body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3]]),
 theme: "grid",
 headStyles: { fillColor: [46,139,87] },
 styles: { fontSize: 10 },
@@ -6658,8 +6793,8 @@ doc.text("Flat: " + flatNum + "    Mobile: " + (rec.mobile || "-") + "    FY: " 
 
 doc.autoTable({
 startY: yOff + 30,
-head: [["Month", "Amount", "Date", "Mode", "Chalan No."]],
-body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3], row[4]||"-"]),
+head: [["Month", "Amount", "Date", "Mode"]],
+body: rows.map(row=>[row[0], row[1], displayDate(row[2]), row[3]]),
 theme: "grid",
 headStyles: { fillColor: [46,139,87], fontSize: 7.5 },
 styles: { fontSize: 7.5, cellPadding: 1.3 },
@@ -6714,15 +6849,7 @@ toNum(entry.total) === total &&
 (entry.paidDate || "") === (snapshot[0].date || "") &&
 (entry.months || []).map(x=>x.month).sort().join("|") === monthKey
 );
-if(existing){
-existing.months=snapshot;
-existing.total=total;
-existing.paidDate=snapshot[0].date || "";
-existing.chalanNo=snapshot.map(x=>x.chalanNo).find(x=>x) || "";
-saveReceiptHistory(receiptHistory);
-renderReceiptHistoryBox(currentFlat);
-return existing;
-}
+if(existing) return existing;
 const entry = {
 id: "R" + Date.now(),
 fy: fy,
@@ -6762,7 +6889,7 @@ box.style.display = "block";
 box.innerHTML = "<strong>📜 Payment History</strong>" + list.map(entry=>{
 const monthsStr = entry.months.map(x=>x.month).join(", ");
 return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);">
-<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${formatReceiptChalanNumbers(entry) ? " · 🧾 " + formatReceiptChalanNumbers(entry) : ""}</span>
+<span style="font-size:11.5px;line-height:1.5;">${entry.fy} · ${monthsStr}<br>${entry.months.length} mahina · ₹${entry.total.toLocaleString('en-IN')}${entry.paidDate ? " · " + displayDate(entry.paidDate) : ""}${entry.chalanNo ? " · 🧾 Chalan #" + entry.chalanNo : ""}</span>
 <div style="display:flex;gap:6px;flex:none;">
 <button type="button" class="btn" style="background:var(--green);color:#fff;padding:6px 10px;font-size:11px;" onclick='downloadStoredReceiptPDF(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🧾 Receipt</button>
 <button type="button" class="btn" style="background:var(--coral);color:#fff;padding:6px 10px;font-size:11px;" onclick='deleteReceiptHistoryEntry(${JSON.stringify(flatNum)}, ${JSON.stringify(entry.id)})'>🗑️</button>
@@ -6799,9 +6926,8 @@ function downloadStoredReceiptPDF(flatNum, entryId){
 const list = receiptHistory[flatNum] || [];
 const entry = list.find(e=>e.id===entryId);
 if(!entry){ alert("Aa receipt history ma nathi malto."); return; }
-const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-", x.chalanNo || "-"]);
-const values=entry.months.map(x=>x.chalanNo||'');
-const chalanNo=values.length && values.every(x=>x===values[0]) ? values[0] : '';
+const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
+const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
 buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, chalanNo);
 }
 // Fills the "which ledger" dropdown in the owner card: Full (all years) or one FY.
@@ -6963,17 +7089,14 @@ function stopEnhancementsSync(){
 function addExtensionStyles(){
  const s=document.createElement('style'); s.textContent=`
  .community{padding:16px 15px 40px;max-width:1000px;margin:auto}.community h2{font-family:Poppins,sans-serif;color:var(--navy);font-size:20px;margin:4px 0 14px}.community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.c-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 3px 13px rgba(0,0,0,.04)}.c-card h3{color:var(--navy);font-size:15px;margin:0 0 10px}.c-card input,.c-card textarea,.c-card select{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;margin:4px 0 8px;font:inherit}.c-card textarea{min-height:72px;resize:vertical}.c-btn{border:0;border-radius:8px;padding:9px 11px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;margin:3px 3px 3px 0}.c-btn.green{background:#1E6E45}.c-btn.red{background:#B3261E}.c-btn.gold{background:#C98918}.c-item{border-top:1px solid var(--line);padding:9px 0;font-size:12px;line-height:1.45}.c-item:first-of-type{border-top:0}.tag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;font-weight:700;background:#E3EEFC;color:#1565C0}.tag.open{background:#FCE8E6;color:#B3261E}.tag.closed{background:#E4F1E8;color:#1E6E45}.mini{font-size:11px;color:var(--muted)}.security-note{background:#FFF7E6;border:1px solid #F0D89B;color:#754C00;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}.metric{font-size:23px;font-weight:800;color:var(--navy)}
- @media(max-width:899px){.menu button{flex:1;min-width:0;padding:8px 1px;font-size:10px;white-space:nowrap}}
  `; document.head.appendChild(s);
 }
 function addCommunityTab(){
  addExtensionStyles();
  const menu=document.querySelector('.menu');
  if(menu && !document.getElementById('communityTab')){ const b=document.createElement('button'); b.id='communityTab'; b.innerHTML='⚙️ Settings'; menu.appendChild(b); b.addEventListener('click',showCommunity); }
- if(menu && !document.getElementById('chalanTab')){ const b=document.createElement('button'); b.id='chalanTab'; b.innerHTML='🧾 Chalan'; menu.appendChild(b); b.addEventListener('click',showChalanSettings); }
  const wrap=document.querySelector('.page-wrap');
  if(wrap && !document.getElementById('screen-community')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-community'; d.style.display='none'; wrap.appendChild(d); }
- if(wrap && !document.getElementById('screen-chalan-settings')){ const d=document.createElement('div'); d.className='screen'; d.id='screen-chalan-settings'; d.style.display='none'; wrap.appendChild(d); }
  const reset=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Reset All Paid'));
  if(reset){ reset.style.display='none'; }
 }
@@ -6981,65 +7104,6 @@ function showCommunity(){
  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
  document.getElementById('communityTab').classList.add('active'); document.getElementById('screen-community').style.display='block'; renderCommunity();
-}
-function showChalanSettings(){
- document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
- document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
- document.getElementById('chalanTab').classList.add('active');
- document.getElementById('screen-chalan-settings').style.display='block'; renderChalanSettings();
-}
-function renderChalanSettings(){
- const el=document.getElementById('screen-chalan-settings'); if(!el) return;
- const locked=!!settings.chalanRangeLocked;
- const start=Number(settings.chalanRangeStart||1), end=Number(settings.chalanRangeEnd||5000);
- const next=locked?nextUnusedChalanNumber():'';
- const voidList=(Array.isArray(settings.voidedChalans)?settings.voidedChalans:[]).slice().sort((a,b)=>String(b.at||'').localeCompare(String(a.at||'')));
- const voidHtml=voidList.length?voidList.slice(0,25).map(item=>'<div class="c-item"><b>Chalan '+esc(item.number)+'</b> <span class="tag open">VOID</span><div class="mini">'+esc(item.reason||'Reason not entered')+(item.flat?' · Flat '+esc(item.flat):'')+(item.at?' · '+esc(new Date(item.at).toLocaleDateString('en-IN')):'')+'</div></div>').join(''):'<div class="mini">Haju koi chalan Void mark nathi karyu.</div>';
- el.innerHTML=`<div class="community"><h2>🧾 Chalan Settings</h2><div class="community-grid">
- <section class="c-card" style="max-width:560px;"><h3>Unique Chalan Number Range</h3>
- <p class="mini">Paper chalan book no start ane end number nakho. Lock karya pachi next unused number suggest thase; range bahar ane repeat number save nahi thay.</p>
- <div style="display:grid;grid-template-columns:repeat(2,minmax(110px,1fr));gap:10px;">
-  <label style="font-size:12px;font-weight:700;color:var(--navy);">Starting number<input id="chalanRangeStartInput" type="number" min="1" step="1" value="${start}" ${locked?'disabled':''}></label>
-  <label style="font-size:12px;font-weight:700;color:var(--navy);">Ending number<input id="chalanRangeEndInput" type="number" min="1" step="1" value="${end}" ${locked?'disabled':''}></label>
- </div>
- <div class="security-note" style="margin:7px 0 10px;">${locked?('🔒 Locked range: <b>'+start+'–'+end+'</b><br>Next unused number: <b>'+(next||'Range ma number baki nathi')+'</b>'):'Range haju lock nathi. 1–5000 example chhe; paper book pramane set karo.'}</div>
- <button type="button" class="c-btn ${locked?'':'green'}" onclick="toggleChalanRangeLock()">${locked?'🔓 Unlock range to edit':'🔒 Set & Lock range'}</button>
- </section>
- <section class="c-card" style="max-width:560px;"><h3>🚫 Void / Cancelled Chalan</h3>
- <p class="mini">Cancel thayelo chalan number fari use na thay e mate ahiyan Void mark karo. Void number permanently reserve raheshe ane next suggestion ene skip karse. Aa action payment amount ke ledger badaltu nathi.</p>
- <label style="font-size:12px;font-weight:700;color:var(--navy);">Cancelled chalan number<input id="voidChalanInput" type="number" min="1" step="1" placeholder="e.g. 125"></label>
- <label style="font-size:12px;font-weight:700;color:var(--navy);">Cancellation reason<input id="voidChalanReason" type="text" maxlength="120" placeholder="e.g. Receipt spoiled / written incorrectly"></label>
- <label style="font-size:12px;font-weight:700;color:var(--navy);">Flat or receipt reference (optional)<input id="voidChalanFlat" type="text" maxlength="50" placeholder="e.g. Flat 402"></label>
- <button type="button" class="c-btn red" onclick="voidChalanNumber()">🚫 Mark chalan as Void</button>
- <div class="security-note" style="margin:8px 0 10px;">Void mark karta pehla confirm thase. Mark thayela number ne pachi unvoid ke reuse nahi kari shakai.</div>
- <h3 style="margin-top:14px;">Void number register</h3>${voidHtml}
- </section>
- </div></div>`;
-}
-function toggleChalanRangeLock(){
- if(settings.chalanRangeLocked){ if(!confirm('Chalan range unlock karvi chhe? Unlock hoy tya sudhi auto-suggestion ane range validation bandh raheshe.')) return; settings.chalanRangeLocked=false; saveSettings(settings); renderChalanSettings(); audit('Chalan range unlocked',''); return; }
- const start=Number(document.getElementById('chalanRangeStartInput').value), end=Number(document.getElementById('chalanRangeEndInput').value);
- if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<1||end<start||end>1000000){ alert('Sacho range lakho: start 1 ke vadhu, end start karta vadhu ane 1,000,000 ke ochho hovo joie.'); return; }
- if(!confirm('Chalan range '+start+' thi '+end+' set kari lock karvi chhe? Aa range badha flats mate lagu thase.')) return;
- settings.chalanRangeStart=start; settings.chalanRangeEnd=end; settings.chalanRangeLocked=true; saveSettings(settings); renderChalanSettings(); audit('Chalan range locked',start+'–'+end);
- const next=nextUnusedChalanNumber(); alert(next?('✅ Range lock thai. Agal no khali number: '+next):'⚠️ Aa range na badha number vaprayela chhe.');
-}
-function voidChalanNumber(){
- const input=document.getElementById('voidChalanInput'), reasonInput=document.getElementById('voidChalanReason'), flatInput=document.getElementById('voidChalanFlat');
- const raw=input?String(input.value||'').trim():'';
- if(!/^\d+$/.test(raw)||!Number.isSafeInteger(Number(raw))||Number(raw)<1){ alert('Valid positive chalan number lakho.'); if(input) input.focus(); return; }
- const number=String(Number(raw));
- const reason=reasonInput?reasonInput.value.trim():'';
- if(!reason){ alert('Cancellation nu reason lakho.'); if(reasonInput) reasonInput.focus(); return; }
- if(findVoidedChalan(number)){ alert('Aa chalan pehlethi Void mark thayelo chhe.'); return; }
- if(!confirm('Chalan No. '+number+' ne permanently Void mark karvo chhe? Aa number fari use nahi thay.')) return;
- const item={number,reason,flat:flatInput?flatInput.value.trim():'',at:new Date().toISOString()};
- settings.voidedChalans=Array.isArray(settings.voidedChalans)?settings.voidedChalans:[];
- settings.voidedChalans.push(item); saveSettings(settings); audit('Chalan marked Void','Chalan '+number+' · '+reason+(item.flat?' · '+item.flat:''));
- renderChalanSettings();
- const no=document.getElementById('voidChalanInput'), why=document.getElementById('voidChalanReason'), ref=document.getElementById('voidChalanFlat');
- if(no) no.value=''; if(why) why.value=''; if(ref) ref.value='';
- alert('✅ Chalan '+number+' Void register ma save thayu. Have aa number reuse nahi thay.');
 }
 function renderCommunity(){
  const el=document.getElementById('screen-community'); if(!el) return;
@@ -7092,7 +7156,7 @@ let activeFirebaseUid = null;
 function clearSignedOutData(){
   stopFirebaseSync();
   stopEnhancementsSync();
-  store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:"",chalanRangeStart:1,chalanRangeEnd:5000,chalanRangeLocked:false,voidedChalans:[]};
+  store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
   openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
   pendingLedgerEntries.clear(); pendingLedgerDeletes.clear(); pendingFlatRecords.clear();
   sessionStorage.removeItem('ur2_unlocked');
@@ -7127,7 +7191,7 @@ async function handleFirebaseAuthState(user){
     sessionStorage.removeItem('ur2_unlocked');
     stopFirebaseSync();
     stopEnhancementsSync();
-    store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:"",chalanRangeStart:1,chalanRangeEnd:5000,chalanRangeLocked:false,voidedChalans:[]};
+    store={}; ledger={}; settings={defaultAmount:0,locked:false,presidentName:""};
     openingBalanceOverrides={}; receiptHistory={}; ownerOverrides={};
     document.body.classList.remove('locked');
     document.body.classList.add('firebase-loading');
@@ -7443,4 +7507,193 @@ async function downloadSocietyFormPDF(){
 }
 </script>
 
+<script id="ur2-festival-js">
+(function(){
+'use strict';
+/* ===== UR2 Festival layer: auto theme + festival effects ===== */
+var KEY='ur2_fx_off';
+var F={
+diwali:{n:'Diwali',e:'🪔',g:'🪔 Happy Diwali! Sau ne dipotsav ni shubhkamna',emo:['🪔','✨','🪔','🧨'],dir:-1,n_:12,fw:1,sz:[20,30],sp:[.3,.7]},
+navratri:{n:'Navratri',e:'💃',g:'💃 Jai Ambe! Navratri ni shubhkamna',emo:['💃','🕺','🌺','🎶','🪔','✨'],dir:1,n_:12,stick:1,sz:[20,30],sp:[.3,.7]},
+uttarayan:{n:'Uttarayan',e:'🪁',g:'🪁 Kai Po Che! Uttarayan ni shubhkamna',kite:1},
+holi:{n:'Holi',e:'🎨',g:'🎨 Happy Holi! Rang-birangi shubhkamna',splash:1,col:['#E91E63','#FFC107','#00BCD4','#8BC34A','#9C27B0','#FF5722'],conf:1},
+ganesh:{n:'Ganesh Chaturthi',e:'🐘',g:'🐘 Ganpati Bappa Morya!',emo:['🌺','🪷','🪔','🐘','🌺'],dir:-1,n_:10,sz:[20,30],sp:[.25,.55]},
+rakhi:{n:'Raksha Bandhan',e:'🧵',g:'🧵 Raksha Bandhan ni shubhkamna',emo:['🧵','🌸','🪔','🎁','✨'],dir:1,n_:10,sz:[18,28],sp:[.3,.6]},
+janmashtami:{n:'Janmashtami',e:'🦚',g:'🦚 Jai Shree Krishna! Janmashtami ni shubhkamna',emo:['🦚','🪔','🌸','🎶','🏺'],dir:1,n_:10,sz:[20,30],sp:[.3,.6]},
+eid:{n:'Eid',e:'🌙',g:'🌙 Eid Mubarak!',emo:['🌙','⭐','✨','🏮'],dir:1,n_:12,sz:[18,28],sp:[.2,.5]},
+tiranga:{n:'Tiranga',e:'🇮🇳',g:'🇮🇳 Jai Hind! Rashtriya parv ni shubhkamna',conf:1,col:['#FF9933','#FFFFFF','#138808','#000080'],emo:['🇮🇳'],dir:1,n_:3,sz:[22,28],sp:[.3,.5]},
+christmas:{n:'Christmas',e:'🎄',g:'🎄 Merry Christmas!',snow:1,emo:['🎄','🎁','❄️'],dir:1,n_:5,sz:[20,28],sp:[.3,.6]}
+};
+/* Fixed-date festivals (every year), MM-DD */
+var FIX=[['uttarayan','01-12','01-15'],['tiranga','01-24','01-26'],['tiranga','08-13','08-15'],['christmas','12-22','12-26']];
+/* Lunar-calendar festivals: exact dates per year (update every year; admin can also force one) */
+var LUN=[
+['navratri','2026-10-11','2026-10-20'],['diwali','2026-11-05','2026-11-12'],
+['holi','2027-03-20','2027-03-23'],['eid','2027-03-09','2027-03-12'],['eid','2027-05-16','2027-05-18'],
+['rakhi','2027-08-15','2027-08-17'],['janmashtami','2027-08-24','2027-08-26'],['ganesh','2027-09-03','2027-09-14'],
+['navratri','2027-09-30','2027-10-09'],['diwali','2027-10-26','2027-11-01']
+];
+function ymd(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x;}
+function autoKey(d){
+ var s=ymd(d),md=s.slice(5),i;
+ for(i=0;i<LUN.length;i++)if(s>=LUN[i][1]&&s<=LUN[i][2])return LUN[i][0];
+ for(i=0;i<FIX.length;i++)if(md>=FIX[i][1]&&md<=FIX[i][2])return FIX[i][0];
+ return null;
+}
+var ovr='auto',cur=null,fxOn=true;
+function reduced(){try{return matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){return false;}}
+function loadFx(){var v=null;try{v=localStorage.getItem(KEY);}catch(e){}
+ fxOn=v==='1'?false:v==='0'?true:!reduced();}
+function saveFx(){try{localStorage.setItem(KEY,fxOn?'0':'1');}catch(e){}}
+function activeKey(){if(ovr==='none')return null;if(ovr&&ovr!=='auto'&&F[ovr])return ovr;return autoKey(new Date());}
+
+/* ---------- canvas engine ---------- */
+var cv,cx,W=0,H=0,dpr=1,raf=0,last=0,em=[],cf=[],kt=[],sp=[],sk=[],rk=[],snow=[],nextFw=0,nextSp=0;
+function R(a,b){return a+Math.random()*(b-a);}
+function pick(a){return a[(Math.random()*a.length)|0];}
+function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);}
+function mkEm(f,init){var s=R(f.sz[0],f.sz[1]);
+ var o={x:R(0,W),s:s,ch:pick(f.emo),vx:R(-.25,.25),v:R(f.sp[0],f.sp[1]),r:R(-.4,.4),vr:R(-.01,.01),ph:R(0,6.28)};
+ o.y=init?R(0,H):(f.dir>0?-s:H+s);return o;}
+function mkCf(f,init){var o={x:R(0,W),y:init?R(0,H):-10,w:R(5,9),h:R(3,6),c:pick(f.col),v:R(.6,1.4),r:R(0,6.28),vr:R(-.1,.1),vx:R(-.3,.3)};return o;}
+function mkSnow(init){return {x:R(0,W),y:init?R(0,H):-6,r:R(1.5,4),v:R(.4,1.2),ph:R(0,6.28)};}
+function mkKite(init){var s=R(26,40),L=Math.random()<.5;
+ return {x:init?R(0,W):(L?-60:W+60),y:R(40,H*.6),s:s,c:pick(['#EF4444','#F59E0B','#22C55E','#3B82F6','#EC4899','#A855F7','#FACC15']),c2:pick(['#FFFFFF','#FDE68A','#FCA5A5']),v:(L?1:-1)*R(.25,.6),ph:R(0,6.28),amp:R(8,22)};}
+function burst(x,y){var cols=['#FFD700','#FF5722','#FF4081','#40C4FF','#69F0AE','#FFFFFF','#FFAB40'],c=pick(cols),c2=pick(cols);
+ for(var i=0;i<38;i++){var a=i/38*6.283+R(-.1,.1),v=R(1.2,3.6);sk.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1,c:i%3?c:c2});}}
+function splat(){var c=pick(F.holi.col),x=R(.08,.92)*W,y=R(.12,.8)*H,r=R(26,60),d=[];
+ for(var i=0;i<9;i++){var a=R(0,6.28),dd=R(r*.7,r*1.6);d.push([Math.cos(a)*dd,Math.sin(a)*dd,R(3,9)]);}
+ return {x:x,y:y,r:r,c:c,d:d,l:1};}
+function setup(k){
+ var f=F[k];em=[];cf=[];kt=[];sp=[];sk=[];rk=[];snow=[];
+ if(f.emo){for(var i=0;i<f.n_;i++)em.push(mkEm(f,true));}
+ if(f.stick){for(i=0;i<5;i++)cf.push({stick:1,x:R(0,W),y:R(0,H),v:R(.3,.7),r:R(0,6.28),vr:R(-.03,.03),c:pick(['#F43F5E','#FACC15','#22C55E','#3B82F6']),vx:R(-.2,.2)});}
+ if(f.conf){for(i=0;i<(k==='holi'?30:36);i++)cf.push(mkCf(f,true));}
+ if(f.kite){for(i=0;i<6;i++)kt.push(mkKite(true));}
+ if(f.snow){for(i=0;i<40;i++)snow.push(mkSnow(true));}
+ nextFw=0;nextSp=0;
+}
+function drawKite(k,t){
+ var s=k.s,y=k.y+Math.sin(t/900+k.ph)*k.amp,x=k.x,rot=Math.sin(t/1200+k.ph)*.18;
+ cx.save();cx.translate(x,y);cx.rotate(rot);
+ cx.strokeStyle='rgba(90,90,90,.55)';cx.lineWidth=1;cx.beginPath();cx.moveTo(0,s*.9);
+ cx.quadraticCurveTo(-s*1.2-k.v*20,s*3,-s*3-k.v*30,s*6);cx.stroke();
+ cx.beginPath();cx.moveTo(0,-s);cx.lineTo(s*.7,0);cx.lineTo(0,s*.9);cx.lineTo(-s*.7,0);cx.closePath();
+ cx.fillStyle=k.c;cx.globalAlpha=.9;cx.fill();
+ cx.beginPath();cx.moveTo(0,-s);cx.lineTo(0,s*.9);cx.lineTo(s*.7,0);cx.closePath();cx.fillStyle=k.c2;cx.globalAlpha=.35;cx.fill();
+ cx.globalAlpha=.8;cx.strokeStyle='#444';cx.lineWidth=1;cx.beginPath();cx.moveTo(0,-s);cx.lineTo(0,s*.9);cx.moveTo(-s*.7,0);cx.lineTo(s*.7,0);cx.stroke();
+ cx.restore();
+}
+function frame(t){
+ raf=requestAnimationFrame(frame);
+ if(t-last<32)return;var dt=Math.min((t-last)/16.7,3);last=t;
+ var f=F[cur];if(!f)return;
+ cx.clearRect(0,0,W,H);
+ /* emoji */
+ cx.textAlign='center';cx.textBaseline='middle';
+ for(var i=0;i<em.length;i++){var p=em[i];
+  p.y+=f.dir*p.v*dt;p.x+=p.vx*dt+Math.sin(t/1000+p.ph)*.25;p.r+=p.vr*dt;
+  if((f.dir>0&&p.y>H+p.s)||(f.dir<0&&p.y<-p.s)){em[i]=mkEm(f,false);continue;}
+  cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.globalAlpha=.9;cx.font=p.s+'px serif';cx.fillText(p.ch,0,0);cx.restore();}
+ /* confetti / dandiya sticks */
+ for(i=0;i<cf.length;i++){p=cf[i];p.y+=p.v*dt;p.x+=p.vx*dt;p.r+=p.vr*dt;
+  if(p.y>H+20){if(p.stick){p.y=-20;p.x=R(0,W);}else{cf[i]=mkCf(f,false);}continue;}
+  cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);
+  if(p.stick){cx.lineCap='round';cx.strokeStyle=p.c;cx.lineWidth=5;cx.globalAlpha=.9;cx.beginPath();cx.moveTo(-16,0);cx.lineTo(16,0);cx.stroke();
+   cx.strokeStyle='#fff';cx.lineWidth=2;cx.beginPath();cx.moveTo(-5,0);cx.lineTo(5,0);cx.stroke();}
+  else{cx.fillStyle=p.c;cx.globalAlpha=cur==='holi'?.55:.85;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);if(p.c==='#FFFFFF'){cx.strokeStyle='#bbb';cx.lineWidth=.6;cx.strokeRect(-p.w/2,-p.h/2,p.w,p.h);}}
+  cx.restore();}
+ /* snow */
+ cx.fillStyle='#fff';cx.strokeStyle='rgba(120,150,190,.5)';cx.lineWidth=.6;
+ for(i=0;i<snow.length;i++){p=snow[i];p.y+=p.v*dt;p.x+=Math.sin(t/1200+p.ph)*.4;
+  if(p.y>H+8){snow[i]=mkSnow(false);continue;}
+  cx.globalAlpha=.9;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill();cx.stroke();}
+ /* kites */
+ for(i=0;i<kt.length;i++){p=kt[i];p.x+=p.v*dt;
+  if(p.x>W+120||p.x<-120){kt[i]=mkKite(false);continue;}drawKite(p,t);}
+ /* holi splashes */
+ if(f.splash){if(t>nextSp){sp.push(splat());nextSp=t+R(600,1100);if(sp.length>9)sp.shift();}
+  for(i=0;i<sp.length;i++){var s=sp[i];s.l-=.0035*dt;if(s.l<=0){sp.splice(i,1);i--;continue;}
+   cx.globalAlpha=Math.min(.38,s.l*.5);cx.fillStyle=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r*(1.1-s.l*.15),0,6.283);cx.fill();
+   for(var j=0;j<s.d.length;j++){var d=s.d[j];cx.beginPath();cx.arc(s.x+d[0],s.y+d[1],d[2],0,6.283);cx.fill();}}}
+ /* diwali fireworks */
+ if(f.fw){if(t>nextFw){rk.push({x:R(.15,.85)*W,y:H*.85,ty:R(.12,.4)*H,v:R(4,6)});nextFw=t+R(1100,2200);}
+  cx.globalCompositeOperation='source-over';
+  for(i=0;i<rk.length;i++){var r=rk[i];r.y-=r.v*dt;cx.globalAlpha=.9;cx.fillStyle='#FFD54F';cx.beginPath();cx.arc(r.x,r.y,2,0,6.283);cx.fill();
+   cx.globalAlpha=.3;cx.fillRect(r.x-1,r.y,2,14);
+   if(r.y<=r.ty){burst(r.x,r.y);rk.splice(i,1);i--;}}
+  for(i=0;i<sk.length;i++){var q=sk[i];q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=.05*dt;q.vx*=.985;q.l-=.014*dt;
+   if(q.l<=0){sk.splice(i,1);i--;continue;}cx.globalAlpha=q.l;cx.fillStyle=q.c;cx.beginPath();cx.arc(q.x,q.y,2.2*q.l+.6,0,6.283);cx.fill();}
+  if(sk.length>400)sk.splice(0,sk.length-400);}
+ cx.globalAlpha=1;
+}
+function startFx(){if(!cur||!fxOn){stopFx();return;}
+ if(!cv){cv=document.createElement('canvas');cv.id='ur2FxCanvas';cv.setAttribute('aria-hidden','true');
+  cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10000;';
+  document.body.appendChild(cv);cx=cv.getContext('2d');}
+ cv.style.display='block';size();setup(cur);
+ if(!raf){last=0;raf=requestAnimationFrame(frame);}}
+function stopFx(){if(raf){cancelAnimationFrame(raf);raf=0;}if(cv){cx.clearRect(0,0,W,H);cv.style.display='none';}}
+addEventListener('resize',function(){if(cv&&raf)size();});
+document.addEventListener('visibilitychange',function(){if(document.hidden){if(raf){cancelAnimationFrame(raf);raf=0;}}else if(cur&&fxOn&&!raf){last=0;raf=requestAnimationFrame(frame);}});
+
+/* ---------- chip + admin panel ---------- */
+var chip,panel,toast;
+function css(){var s=document.createElement('style');s.textContent=
+'#ur2FxChip{position:fixed;left:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:100000;display:none;align-items:center;gap:6px;max-width:calc(100vw - 90px);background:rgba(255,255,255,.96);color:#22262E;border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:5px 6px 5px 12px;font:600 12px/1.2 Poppins,system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.18);}'
++'#ur2FxChip .fxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}'
++'#ur2FxChip button{border:0;border-radius:999px;min-width:34px;height:34px;background:#EEF2F7;font-size:16px;cursor:pointer;padding:0 8px;}'
++'#ur2FxChip button.off{opacity:.45;}'
++'#ur2FxPanel{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,22,40,.45);align-items:center;justify-content:center;padding:16px;}'
++'#ur2FxPanel .box{background:#fff;color:#22262E;border-radius:18px;padding:16px;width:100%;max-width:380px;max-height:80vh;overflow:auto;font-family:Poppins,system-ui,sans-serif;}'
++'#ur2FxPanel h3{margin:0 0 4px;font-size:16px;}#ur2FxPanel p{margin:0 0 10px;font-size:12px;color:#667;}'
++'#ur2FxPanel .g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}'
++'#ur2FxPanel .g button{border:2px solid #E5E7EB;background:#fff;border-radius:12px;padding:10px 6px;font-size:13px;font-weight:600;cursor:pointer;}'
++'#ur2FxPanel .g button.on{border-color:#4338CA;background:#EEF0FF;}'
++'#ur2FxPanel .cl{margin-top:12px;width:100%;border:0;border-radius:12px;padding:11px;background:#1F3A5F;color:#fff;font-weight:700;cursor:pointer;}'
++'#ur2FxToast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:100004;background:rgba(20,20,30,.9);color:#fff;padding:8px 14px;border-radius:999px;font:600 12px Poppins,system-ui,sans-serif;display:none;}';
+ document.head.appendChild(s);}
+function say(t){if(!toast){toast=document.createElement('div');toast.id='ur2FxToast';document.body.appendChild(toast);}
+ toast.textContent=t;toast.style.display='block';clearTimeout(say.t);say.t=setTimeout(function(){toast.style.display='none';},2200);}
+function isAdmin(){try{return !!(firebase.auth().currentUser);}catch(e){return false;}}
+function renderChip(){
+ if(!chip){chip=document.createElement('div');chip.id='ur2FxChip';document.body.appendChild(chip);}
+ var adm=isAdmin(),show=!!cur||adm,sig=cur+'|'+fxOn+'|'+adm;
+ chip.style.display=show?'flex':'none';if(!show||chip.getAttribute('data-sig')===sig)return;chip.setAttribute('data-sig',sig);
+ var h='';
+ if(cur){h+='<span class="fxt">'+F[cur].g+'</span><button type="button" id="ur2FxTg" class="'+(fxOn?'':'off')+'" title="Effects on/off" aria-label="Festival effects on/off">✨</button>';}
+ if(adm)h+='<button type="button" id="ur2FxAd" title="Festival theme (admin)" aria-label="Festival theme (admin)">⚙️</button>';
+ chip.innerHTML=h;
+ var tg=document.getElementById('ur2FxTg');if(tg)tg.onclick=function(){fxOn=!fxOn;saveFx();say(fxOn?'✨ Effects chalu':'Effects band');if(fxOn)startFx();else stopFx();renderChip();};
+ var ad=document.getElementById('ur2FxAd');if(ad)ad.onclick=openPanel;
+}
+function openPanel(){
+ if(!panel){panel=document.createElement('div');panel.id='ur2FxPanel';document.body.appendChild(panel);
+  panel.onclick=function(e){if(e.target===panel)panel.style.display='none';};}
+ var h='<div class="box"><h3>🎉 Festival theme</h3><p>Badha ne (resident ne pan) aa theme dekhashe. "Auto" = tarikh mujab.</p><div class="g">';
+ h+='<button type="button" data-k="auto" class="'+(ovr==='auto'?'on':'')+'">🗓️ Auto</button><button type="button" data-k="none" class="'+(ovr==='none'?'on':'')+'">🚫 Koi nahi</button>';
+ Object.keys(F).forEach(function(k){h+='<button type="button" data-k="'+k+'" class="'+(ovr===k?'on':'')+'">'+F[k].e+' '+F[k].n+'</button>';});
+ h+='</div><button type="button" class="cl">Band karo</button></div>';
+ panel.innerHTML=h;panel.style.display='flex';
+ panel.querySelector('.cl').onclick=function(){panel.style.display='none';};
+ var bs=panel.querySelectorAll('.g button');
+ for(var i=0;i<bs.length;i++)bs[i].onclick=function(){var k=this.getAttribute('data-k');
+  try{fbDb.ref(FB_ROOT+'/festival').set({key:k,at:Date.now()}).then(function(){say('✅ Badha ma lagu thayu');}).catch(function(e){say('Save na thayu: '+e.message);});}catch(e){say('Firebase taiyar nathi');}
+  ovr=k;refresh();panel.style.display='none';};
+}
+function refresh(){
+ var k=activeKey();
+ if(k!==cur){cur=k;try{if(window.ur2SetFestTheme)window.ur2SetFestTheme(cur);}catch(e){}
+  if(cur&&fxOn)startFx();else stopFx();}
+ renderChip();
+}
+/* ---------- init ---------- */
+var tries=0;
+function sync(){var db;try{db=fbDb;}catch(e){}
+ if(!db){if(tries++<60)setTimeout(sync,1000);return;}
+ try{db.ref(FB_ROOT+'/festival').on('value',function(s){var v=s.val();ovr=(v&&v.key)||'auto';refresh();},function(){});}catch(e){}}
+function init(){loadFx();css();refresh();sync();setInterval(refresh,2500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
