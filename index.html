@@ -1202,7 +1202,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 </div>
 
 <div id="residentLoginBox" style="display:none;">
-<p class="lock-desc">Tamaro flat number ane admin pase register mobile number nakho</p>
+<p class="lock-desc">Tamaro flat number, register mobile number ane admin e aapelo 6-digit PIN nakho</p>
 <div class="lock-field">
 <span class="lock-field-icon">🏠</span>
 <input type="text" id="residentFlatInput" inputmode="numeric" placeholder="Flat No. (e.g. 402)" autocomplete="off" style="letter-spacing:normal;">
@@ -1210,6 +1210,10 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 <div class="lock-field">
 <span class="lock-field-icon">📱</span>
 <input type="tel" id="residentMobileInput" inputmode="numeric" placeholder="Registered Mobile No." autocomplete="off" style="letter-spacing:normal;">
+</div>
+<div class="lock-field">
+<span class="lock-field-icon">🔑</span>
+<input type="password" id="residentPinInput" inputmode="numeric" maxlength="6" placeholder="6-digit PIN (admin pase thi)" autocomplete="off" style="letter-spacing:normal;">
 </div>
 <button type="button" class="lock-submit" onclick="tryResidentLogin()">View My Details →</button>
 <div class="lock-err" id="residentErrMsg"></div>
@@ -1222,6 +1226,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 
 <div id="residentView">
 <div class="rv-header">
+<button class="rv-logout" style="right:92px" onclick="changeOwnerPin()">🔑 PIN</button>
 <button class="rv-logout" onclick="residentLogout()">Logout</button>
 <div class="rv-eyebrow">Tower D · Society Ledger</div>
 <h2 id="rvFlatTitle">Flat -</h2>
@@ -1346,7 +1351,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   const rf = document.getElementById('residentFlatInput');
   const rm = document.getElementById('residentMobileInput');
-  [rf, rm].forEach(el=>{
+  const rp = document.getElementById('residentPinInput');
+  [rf, rm, rp].forEach(el=>{
     if(el) el.addEventListener('keydown', function(e){ if(e.key === 'Enter') tryResidentLogin(); });
   });
 });
@@ -3240,8 +3246,10 @@ async function tryResidentLogin(){
   const flatNum = document.getElementById('residentFlatInput').value.trim();
   const mobileDigits = document.getElementById('residentMobileInput').value.replace(/\D/g, "");
   const mobileEntered = mobileDigits.slice(-10);
+  const pinEntered = document.getElementById('residentPinInput').value.replace(/\D/g, "");
   const errBox = document.getElementById('residentErrMsg');
   errBox.textContent = "";
+  if(!/^[0-9]{6}$/.test(pinEntered)){ errBox.textContent = "6-digit PIN nakho (admin pase thi male)."; return; }
   if(!flatNum || mobileDigits.length < 10){ errBox.textContent = "Sacho Flat No. ane 10-digit mobile number nakho."; return; }
   if(!/^[0-9]{1,5}$/.test(flatNum) || !flats.some(f=>String(f.n)===flatNum)){
     errBox.textContent = "❌ Aa Flat No. malyo nahi"; return;
@@ -3262,7 +3270,7 @@ async function tryResidentLogin(){
     if(!user || !user.isAnonymous) throw new Error("Anonymous sign-in is not available.");
     const sessionRef = fbDb.ref(FB_ROOT + "/ownerSessions/" + user.uid);
     // Firebase Rules compare the entered values with the saved flat record.
-    await sessionRef.set({ flat: flatNum, mobile: mobileEntered, createdAt: firebase.database.ServerValue.TIMESTAMP });
+    await sessionRef.set({ flat: flatNum, mobile: mobileEntered, pin: pinEntered, createdAt: firebase.database.ServerValue.TIMESTAMP });
     sessionStorage.setItem('ur2_owner_flat', flatNum);
     activeFirebaseUid = user.uid;
     await initResidentFirebaseSync(flatNum);
@@ -3278,12 +3286,36 @@ async function tryResidentLogin(){
     if(err && (err.code === "auth/operation-not-allowed" || err.code === "auth/admin-restricted-operation")){
       errBox.textContent = "Firebase Authentication ma Anonymous sign-in enable karavo.";
     }else if(err && err.code === "PERMISSION_DENIED"){
-      errBox.textContent = "Flat/mobile match nathi thayu athva Rules haju publish nathi thaya.";
+      errBox.textContent = "Flat / mobile / PIN match nathi thayu (athva navi Rules haju publish nathi thai).";
     }else{
-      errBox.textContent = "Flat/mobile match nathi thayu. Number check kari fari try karo.";
+      errBox.textContent = "Flat / mobile / PIN match nathi thayu. Check kari fari try karo.";
     }
   }finally{
     ownerLoginInProgress = false;
+  }
+}
+
+async function changeOwnerPin(){
+  const user = firebase.auth().currentUser;
+  const flatNum = residentFlat;
+  if(!user || !user.isAnonymous || !flatNum){ alert("Pehla login karo."); return; }
+  const p1 = prompt("Navo 6-digit PIN nakho (potano manpasand):");
+  if(p1 === null) return;
+  const pin = p1.replace(/\D/g,"");
+  if(!/^[0-9]{6}$/.test(pin)){ alert("PIN barabar 6 ank no j hovo joiye."); return; }
+  if(/^(\d)\1{5}$/.test(pin) || "0123456789".includes(pin) || "9876543210".includes(pin)){ alert("Saral PIN (111111, 123456 vagere) na rakho. Bijo PIN pasand karo."); return; }
+  const mobileDigits = String((getRecord(flatNum)||{}).mobile||"").replace(/\D/g,"").slice(-10);
+  if(mobileDigits && pin === mobileDigits.slice(-6)){ alert("Mobile number na chhella 6 ank PIN tarike na rakho."); return; }
+  const p2 = prompt("PIN pachho ek vaar nakho (confirm):");
+  if(p2 === null) return;
+  if(p2.replace(/\D/g,"") !== pin){ alert("Be PIN ek sarkha nathi. Fari try karo."); return; }
+  try{
+    await fbDb.ref(FB_ROOT + "/ownerPins/" + flatNum).set(pin);
+    await fbDb.ref(FB_ROOT + "/ownerSessions/" + user.uid).update({ pin: pin });
+    alert("✅ Tamaro navo PIN save thai gayo. Aagal thi aa PIN thi login karo.");
+  }catch(err){
+    console.error("Owner PIN change failed:", err);
+    alert("PIN badalaayo nahi. Fari login karine try karo.");
   }
 }
 async function residentLogout(sessionExpired=false){
@@ -3299,6 +3331,7 @@ async function residentLogout(sessionExpired=false){
   document.getElementById('lockScreen').classList.remove('hidden');
   document.getElementById('residentFlatInput').value = "";
   document.getElementById('residentMobileInput').value = "";
+  document.getElementById('residentPinInput').value = "";
   showResidentLoginBox();
   if(uid) await fbDb.ref(FB_ROOT + "/ownerSessions/" + uid).remove().catch(err=>console.warn("Owner session cleanup failed:",err));
   if(user) await firebase.auth().signOut().catch(err=>console.error("Owner sign-out failed:",err));
@@ -3484,6 +3517,8 @@ function saveLedger(data){ ledger = data; setSyncStatus('saving'); fbDb.ref(FB_R
 function saveSettings(data){ settings = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/settings").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (settings) failed:", e); setSyncStatus('error'); }); }
 function saveOpeningBalanceOverrides(data){ openingBalanceOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/openingBalanceOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (openingBalanceOverrides) failed:", e); setSyncStatus('error'); }); }
 function saveReceiptHistory(data){ receiptHistory = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/receiptHistory").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (receiptHistory) failed:", e); setSyncStatus('error'); }); }
+let ownerPins = {}; // { flatNum: "123456" } admin-only; Firebase Rules use it to verify owner login
+function saveOwnerPins(data){ ownerPins = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/ownerPins").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (ownerPins) failed:", e); setSyncStatus('error'); }); }
 function saveOwnerOverrides(data){ ownerOverrides = data; setSyncStatus('saving'); fbDb.ref(FB_ROOT + "/ownerOverrides").set(data).then(()=>setSyncStatus('saved')).catch(e=>{ console.error("Firebase save (ownerOverrides) failed:", e); setSyncStatus('error'); }); }
 
 // Ledger entries are saved individually with Firebase transactions.  The old
@@ -3664,6 +3699,7 @@ function initFirebaseSync(){
       openingBalanceOverrides = data.openingBalanceOverrides || {};
       receiptHistory = data.receiptHistory || {};
       ownerOverrides = data.ownerOverrides || {};
+      ownerPins = data.ownerPins || {};
       applyOwnerOverrides();
       // Self-heal: if a previous session got locked with no real default amount
       // (the bug that caused Paid entries to silently save at ₹0), unlock it now.
@@ -6916,10 +6952,43 @@ function showCommunity(){
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
  document.getElementById('communityTab').classList.add('active'); document.getElementById('screen-community').style.display='block'; renderCommunity();
 }
+
+// ---- Owner PIN manager (admin only) ----
+function newRandomPin(used){
+  let pin;
+  do{ const a=new Uint32Array(1); crypto.getRandomValues(a); pin=String(100000 + (a[0] % 900000)); }while(used && used.has(pin));
+  return pin;
+}
+function generateMissingOwnerPins(){
+  const next={...ownerPins}; const used=new Set(Object.values(next)); let n=0;
+  flats.forEach(f=>{ if(!/^[0-9]{6}$/.test(next[f.n]||"")){ next[f.n]=newRandomPin(used); used.add(next[f.n]); n++; } });
+  if(!n){ alert("Badha flats ne PIN pehla thi che."); return; }
+  saveOwnerPins(next); audit('Owner PINs generated', n+' flats'); openOwnerPins();
+}
+function resetOwnerPin(flatNum){
+  if(!confirm("Flat "+flatNum+" no PIN navo banavvo? Juno PIN kam nahi kare.")) return;
+  const next={...ownerPins}; delete next[flatNum]; const used=new Set(Object.values(next));
+  next[flatNum]=newRandomPin(used); saveOwnerPins(next); audit('Owner PIN reset','Flat '+flatNum); openOwnerPins();
+}
+function sendOwnerPinWhatsApp(flatNum){
+  const rec=getRecord(flatNum); let mobile=String(rec.mobile||"").replace(/\D/g,"");
+  if(mobile.length===10) mobile="91"+mobile;
+  if(mobile.length<11){ alert("Aa flat nu mobile number save nathi."); return; }
+  const flat=flats.find(f=>f.n===flatNum);
+  const msg="નમસ્તે "+(flat?flat.name:"")+",\nURBAN RECIDENCY 2 BIL મેન્ટેનન્સ એપમાં તમારી વિગતો જોવા માટે:\nFlat No: "+flatNum+"\nPIN: "+ownerPins[flatNum]+"\n\nઆ PIN કોઈને શેર કરશો નહિ.\nઆભાર.";
+  window.open("https://wa.me/"+mobile+"?text="+encodeURIComponent(msg),"_blank");
+}
+function openOwnerPins(){
+  let ov=document.getElementById('ownerPinOverlay');
+  if(!ov){ ov=document.createElement('div'); ov.id='ownerPinOverlay'; ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:16px;'; document.body.appendChild(ov); }
+  const rows=flats.map(f=>{ const pin=ownerPins[f.n]||"";
+    return `<tr><td style="padding:6px;border-bottom:1px solid #eee"><b>${esc(f.n)}</b></td><td style="padding:6px;border-bottom:1px solid #eee">${esc(f.name)}</td><td style="padding:6px;border-bottom:1px solid #eee;font-family:monospace;font-weight:700">${pin?esc(pin):'<span style="color:#b00">-</span>'}</td><td style="padding:6px;border-bottom:1px solid #eee;white-space:nowrap">${pin?`<button class="c-btn gold" onclick="sendOwnerPinWhatsApp('${esc(f.n)}')">📲</button> `:''}<button class="c-btn red" onclick="resetOwnerPin('${esc(f.n)}')">🔄</button></td></tr>`; }).join("");
+  ov.innerHTML=`<div style="background:#fff;border-radius:16px;max-width:640px;width:100%;padding:16px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="margin:0">🔑 Owner PINs</h3><button class="c-btn" onclick="document.getElementById('ownerPinOverlay').remove()">✖ Close</button></div><p class="mini">Member login ma Flat No + Mobile + aa 6-digit PIN joiye. 📲 thi PIN WhatsApp par moklo, 🔄 thi navo PIN banavo.</p><button class="c-btn gold" onclick="generateMissingOwnerPins()">⚡ Jena PIN nathi tene PIN banavo</button><div style="overflow-x:auto;margin-top:10px"><table style="width:100%;border-collapse:collapse;font-size:13px"><tr><th align="left">Flat</th><th align="left">Name</th><th align="left">PIN</th><th></th></tr>${rows}</table></div></div>`;
+}
 function renderCommunity(){
  const el=document.getElementById('screen-community'); if(!el) return;
  el.innerHTML=`<div class="community"><h2>⚙️ Settings</h2><div class="community-grid">
- <section class="c-card"><h3>🔐 Admin account</h3><p class="mini">Admin login Firebase Authentication account thi thay chhe. Email/password Firebase Console → Authentication → Users ma manage karo.</p><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
+ <section class="c-card"><h3>🔐 Admin account</h3><p class="mini">Admin login Firebase Authentication account thi thay chhe. Email/password Firebase Console → Authentication → Users ma manage karo.</p><button class="c-btn gold" onclick="setMasterAdminPassword()">${settings.masterAdminPassword?'Change':'Set'} Master Admin password</button><br><button class="c-btn gold" onclick="openOwnerPins()">🔑 Owner PINs (member login)</button><br><button class="c-btn red" onclick="resetAllPaidAndExpenses()">Master Admin: Reset all data</button><div class="mini">Reset પછી paid months, ledger અને receipts સાફ થઈ જાય છે; પહેલાં backup લો.</div></section>
  </div></div>`;
 }
 async function changeAdminPassword(){
