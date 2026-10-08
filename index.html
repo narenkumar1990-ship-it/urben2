@@ -3214,6 +3214,7 @@ const flats = [
 ];
 
 const MONTHS = ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"];
+const FULL_MONTH_NAMES_FILE = {Apr:'April',May:'May',Jun:'June',Jul:'July',Aug:'August',Sep:'September',Oct:'October',Nov:'November',Dec:'December',Jan:'January',Feb:'February',Mar:'March'};
 
 // Real calendar month index (0=Jan..11=Dec) for each FY month label — used
 // to figure out which months of a given FY have actually "arrived" as of
@@ -4271,7 +4272,7 @@ updateHeaderClock();
 // (receipts, ledgers, reports) so anyone reading a printout can see exactly
 // when it was generated.
 function urC(n){var v=getComputedStyle(document.documentElement).getPropertyValue('--'+n).trim().replace('#','');if(v.length===3)v=v.replace(/./g,'$&$&');return [parseInt(v.substr(0,2),16),parseInt(v.substr(2,2),16),parseInt(v.substr(4,2),16)];}
-function urBanner(doc,title,sub){
+function urBanner(doc,title,sub,bigSub){
 const W=doc.internal.pageSize.getWidth();
 doc.setFillColor(...urC('a1')); doc.rect(0,0,W,36,'F');
 doc.setFillColor(...urC('a5')); doc.triangle(W-78,0,W,0,W,36,'F');
@@ -4281,7 +4282,8 @@ doc.setTextColor(...urC('a3')); doc.setFont('helvetica','bold'); doc.setFontSize
 doc.setTextColor(255,255,255); doc.setFontSize(15); doc.text('URBAN RESIDENCY 2 BIL',37,16);
 doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...urC('a7')); doc.text('Tower D | Society Maintenance Ledger',37,22.5);
 doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text(title,W-14,16,{align:'right'});
-doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...urC('usand')); doc.text(sub,W-14,23,{align:'right'});
+if(bigSub){ doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(255,255,255); doc.text(sub,W-14,24.5,{align:'right'}); }
+else { doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...urC('usand')); doc.text(sub,W-14,23,{align:'right'}); }
 doc.setTextColor(0,0,0);
 }
 function urCard(doc,x,y,w,h,label,value,rgb){
@@ -4296,13 +4298,26 @@ doc.setFillColor(rgb[0],rgb[1],rgb[2]); doc.roundedRect(14,y-4.6,1.8,6.4,.8,.8,'
 doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...urC('a1')); doc.text(label,19,y);
 doc.setTextColor(0,0,0);
 }
-function urMonthTop(doc,month,fy,v){
-urBanner(doc,'MONTHLY LEDGER',month+'  |  FY '+fy);
+function urMonthTop(doc,month,fy,v,split){
+const FULL_MONTH_NAMES = {Apr:'April',May:'May',Jun:'June',Jul:'July',Aug:'August',Sep:'September',Oct:'October',Nov:'November',Dec:'December',Jan:'January',Feb:'February',Mar:'March'};
+urBanner(doc,'MONTHLY LEDGER',(FULL_MONTH_NAMES[month]||month)+'  |  FY '+fy,true);
 const W=doc.internal.pageSize.getWidth(), g=4, w=(W-28-3*g)/4, y=44;
 urCard(doc,14,y,w,18,'Opening balance',v[0],urC('a1'));
 urCard(doc,14+(w+g),y,w,18,'Total Avak',v[1],[5,150,105]);
 urCard(doc,14+2*(w+g),y,w,18,'Total Javak',v[2],[225,29,72]);
 urCard(doc,14+3*(w+g),y,w,18,'Closing balance',v[3],urC('a4'));
+if(split){
+// Bank / Cash bifurcation printed right under the Opening and Closing cards
+const sub=(x,bank,cash)=>{
+doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(0,0,0);
+doc.text('Bank: '+bank, x+2, y+18+5.5);
+doc.text('Cash: '+cash, x+2, y+18+10.5);
+};
+sub(14, split.openBank, split.openCash);
+sub(14+3*(w+g), split.closeBank, split.closeCash);
+doc.setTextColor(0,0,0);
+return y+18+18;
+}
 return y+18+11;
 }
 function urFooter(doc){
@@ -4824,7 +4839,10 @@ t.direction==='CashToBank' ? "Cash to Bank" : "Bank to Cash",
 "Rs. "+toNum(t.amount).toLocaleString('en-IN'), displayDate(t.date||"-"), t.remark||"-"
 ]);
 
-let y = urMonthTop(doc, month, fy, [fmt(openingForMonth).replace('₹','Rs. '), fmt(row.income).replace('₹','Rs. '), fmt(row.expense).replace('₹','Rs. '), fmt(row.balance).replace('₹','Rs. ')]);
+let y = urMonthTop(doc, month, fy, [fmt(openingForMonth).replace('₹','Rs. '), fmt(row.income).replace('₹','Rs. '), fmt(row.expense).replace('₹','Rs. '), fmt(row.balance).replace('₹','Rs. ')], {
+openBank: fmt(openingBankForMonth).replace('₹','Rs. '), openCash: fmt(openingCashForMonth).replace('₹','Rs. '),
+closeBank: fmt(closingBankForMonth).replace('₹','Rs. '), closeCash: fmt(closingCashForMonth).replace('₹','Rs. ')
+});
 // Keep each section together. autoTable can add pages for long lists, but
 // ordinary text written after a table does not paginate by itself.
 function ensureLedgerSpace(requiredHeight){
@@ -4834,13 +4852,21 @@ doc.addPage();
 y = 18;
 }
 }
+function ledgerTotalLine(label, amount){
+ensureLedgerSpace(10);
+doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(0,0,0);
+doc.text(label + ": Rs. " + (Math.round(amount*100)/100).toLocaleString('en-IN'), 196, y, {align:'right'});
+y += 7;
+}
+const creditTotal = l.credits.filter(c=> dateToFYMonth(c.date)===month).reduce((a,c)=>a+toNum(c.amount),0);
+const expenseTotal = l.expenses.filter(e=> dateToFYMonth(e.date)===month).reduce((a,e)=>a+toNum(e.amount),0);
 urSection(doc,"Maintenance Collection (Avak)",y,urC('a4'));
 doc.autoTable({
 startY: y+3,
 head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Chalan No.","Type"]],
 body: maintRows.length ? maintRows : [["-","No maintenance collected this month","-","-","-","-","-","-"]],
 theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('usand')}, headStyles:{fillColor:urC('a4'), fontSize:8.5}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8, cellPadding:2.5, overflow:'linebreak'},
-columnStyles:{0:{cellWidth:10},1:{cellWidth:34},2:{cellWidth:36},3:{cellWidth:22},4:{cellWidth:20},5:{cellWidth:16},6:{cellWidth:16},7:{cellWidth:14}},
+columnStyles:{0:{cellWidth:10},1:{cellWidth:38},2:{cellWidth:34},3:{cellWidth:22},4:{cellWidth:22},5:{cellWidth:14},6:{cellWidth:24},7:{cellWidth:18}},
 didParseCell: function(data){
 if(data.section==='body' && data.column.index===7){
 if(data.cell.raw === "Backlog"){ data.cell.styles.textColor = [209,73,91]; data.cell.styles.fontStyle='bold'; }
@@ -4850,7 +4876,8 @@ else if(data.cell.raw === "Regular"){ data.cell.styles.textColor = [46,139,87]; 
 });
 y = doc.lastAutoTable.finalY + 5;
 if(maintRows.length){
-ensureLedgerSpace(14);
+ensureLedgerSpace(24);
+ledgerTotalLine("Total Maintenance Collected", regularTotal + backlogTotal);
 doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(90,86,74);
 doc.text("Regular (on-time) collection: Rs. " + regularTotal.toLocaleString('en-IN') + "   |   Backlog (late/pending-cleared) collection: Rs. " + backlogTotal.toLocaleString('en-IN'), 14, y);
 doc.setTextColor(0,0,0);
@@ -4867,7 +4894,9 @@ head: [["Description","Amount","Date","Mode"]],
 body: creditRows.length ? creditRows : [["No credit entries this month","-","-","-"]],
 theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('usand')}, headStyles:{fillColor:[5,150,105], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8.5, cellPadding:2.5}
 });
-y = doc.lastAutoTable.finalY + 8;
+y = doc.lastAutoTable.finalY + 6;
+if(creditRows.length) ledgerTotalLine("Total Other Credits", creditTotal);
+y += 2;
 
 ensureLedgerSpace(32);
 urSection(doc,"Expense Entries (Javak)",y,[225,29,72]);
@@ -4877,7 +4906,9 @@ head: [["Description","Amount","Date","Mode","Remark"]],
 body: expenseRows.length ? expenseRows : [["No expense entries this month","-","-","-","-"]],
 theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('usand')}, headStyles:{fillColor:[225,29,72], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8.5, cellPadding:2.5}
 });
-y = doc.lastAutoTable.finalY + 10;
+y = doc.lastAutoTable.finalY + 6;
+if(expenseRows.length) ledgerTotalLine("Total Expenses (Javak)", expenseTotal);
+y += 4;
 
 if(transferRows.length){
 ensureLedgerSpace(32);
@@ -4904,7 +4935,7 @@ doc.setFontSize(8); doc.text("Prepared By",14,y+52); doc.text("Treasurer / Secre
 doc.setTextColor(0,0,0);
 
 urFooter(doc);
-doc.save("Ledger-" + month + "-" + fy + ".pdf");
+doc.save("Ledger-" + (FULL_MONTH_NAMES_FILE[month]||month) + "-" + fy + ".pdf");
 }
 
 function downloadJavakListPDF(){
