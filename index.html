@@ -4799,7 +4799,12 @@ const group = maintGroups.get(key);
 group.amount += amt;
 group.months.push(payment.dueMonth);
 if(payment.mode) group.modes.add(payment.mode);
-if(payment.chalanNo) group.chalanNos.add(payment.chalanNo);
+if(payment.chalanNo){
+// A month's chalan may itself hold several numbers ("1813, 1814"), so split
+// into single numbers before de-duplicating — otherwise overlapping entries
+// from different months print the same number twice.
+String(payment.chalanNo).split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).forEach(x=> group.chalanNos.add(x));
+}
 if(type === "Backlog") group.isBacklog = true;
 });
 const maintRows = Array.from(maintGroups.values()).map(group=>[
@@ -6542,12 +6547,8 @@ doc.setDrawColor(226,160,60);
 doc.line(14,29,196,29);
 
 doc.setFont('helvetica','bold');
-doc.setFontSize(13);
-doc.text(flat.name, 14, 39);
-
-doc.setFont('helvetica','bold');
 doc.setFontSize(14);
-doc.text("Maintenance Payment Receipt" + (isMulti ? " (Multiple Months)" : ""), 14, 48);
+doc.text("Maintenance Payment Receipt" + (isMulti ? " (Multiple Months)" : ""), 14, 44);
 
 doc.setFont('helvetica','normal');
 doc.setFontSize(10);
