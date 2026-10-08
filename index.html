@@ -24,7 +24,7 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>URBAN RECIDENCY 2 BIL Maintenance</title>
+<title>URBAN RESIDENCY 2 BIL Maintenance</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
@@ -1361,7 +1361,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div class="menu">
 <div class="sidebar-brand">
 <div class="sb-icon">🏠</div>
-<div class="sb-text"><b>URBAN RECIDENCY 2 BIL</b><span>Society Ledger</span></div>
+<div class="sb-text"><b>URBAN RESIDENCY 2 BIL</b><span>Society Ledger</span></div>
 </div>
 <button data-tab="home" class="">🏠 Dashboard</button>
 <button data-tab="ledger" class="active">💰 Ledger</button>
@@ -3396,7 +3396,7 @@ function renderResidentView(flatNum){
 let rvQrObj = null;
 function buildUpiUri(flatNum, amount){
 const note = "Flat " + flatNum + " Maintenance";
-return "upi://pay?pa=" + encodeURIComponent(settings.upiId) + "&pn=" + encodeURIComponent("Urban Recidency 2 BIL") + "&am=" + Math.round(amount) + "&cu=INR&tn=" + encodeURIComponent(note);
+return "upi://pay?pa=" + encodeURIComponent(settings.upiId) + "&pn=" + encodeURIComponent("Urban Residency 2 BIL") + "&am=" + Math.round(amount) + "&cu=INR&tn=" + encodeURIComponent(note);
 }
 function renderResidentUpiSection(flatNum, flat, pendingDue){
 const box = document.getElementById('rvUpiSection');
@@ -3436,7 +3436,7 @@ function downloadAllReceiptsPDF(flatNum){
     const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
     const isMulti = entry.months.length > 1;
     const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + entry.fy.replace("-","") + "-" + (entry.paidDate || "-");
-    const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+    const chalanNo = mergeChalanNos([entry.chalanNo].concat(entry.months.map(x=>x.chalanNo)));
     drawFullReceipt(doc, flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, flat, rec, receiptNo, isMulti, chalanNo);
   });
   stampGeneratedOnAllPages(doc);
@@ -4541,7 +4541,7 @@ const rec = getRecord(flatNum);
 const rows = entry.months.map(x=>[x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
 const isMulti = entry.months.length > 1;
 const receiptNo = flatNum + (isMulti ? "-MULTI-" : "-") + fy.replace("-","") + "-" + (entry.paidDate || "-");
-const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+const chalanNo = mergeChalanNos([entry.chalanNo].concat(entry.months.map(x=>x.chalanNo)));
 items.push({flatNum, rows, total: entry.total, date: entry.paidDate || "-", monthCount: entry.months.length, flat, rec, receiptNo, isMulti, chalanNo});
 });
 
@@ -4822,14 +4822,19 @@ String(payment.chalanNo).split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).forEa
 }
 if(type === "Backlog") group.isBacklog = true;
 });
-const maintRows = Array.from(maintGroups.values()).map(group=>[
+const chalanStart = g=>{ let k = Infinity; g.chalanNos.forEach(t=>{ const m = String(t).match(/^\d+/); if(m && Number(m[0]) < k) k = Number(m[0]); }); return k; };
+const maintRows = Array.from(maintGroups.values()).sort((a,b)=>{
+const ka = chalanStart(a), kb = chalanStart(b);
+if(ka !== kb) return ka < kb ? -1 : 1;
+return (Number(a.flat) || 0) - (Number(b.flat) || 0);
+}).map(group=>[
 group.flat,
 group.name,
 group.months.join(", "),
 "Rs. "+group.amount.toLocaleString('en-IN'),
 displayDate(group.date),
 group.modes.size ? Array.from(group.modes).join(", ") : "-",
-group.chalanNos.size ? Array.from(group.chalanNos).join(", ") : "-",
+group.chalanNos.size ? mergeChalanNos(Array.from(group.chalanNos)) : "-",
 group.isBacklog ? "Backlog" : "Regular"
 ]);
 const creditRows = l.credits.filter(c=> dateToFYMonth(c.date)===month).map(c=>[c.desc, "Rs. "+toNum(c.amount).toLocaleString('en-IN'), displayDate(c.date||"-"), c.mode||"-"]);
@@ -4949,7 +4954,7 @@ const doc = new jsPDF();
 
 doc.setFont('helvetica','bold');
 doc.setFontSize(15);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
+doc.text("URBAN RESIDENCY 2 BIL Maintenance", 14, 16);
 doc.setFontSize(10);
 doc.setFont('helvetica','normal');
 doc.text("Tower D - Society Ledger", 14, 22);
@@ -5139,7 +5144,7 @@ const d = computeDefaultersList().find(x=>x.flat===flatNum);
 if(!d){ alert("Aa flat na koi dues baki nathi."); return; }
 const monthsStr = d.pendingMonths.length ? d.pendingMonths.join(" | ") : "-";
 const upiLine = (settings.upiId ? ("\n\nUPI ID: " + settings.upiId) : "");
-const message = "નમસ્તે " + (flat ? flat.name : "") + ",\nઆશા છે કે તમે મજામાં હશો.\nએક નાની વિનંતી હતી કે આપણું સોસાયટીનું મેન્ટેનન્સ ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + " રૂપિયા બાકી છે. સોસાયટીના દૈનિક કામકાજ અને સુવિધાઓ સરળતાથી ચાલતી રહે તે માટે કૃપા કરીને બાકી મેન્ટેનન્સ વહેલી તકે જમા કરાવી દેશો." + "\n\nબાકી મહિના: " + monthsStr + (d.priorDue>0 ? ("\nપાછલું બાકી: ₹" + Math.round(d.priorDue).toLocaleString('en-IN')) : "") + upiLine + "\n\nજો તમે ચુકવણી કરી દીધી હોય તો આ મેસેજને અવગણશો.\nઆભાર,\nURBAN RECIDENCY 2 BIL";
+const message = "નમસ્તે " + (flat ? flat.name : "") + ",\nઆશા છે કે તમે મજામાં હશો.\nએક નાની વિનંતી હતી કે આપણું સોસાયટીનું મેન્ટેનન્સ ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + " રૂપિયા બાકી છે. સોસાયટીના દૈનિક કામકાજ અને સુવિધાઓ સરળતાથી ચાલતી રહે તે માટે કૃપા કરીને બાકી મેન્ટેનન્સ વહેલી તકે જમા કરાવી દેશો." + "\n\nબાકી મહિના: " + monthsStr + (d.priorDue>0 ? ("\nપાછલું બાકી: ₹" + Math.round(d.priorDue).toLocaleString('en-IN')) : "") + upiLine + "\n\nજો તમે ચુકવણી કરી દીધી હોય તો આ મેસેજને અવગણશો.\nઆભાર,\nURBAN RESIDENCY 2 BIL";
 window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
 }
 // Bulk version: opens one WhatsApp tab per defaulter that has a mobile number
@@ -5981,6 +5986,57 @@ if(stagedMonths[m]) stagedMonths[m].mode = paymentMode;
 // Copies whatever Chalan No. is typed in the form onto every month covered
 // by this receipt (optional field — offline chalan-book number, used only
 // to match this app's online record with the physical/offline chalan book).
+// ---- Duplicate Chalan No. check ----
+// Reads every chalan number typed in the field ("1813", "1813, 1814",
+// "1760 to 1767") into single numbers, so ranges are compared properly.
+function expandChalanNos(v){
+const nums = new Set(), words = new Set();
+String(v || "").split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).forEach(t=>{
+const r = t.match(/^(\d+)\s*(?:to|-|\u2013)\s*(\d+)$/i);
+if(r){
+const a = Number(r[1]), b = Number(r[2]);
+if(b >= a && b - a <= 1000){ for(let n=a; n<=b; n++) nums.add(n); }
+else { nums.add(a); nums.add(b); }
+} else if(/^\d+$/.test(t)){ nums.add(Number(t)); }
+else { words.add(t.toLowerCase()); }
+});
+return { nums, words };
+}
+// Returns where (another flat) the same chalan number was already saved.
+function findChalanConflicts(chalanNo, flatNum){
+const mine = expandChalanNos(chalanNo);
+if(!mine.nums.size && !mine.words.size) return [];
+const found = [], seen = new Set();
+Object.keys(store).forEach(fn=>{
+if(String(fn) === String(flatNum)) return;
+const years = (store[fn] && store[fn].years) || {};
+Object.keys(years).forEach(fy=>{
+const months = (years[fy] && years[fy].months) || {};
+Object.keys(months).forEach(m=>{
+const md = months[m];
+if(!md || md.status !== "Paid" || !md.chalanNo) return;
+const theirs = expandChalanNos(md.chalanNo);
+let hit = null;
+mine.nums.forEach(n=>{ if(hit === null && theirs.nums.has(n)) hit = String(n); });
+mine.words.forEach(w=>{ if(hit === null && theirs.words.has(w)) hit = w; });
+if(hit !== null){
+const key = fn + "|" + hit;
+if(!seen.has(key)){ seen.add(key); found.push({ flat: fn, fy: fy, month: m, no: hit }); }
+}
+});
+});
+});
+return found;
+}
+// Asks the person before saving when the chalan number belongs to another flat.
+function confirmChalanNotDuplicate(chalanNo){
+if(!chalanNo) return true;
+const hits = findChalanConflicts(chalanNo, currentFlat);
+if(!hits.length) return true;
+const lines = hits.slice(0,6).map(h=> "\u2022 Chalan " + h.no + " \u2192 Flat " + h.flat + " (" + h.month + ", FY " + h.fy + ")").join("\n");
+const more = hits.length > 6 ? "\n...ane " + (hits.length - 6) + " vadhu" : "";
+return confirm("\u26a0\ufe0f Chalan No. pehla thi biji flat ma vaparayelo chhe:\n\n" + lines + more + "\n\nTo pan aa Chalan No. Flat " + currentFlat + " mate save karvo chhe?");
+}
 function applyChalanToReceiptMonths(months, chalanNo){
 if(!currentFlat || !chalanNo) return;
 const fy = getFY();
@@ -6011,6 +6067,7 @@ const balanceNote = isNoBalance
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
 const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
 const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + displayDate(paidDate) + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
+if(!confirmChalanNotDuplicate(chalanNo)) return;
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
 commitStagedMonths();
@@ -6472,6 +6529,7 @@ const md = yd.months[m];
 return (md && md.status === "Paid") || !!stagedMonths[m];
 });
 if(!paidMonths.length){ alert("Aa FY ma koi Paid month nathi."); return; }
+if(!confirmChalanNotDuplicate(chalanNo)) return;
 if(!confirm("Flat " + currentFlat + " na " + paidMonths.length + " Paid month(s) ne Chalan No. \"" + chalanNo + "\" jodavu che?")) return;
 paidMonths.forEach(m=>{
 if(stagedMonths[m]) stagedMonths[m].chalanNo = chalanNo;
@@ -6545,7 +6603,7 @@ return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode |
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-const chalanNo = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo).find(x=>x) || "";
+const chalanNo = mergeChalanNos(months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo));
 buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, chalanNo);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
@@ -6567,10 +6625,35 @@ doc.save("Receipt-Flat" + flatNum + (isMulti ? "-Multi-" : "-") + date + "-" + f
 
 // Full, spacious single-receipt layout (one per page) — used for longer
 // (7-12 month) receipts that need more room for the month table.
+// Joins every chalan number of a receipt (not just the first one). Splits
+// "1813, 1814" style entries, removes duplicates, and shortens 3+ consecutive
+// numbers into "1793 to 1796".
+function mergeChalanNos(list){
+const seen = new Set(), tokens = [];
+(list || []).forEach(v=>{
+if(v === undefined || v === null) return;
+String(v).split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).forEach(t=>{ if(!seen.has(t)){ seen.add(t); tokens.push(t); } });
+});
+// Smallest number first ("1760 to 1767" sorts by its first number); text
+// entries without any number stay at the end in the order they were typed.
+const keyOf = t=>{ const m = String(t).match(/^\d+/); return m ? Number(m[0]) : Infinity; };
+tokens.sort((a,b)=>{ const ka = keyOf(a), kb = keyOf(b); return ka === kb ? 0 : (ka < kb ? -1 : 1); });
+const out = [];
+for(let i=0; i<tokens.length; ){
+if(/^\d+$/.test(tokens[i])){
+let j = i;
+while(j+1 < tokens.length && /^\d+$/.test(tokens[j+1]) && Number(tokens[j+1]) === Number(tokens[j]) + 1) j++;
+if(j - i >= 2){ out.push(tokens[i] + " to " + tokens[j]); i = j + 1; continue; }
+}
+out.push(tokens[i]); i++;
+}
+return out.join(", ");
+}
+
 function drawFullReceipt(doc, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, chalanNo){
 doc.setFont('helvetica','bold');
 doc.setFontSize(16);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 18);
+doc.text("URBAN RESIDENCY 2 BIL Maintenance", 14, 18);
 doc.setFontSize(10);
 doc.setFont('helvetica','normal');
 doc.text("Tower D - Society Ledger", 14, 25);
@@ -6653,7 +6736,7 @@ doc.text("Pramukh / Authorized Signatory", 168, sigY + 11, { align: 'center' });
 function drawCompactReceipt(doc, yOff, flatNum, fy, rows, total, date, monthCount, flat, rec, receiptNo, isMulti, chalanNo){
 doc.setTextColor(0,0,0);
 doc.setFont('helvetica','bold'); doc.setFontSize(10);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 6, yOff + 7);
+doc.text("URBAN RESIDENCY 2 BIL Maintenance", 6, yOff + 7);
 doc.setDrawColor(226,160,60);
 doc.line(6, yOff + 10, 204, yOff + 10);
 
@@ -6735,7 +6818,7 @@ fy: fy,
 months: snapshot,
 total: total,
 paidDate: snapshot[0].date || "",
-chalanNo: snapshot.map(x=>x.chalanNo).find(x=>x) || "",
+chalanNo: mergeChalanNos(snapshot.map(x=>x.chalanNo)),
 createdAt: new Date().toISOString()
 };
 if(!receiptHistory[currentFlat]) receiptHistory[currentFlat] = [];
@@ -6756,7 +6839,7 @@ const months = getReceiptMonths();
 const total = months.reduce((s,m)=>s + toNum(getEffectiveMonth(currentFlat, fy, m).amount), 0);
 const date = document.getElementById('inputDate').value || (months[0] ? getEffectiveMonth(currentFlat, fy, months[0]).date : "");
 const mode = document.getElementById('inputMode').value || (months[0] ? getEffectiveMonth(currentFlat, fy, months[0]).mode : "");
-const message = "Urban Recidency 2 BIL Maintenance Payment\n\nFlat: " + currentFlat + "\nOwner: " + (flat ? flat.name : "-") + "\nMonth(s): " + (months.join(", ") || "-") + "\nAmount: Rs. " + total.toLocaleString('en-IN') + "\nPaid On: " + (displayDate(date) || "-") + "\nPayment Mode: " + (mode || "-") + "\n\nThank you.";
+const message = "Urban Residency 2 BIL Maintenance Payment\n\nFlat: " + currentFlat + "\nOwner: " + (flat ? flat.name : "-") + "\nMonth(s): " + (months.join(", ") || "-") + "\nAmount: Rs. " + total.toLocaleString('en-IN') + "\nPaid On: " + (displayDate(date) || "-") + "\nPayment Mode: " + (mode || "-") + "\n\nThank you.";
 window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
 }
 function renderReceiptHistoryBox(flatNum){
@@ -6806,7 +6889,7 @@ const list = receiptHistory[flatNum] || [];
 const entry = list.find(e=>e.id===entryId);
 if(!entry){ alert("Aa receipt history ma nathi malto."); return; }
 const rows = entry.months.map(x=> [x.month, "Rs. " + toNum(x.amount).toLocaleString('en-IN'), x.date || "-", x.mode || "-"]);
-const chalanNo = entry.chalanNo || entry.months.map(x=>x.chalanNo).find(x=>x) || "";
+const chalanNo = mergeChalanNos([entry.chalanNo].concat(entry.months.map(x=>x.chalanNo)));
 buildAndSaveReceiptPDF(flatNum, entry.fy, rows, entry.total, entry.paidDate || "-", entry.months.length, chalanNo);
 }
 // Fills the "which ledger" dropdown in the owner card: Full (all years) or one FY.
@@ -6841,7 +6924,7 @@ const doc = new jsPDF();
 
 doc.setFont('helvetica','bold');
 doc.setFontSize(15);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
+doc.text("URBAN RESIDENCY 2 BIL Maintenance", 14, 16);
 doc.setFontSize(10);
 doc.setFont('helvetica','normal');
 doc.text("Tower D - Society Ledger", 14, 22);
@@ -7007,7 +7090,7 @@ function sendOwnerPinWhatsApp(flatNum){
   if(mobile.length===10) mobile="91"+mobile;
   if(mobile.length<11){ alert("Aa flat nu mobile number save nathi."); return; }
   const flat=flats.find(f=>f.n===flatNum);
-  const msg="નમસ્તે "+(flat?flat.name:"")+",\nURBAN RECIDENCY 2 BIL મેન્ટેનન્સ એપમાં તમારી વિગતો જોવા માટે:\nFlat No: "+flatNum+"\nPIN: "+ownerPins[flatNum]+"\n\nઆ PIN કોઈને શેર કરશો નહિ.\nઆભાર.";
+  const msg="નમસ્તે "+(flat?flat.name:"")+",\nURBAN RESIDENCY 2 BIL મેન્ટેનન્સ એપમાં તમારી વિગતો જોવા માટે:\nFlat No: "+flatNum+"\nPIN: "+ownerPins[flatNum]+"\n\nઆ PIN કોઈને શેર કરશો નહિ.\nઆભાર.";
   window.open("https://wa.me/"+mobile+"?text="+encodeURIComponent(msg),"_blank");
 }
 function openOwnerPins(){
