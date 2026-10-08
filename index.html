@@ -5067,7 +5067,7 @@ const d = computeDefaultersList().find(x=>x.flat===flatNum);
 if(!d){ alert("Aa flat na koi dues baki nathi."); return; }
 const monthsStr = d.pendingMonths.length ? d.pendingMonths.join(" | ") : "-";
 const upiLine = (settings.upiId ? ("\n\nUPI ID: " + settings.upiId) : "");
-const message = "🏠 URBAN RECIDENCY 2 BIL Maintenance Reminder\n\nFlat: " + flatNum + " (" + (flat ? flat.name : "-") + ")\nPending Months: " + monthsStr + (d.priorDue>0 ? ("\nPichhla Baki: ₹"+Math.round(d.priorDue).toLocaleString('en-IN')) : "") + "\nTotal Due: ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + upiLine + "\n\nKrupa karine vahelo tako maintenance bhari devo. Dhanyavad.";
+const message = "નમસ્તે " + (flat ? flat.name : "") + ",\nઆશા છે કે તમે મજામાં હશો.\nએક નાની વિનંતી હતી કે આપણું સોસાયટીનું મેન્ટેનન્સ ₹" + Math.round(d.dueAmount).toLocaleString('en-IN') + " રૂપિયા બાકી છે. સોસાયટીના દૈનિક કામકાજ અને સુવિધાઓ સરળતાથી ચાલતી રહે તે માટે કૃપા કરીને બાકી મેન્ટેનન્સ વહેલી તકે જમા કરાવી દેશો." + "\n\nબાકી મહિના: " + monthsStr + (d.priorDue>0 ? ("\nપાછલું બાકી: ₹" + Math.round(d.priorDue).toLocaleString('en-IN')) : "") + upiLine + "\n\nજો તમે ચુકવણી કરી દીધી હોય તો આ મેસેજને અવગણશો.\nઆભાર,\nURBAN RECIDENCY 2 BIL";
 window.open("https://wa.me/" + mobile + "?text=" + encodeURIComponent(message), "_blank");
 }
 // Bulk version: opens one WhatsApp tab per defaulter that has a mobile number
