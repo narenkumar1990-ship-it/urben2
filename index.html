@@ -4769,6 +4769,16 @@ if(sel.options.length) return;
 sel.innerHTML = MONTHS.map(m=>`<option value="${m}">${m}</option>`).join("");
 sel.value = currentMonthKey(getFY());
 }
+// "Months Paid" text for the ledger: months grouped by the financial year
+// they were paid FOR, e.g. "Aug, Sep (FY 2025-26)" / "Apr, May (FY 2026-27)".
+function monthsWithFY(dues, fallbackFY){
+const byFY = {};
+(dues || []).forEach(d=>{ const k = d.fy || fallbackFY; (byFY[k] = byFY[k] || []).push(d.month); });
+return Object.keys(byFY).sort().map(k=>{
+const ms = byFY[k].sort((a,b)=> MONTHS.indexOf(a) - MONTHS.indexOf(b));
+return ms.join(", ") + " (FY " + k + ")";
+}).join("\n");
+}
 function downloadMonthLedgerPDF(){
 const fy = getFY();
 const month = document.getElementById('ledgerMonthSelect').value;
@@ -4809,10 +4819,11 @@ const amt = payment.amount;
 const type = (payment.dueFY !== fy || (dateToFYMonth(payment.date) || payment.dueMonth) !== payment.dueMonth) ? "Backlog" : "Regular";
 if(type === "Backlog") backlogTotal += amt; else regularTotal += amt;
 const key = [payment.flat, payment.date || "no-date"].join("|");
-if(!maintGroups.has(key)) maintGroups.set(key, {flat:payment.flat, name:payment.name, date:payment.date||"-", amount:0, months:[], modes:new Set(), chalanNos:new Set(), isBacklog:false});
+if(!maintGroups.has(key)) maintGroups.set(key, {flat:payment.flat, name:payment.name, date:payment.date||"-", amount:0, months:[], dues:[], modes:new Set(), chalanNos:new Set(), isBacklog:false});
 const group = maintGroups.get(key);
 group.amount += amt;
 group.months.push(payment.dueMonth);
+group.dues.push({fy: payment.dueFY, month: payment.dueMonth});
 if(payment.mode) group.modes.add(payment.mode);
 if(payment.chalanNo){
 // A month's chalan may itself hold several numbers ("1813, 1814"), so split
@@ -4830,7 +4841,7 @@ return (Number(a.flat) || 0) - (Number(b.flat) || 0);
 }).map(group=>[
 group.flat,
 group.name,
-group.months.join(", "),
+monthsWithFY(group.dues, fy),
 "Rs. "+group.amount.toLocaleString('en-IN'),
 displayDate(group.date),
 group.modes.size ? Array.from(group.modes).join(", ") : "-",
