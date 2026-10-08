@@ -1080,6 +1080,55 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 .lock-field input{border-radius:14px}
 .lock-field input:focus{border-color:var(--navy2);box-shadow:0 0 0 3px rgba(var(--r4),.16)}
 
+/* ===== Login: split-screen premium ===== */
+@keyframes lkIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+#lockScreen{background:radial-gradient(720px 520px at 18% 12%,rgba(var(--r6),.40),transparent 60%),radial-gradient(640px 520px at 70% 95%,rgba(var(--r4),.32),transparent 60%),linear-gradient(145deg,var(--a0) 0%,var(--a1) 50%,var(--a2) 100%)!important;padding:0!important;overflow:auto;}
+#lockScreen:not(.hidden){display:grid;grid-template-columns:minmax(0,1.2fr) minmax(420px,.8fr);align-items:stretch;justify-content:stretch;}
+#lockScreen::before,.lock-orb,.lock-skyline{display:none!important;}
+.lock-hero{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(40px,6vw,96px);color:#fff;font-family:'Plus Jakarta Sans','Poppins',sans-serif;animation:lkIn .8s both;overflow:hidden;}
+.lock-hero::before{content:"";position:absolute;right:-140px;top:50%;width:520px;height:520px;transform:translateY(-50%);border-radius:50%;border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 70px rgba(255,255,255,.035),0 0 0 140px rgba(255,255,255,.02);pointer-events:none;}
+.lh-top{position:relative;display:flex;align-items:center;gap:14px;margin-bottom:clamp(34px,9vh,90px);}
+.lh-badge{width:54px;height:54px;border-radius:16px;background:linear-gradient(160deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:27px;box-shadow:0 10px 24px rgba(0,0,0,.3);flex:none;}
+.lh-name{font-weight:800;font-size:17px;letter-spacing:.4px;}
+.lh-sub{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.66);font-weight:600;margin-top:3px;}
+.lock-hero h1{position:relative;font-size:clamp(34px,4.2vw,60px);line-height:1.08;font-weight:800;letter-spacing:-1.2px;margin:0 0 18px;color:#fff;}
+.lock-hero h1 span{background:linear-gradient(90deg,#FCD34D,var(--a7));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lock-hero p{position:relative;font-size:16px;line-height:1.65;color:rgba(255,255,255,.76);max-width:480px;margin:0 0 30px;}
+.lock-hero ul{position:relative;list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px;}
+.lock-hero li{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:99px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:13.5px;font-weight:600;}
+.lock-wrap{position:relative;z-index:1;max-width:none!important;width:auto!important;background:var(--upaper);display:flex;flex-direction:column;justify-content:center;padding:48px clamp(28px,5.5vw,84px);animation:lkIn .8s .1s both;}
+.lock-wrap>*{width:100%;max-width:420px;margin-left:auto;margin-right:auto;}
+.lock-brand{display:none!important;}
+.lock-welcome h2{font-family:'Plus Jakarta Sans','Poppins',sans-serif;font-size:30px;font-weight:800;color:var(--a1);margin:0 0 6px;letter-spacing:-.6px;}
+.lock-welcome p{color:var(--umute);font-size:14.5px;margin:0 0 26px;}
+.lock-card{background:transparent!important;box-shadow:none!important;padding:0!important;border-radius:0!important;overflow:visible;-webkit-backdrop-filter:none;backdrop-filter:none;}
+.lock-card::before{display:none!important;}
+.lock-tabs{background:var(--usoft)!important;border-radius:14px;padding:5px;margin-bottom:24px;}
+.lock-tab{padding:12px 8px;border-radius:10px;font-size:13.5px;}
+.lock-tab.active{box-shadow:0 8px 18px rgba(var(--r4),.32)!important;}
+.lock-desc{text-align:left;font-size:13.5px;margin-bottom:18px;}
+.lock-field{margin-bottom:14px;}
+.lock-field-icon{left:16px;font-size:17px;}
+.lock-field input{padding:16px 46px 16px 48px!important;border-radius:14px!important;font-size:15.5px;background:#fff;border:1.5px solid var(--uline);letter-spacing:.2px!important;font-weight:600;transition:border-color .2s,box-shadow .2s;}
+.lock-field input::placeholder{letter-spacing:.2px;font-weight:500;color:#9AA7B5;}
+.lock-field input:focus{border-color:var(--a4)!important;box-shadow:0 0 0 4px rgba(var(--r4),.14)!important;}
+.lock-eye{right:10px;font-size:17px;}
+.lock-submit{padding:17px!important;border-radius:14px!important;font-size:16px!important;font-weight:800!important;letter-spacing:.3px;margin-top:8px;box-shadow:0 14px 28px rgba(var(--r4),.34)!important;transition:transform .15s,box-shadow .15s;}
+.lock-submit:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(var(--r4),.45)!important;}
+.lock-submit:active{transform:translateY(1px);}
+.lock-err{min-height:0;margin-top:12px;text-align:center;}
+.lock-err:empty{margin-top:0;}
+.lock-footer{color:var(--umute)!important;text-align:center;margin-top:28px!important;font-size:12px;}
+@media(max-width:899px){
+#lockScreen:not(.hidden){display:flex;flex-direction:column;}
+.lock-hero{flex:none;padding:34px 24px 46px;}
+.lock-hero::before,.lock-hero h1,.lock-hero p,.lock-hero ul{display:none;}
+.lh-top{margin-bottom:0;}
+.lock-wrap{flex:1 0 auto;justify-content:flex-start;border-radius:30px 30px 0 0;margin-top:-22px;padding:30px 22px 26px;box-shadow:0 -14px 40px rgba(0,0,0,.25);}
+.lock-welcome h2{font-size:25px;}.lock-welcome p{margin-bottom:20px;}
+}
+@media(prefers-reduced-motion:reduce){.lock-hero,.lock-wrap{animation:none!important;}}
+
 /* Flat-owner view */
 .rv-header{background:linear-gradient(135deg,var(--a1),var(--a4) 70%,var(--a6));border-radius:0 0 28px 28px;padding-bottom:26px}
 .rv-header .rv-eyebrow{color:var(--a7)}
@@ -1118,12 +1167,19 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 <rect x="298" y="44" width="6" height="8" fill="#0B1730" opacity=".4"/>
 <rect x="350" y="30" width="6" height="8" fill="#0B1730" opacity=".4"/>
 </svg>
+<div class="lock-hero">
+<div class="lh-top"><div class="lh-badge">🏢</div><div><div class="lh-name">URBAN RESIDENCY 2 BIL</div><div class="lh-sub">TOWER D · SOCIETY LEDGER</div></div></div>
+<h1>Society nu hisab,<br><span>ek j jagya e.</span></h1>
+<p>Maintenance, avak-javak ane flat-wise dues — saaf, surakshit ane hamesha updated.</p>
+<ul><li>☁️ Live Firebase sync</li><li>🔐 Secure access</li><li>📄 Premium PDF reports</li></ul>
+</div>
 <div class="lock-wrap">
 <div class="lock-brand">
 <div class="lock-brand-badge">🏢</div>
 <div class="lock-brand-name">URBAN RESIDENCY 2 BIL</div>
 <div class="lock-brand-sub">Tower D · Society Maintenance Ledger</div>
 </div>
+<div class="lock-welcome"><h2>Welcome back 👋</h2><p>Sign in karine society no hisab juo.</p></div>
 <div class="lock-card">
 <div class="lock-tabs">
 <button type="button" id="tabAdmin" class="lock-tab active" onclick="showAdminLoginBox()">🔒 Admin</button>
@@ -5086,69 +5142,54 @@ const ledgerRows = computeMonthlyLedgerRows(fy);
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(16);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Tower D - Society Ledger", 14, 22);
-doc.setDrawColor(226,160,60);
-doc.line(14,26,196,26);
+urBanner(doc,'FY REPORT','Financial Year '+fy);
+{ const W=doc.internal.pageSize.getWidth(), g=4, w=(W-28-3*g)/4;
+urCard(doc,14,44,w,18,'Opening balance',"Rs. "+Math.round(opening).toLocaleString('en-IN'),urC('a1'));
+urCard(doc,14+(w+g),44,w,18,'Total collection',"Rs. "+Math.round(collection).toLocaleString('en-IN'),[5,150,105]);
+urCard(doc,14+2*(w+g),44,w,18,'Total expense',"Rs. "+Math.round(expense).toLocaleString('en-IN'),[225,29,72]);
+urCard(doc,14+3*(w+g),44,w,18,'Closing balance',"Rs. "+Math.round(closing).toLocaleString('en-IN'),urC('a4'));
+const w2=(W-28-g)/2;
+urCard(doc,14,66,w2,18,'Total flats',String(list.length),urC('a3'));
+urCard(doc,14+w2+g,66,w2,18,'Flats pending (dues)',String(pendingFlats),[225,29,72]); }
+let y = 98;
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(13);
-doc.text("Financial Year Report — " + fy, 14, 34);
-
-let y = 42;
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Opening Balance: Rs. " + Math.round(opening).toLocaleString('en-IN'), 14, y);
-doc.text("Total Collection: Rs. " + Math.round(collection).toLocaleString('en-IN'), 105, y);
-y += 7;
-doc.text("Total Expense: Rs. " + Math.round(expense).toLocaleString('en-IN'), 14, y);
-doc.text("Closing Balance: Rs. " + Math.round(closing).toLocaleString('en-IN'), 105, y);
-y += 7;
-doc.text("Total Flats: " + list.length + "   |   Flats Pending (dues): " + pendingFlats, 14, y);
-y += 8;
-
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Month-wise Maintenance Collection", 14, y);
+urSection(doc,"Month-wise Maintenance Collection",y,urC('a4'));
 doc.autoTable({
 startY: y+3,
 head: [["Month","Flats Paid","Amount"]],
 body: monthRows.map(r=>[r.month, r.paidCount+"/"+flats.length, "Rs. "+Math.round(r.amount).toLocaleString('en-IN')]),
-theme: 'grid', headStyles:{fillColor:[21,42,78], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('upaper')}, headStyles:{fillColor:urC('a4'), fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
 
 if(y > 250){ doc.addPage(); y = 20; }
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Monthly Ledger — Avak / Javak / Balance", 14, y);
+urSection(doc,"Monthly Ledger — Avak / Javak / Balance",y,[5,150,105]);
 doc.autoTable({
 startY: y+3,
 head: [["Month","Avak","Javak","Balance"]],
 body: ledgerRows.map(r=>[r.month, "Rs. "+Math.round(r.income).toLocaleString('en-IN'), "Rs. "+Math.round(r.expense).toLocaleString('en-IN'), "Rs. "+Math.round(r.balance).toLocaleString('en-IN')]),
-theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('upaper')}, headStyles:{fillColor:[5,150,105], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8.5, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
 
 if(y > 250){ doc.addPage(); y = 20; }
-doc.setFont('helvetica','bold'); doc.setFontSize(11);
-doc.text("Maintenance Nathi Barnara — Total Outstanding (All Years)", 14, y);
+urSection(doc,"Maintenance Nathi Barnara — Total Outstanding (All Years)",y,[225,29,72]);
 const defaulters = computeDefaultersList();
 doc.autoTable({
 startY: y+3,
 head: [["Flat","Owner","Pending (Year: Months)","Amount Due"]],
 body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-"]],
-theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8, cellPadding:2.5}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('upaper')}, headStyles:{fillColor:[225,29,72], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8, cellPadding:2.5}
 });
 y = doc.lastAutoTable.finalY + 10;
 
-if(y > 270){ doc.addPage(); y = 20; }
-doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + displayDate(localDateISO()), 14, y);
+if(y > 245){ doc.addPage(); y = 24; }
+doc.setDrawColor(...urC('uedge')); doc.setLineWidth(.3);
+doc.line(14,y+14,70,y+14); doc.line(140,y+14,196,y+14);
+doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...urC('umute'));
+doc.text("Prepared By",14,y+19); doc.text("Treasurer / Secretary",140,y+19); doc.setTextColor(0,0,0);
 
-stampGeneratedOnAllPages(doc);
+urFooter(doc);
 doc.save("FY-Report-" + fy + ".pdf");
 }
 
@@ -5163,37 +5204,21 @@ const totalDue = defaulters.reduce((s,d)=> s + d.dueAmount, 0);
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(16);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Tower D - Society Ledger", 14, 22);
-doc.setDrawColor(209,73,91);
-doc.line(14,26,196,26);
-
-doc.setFont('helvetica','bold');
-doc.setFontSize(13);
-doc.text("Total Outstanding Report (Owner-wise, All Years)", 14, 34);
-
-doc.setFont('helvetica','normal'); doc.setFontSize(10);
-doc.text("Total Flats Pending: " + defaulters.length + "   |   Total Outstanding: Rs. " + Math.round(totalDue).toLocaleString('en-IN'), 14, 42);
+urBanner(doc,'TOTAL OUTSTANDING','Owner-wise | All Years');
+{ const W=doc.internal.pageSize.getWidth(), w=(W-32)/2;
+urCard(doc,14,44,w,18,'Flats pending',String(defaulters.length),urC('a3'));
+urCard(doc,14+w+4,44,w,18,'Total outstanding',"Rs. "+Math.round(totalDue).toLocaleString('en-IN'),[225,29,72]); }
 
 doc.autoTable({
-startY: 48,
+startY: 70,
 head: [["Flat","Owner","Mobile","Pending (Year: Months) / Pichhla Baki","Amount Due"]],
 body: defaulters.length ? defaulters.map(d=>[d.flat, d.name, getRecord(d.flat).mobile || "-", (d.pendingMonths.length ? d.pendingMonths.join(" | ") : "") + (d.priorDue>0 ? (d.pendingMonths.length?" + ":"") + "Pichhla Baki Rs."+Math.round(d.priorDue).toLocaleString('en-IN') : ""), "Rs. "+Math.round(d.dueAmount).toLocaleString('en-IN')]) : [["-","Badha flats fully paid che","-","-","-"]],
-theme: 'grid', headStyles:{fillColor:[209,73,91], fontSize:9}, styles:{fontSize:8.5, cellPadding:2.5},
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('upaper')}, headStyles:{fillColor:[225,29,72], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:8.5, cellPadding:2.5},
 foot: defaulters.length ? [["","","","Total", "Rs. "+Math.round(totalDue).toLocaleString('en-IN')]] : [],
-footStyles:{fillColor:[246,241,228], textColor:[21,42,78], fontStyle:'bold'}
+footStyles:{fillColor:urC('usoft'), textColor:urC('a1'), fontStyle:'bold'}
 });
 
-let y = doc.lastAutoTable.finalY + 10;
-if(y > 270){ doc.addPage(); y = 20; }
-doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + displayDate(localDateISO()), 14, y);
-
-stampGeneratedOnAllPages(doc);
+urFooter(doc);
 doc.save("Total-Outstanding-Report-" + new Date().toISOString().slice(0,10) + ".pdf");
 }
 
@@ -5208,32 +5233,20 @@ return [f.n, f.name, rec.mobile ? rec.mobile : "-"];
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.setFont('helvetica','bold');
-doc.setFontSize(16);
-doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
-doc.setFontSize(10);
-doc.setFont('helvetica','normal');
-doc.text("Tower D - Owner List", 14, 22);
-doc.setDrawColor(46,139,87);
-doc.line(14,26,196,26);
-
-doc.setFont('helvetica','bold');
-doc.setFontSize(13);
-doc.text("Owner List — Flat / Name / Mobile", 14, 34);
+urBanner(doc,'OWNER LIST','Flat / Name / Mobile');
+{ const W=doc.internal.pageSize.getWidth(), w=(W-36)/3, withM=rows.filter(r=>r[2]!=="-").length;
+urCard(doc,14,44,w,18,'Total flats',String(rows.length),urC('a3'));
+urCard(doc,14+w+4,44,w,18,'Mobile available',String(withM),[5,150,105]);
+urCard(doc,14+2*(w+4),44,w,18,'Mobile missing',String(rows.length-withM),[225,29,72]); }
 
 doc.autoTable({
-startY: 40,
+startY: 70,
 head: [["Flat","Owner Name","Mobile"]],
 body: rows,
-theme: 'grid', headStyles:{fillColor:[46,139,87], fontSize:9}, styles:{fontSize:9, cellPadding:3}
+theme:'grid', margin:{left:14,right:14,top:16,bottom:20}, alternateRowStyles:{fillColor:urC('upaper')}, headStyles:{fillColor:[5,150,105], fontSize:9}, styles:{lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),fontSize:9, cellPadding:3}
 });
 
-let y = doc.lastAutoTable.finalY + 10;
-if(y > 270){ doc.addPage(); y = 20; }
-doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,116,102);
-doc.text("Generated on " + displayDate(localDateISO()) + "   |   Total Flats: " + rows.length, 14, y);
-
-stampGeneratedOnAllPages(doc);
+urFooter(doc);
 doc.save("Owner-List.pdf");
 }
 
@@ -7323,22 +7336,27 @@ N.forEach(function(n,i){r.setProperty('--'+n,t[i+1]);});
 var cur='ocean';try{cur=localStorage.getItem('ur2_theme')||'ocean';}catch(e){}
 apply(cur);
 var st=document.createElement('style');
-st.textContent='#urThemeFab{position:fixed;right:14px;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:50;width:46px;height:46px;border-radius:50%;border:2px solid #fff;background:linear-gradient(135deg,var(--a4),var(--a5));color:#fff;font-size:21px;cursor:pointer;box-shadow:0 8px 20px rgba(var(--r3),.4);display:flex;align-items:center;justify-content:center;padding:0}'+
-'#urThemePop{position:fixed;right:14px;bottom:calc(152px + env(safe-area-inset-bottom,0px));z-index:50;background:#fff;border:1px solid var(--uline);border-radius:18px;padding:12px;box-shadow:0 14px 34px rgba(var(--r1),.25);display:none;width:196px}'+
+st.textContent='#urThemeFab{flex:1;background:none;border:0;color:#fff;font-size:10.5px;font-weight:600;opacity:.7;padding:7px 4px;text-align:center;cursor:pointer;font-family:Inter,sans-serif;border-radius:18px;user-select:none;-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .18s}'+
+'#urThemeFab:hover{opacity:1;background:rgba(255,255,255,.12)}'+
+'#urThemePop{position:fixed;z-index:200;background:#fff;border:1px solid var(--uline);border-radius:18px;padding:12px;box-shadow:0 14px 34px rgba(var(--r1),.28);display:none;width:196px}'+
 '#urThemePop.open{display:block}#urThemePop b{display:block;font-size:12px;color:var(--a1);margin-bottom:8px}'+
 '#urThemePop .sw{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;padding:6px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:var(--uink);text-align:left}'+
 '#urThemePop .sw:hover,#urThemePop .sw.on{background:var(--usoft)}#urThemePop .dot{width:22px;height:22px;border-radius:50%;flex:none}'+
-'@media(min-width:900px){#urThemeFab{bottom:20px}#urThemePop{bottom:74px}}';
+'@media(min-width:900px){#urThemeFab{flex:none;text-align:left;font-size:14px;padding:12px 14px;border-radius:12px;margin-top:6px}}';
 document.head.appendChild(st);
-var fab=document.createElement('button');fab.id='urThemeFab';fab.type='button';fab.title='Theme / Colour badlo';fab.textContent='🎨';
+var fab=document.createElement('div');fab.id='urThemeFab';fab.setAttribute('role','button');fab.tabIndex=0;fab.title='Theme / Colour badlo';fab.textContent='🎨 Theme';
 var pop=document.createElement('div');pop.id='urThemePop';pop.innerHTML='<b>🎨 Theme rang pasand karo</b>';
 Object.keys(T).forEach(function(k){var t=T[k],b=document.createElement('button');b.type='button';b.className='sw'+(k===cur?' on':'');b.dataset.k=k;
 b.innerHTML='<span class="dot" style="background:linear-gradient(135deg,'+t[4]+','+t[6]+')"></span>'+t[0];
 b.onclick=function(){cur=k;apply(k);try{localStorage.setItem('ur2_theme',k);}catch(e){}
 [].forEach.call(pop.querySelectorAll('.sw'),function(x){x.classList.toggle('on',x.dataset.k===k);});pop.classList.remove('open');};pop.appendChild(b);});
-fab.onclick=function(){pop.classList.toggle('open');};
+fab.onclick=function(e){e.stopPropagation();pop.classList.toggle('open');if(!pop.classList.contains('open'))return;
+var r=fab.getBoundingClientRect();
+if(window.innerWidth>=900){pop.style.right='auto';pop.style.bottom='auto';pop.style.left=(r.right+12)+'px';pop.style.top=Math.max(12,Math.min(r.top-10,window.innerHeight-pop.offsetHeight-12))+'px';}
+else{pop.style.left='auto';pop.style.top='auto';pop.style.right='12px';pop.style.bottom=(window.innerHeight-r.top+10)+'px';}};
+fab.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fab.onclick(e);}};
 document.addEventListener('click',function(e){if(!pop.contains(e.target)&&e.target!==fab)pop.classList.remove('open');});
-document.body.appendChild(pop);document.body.appendChild(fab);
+var mn=document.querySelector('.menu');(mn||document.body).appendChild(fab);document.body.appendChild(pop);
 })();
 </script>
 </body></html>
