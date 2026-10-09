@@ -4754,6 +4754,8 @@ doc.setFillColor(255,255,255); doc.roundedRect(14,9,18,18,3,3,'F');
 doc.setTextColor(...urC('a3')); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text('UR2',23,20.2,{align:'center'});
 doc.setTextColor(255,255,255); doc.setFontSize(15); doc.text('URBAN RESIDENCY 2 BIL',37,16);
 doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...urC('a7')); doc.text('Tower D | Society Maintenance Ledger',37,22.5);
+doc.setFontSize(8); doc.text('Email: urbanrecidencybil@gmail.com',37,28);
+doc.setFontSize(8.5);
 doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text(title,W-14,16,{align:'right'});
 if(big){ doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(255,255,255); doc.text(sub,W-14,25.5,{align:'right'}); }
 else { doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...urC('usand')); doc.text(sub,W-14,23,{align:'right'}); }
@@ -4790,6 +4792,7 @@ doc.setPage(i);
 doc.setDrawColor(...urC('uline')); doc.setLineWidth(.3); doc.line(14,H-13,W-14,H-13);
 doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...urC('umute'));
 doc.text('URBAN RESIDENCY 2 BIL | Society Ledger',14,H-8);
+doc.text('Email: urbanrecidencybil@gmail.com',14,H-4.2);
 doc.text('Generated: '+ts,W/2,H-8,{align:'center'});
 doc.text('Page '+i+' of '+n,W-14,H-8,{align:'right'});
 }
@@ -5205,7 +5208,7 @@ const detailId = "mld-" + r.month.replace(/[^A-Za-z]/g,'');
 const detailHTML = hasDetail ? `
 <tr id="${detailId}" style="display:none;">
 <td colspan="4" style="background:#FAF6EA;font-size:11.5px;padding:8px 10px;text-align:left;">
-${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${displayDate(d.date)})${d.chalanNo ? ' · 🧾 Chalan #'+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
+${flatMaintDetails.length ? '<div style="color:var(--navy);font-weight:700;margin-bottom:3px;">🏠 Maintenance Avak (Flat-wise):</div>' + flatMaintDetails.map(d=>`<div style="padding:1px 0;">• Flat ${d.flat} (${d.name}) — ₹${d.amount.toLocaleString('en-IN')} (${displayDate(d.date)})${d.chalanNo ? ' · 🧾 Payment Receipt No. '+d.chalanNo : ''} <span style="font-weight:700;color:${d.type==='Backlog'?'var(--coral)':'var(--green)'};">${d.type}</span></div>`).join('') : ''}
 ${expenses.length ? '<div style="color:var(--coral);font-weight:700;margin:6px 0 3px;">➖ Javak (Expense):</div>' + expenses.map(e=>`<div style="padding:1px 0;">• ${e.desc} — ₹${toNum(e.amount).toLocaleString('en-IN')}${e.date? ' ('+displayDate(e.date)+')':''}${e.remark? ' <span style="color:var(--muted);font-style:italic;">— '+e.remark+'</span>':''}</div>`).join('') : ''}
 ${credits.length ? '<div style="color:var(--green);font-weight:700;margin:6px 0 3px;">➕ Avak (Extra Credit):</div>' + credits.map(c=>`<div style="padding:1px 0;">• ${c.desc} — ₹${toNum(c.amount).toLocaleString('en-IN')}${c.date? ' ('+displayDate(c.date)+')':''}</div>`).join('') : ''}
 ${transfers.length ? '<div style="color:var(--navy);font-weight:700;margin:6px 0 3px;">🔄 Cash ⇄ Bank Transfer:</div>' + transfers.map(t=>`<div style="padding:1px 0;">• ${t.direction==='CashToBank' ? '💵 Cash → 🏦 Bank' : '🏦 Bank → 💵 Cash'} — ₹${toNum(t.amount).toLocaleString('en-IN')}${t.date? ' ('+displayDate(t.date)+')':''}${t.remark? ' <span style="color:var(--muted);font-style:italic;">— '+t.remark+'</span>':''}</div>`).join('') : ''}
@@ -5382,7 +5385,7 @@ const baseStyles = {lineColor:urC('uline'),lineWidth:.2,textColor:urC('uink'),ce
 
 // ---- Maintenance Collection (Avak): widths 10,38,34,22,22,14,24,18 = 182 mm
 section("Maintenance Collection (Avak)", urC('a4'), Object.assign({}, baseCfg, {
-head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Chalan No.","Type"]],
+head: [["Flat","Owner","Months Paid","Total Amount","Payment Date","Mode","Payment Receipt No.","Type"]],
 body: maintRows.length ? maintRows : [["-","No maintenance collected this month","-","-","-","-","-","-"]],
 headStyles:{fillColor:urC('a4'), fontSize:8.5},
 styles:Object.assign({}, baseStyles, {fontSize:8, overflow:'linebreak'}),
@@ -5464,6 +5467,7 @@ doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
 doc.setFontSize(10);
 doc.setFont('helvetica','normal');
 doc.text("Tower D - Society Ledger", 14, 22);
+doc.setFontSize(9); doc.text("Email: urbanrecidencybil@gmail.com", 196, 22, {align:"right"}); doc.setFontSize(10);
 doc.setDrawColor(226,160,60);
 doc.line(14,26,196,26);
 
@@ -7362,6 +7366,7 @@ doc.text("URBAN RECIDENCY 2 BIL Maintenance", 14, 16);
 doc.setFontSize(10);
 doc.setFont('helvetica','normal');
 doc.text("Tower D - Society Ledger", 14, 22);
+doc.setFontSize(9); doc.text("Email: urbanrecidencybil@gmail.com", 196, 22, {align:"right"}); doc.setFontSize(10);
 doc.setDrawColor(226,160,60);
 doc.line(14,26,196,26);
 
