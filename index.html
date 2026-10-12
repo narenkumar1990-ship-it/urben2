@@ -1153,6 +1153,8 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 .ur2-top .ur2-disp,.ur2-side .ur2-disp,.ur2-dash .ur2-disp,.ur2-bnav .ur2-disp,.ur2-dlg-bg .ur2-disp{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;}
 
 .ur2-hide{display:none!important;}
+.ur2-nav-btn [data-ic],.ur2-bnav [data-ic],.ur2-pm [data-ic],.ur2-chip [data-ic],.ur2-prof-btn [data-ic],.ur2-bell [data-ic],.ur2-tile,.ur2-badge{display:inline-flex;align-items:center;justify-content:center;}
+.ur2-badge{display:grid;}
 .ur2-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .ur2-i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
 
@@ -1276,7 +1278,9 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
 .ur2-rows{display:grid;gap:14px;grid-template-columns:minmax(0,1fr);}
 
 /* chart */
-.ur2-chart{position:relative;height:250px;padding-left:44px;margin-top:6px;}
+.ur2-row-chart > .ur2-panel:first-child{display:flex;flex-direction:column;}
+#ur2Chart{flex:1;display:flex;flex-direction:column;min-height:250px;}
+.ur2-chart{position:relative;flex:1;min-height:250px;padding-left:44px;margin-top:6px;}
 .ur2-plot{position:relative;height:100%;}
 .ur2-grid{position:absolute;inset:8px 0 24px 0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;}
 .ur2-grid i{display:block;position:relative;height:0;border-top:1px dashed rgba(20,33,61,.13);}
@@ -1426,7 +1430,10 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(var(--r4),.16)!im
   .ur2-fy{order:6;flex:1 1 auto;justify-content:center;}
   .ur2-sync{order:7;padding:8px 10px;}
   .ur2-sync span{display:none;}
-  .ur2-prof-btn b,.ur2-prof-btn small,.ur2-prof-btn > .ur2-i{display:none;}
+  .ur2-prof-btn b,.ur2-prof-btn small,.ur2-prof-btn [data-ic]{display:none;}
+  .ur2-wd{display:none;}
+  .ur2-top h1{white-space:normal;overflow:visible;}
+  .ur2-date,.ur2-fy{padding-left:10px;padding-right:10px;}
   .ur2-prof-btn{padding:4px;border-radius:14px;}
   .ur2-top h1{font-size:15px;}
   .ur2-top p{font-size:11.5px;}
@@ -8189,7 +8196,8 @@ function setFY(v){
 }
 function paintDate(){
   var el=$('ur2Date'); if(!el) return;
-  el.textContent = new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  var d=new Date();
+  el.innerHTML = '<span class="ur2-wd">'+d.toLocaleDateString('en-IN',{weekday:'short'})+', </span>'+d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
 }
 function mirrorSync(){
   var t=$('syncText'), d=$('syncDot'), p=$('ur2Sync'); if(!t||!d||!p) return;
@@ -8514,6 +8522,251 @@ function init(){
   schedule();
 }
 init();
+})();
+</script>
+
+<script id="ur2-auto-chalan-js">
+/* =====================================================================
+   AUTO CHALAN NO. + CHALAN BOOK
+   - Admin can enter the printed range of the physical chalan book
+     (first number, optional last number). It is saved as ONE extra field
+     (settings.chalanBook) in the existing settings record - no new table.
+   - Next number = highest number already saved INSIDE that book + 1
+     (or the book's first number if none used yet).
+   - With no book set: highest saved numeric chalan + 1.
+   - One chalan number is used for all months ticked in the same payment.
+   - Cancelled / spoiled chalan numbers can be marked; they are skipped and
+     saved as settings.chalanCancelled (one more field in the same settings).
+   - You can always type your own number; already-paid months are untouched.
+   - The normal Confirm button still does the saving.
+   ===================================================================== */
+(function(){
+'use strict';
+var AUTO = '', TYPED = '';
+function isDigits(v){ return /^\d+$/.test(String(v||'').trim()); }
+function book(){
+  var b = (typeof settings!=='undefined' && settings && settings.chalanBook) || null;
+  if(!b || !isDigits(b.start)) return null;
+  return {start:String(b.start).trim(), end: isDigits(b.end) ? String(b.end).trim() : ''};
+}
+function cancelledList(){
+  var c = (typeof settings!=='undefined' && settings && settings.chalanCancelled) || [];
+  if(!Array.isArray(c)) c = [];
+  var seen = {}, out = [];
+  c.forEach(function(v){ v = String(v).trim(); if(isDigits(v) && !seen[+v]){ seen[+v]=1; out.push(v); } });
+  return out;
+}
+function isCancelled(n){ return cancelledList().some(function(v){ return parseInt(v,10)===n; }); }
+function inBook(n, b){ return !b || (n>=parseInt(b.start,10) && (!b.end || n<=parseInt(b.end,10))); }
+
+/* every saved chalan number -> list of flats that use it */
+function usedMap(){
+  var map = {};
+  function see(v, flat){
+    v = String(v==null?'':v).trim(); if(!isDigits(v)) return;
+    var n = parseInt(v,10); (map[n] = map[n] || {w:v.length, flats:{}}).flats[flat] = 1;
+  }
+  try{
+    Object.keys(store||{}).forEach(function(f){
+      var yrs = (store[f] && store[f].years) || {};
+      Object.keys(yrs).forEach(function(fy){
+        var ms = (yrs[fy] && yrs[fy].months) || {};
+        Object.keys(ms).forEach(function(m){ if(ms[m] && ms[m].status==='Paid') see(ms[m].chalanNo, f); });
+      });
+    });
+    Object.keys(receiptHistory||{}).forEach(function(f){
+      (receiptHistory[f]||[]).forEach(function(e){ see(e.chalanNo, f); (e.months||[]).forEach(function(x){ see(x.chalanNo, f); }); });
+    });
+  }catch(e){ console.error('[chalan]', e); }
+  return map;
+}
+function pad(n, w){ var s=String(n); while(s.length<w) s='0'+s; return s; }
+
+/* returns {value, state}  state: 'ok' | 'none' (nothing to count from) | 'full' (book finished) */
+function nextChalan(){
+  var b = book(), map = usedMap(), max = -1, w = 0;
+  Object.keys(map).forEach(function(k){
+    var n = +k; if(!inBook(n,b)) return;
+    if(n>max){ max=n; w=map[k].w; }
+  });
+  if(b){
+    var s = max<0 ? parseInt(b.start,10) : max+1;
+    while(isCancelled(s)) s++;   // skip cancelled numbers
+    if(b.end && s>parseInt(b.end,10)) return {value:'', state:'full'};
+    return {value: pad(s, Math.max(b.start.length, max<0?0:w)), state:'ok'};
+  }
+  if(max<0) return {value:'', state:'none'};
+  var n2 = max+1; while(isCancelled(n2)) n2++;
+  return {value: pad(n2, w), state:'ok'};
+}
+function booksLeft(next){
+  var b = book(); if(!b || !b.end || !next) return null;
+  var left = 0, i = parseInt(next,10), e = parseInt(b.end,10);
+  for(; i<=e; i++){ if(!isCancelled(i)) left++; }
+  return left;
+}
+function sittingChalan(){
+  var found = '';
+  try{ Object.keys(stagedMonths||{}).some(function(m){ var c=stagedMonths[m] && stagedMonths[m].chalanNo; if(c){ found=c; return true; } }); }catch(e){}
+  return found;
+}
+function fill(force, month){
+  var el = document.getElementById('inputChalanNo');
+  if(!el || el.disabled || el.readOnly) return;
+  try{ if(typeof formConfirmed!=='undefined' && formConfirmed) return; }catch(e){}
+  var fy = getFY(), m = month || currentMonth;
+  var staged = stagedMonths && stagedMonths[m];
+  var md = getMonthData(currentFlat, fy, m);
+  if(!staged && md && md.status==='Paid') return;
+  if(!force && el.value.trim() && el.value!==AUTO) return;
+  var v = TYPED || sittingChalan() || nextChalan().value;
+  if(!v) return;
+  el.value = v; AUTO = v; hint(true);
+}
+
+/* ---------------------------------------------------------- hint row */
+function hint(auto){
+  var el = document.getElementById('inputChalanNo'); if(!el) return;
+  var h = document.getElementById('ur2ChalanHint');
+  if(!h){
+    h = document.createElement('div'); h.id='ur2ChalanHint';
+    h.style.cssText='margin-top:6px;font-size:11.5px;color:#5A6886;line-height:1.45;';
+    h.innerHTML = '<div id="ur2ChalanTxt"></div><div id="ur2ChalanWarn" style="color:#B3261E;font-weight:700;"></div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">'+
+      '<button type="button" id="ur2ChalanBtn" style="border:0;background:rgba(47,91,234,.1);color:#2F5BEA;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Use next no.</button>'+
+      '<button type="button" id="ur2CancelBtn" style="border:0;background:rgba(227,154,31,.2);color:#7A4A00;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Cancel this number</button>'+
+      '<button type="button" id="ur2BookBtn" style="border:0;background:rgba(123,77,255,.12);color:#5B3FD6;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Chalan book</button></div>';
+    el.insertAdjacentElement('afterend', h);
+    document.getElementById('ur2ChalanBtn').addEventListener('click', function(){ if(!el.disabled){ AUTO=''; TYPED=''; el.value=''; fill(true); if(!el.value) el.focus(); } });
+    document.getElementById('ur2BookBtn').addEventListener('click', openBook);
+    document.getElementById('ur2CancelBtn').addEventListener('click', cancelCurrent);
+    el.addEventListener('input', function(){ if(el.value!==AUTO){ TYPED = el.value.trim(); } setTxt(el.value===AUTO && AUTO!==''); });
+  }
+  setTxt(auto);
+}
+function setTxt(auto){
+  var t = document.getElementById('ur2ChalanTxt'), w = document.getElementById('ur2ChalanWarn'), el = document.getElementById('inputChalanNo');
+  if(!t) return;
+  var b = book(), nx = nextChalan(), left = booksLeft(nx.value);
+  var bookTxt = b ? ('Book '+b.start+(b.end?' to '+b.end:' onwards')+'. ') : '';
+  if(nx.state==='full') t.textContent = bookTxt+'This chalan book is finished. Tap "Chalan book" to enter your new book.';
+  else if(auto) t.textContent = bookTxt+'Auto-filled. One chalan number covers every month you select. You can change it.';
+  else if(nx.value) t.textContent = bookTxt+'Next chalan number is '+nx.value+(left!==null?' ('+left+' left in this book)':'')+'.';
+  else t.textContent = 'No chalan book set. Tap "Chalan book" and enter the first number printed on your book.';
+  var cl = cancelledList();
+  if(cl.length && t.textContent) t.textContent += ' Skipping cancelled: '+cl.slice(-6).join(', ')+(cl.length>6?' ...':'')+'.';
+  // duplicate warning: same number already used by a DIFFERENT flat
+  var v = el ? el.value.trim() : '', msg = '';
+  if(isDigits(v)){
+    var u = usedMap()[parseInt(v,10)];
+    if(u){ var others = Object.keys(u.flats).filter(function(f){ return f!==currentFlat; }); if(others.length) msg = 'Chalan '+v+' is already used for flat '+others.join(', ')+'.'; }
+    if(isCancelled(parseInt(v,10))) msg = 'Chalan '+v+' is marked as cancelled.';
+    var bb = book(); if(bb && !inBook(parseInt(v,10),bb)) msg = (msg?msg+' ':'')+'This number is outside the chalan book range.';
+  }
+  if(w) w.textContent = msg;
+}
+
+/* ---------------------------------------- cancel the number on screen */
+function cancelCurrent(){
+  var el = document.getElementById('inputChalanNo'); if(!el || el.disabled) return;
+  var v = el.value.trim();
+  if(!isDigits(v)){ alert('There is no chalan number on screen to cancel.'); return; }
+  var u = usedMap()[parseInt(v,10)];
+  if(u && Object.keys(u.flats).length){
+    alert('Chalan '+v+' is already saved for flat '+Object.keys(u.flats).join(', ')+'. Cancel that payment first (unlock the month / delete its receipt), then mark the number as cancelled from the Chalan book screen.');
+    return;
+  }
+  if(!confirm('Mark chalan '+v+' as cancelled?\n\nIt will be skipped and the next number will be used.')) return;
+  var list = cancelledList(); if(list.indexOf(v)<0) list.push(v);
+  commitBook(undefined, list, true);
+}
+
+/* -------------------------------------------------- chalan book dialog */
+function dlg(){
+  var d = document.getElementById('ur2BookDlg'); if(d) return d;
+  d = document.createElement('div'); d.id='ur2BookDlg'; d.className='ur2-dlg-bg'; d.hidden = true;
+  d.innerHTML = '<div class="ur2-dlg" role="dialog" aria-modal="true" aria-labelledby="ur2BookT">'+
+    '<h3 class="ur2-disp" id="ur2BookT">Chalan book</h3>'+
+    '<p>Enter the numbers printed on the chalan book you are using now. New payments will take the next number in this book.</p>'+
+    '<label for="ur2BookStart" style="font-size:12px;font-weight:700;color:#5A6886">First number in the book</label>'+
+    '<input id="ur2BookStart" inputmode="numeric" placeholder="e.g. 5001" autocomplete="off" style="margin-bottom:10px">'+
+    '<label for="ur2BookEnd" style="font-size:12px;font-weight:700;color:#5A6886">Last number in the book (optional)</label>'+
+    '<input id="ur2BookEnd" inputmode="numeric" placeholder="e.g. 5100" autocomplete="off">'+
+    '<label for="ur2BookCan" style="font-size:12px;font-weight:700;color:#5A6886;display:block;margin-top:10px">Cancelled numbers (skipped, separate with commas)</label>'+
+    '<input id="ur2BookCan" inputmode="numeric" placeholder="e.g. 5005, 5012" autocomplete="off">'+
+    '<div class="ur2-dlg-err" id="ur2BookErr" role="alert"></div>'+
+    '<div class="ur2-dlg-actions"><button type="button" class="ghost" id="ur2BookClear">No book (count from saved)</button><button type="button" class="ghost" id="ur2BookCancel">Cancel</button><button type="button" class="go" id="ur2BookSave">Save book</button></div></div>';
+  document.body.appendChild(d);
+  d.addEventListener('click', function(e){ if(e.target===d) closeBook(); });
+  d.addEventListener('keydown', function(e){ if(e.key==='Escape'){ e.stopPropagation(); closeBook(); } if(e.key==='Enter' && e.target.tagName==='INPUT'){ e.preventDefault(); saveBook(); } });
+  document.getElementById('ur2BookCancel').addEventListener('click', closeBook);
+  document.getElementById('ur2BookSave').addEventListener('click', saveBook);
+  document.getElementById('ur2BookClear').addEventListener('click', function(){ commitBook(null, undefined); });
+  return d;
+}
+var lastFocus = null;
+function openBook(){
+  var d = dlg(), b = book(); lastFocus = document.activeElement;
+  document.getElementById('ur2BookStart').value = b ? b.start : '';
+  document.getElementById('ur2BookEnd').value = b ? b.end : '';
+  document.getElementById('ur2BookCan').value = cancelledList().join(', ');
+  document.getElementById('ur2BookErr').textContent = '';
+  d.hidden = false; document.getElementById('ur2BookStart').focus();
+}
+function closeBook(){
+  var d = document.getElementById('ur2BookDlg'); if(!d || d.hidden) return;
+  d.hidden = true; if(lastFocus && lastFocus.focus) try{ lastFocus.focus(); }catch(e){}
+}
+function saveBook(){
+  var s = document.getElementById('ur2BookStart').value.trim(), e = document.getElementById('ur2BookEnd').value.trim(),
+      c = document.getElementById('ur2BookCan').value, err = document.getElementById('ur2BookErr');
+  var toks = c.split(/[\s,;]+/).filter(Boolean);
+  if(toks.some(function(x){ return !isDigits(x); })){ err.textContent = 'Cancelled numbers must use digits only, separated by commas.'; return; }
+  var canc = []; toks.forEach(function(x){ if(canc.indexOf(String(parseInt(x,10)))<0 && canc.indexOf(x)<0) canc.push(x); });
+  var bookVal = null;
+  if(s || e){
+    if(!isDigits(s)){ err.textContent = 'Enter the first number using digits only, for example 5001.'; return; }
+    if(e && !isDigits(e)){ err.textContent = 'The last number must use digits only, for example 5100.'; return; }
+    if(e && parseInt(e,10) < parseInt(s,10)){ err.textContent = 'The last number must be the same as or higher than the first.'; return; }
+    bookVal = {start:s, end:e};
+  }
+  commitBook(bookVal, canc);
+}
+function commitBook(bookVal, cancelled, keepOpen){
+  var next = {}; Object.keys(settings||{}).forEach(function(k){ next[k] = settings[k]; });
+  if(bookVal !== undefined){ if(bookVal) next.chalanBook = bookVal; else delete next.chalanBook; }
+  if(cancelled !== undefined){ if(cancelled.length) next.chalanCancelled = cancelled; else delete next.chalanCancelled; }
+  try{ saveSettings(next); }catch(e){ console.error(e); alert('Chalan book could not be saved. Check the internet connection and try again.'); return; }
+  var prevAuto = AUTO; closeBook(); AUTO=''; TYPED='';
+  var el = document.getElementById('inputChalanNo');
+  if(el && !el.disabled && (keepOpen || !el.value.trim() || el.value===prevAuto)){
+    var nv = nextChalan().value; el.value = nv; AUTO = nv;
+  }
+  hint(!!AUTO);
+}
+
+/* ------------------------------------------------------------- hooks */
+function install(){
+  if(typeof openModal==='function' && !openModal.__ur2c){
+    var o0 = openModal;
+    openModal = function(){ AUTO=''; TYPED=''; return o0.apply(this,arguments); };
+    openModal.__ur2c = true;
+  }
+  if(typeof loadMonthIntoForm==='function' && !loadMonthIntoForm.__ur2c){
+    var o1 = loadMonthIntoForm;
+    loadMonthIntoForm = function(){ var r=o1.apply(this,arguments); try{ hint(false); fill(false); }catch(e){ console.error(e); } return r; };
+    loadMonthIntoForm.__ur2c = true;
+  }
+  if(typeof toggleMonthPaid==='function' && !toggleMonthPaid.__ur2c){
+    var o2 = toggleMonthPaid;
+    toggleMonthPaid = function(month, isPaid){
+      if(isPaid){ try{ fill(false, month); }catch(e){ console.error(e); } }
+      return o2.apply(this,arguments);
+    };
+    toggleMonthPaid.__ur2c = true;
+  }
+}
+install();
 })();
 </script>
 
