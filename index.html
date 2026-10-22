@@ -6535,7 +6535,8 @@ const isNoBalance = !!(noBalanceEl && noBalanceEl.checked);
 const balanceNote = isNoBalance
 ? "\n\n🕰️ BACKDATED ENTRY — aa amount Cash Balance / Total Collection ma UMERAI NAHI (Opening Balance ma pehla thi j gantroi lidhelu manine)."
 : "\n\nLedger Avak: " + paidMonth + " " + paidFY;
-const chalanLine = chalanNo ? ("\nChalan No.: " + chalanNo) : "";
+const _pmCh = window.ur2MonthChalans ? window.ur2MonthChalans(months) : null;
+const chalanLine = (_pmCh && _pmCh.length>1) ? ("\nChalan No.: " + _pmCh.map(x=>x.m+" = "+(x.v||"-")).join(", ")) : (chalanNo ? ("\nChalan No.: " + chalanNo) : "");
 const summary = "Payment Confirm Summary\n\nFlat: " + currentFlat + "\nOwner: " + owner.name + "\nDue month(s): " + months.join(", ") + "\nTotal Amount: ₹" + total.toLocaleString('en-IN') + "\nPaid On: " + displayDate(paidDate) + "\nMode: " + mode + chalanLine + balanceNote + "\n\nSachu hoy to OK dabavo.";
 if(!confirm(summary)) return;
 const committedThisSitting = Object.keys(stagedMonths);
@@ -6561,7 +6562,7 @@ render();
 applyFormLockUI();
 const flatSummary = computeFlatsSummary(fy).find(f=>f.n===currentFlat);
 const remainingDue = flatSummary ? flatSummary.pendingDue : 0;
-alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + (chalanNo ? ("\nChalan No.: " + chalanNo) : "") + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
+alert("✅ Payment Saved\n\nReceipt No: " + (receipt ? receipt.id : "Saved") + chalanLine + "\nFlat: " + currentFlat + "\nAmount Received: ₹" + total.toLocaleString('en-IN') + "\nLedger Avak: " + paidMonth + " " + paidFY + "\nRemaining Due: ₹" + toNum(remainingDue).toLocaleString('en-IN'));
 }
 function applyFormLockUI(){
 const lockIds = ["inputMobile","modalFY","inputMonth","defaultAmountInput","btnLockAmount","inputAmount","inputMode","inputChalanNo","inputDate","btnPaid","btnPending","btnUnselectMonth"];
@@ -7073,7 +7074,8 @@ return [m, "Rs. " + em.amount.toLocaleString('en-IN'), em.date || "-", em.mode |
 });
 const total = months.reduce((s,m)=> s + getEffectiveMonth(flatNum, fy, m).amount, 0);
 const date = months.length ? (getEffectiveMonth(flatNum, fy, months[0]).date || "-") : "-";
-const chalanNo = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo).find(x=>x) || "";
+const _chList = months.map(m=> getEffectiveMonth(flatNum, fy, m).chalanNo);
+const chalanNo = window.ur2ChalanJoin ? window.ur2ChalanJoin(_chList) : (_chList.find(x=>x) || "");
 buildAndSaveReceiptPDF(flatNum, fy, rows, total, date, months.length, chalanNo);
 }
 // Shared PDF layout — used both for a fresh (live) receipt and for redownloading
@@ -7267,7 +7269,7 @@ fy: fy,
 months: snapshot,
 total: total,
 paidDate: snapshot[0].date || "",
-chalanNo: snapshot.map(x=>x.chalanNo).find(x=>x) || "",
+chalanNo: window.ur2ChalanJoin ? window.ur2ChalanJoin(snapshot.map(x=>x.chalanNo)) : (snapshot.map(x=>x.chalanNo).find(x=>x) || ""),
 createdAt: new Date().toISOString()
 };
 if(!receiptHistory[currentFlat]) receiptHistory[currentFlat] = [];
@@ -8548,7 +8550,10 @@ init();
 (function(){
 'use strict';
 var AUTO = '', TYPED = '';
+var PM = {}, PMEdited = {};   /* month-wise chalan numbers of the payment being made */
 function isDigits(v){ return /^\d+$/.test(String(v||'').trim()); }
+/* saved chalan -> {p:prefix, d:digits, n:number}; accepts 1024 or CH-1024; ignores >7 digit values (mobile no. / date typed by mistake) */
+function parseCh(v){ v = String(v==null?'':v).trim(); var m = /^(\D*?)(\d{1,7})$/.exec(v); return m ? {p:m[1], d:m[2], n:parseInt(m[2],10)} : null; }
 function book(){
   var b = (typeof settings!=='undefined' && settings && settings.chalanBook) || null;
   if(!b || !isDigits(b.start)) return null;
@@ -8568,8 +8573,8 @@ function inBook(n, b){ return !b || (n>=parseInt(b.start,10) && (!b.end || n<=pa
 function usedMap(){
   var map = {};
   function see(v, flat){
-    v = String(v==null?'':v).trim(); if(!isDigits(v)) return;
-    var n = parseInt(v,10); (map[n] = map[n] || {w:v.length, flats:{}}).flats[flat] = 1;
+    var c = parseCh(v); if(!c) return;
+    (map[c.n] = map[c.n] || {w:c.d.length, p:c.p, flats:{}}).flats[flat] = 1;
   }
   try{
     Object.keys(store||{}).forEach(function(f){
@@ -8585,24 +8590,38 @@ function usedMap(){
   }catch(e){ console.error('[chalan]', e); }
   return map;
 }
+function chalanJoin(list){
+  var seen = {}, u = [];
+  (list||[]).forEach(function(v){ v = String(v==null?'':v).trim(); if(v && !seen[v]){ seen[v]=1; u.push(v); } });
+  if(u.length>2 && u.every(isDigits)){
+    var ok = true; for(var i=1;i<u.length;i++){ if(parseInt(u[i],10)!==parseInt(u[i-1],10)+1) ok=false; }
+    if(ok) return u[0]+'-'+u[u.length-1];
+  }
+  return u.join(', ');
+}
+window.ur2ChalanJoin = chalanJoin;
+window.ur2MonthChalans = function(months){
+  var out = []; (months||[]).forEach(function(m){ if(Object.prototype.hasOwnProperty.call(PM,m)) out.push({m:m, v:PM[m]}); });
+  return out.length ? out : null;
+};
 function pad(n, w){ var s=String(n); while(s.length<w) s='0'+s; return s; }
 
 /* returns {value, state}  state: 'ok' | 'none' (nothing to count from) | 'full' (book finished) */
 function nextChalan(){
-  var b = book(), map = usedMap(), max = -1, w = 0;
+  var b = book(), map = usedMap(), max = -1, w = 0, px = '';
   Object.keys(map).forEach(function(k){
     var n = +k; if(!inBook(n,b)) return;
-    if(n>max){ max=n; w=map[k].w; }
+    if(n>max){ max=n; w=map[k].w; px=map[k].p||''; }
   });
   if(b){
     var s = max<0 ? parseInt(b.start,10) : max+1;
     while(isCancelled(s)) s++;   // skip cancelled numbers
     if(b.end && s>parseInt(b.end,10)) return {value:'', state:'full'};
-    return {value: pad(s, Math.max(b.start.length, max<0?0:w)), state:'ok'};
+    return {value: (max<0?'':px)+pad(s, Math.max(b.start.length, max<0?0:w)), state:'ok'};
   }
   if(max<0) return {value:'', state:'none'};
   var n2 = max+1; while(isCancelled(n2)) n2++;
-  return {value: pad(n2, w), state:'ok'};
+  return {value: px+pad(n2, w), state:'ok'};
 }
 function booksLeft(next){
   var b = book(); if(!b || !b.end || !next) return null;
@@ -8624,8 +8643,15 @@ function fill(force, month){
   var md = getMonthData(currentFlat, fy, m);
   if(!staged && md && md.status==='Paid') return;
   if(!force && el.value.trim() && el.value!==AUTO) return;
-  var v = TYPED || sittingChalan() || nextChalan().value;
-  if(!v) return;
+  var nx0 = nextChalan();
+  var v = TYPED || sittingChalan() || nx0.value;
+  if(!v){
+    if(nx0.state==='none' && !window.__ur2AskedBook && !el.value.trim()){
+      window.__ur2AskedBook = true;
+      setTimeout(function(){ try{ hint(false); openBook(); }catch(e){} }, 350);
+    }
+    return;
+  }
   el.value = v; AUTO = v; hint(true);
 }
 
@@ -8637,15 +8663,23 @@ function hint(auto){
     h = document.createElement('div'); h.id='ur2ChalanHint';
     h.style.cssText='margin-top:6px;font-size:11.5px;color:#5A6886;line-height:1.45;';
     h.innerHTML = '<div id="ur2ChalanTxt"></div><div id="ur2ChalanWarn" style="color:#B3261E;font-weight:700;"></div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">'+
-      '<button type="button" id="ur2ChalanBtn" style="border:0;background:rgba(47,91,234,.1);color:#2F5BEA;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Use next no.</button>'+
-      '<button type="button" id="ur2CancelBtn" style="border:0;background:rgba(227,154,31,.2);color:#7A4A00;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Cancel this number</button>'+
-      '<button type="button" id="ur2BookBtn" style="border:0;background:rgba(123,77,255,.12);color:#5B3FD6;font-weight:800;font-size:11.5px;padding:6px 11px;border-radius:10px;cursor:pointer;">Chalan book</button></div>';
+      '<div id="ur2PM" style="display:none;margin-top:6px;padding:6px 8px;border:1px solid rgba(47,91,234,.25);border-radius:10px;background:rgba(47,91,234,.05);"></div>';
     el.insertAdjacentElement('afterend', h);
-    document.getElementById('ur2ChalanBtn').addEventListener('click', function(){ if(!el.disabled){ AUTO=''; TYPED=''; el.value=''; fill(true); if(!el.value) el.focus(); } });
-    document.getElementById('ur2BookBtn').addEventListener('click', openBook);
-    document.getElementById('ur2CancelBtn').addEventListener('click', cancelCurrent);
-    el.addEventListener('input', function(){ if(el.value!==AUTO){ TYPED = el.value.trim(); } setTxt(el.value===AUTO && AUTO!==''); });
+    el.addEventListener('input', function(){ if(el.value!==AUTO){ TYPED = el.value.trim(); } refreshPM(); setTxt(el.value===AUTO && AUTO!==''); });
+    var box = document.getElementById('ur2PM');
+    box.addEventListener('input', function(e){
+      var t = e.target, m = t && t.getAttribute && t.getAttribute('data-m'); if(!m || el.disabled) return;
+      var list = stagedList(), v = t.value.trim();
+      if(m===list[0]){ el.value = v; TYPED = v; } else { PMEdited[m] = true; PM[m] = v; }
+      refreshPM(); setTxt(el.value===AUTO && AUTO!=='');
+    });
+    box.addEventListener('click', function(e){
+      var t = e.target; if(!t || t.id!=='ur2OneBtn' || el.disabled) return;
+      var list = stagedList(); if(list.length<2) return;
+      var one = el.value.trim();
+      list.forEach(function(m,i){ if(i>0){ PMEdited[m] = true; PM[m] = one; } });
+      refreshPM();
+    });
   }
   setTxt(auto);
 }
@@ -8654,21 +8688,87 @@ function setTxt(auto){
   if(!t) return;
   var b = book(), nx = nextChalan(), left = booksLeft(nx.value);
   var bookTxt = b ? ('Book '+b.start+(b.end?' to '+b.end:' onwards')+'. ') : '';
-  if(nx.state==='full') t.textContent = bookTxt+'This chalan book is finished. Tap "Chalan book" to enter your new book.';
-  else if(auto) t.textContent = bookTxt+'Auto-filled. One chalan number covers every month you select. You can change it.';
+  if(nx.state==='full') t.textContent = bookTxt+'This chalan book is finished. Settings ma jaine navi Chalan book nakho.';
+  else if(auto) t.textContent = '';
   else if(nx.value) t.textContent = bookTxt+'Next chalan number is '+nx.value+(left!==null?' ('+left+' left in this book)':'')+'.';
-  else t.textContent = 'No chalan book set. Tap "Chalan book" and enter the first number printed on your book.';
+  else t.textContent = 'No chalan book set. Settings ma Chalan book ma pehlo number nakho.';
   var cl = cancelledList();
   if(cl.length && t.textContent) t.textContent += ' Skipping cancelled: '+cl.slice(-6).join(', ')+(cl.length>6?' ...':'')+'.';
   // duplicate warning: same number already used by a DIFFERENT flat
   var v = el ? el.value.trim() : '', msg = '';
-  if(isDigits(v)){
-    var u = usedMap()[parseInt(v,10)];
+  var pc = parseCh(v);
+  if(pc){
+    var u = usedMap()[pc.n];
     if(u){ var others = Object.keys(u.flats).filter(function(f){ return f!==currentFlat; }); if(others.length) msg = 'Chalan '+v+' is already used for flat '+others.join(', ')+'.'; }
-    if(isCancelled(parseInt(v,10))) msg = 'Chalan '+v+' is marked as cancelled.';
-    var bb = book(); if(bb && !inBook(parseInt(v,10),bb)) msg = (msg?msg+' ':'')+'This number is outside the chalan book range.';
+    if(isCancelled(pc.n)) msg = 'Chalan '+v+' is marked as cancelled.';
+    var bb = book(); if(bb && !inBook(pc.n,bb)) msg = (msg?msg+' ':'')+'This number is outside the chalan book range.';
   }
   if(w) w.textContent = msg;
+}
+
+/* ------------------------------------------- month-wise chalan numbers */
+function stagedList(){
+  var out = [];
+  try{ MONTHS.forEach(function(m){ if(stagedMonths && stagedMonths[m]) out.push(m); }); }catch(e){}
+  return out;
+}
+/* first ticked month takes the number in the main box; next months continue +1 (cancelled numbers skipped) unless typed by hand */
+function recompute(){
+  var el = document.getElementById('inputChalanNo'), list = stagedList(); if(!el || !list.length) return;
+  Object.keys(PM).forEach(function(k){ if(list.indexOf(k)<0){ delete PM[k]; delete PMEdited[k]; } });
+  var base = parseCh(el.value.trim()), last = base ? base.n : null, px = base ? base.p : '', w = base ? base.d.length : 0, b = book();
+  list.forEach(function(m,i){
+    if(i===0){ PM[m] = el.value.trim(); delete PMEdited[m]; return; }
+    if(PMEdited[m]){ var pe = parseCh(PM[m]); if(pe){ last = pe.n; px = pe.p; w = pe.d.length; } return; }
+    if(last===null){ PM[m] = ''; return; }
+    var n = last+1; while(isCancelled(n)) n++;
+    if(b && b.end && n>parseInt(b.end,10)){ PM[m] = ''; return; }
+    PM[m] = px+pad(n, w); last = n;
+  });
+}
+function syncStaged(){
+  stagedList().forEach(function(m){ if(stagedMonths[m]) stagedMonths[m].chalanNo = PM[m] || ''; });
+}
+function renderPM(){
+  var box = document.getElementById('ur2PM'), el = document.getElementById('inputChalanNo'); if(!box) return;
+  var list = stagedList();
+  if(list.length<2){ box.style.display='none'; box.innerHTML=''; box.removeAttribute('data-key'); return; }
+  var key = list.join('|'), dis = !!(el && el.disabled);
+  if(box.getAttribute('data-key')!==key){
+    var html = '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px;">'+
+      '<span style="font-size:11.5px;font-weight:800;color:#1A2B52;" title="Number badli shako. Khali chhodsho to te month ma chalan no. save nahi thay.">Month-wise chalan no.</span>'+
+      '<button type="button" id="ur2OneBtn" style="border:0;background:rgba(47,91,234,.1);color:#2F5BEA;font-weight:800;font-size:10.5px;padding:3px 8px;border-radius:8px;cursor:pointer;margin:0;width:auto;">Ek j number</button></div>'+
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:4px 8px;">';
+    list.forEach(function(m){
+      html += '<label style="display:flex;align-items:center;gap:5px;margin:0;font-size:11px;font-weight:800;color:#1A2B52;text-transform:none;letter-spacing:0;">'+m+
+        '<input type="text" inputmode="numeric" autocomplete="off" data-m="'+m+'" style="flex:1;min-width:0;width:100%;height:28px;padding:2px 7px;margin:0;font-size:13px;border-radius:8px;"></label>';
+    });
+    html += '</div><div id="ur2PMWarn" style="color:#B3261E;font-weight:700;font-size:10.5px;margin-top:3px;"></div>';
+    box.innerHTML = html; box.setAttribute('data-key', key);
+  }
+  box.style.display = '';
+  var warn = [], bb = book(), map = usedMap();
+  list.forEach(function(m){
+    var i = box.querySelector('input[data-m="'+m+'"]'); if(!i) return;
+    if(i!==document.activeElement) i.value = PM[m] || '';
+    i.disabled = dis;
+    var c = parseCh(PM[m]); if(!c) return;
+    var u = map[c.n], others = u ? Object.keys(u.flats).filter(function(f){ return f!==currentFlat; }) : [];
+    if(others.length) warn.push(m+': '+PM[m]+' already used for flat '+others.join(', ')+'.');
+    else if(isCancelled(c.n)) warn.push(m+': '+PM[m]+' is marked as cancelled.');
+    else if(bb && !inBook(c.n,bb)) warn.push(m+': '+PM[m]+' is outside the chalan book range.');
+  });
+  var wEl = document.getElementById('ur2PMWarn'); if(wEl) wEl.textContent = warn.join(' ');
+  var ob = document.getElementById('ur2OneBtn'); if(ob) ob.disabled = dis;
+}
+function refreshPM(){
+  try{
+    var el = document.getElementById('inputChalanNo'); if(!el) return;
+    var list = stagedList();
+    if(!list.length){ renderPM(); return; }
+    if(!el.disabled && PM[list[0]]!==undefined) el.value = PM[list[0]];
+    recompute(); syncStaged(); renderPM();
+  }catch(e){ console.error('[chalan-pm]', e); }
 }
 
 /* ---------------------------------------- cancel the number on screen */
@@ -8685,6 +8785,35 @@ function cancelCurrent(){
   var list = cancelledList(); if(list.indexOf(v)<0) list.push(v);
   commitBook(undefined, list, true);
 }
+
+function cancelPrompt(){
+  var v = (prompt('Cancel karvo chhe te chalan number nakho (jem ke 1830):') || '').trim();
+  if(!v) return;
+  if(!isDigits(v)){ alert('Number ma fakt digits nakho.'); return; }
+  var u = usedMap()[parseInt(v,10)];
+  if(u && Object.keys(u.flats).length){
+    alert('Chalan '+v+' flat '+Object.keys(u.flats).join(', ')+' mate save thayelo chhe. Pehla te payment cancel karo (month unlock / receipt delete).');
+    return;
+  }
+  var list = cancelledList();
+  if(list.some(function(x){ return parseInt(x,10)===parseInt(v,10); })){ alert('Chalan '+v+' pehla thi cancelled chhe.'); return; }
+  list.push(v);
+  commitBook(undefined, list);
+}
+
+/* ---------------------------------------------- Settings screen card */
+function settingsCardHtml(){
+  var b = book(), nx = nextChalan(), cl = cancelledList(), left = booksLeft(nx.value);
+  var bookTxt = b ? ('Book: '+b.start+(b.end?' to '+b.end:' onwards')) : 'Book: set nathi (saved chalan thi count thay chhe)';
+  var nextTxt = nx.state==='full' ? 'Book puri thai gai chhe - navi book nakho.' : (nx.value ? ('Next chalan no.: '+nx.value+(left!==null?' ('+left+' baki)':'')) : 'Next chalan no.: - (pehlo number nakho)');
+  return '<section class="c-card" id="ur2SetCard"><h3>\uD83E\uDDFE Chalan book</h3>'+
+    '<p class="mini" style="line-height:1.6;margin:0 0 8px;">'+bookTxt+'<br>'+nextTxt+(cl.length?'<br>Cancelled: '+cl.join(', '):'')+'</p>'+
+    '<button class="c-btn gold" onclick="ur2OpenBook()">Chalan book</button>'+
+    '<button class="c-btn" onclick="ur2CancelPrompt()">Cancel a number</button>'+
+    '<div class="mini">Book ma pehlo/chhello number ane cancelled number ahi thi set karo.</div></section>';
+}
+window.ur2OpenBook = function(){ openBook(); };
+window.ur2CancelPrompt = function(){ cancelPrompt(); };
 
 /* -------------------------------------------------- chalan book dialog */
 function dlg(){
@@ -8748,18 +8877,19 @@ function commitBook(bookVal, cancelled, keepOpen){
     var nv = nextChalan().value; el.value = nv; AUTO = nv;
   }
   hint(!!AUTO);
+  try{ if(document.getElementById('ur2SetCard') && typeof renderCommunity==='function') renderCommunity(); }catch(e){}
 }
 
 /* ------------------------------------------------------------- hooks */
 function install(){
   if(typeof openModal==='function' && !openModal.__ur2c){
     var o0 = openModal;
-    openModal = function(){ AUTO=''; TYPED=''; return o0.apply(this,arguments); };
+    openModal = function(){ AUTO=''; TYPED=''; PM={}; PMEdited={}; return o0.apply(this,arguments); };
     openModal.__ur2c = true;
   }
   if(typeof loadMonthIntoForm==='function' && !loadMonthIntoForm.__ur2c){
     var o1 = loadMonthIntoForm;
-    loadMonthIntoForm = function(){ var r=o1.apply(this,arguments); try{ hint(false); fill(false); }catch(e){ console.error(e); } return r; };
+    loadMonthIntoForm = function(){ var r=o1.apply(this,arguments); try{ hint(false); fill(false); refreshPM(); }catch(e){ console.error(e); } return r; };
     loadMonthIntoForm.__ur2c = true;
   }
   if(typeof toggleMonthPaid==='function' && !toggleMonthPaid.__ur2c){
@@ -8769,6 +8899,41 @@ function install(){
       return o2.apply(this,arguments);
     };
     toggleMonthPaid.__ur2c = true;
+  }
+  if(typeof renderCommunity==='function' && !renderCommunity.__ur2c){
+    var o5 = renderCommunity;
+    renderCommunity = function(){
+      var r = o5.apply(this,arguments);
+      try{
+        var g = document.querySelector('#screen-community .community-grid');
+        if(g && !document.getElementById('ur2SetCard')) g.insertAdjacentHTML('beforeend', settingsCardHtml());
+      }catch(e){ console.error('[chalan-settings]', e); }
+      return r;
+    };
+    renderCommunity.__ur2c = true;
+  }
+  if(typeof renderMonthGrid==='function' && !renderMonthGrid.__ur2c){
+    var o3 = renderMonthGrid;
+    renderMonthGrid = function(){ var r=o3.apply(this,arguments); refreshPM(); return r; };
+    renderMonthGrid.__ur2c = true;
+  }
+  if(typeof applyChalanToReceiptMonths==='function' && !applyChalanToReceiptMonths.__ur2c){
+    var o4 = applyChalanToReceiptMonths;
+    applyChalanToReceiptMonths = function(months, chalanNo){
+      var keys = (months||[]).filter(function(m){ return Object.prototype.hasOwnProperty.call(PM,m); });
+      if(months.length<2 || !keys.length) return o4.apply(this,arguments);
+      if(!currentFlat) return;
+      var fy = getFY();
+      months.forEach(function(m){
+        var md = getMonthData(currentFlat, fy, m), v;
+        if(Object.prototype.hasOwnProperty.call(PM,m)) v = PM[m];
+        else v = (md && md.status==='Paid' && md.chalanNo) ? md.chalanNo : chalanNo;
+        v = String(v||'').trim();
+        if(md && md.status==='Paid') md.chalanNo = v;
+        if(stagedMonths[m]) stagedMonths[m].chalanNo = v;
+      });
+    };
+    applyChalanToReceiptMonths.__ur2c = true;
   }
 }
 install();
