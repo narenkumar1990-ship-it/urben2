@@ -8665,7 +8665,13 @@ function hint(auto){
     h.innerHTML = '<div id="ur2ChalanTxt"></div><div id="ur2ChalanWarn" style="color:#B3261E;font-weight:700;"></div>'+
       '<div id="ur2PM" style="display:none;margin-top:6px;padding:6px 8px;border:1px solid rgba(47,91,234,.25);border-radius:10px;background:rgba(47,91,234,.05);"></div>';
     el.insertAdjacentElement('afterend', h);
-    el.addEventListener('input', function(){ if(el.value!==AUTO){ TYPED = el.value.trim(); } refreshPM(); setTxt(el.value===AUTO && AUTO!==''); });
+    el.addEventListener('input', function(){
+      if(el.value!==AUTO){ TYPED = el.value.trim(); }
+      // Keep the first staged month in sync before refreshPM redraws the main field.
+      var list = stagedList();
+      if(!el.disabled && list.length){ PM[list[0]] = el.value.trim(); delete PMEdited[list[0]]; }
+      refreshPM(); setTxt(el.value===AUTO && AUTO!=='');
+    });
     var box = document.getElementById('ur2PM');
     box.addEventListener('input', function(e){
       var t = e.target, m = t && t.getAttribute && t.getAttribute('data-m'); if(!m || el.disabled) return;
